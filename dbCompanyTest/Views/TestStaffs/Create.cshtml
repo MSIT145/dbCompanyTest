@@ -1,8 +1,8 @@
 ﻿@model dbCompanyTest.Models.TestStaff
-
 @{
     ViewData["Title"] = "Create";
 }
+@*/TestStaffs/Create*@
 
 <h1>Create</h1>
 
@@ -34,12 +34,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="縣市" class="control-label"></label>
-                <input asp-for="縣市" class="form-control" />
+                <select asp-for="縣市" class="form-control" id="city"></select>
                 <span asp-validation-for="縣市" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="區" class="control-label"></label>
-                <input asp-for="區" class="form-control" />
+                <select asp-for="區" class="form-control" id="town"></select>
                 <span asp-validation-for="區" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -113,6 +113,11 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/datas/taiwan_districts.js"></script>
+<script src="~/js/city_data.js"></script>
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
