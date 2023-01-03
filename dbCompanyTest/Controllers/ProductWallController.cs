@@ -8,7 +8,9 @@ namespace dbCompanyTest.Controllers
         dbCompanyTestContext _countext = new dbCompanyTestContext();
         public IActionResult Index()
         {
-            return View();
+            var datas = from c in _countext.Products
+                        select c;
+            return View(datas);
         }
 
 
@@ -17,7 +19,7 @@ namespace dbCompanyTest.Controllers
 
 
         //---------------------- Gary產品頁 ----------------------------
-        public IActionResult Detail(int? id) 
+        public IActionResult Details(int? id) 
         {
             id = 1;
             if (id == null)

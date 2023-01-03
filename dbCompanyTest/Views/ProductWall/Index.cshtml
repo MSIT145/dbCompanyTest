@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<dbCompanyTest.Models.Product>
 
 @{
-    ViewData["Title"] = "ProductWall";
+    ViewData["Title"] = "Index";
 }
 
-<h1>ProductWall</h1>
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,9 +12,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.商品編號id)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.上架時間)
             </th>
@@ -49,9 +46,6 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.商品編號id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.上架時間)
             </td>
             <td>
@@ -79,9 +73,9 @@
                 @Html.DisplayFor(modelItem => item.商品是否上架)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a asp-action="Edit" asp-route-id="@item.商品編號id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.商品編號id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.商品編號id">Delete</a>
             </td>
         </tr>
 }
