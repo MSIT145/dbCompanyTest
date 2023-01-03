@@ -1,14 +1,22 @@
 ﻿@model dbCompanyTest.Models.ProductDetail
 
 @{
-    ViewData["Title"] = "Detail";
+    ViewData["Title"] = "Details";
 }
 
-<h1>Detail</h1>
+<h1>Details</h1>
 
 <div>
     <h4>ProductDetail</h4>
     <hr />
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a  asp-area="" asp-controller="Home" asp-action="Index">首頁</a></li>
+            <li class="breadcrumb-item"><a href="#">Library</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewBag.Productname</li>
+        </ol>
+    </nav>
+
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.商品數量)

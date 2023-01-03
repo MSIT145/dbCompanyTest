@@ -21,14 +21,13 @@ namespace dbCompanyTest.Controllers
         //---------------------- Gary產品頁 ----------------------------
         public IActionResult Details(int? id) 
         {
-            id = 1;
             if (id == null)
                 return NotFound();
             else
             {
-                var productdetail = from item in _countext.ProductDetails
-                                    where item.Id == id
-                                    select item;
+                var productdetail = _countext.ProductDetails.FirstOrDefault(x => x.商品編號id == id);
+                string productname = _countext.Products.FirstOrDefault(x => x.商品編號id == id).商品名稱.ToString();
+                ViewBag.Productname = productname;
                 return View(productdetail);
             }
             
