@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using dbCompanyTest.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace dbCompanyTest.Controllers
 {
     public class ProductWallController : Controller
     {
+        dbCompanyTestContext _countext = new dbCompanyTestContext();
         public IActionResult Index()
         {
             return View();
@@ -17,9 +19,17 @@ namespace dbCompanyTest.Controllers
         //---------------------- Gary產品頁 ----------------------------
         public IActionResult Detail(int? id) 
         {
-            if(id == null)
+            id = 1;
+            if (id == null)
                 return NotFound();
-            return View(id);
+            else
+            {
+                var productdetail = from item in _countext.ProductDetails
+                                    where item.Id == id
+                                    select item;
+                return View(productdetail);
+            }
+            
         }
     }
 }
