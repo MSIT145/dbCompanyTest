@@ -11,12 +11,12 @@ namespace dbCompanyTest.Controllers
 {
     public class TestClientsController : Controller
     {
-        private readonly dbCompanyTestContext _context;
+        private dbCompanyTestContext _context = new dbCompanyTestContext();
 
-        public TestClientsController(dbCompanyTestContext context)
-        {
-            _context = context;
-        }
+        //public TestClientsController(dbCompanyTestContext context)
+        //{
+        //    _context = context;
+        //}
 
         // GET: TestClients
         public async Task<IActionResult> Index()
