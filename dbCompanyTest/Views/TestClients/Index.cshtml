@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                項次
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.客戶姓名)
             </th>
             <th>
@@ -40,37 +43,44 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.客戶姓名)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.客戶電話)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.身分證字號)
-            </td>
-            <td>
-                @item.縣市 @item.區 @item.地址
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.密碼)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.性別)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.生日)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.客戶編號" class="btn btn-secondary">編輯</a> 
-                <a asp-action="Details" asp-route-id="@item.客戶編號" class="btn btn-warning">刪除</a>
-            </td>
-        </tr>
-}
+        @{
+            int count = 0;
+            foreach (var item in Model)
+            {
+                count++;
+                <tr>
+                <td>
+                    @count
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.客戶姓名)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.客戶電話)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.身分證字號)
+                </td>
+                <td>
+                    @item.縣市 @item.區 @item.地址
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.密碼)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.性別)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.生日)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.客戶編號" class="btn btn-secondary">編輯</a>
+                    <a asp-action="Details" asp-route-id="@item.客戶編號" class="btn btn-warning">刪除</a>
+                </td>
+            </tr>
+        }}
     </tbody>
 </table>

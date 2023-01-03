@@ -13,9 +13,7 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="客戶編號" class="control-label"></label>
-                <input asp-for="客戶編號" class="form-control" />
-                <span asp-validation-for="客戶編號" class="text-danger"></span>
+                <input asp-for="客戶編號" class="form-control" type="hidden"/>
             </div>
             <div class="form-group">
                 <label asp-for="客戶姓名" class="control-label"></label>
@@ -34,12 +32,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="縣市" class="control-label"></label>
-                <input asp-for="縣市" class="form-control" />
+                <select asp-for="縣市" class="form-control" id="city"></select>
                 <span asp-validation-for="縣市" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="區" class="control-label"></label>
-                <input asp-for="區" class="form-control" />
+                <select asp-for="區" class="form-control" id="town"></select>
                 <span asp-validation-for="區" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -68,7 +66,7 @@
                 <span asp-validation-for="生日" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="新增" class="btn btn-primary"/>
                 <a asp-action="Index" class="btn btn-light">返回</a>
             </div>
         </form>
@@ -78,7 +76,10 @@
 <div>
     
 </div>
-
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/datas/taiwan_districts.js"></script>
+<script src="~/js/city_data.js"></script>
+<script src="~/js/client.js"></script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
