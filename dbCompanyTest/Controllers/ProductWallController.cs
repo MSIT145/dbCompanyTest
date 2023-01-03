@@ -15,5 +15,11 @@ namespace dbCompanyTest.Controllers
 
 
         //---------------------- Gary產品頁 ----------------------------
+        public IActionResult Detail(int? id) 
+        {
+            if(id == null)
+                return NotFound();
+            return View(id);
+        }
     }
 }

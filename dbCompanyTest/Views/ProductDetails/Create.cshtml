@@ -1,0 +1,62 @@
+﻿@model dbCompanyTest.Models.ProductDetail
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>ProductDetail</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="商品編號id" class="control-label"></label>
+                <select asp-for="商品編號id" class ="form-control" asp-items="ViewBag.商品編號id"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品尺寸id" class="control-label"></label>
+                <select asp-for="商品尺寸id" class ="form-control" asp-items="ViewBag.商品尺寸id"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品顏色id" class="control-label"></label>
+                <select asp-for="商品顏色id" class ="form-control" asp-items="ViewBag.商品顏色id"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品數量" class="control-label"></label>
+                <input asp-for="商品數量" class="form-control" />
+                <span asp-validation-for="商品數量" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品分類id" class="control-label"></label>
+                <select asp-for="商品分類id" class ="form-control" asp-items="ViewBag.商品分類id"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品鞋種id" class="control-label"></label>
+                <select asp-for="商品鞋種id" class ="form-control" asp-items="ViewBag.商品鞋種id"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品編號" class="control-label"></label>
+                <input asp-for="商品編號" class="form-control" />
+                <span asp-validation-for="商品編號" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="圖片位置id" class="control-label"></label>
+                <select asp-for="圖片位置id" class ="form-control" asp-items="ViewBag.圖片位置id"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

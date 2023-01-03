@@ -1,0 +1,69 @@
+﻿@model dbCompanyTest.Models.ProductDetail
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>ProductDetail</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="商品編號id" class="control-label"></label>
+                <select asp-for="商品編號id" class="form-control" asp-items="ViewBag.商品編號id"></select>
+                <span asp-validation-for="商品編號id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品尺寸id" class="control-label"></label>
+                <select asp-for="商品尺寸id" class="form-control" asp-items="ViewBag.商品尺寸id"></select>
+                <span asp-validation-for="商品尺寸id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品顏色id" class="control-label"></label>
+                <select asp-for="商品顏色id" class="form-control" asp-items="ViewBag.商品顏色id"></select>
+                <span asp-validation-for="商品顏色id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品數量" class="control-label"></label>
+                <input asp-for="商品數量" class="form-control" />
+                <span asp-validation-for="商品數量" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品分類id" class="control-label"></label>
+                <select asp-for="商品分類id" class="form-control" asp-items="ViewBag.商品分類id"></select>
+                <span asp-validation-for="商品分類id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品鞋種id" class="control-label"></label>
+                <select asp-for="商品鞋種id" class="form-control" asp-items="ViewBag.商品鞋種id"></select>
+                <span asp-validation-for="商品鞋種id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品編號" class="control-label"></label>
+                <input asp-for="商品編號" class="form-control" />
+                <span asp-validation-for="商品編號" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="圖片位置id" class="control-label"></label>
+                <select asp-for="圖片位置id" class="form-control" asp-items="ViewBag.圖片位置id"></select>
+                <span asp-validation-for="圖片位置id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

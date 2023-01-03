@@ -1,0 +1,66 @@
+﻿@model dbCompanyTest.Models.ProductDetail
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ProductDetail</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.商品數量)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.商品數量)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.商品編號)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.商品編號)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.商品分類)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.商品分類.商品分類id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.商品尺寸)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.商品尺寸.商品尺寸id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.商品編號Navigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.商品編號Navigation.商品編號id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.商品鞋種)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.商品鞋種.商品鞋種id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.商品顏色)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.商品顏色.商品顏色id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.圖片位置)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.圖片位置.圖片位置id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
