@@ -6,13 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
+using dbCompanyTest.ViewModels;
 
 namespace dbCompanyTest.Controllers
 {
     public class TestStaffsController : Controller
     {
         dbCompanyTestContext _context = new dbCompanyTestContext();
-              
+
+        public IActionResult login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult login(CLoginViewModels vm)
+        {
+            return View();
+        }
+
 
         // GET: TestStaffs
         public async Task<IActionResult> Index()
