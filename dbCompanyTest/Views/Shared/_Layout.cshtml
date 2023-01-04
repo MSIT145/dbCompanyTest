@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/dbCompanyTest.styles.css" asp-append-version="true" />
+    <link href="~/css/mychat.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -65,7 +66,17 @@
             @RenderBody()
         </main>
     </div>
-
+    
+    <div class="chatMain">
+        <div class="dot eyes-left"></div>
+        <div class="dot eyes-right"></div>
+        <div class="dot mouth"></div>
+    </div>
+    <div class="chatBody">
+        <div class="chatHeader"></div>
+        <div class="chatBBody"></div>
+        <div class="chatFooter"><p>由戴浩宇製作</p></div>
+    </div>
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - dbCompanyTest - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -74,6 +85,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/mychat.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
