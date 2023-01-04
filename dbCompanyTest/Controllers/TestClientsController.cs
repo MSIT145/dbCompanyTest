@@ -39,7 +39,7 @@ namespace dbCompanyTest.Controllers
                 return NotFound();
             }
 
-            return View(testClient);
+                return View(testClient);
         }
 
         // GET: TestClients/Create
