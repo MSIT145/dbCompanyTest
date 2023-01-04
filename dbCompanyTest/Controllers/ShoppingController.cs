@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
+using System.Text.Json;
 
 namespace dbCompanyTest.Controllers
 {
@@ -24,7 +25,7 @@ namespace dbCompanyTest.Controllers
         // GET: Shopping
         public  IActionResult Index()
         {
-            List<CarViewModels> list=new List<CarViewModels>();
+            List<CarViewModels> list=null;
 
             //var dbCompanyTestContext = _context.會員商品暫存s.Include(會 => 會.客戶編號Navigation).Where(c => c.購物車或我的最愛==true && c.客戶編號.Contains(name)).ToListAsync();
             //foreach(var c in dbCompanyTestContext.l)
@@ -44,7 +45,18 @@ namespace dbCompanyTest.Controllers
                            c.客戶編號,
                            c.商品編號
                        };
-            foreach(var data in datas)
+            if (datas == null)
+                return Redirect("../Home/Index");
+            string json = "";
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
+            {
+                json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+                list = JsonSerializer.Deserialize<List<CarViewModels>>(json);
+            }
+            else
+                list = new List<CarViewModels>();
+
+            foreach (var data in datas)
             {
                 CarViewModels c = new CarViewModels();
                 c.car圖片位置.商品圖片1 = data.商品圖片1;
@@ -57,7 +69,10 @@ namespace dbCompanyTest.Controllers
                 c.客戶編號 = data.客戶編號;
                 c.尺寸種類=data.尺寸種類;
                 list.Add(c);
+                json = JsonSerializer.Serialize(list);
+                HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
             }
+
             //var datas = (_context.會員商品暫存s).Join(_context.ProductDetails, c => c.商品編號, o => o.商品編號id);
             return View(list);
         }
