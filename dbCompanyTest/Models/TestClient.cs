@@ -24,7 +24,7 @@ namespace dbCompanyTest.Models
         public string? 區 { get; set; }
         [Required]
         public string? 地址 { get; set; }
-        [RegularExpression("")]
+        [RegularExpression("^([\\w\\.\\-]+)@([\\w\\-]+)((\\.(\\w){2,3})+)$")]
         public string? Email { get; set; }
         [Required]
         public string? 密碼 { get; set; }
