@@ -38,23 +38,11 @@ namespace dbCompanyTest.Controllers
                 return NotFound();
             else
             {
-<<<<<<< Updated upstream
-                var productdetail = _context.ProductDetails.FirstOrDefault(x => x.商品編號id == id);
-                string productname = _context.Products.FirstOrDefault(x => x.商品編號id == id).商品名稱.ToString();
-                
-                ViewBag.Productname = productname;
-                var product商品分類 = from c in _context.Products
-                                  join d in _context.ProductDetails on c.商品編號id equals d.商品編號id
-                                  join e in _context.ProductsTypeDetails on d.商品分類id equals e.商品分類id
-                                  select e.商品分類名稱.ToString();
-                ViewBag.商品分類 = product商品分類;
-                return View(productdetail);
-=======
-                var productdetail = from c in _countext.Products
-                                    join prod in _countext.ProductDetails on c.商品編號id equals prod.商品編號id
-                                    join procolor in _countext.ProductsColorDetails on prod.商品顏色id equals procolor.商品顏色id
-                                    join prosize in _countext.ProductsSizeDetails on prod.商品尺寸id equals prosize.商品尺寸id
-                                    join pro分類 in _countext.ProductsTypeDetails on prod.商品分類id equals pro分類.商品分類id
+                var productdetail = from c in _context.Products
+                                    join prod in _context.ProductDetails on c.商品編號id equals prod.商品編號id
+                                    join procolor in _context.ProductsColorDetails on prod.商品顏色id equals procolor.商品顏色id
+                                    join prosize in _context.ProductsSizeDetails on prod.商品尺寸id equals prosize.商品尺寸id
+                                    join pro分類 in _context.ProductsTypeDetails on prod.商品分類id equals pro分類.商品分類id
                                     where c.商品編號id ==id
                                     select new 
                                     {
@@ -77,7 +65,7 @@ namespace dbCompanyTest.Controllers
                     PDMS.Add(pdm);
                 }
                 return View(PDMS);
->>>>>>> Stashed changes
+
             }
             
         }
