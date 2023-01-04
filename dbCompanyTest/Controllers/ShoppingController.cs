@@ -21,10 +21,15 @@ namespace dbCompanyTest.Controllers
         //}
 
         // GET: Shopping
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
-            var dbCompanyTestContext = _context.會員商品暫存s.Include(會 => 會.客戶編號Navigation).Where(c => c.購物車或我的最愛==true && c.客戶編號.Contains(name));
-            return View(await dbCompanyTestContext.ToListAsync());
+            List<會員商品暫存> list=new List<會員商品暫存>();
+            //var dbCompanyTestContext = _context.會員商品暫存s.Include(會 => 會.客戶編號Navigation).Where(c => c.購物車或我的最愛==true && c.客戶編號.Contains(name)).ToListAsync();
+            //foreach(var c in dbCompanyTestContext.l)
+            var datas = from c in _context.會員商品暫存s where c.購物車或我的最愛 ==true && c.客戶編號==name
+                        //join o in 
+                        select c;
+            return View(datas);
         }
 
         // GET: Shopping/Details/5
