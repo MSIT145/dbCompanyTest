@@ -207,11 +207,25 @@ namespace dbCompanyTest.Models
 
                 entity.Property(e => e.商品價格).HasColumnType("money");
 
+                entity.Property(e => e.商品分類id).HasColumnName("商品分類ID");
+
                 entity.Property(e => e.商品名稱).HasMaxLength(50);
 
                 entity.Property(e => e.商品成本).HasColumnType("money");
 
                 entity.Property(e => e.商品材質).HasMaxLength(50);
+
+                entity.Property(e => e.商品鞋種id).HasColumnName("商品鞋種ID");
+
+                entity.HasOne(d => d.商品分類)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.商品分類id)
+                    .HasConstraintName("FK_Products_ProductsTypeDetail");
+
+                entity.HasOne(d => d.商品鞋種)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.商品鞋種id)
+                    .HasConstraintName("FK_Products_商品鞋種");
             });
 
             modelBuilder.Entity<ProductDetail>(entity =>
@@ -220,22 +234,13 @@ namespace dbCompanyTest.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.商品分類id).HasColumnName("商品分類ID");
-
                 entity.Property(e => e.商品尺寸id).HasColumnName("商品尺寸ID");
 
                 entity.Property(e => e.商品編號id).HasColumnName("商品編號ID");
 
-                entity.Property(e => e.商品鞋種id).HasColumnName("商品鞋種ID");
-
                 entity.Property(e => e.商品顏色id).HasColumnName("商品顏色ID");
 
                 entity.Property(e => e.圖片位置id).HasColumnName("圖片位置ID");
-
-                entity.HasOne(d => d.商品分類)
-                    .WithMany(p => p.ProductDetails)
-                    .HasForeignKey(d => d.商品分類id)
-                    .HasConstraintName("FK_ProductDetail_ProductsTypeDetail");
 
                 entity.HasOne(d => d.商品尺寸)
                     .WithMany(p => p.ProductDetails)
@@ -291,13 +296,6 @@ namespace dbCompanyTest.Models
                 entity.Property(e => e.商品分類id).HasColumnName("商品分類ID");
 
                 entity.Property(e => e.商品分類名稱).HasMaxLength(50);
-
-                entity.Property(e => e.商品鞋種id).HasColumnName("商品鞋種ID");
-
-                entity.HasOne(d => d.商品鞋種)
-                    .WithMany(p => p.ProductsTypeDetails)
-                    .HasForeignKey(d => d.商品鞋種id)
-                    .HasConstraintName("FK_ProductsTypeDetail_商品鞋種");
             });
 
             modelBuilder.Entity<Staffpanel>(entity =>
