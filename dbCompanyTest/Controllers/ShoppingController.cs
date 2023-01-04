@@ -59,7 +59,10 @@ namespace dbCompanyTest.Controllers
             foreach (var data in datas)
             {
                 CarViewModels c = new CarViewModels();
-                c.car圖片位置.商品圖片1 = data.商品圖片1;
+                if (data.商品圖片1 =="0201")
+                    c.car圖片位置.商品圖片1 = "404.jpg";
+              else
+                    c.car圖片位置.商品圖片1 = data.商品圖片1;
                 c.訂單數量 = data.訂單數量;
                 c.商品顏色種類 = data.商品顏色種類;
                 c.商品編號 = data.商品編號;
@@ -97,28 +100,28 @@ namespace dbCompanyTest.Controllers
         }
 
         // GET: Shopping/Create
-        public IActionResult Create()
-        {
-            ViewData["客戶編號"] = new SelectList(_context.TestClients, "客戶編號", "客戶編號");
-            return View();
-        }
+        //public IActionResult Create()
+        //{
+        //    ViewData["客戶編號"] = new SelectList(_context.TestClients, "客戶編號", "客戶編號");
+        //    return View();
+        //}
 
         // POST: Shopping/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,客戶編號,商品編號,商品名稱,尺寸種類,商品顏色種類,訂單數量,商品價格,購物車或我的最愛")] 會員商品暫存 會員商品暫存)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(會員商品暫存);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["客戶編號"] = new SelectList(_context.TestClients, "客戶編號", "客戶編號", 會員商品暫存.客戶編號);
-            return View(會員商品暫存);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,客戶編號,商品編號,商品名稱,尺寸種類,商品顏色種類,訂單數量,商品價格,購物車或我的最愛")] 會員商品暫存 會員商品暫存)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(會員商品暫存);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["客戶編號"] = new SelectList(_context.TestClients, "客戶編號", "客戶編號", 會員商品暫存.客戶編號);
+        //    return View(會員商品暫存);
+        //}
 
         // GET: Shopping/Edit/5
         public async Task<IActionResult> Edit(int? id)
