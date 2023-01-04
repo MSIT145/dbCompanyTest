@@ -1,4 +1,4 @@
-﻿@model dbCompanyTest.Models.ProductDetail
+﻿@model List<dbCompanyTest.ViewModels.ProductDetailViewModels>
 
 @{
     ViewData["Title"] = "Details";
@@ -8,62 +8,50 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">首頁</a></li>
-        <li class="breadcrumb-item"><a href="#">@ViewBag.商品分類</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@ViewBag.Productname</li>
+        <li class="breadcrumb-item"><a href="#">@Model[0].pro商品分類</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model[0].pro商品名稱</li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.Count</li>
     </ol>
 </nav>
 <div>
     <h4>ProductDetail</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.商品數量)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.商品數量)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.商品編號)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.商品編號)
-        </dd>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.商品分類.商品分類id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.商品尺寸)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.商品尺寸.商品尺寸id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.商品編號Navigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.商品編號Navigation.商品編號id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.商品鞋種)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.商品鞋種.商品鞋種id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.商品顏色)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.商品顏色.商品顏色id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.圖片位置)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.圖片位置.圖片位置id)
-        </dd>
-    </dl>
+    @{
+        foreach (var item in Model)
+        {
+
+
+            <dl class="row">
+                <dt class = "col-sm-2">
+                @Html.DisplayNameFor(m => item.pro商品id)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => item.pro商品id)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => item.pro商品顏色)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => item.pro商品顏色)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => item.pro商品名稱)
+            </dt>
+            <dd class = "col-sm-10">
+                    @Html.DisplayFor(model =>  item.pro商品名稱)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => item.pro商品尺寸)
+            </dt>
+            <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => item.pro商品尺寸)
+            </dd>
+            
+        </dl>
+        }
+    }
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    @*<a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |*@
     <a asp-action="Index">Back to List</a>
 </div>
