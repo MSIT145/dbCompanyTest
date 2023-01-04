@@ -4,11 +4,9 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>客戶資料細節</h1>
 
 <div>
-    <h4>TestClient</h4>
-    <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.客戶姓名)
@@ -73,6 +71,11 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.客戶編號">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.客戶編號" class="btn btn-primary">編輯</a>
+    <a asp-action="Index" class="btn btn-light">返回</a>
 </div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/datas/taiwan_districts.js"></script>
+<script src="~/js/city_data.js"></script>
+<script src="~/js/client.js"></script>
