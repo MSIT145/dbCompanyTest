@@ -1,6 +1,7 @@
 ﻿using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Cryptography.Xml;
 
 namespace dbCompanyTest.Controllers
@@ -14,12 +15,22 @@ namespace dbCompanyTest.Controllers
                 return NotFound();
             else
             {
-                var datas = from c in _context.Products
+
+
+                var datas = (from c in _context.Products
                             join d in _context.ProductDetails on c.商品編號id equals d.商品編號id
                             join e in _context.ProductsTypeDetails on d.商品分類id equals e.商品分類id
+                            join f in _context.圖片位置s on d.圖片位置id equals f.圖片位置id
                             where e.商品分類id == id
-                            select c;
-            return View(datas);
+                            select new ViewModels.ProductWallViewModel
+                            {
+                                商品編號id=c.商品編號id,
+                                商品名稱=c.商品名稱,
+                                商品價格= (decimal)c.商品價格,
+                                產品圖片1=f.商品圖片1
+                            });
+
+            return View(datas.ToList());
 
             }
         }

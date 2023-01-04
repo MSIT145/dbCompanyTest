@@ -1,83 +1,29 @@
-﻿@model IEnumerable<dbCompanyTest.Models.Product>
+﻿@model IEnumerable<dbCompanyTest.ViewModels.ProductWallViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.上架時間)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.商品名稱)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.商品價格)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.商品介紹)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.商品材質)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.商品重量)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.商品成本)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.商品是否有貨)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.商品是否上架)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+
+
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.上架時間)
-            </td>
-            <td>
+    <a asp-action="Details" asp-route-id="@item.商品編號id">
+        <div>
+                @{
+                    if (@item.產品圖片1 != null)
+                    {
+                    <img src="~/images/@item.產品圖片1" width="236" height="324" />
+                    }
+                    else
+                    {
+                    <img src="~/images/404.jpg" width="236" height="324" />
+                    }
+                }
+            <div>
                 @Html.DisplayFor(modelItem => item.商品名稱)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.商品價格)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.商品介紹)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.商品材質)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.商品重量)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.商品成本)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.商品是否有貨)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.商品是否上架)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.商品編號id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.商品編號id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.商品編號id">Delete</a>
-            </td>
-        </tr>
+            </div>
+        </div>
+    </a>
 }
-    </tbody>
-</table>
