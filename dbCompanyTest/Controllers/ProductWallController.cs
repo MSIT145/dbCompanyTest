@@ -6,12 +6,21 @@ namespace dbCompanyTest.Controllers
 {
     public class ProductWallController : Controller
     {
-        dbCompanyTestContext _countext = new dbCompanyTestContext();
-        public IActionResult Index()
+        dbCompanyTestContext _context = new dbCompanyTestContext();
+        public IActionResult Index(int? id)
         {
-            var datas = from c in _countext.Products
-                        select c;
+            if (id == null)
+                return NotFound();
+            else
+            {
+                var datas = from c in _context.Products
+                            join d in _context.ProductDetails on c.商品編號id equals d.商品編號id
+                            join e in _context.ProductsTypeDetails on d.商品分類id equals e.商品分類id
+                            where e.商品分類id == id
+                            select c;
             return View(datas);
+
+            }
         }
 
 
@@ -26,13 +35,13 @@ namespace dbCompanyTest.Controllers
                 return NotFound();
             else
             {
-                var productdetail = _countext.ProductDetails.FirstOrDefault(x => x.商品編號id == id);
-                string productname = _countext.Products.FirstOrDefault(x => x.商品編號id == id).商品名稱.ToString();
+                var productdetail = _context.ProductDetails.FirstOrDefault(x => x.商品編號id == id);
+                string productname = _context.Products.FirstOrDefault(x => x.商品編號id == id).商品名稱.ToString();
                 
                 ViewBag.Productname = productname;
-                var product商品分類 = from c in _countext.Products
-                                  join d in _countext.ProductDetails on c.商品編號id equals d.商品編號id
-                                  join e in _countext.ProductsTypeDetails on d.商品分類id equals e.商品分類id
+                var product商品分類 = from c in _context.Products
+                                  join d in _context.ProductDetails on c.商品編號id equals d.商品編號id
+                                  join e in _context.ProductsTypeDetails on d.商品分類id equals e.商品分類id
                                   select e.商品分類名稱.ToString();
                 ViewBag.商品分類 = product商品分類;
                 return View(productdetail);
