@@ -15,28 +15,6 @@ namespace dbCompanyTest.Controllers
     {
         dbCompanyTestContext _context = new dbCompanyTestContext();
 
-        public IActionResult login()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult login(CLoginViewModels vm)
-        {
-            
-            TestStaff x = _context.TestStaffs.FirstOrDefault(T => T.員工編號.Equals(vm.txtAccount) && T.密碼.Equals(vm.txtPassword));
-            if (x != null)
-            {
-                if (x.密碼.Equals(vm.txtPassword) && x.員工編號.Equals(vm.txtAccount))
-                {
-                    //string json = System.Text.Json.JsonSerializer.Serialize(x);
-                    //HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, json);
-                    return RedirectToAction("Index");
-                }
-            }
-           
-            return View();
-        }
-
 
         // GET: TestStaffs
         public async Task<IActionResult> Index()
