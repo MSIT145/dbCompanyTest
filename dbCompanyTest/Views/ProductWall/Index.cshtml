@@ -5,9 +5,9 @@
 }
 
 
-@foreach (var item in Model) {
+@*@foreach (var item in Model) {
     <li>@Html.DisplayFor(modelItem => item.鞋種名稱)</li>
-}
+}*@
 
 @foreach (var item in Model) {
     <a asp-action="Details" asp-route-id="@item.商品編號id">

@@ -22,12 +22,12 @@ namespace dbCompanyTest.Controllers
                             join e in _context.ProductsTypeDetails on d.商品分類id equals e.商品分類id
                             join f in _context.圖片位置s on d.圖片位置id equals f.圖片位置id
                             join g in _context.商品鞋種s on e.商品鞋種id equals g.商品鞋種id
-                            where e.商品分類id == id
+                             where e.商品分類id == id
                             select new ViewModels.ProductWallViewModel
                             {
                                 商品編號id=c.商品編號id,
-
-                                商品名稱=c.商品名稱,
+                                鞋種名稱 = g.鞋種,
+                                商品名稱 =c.商品名稱,
                                 商品價格= (decimal)c.商品價格,
                                 產品圖片1=f.商品圖片1
                             });
