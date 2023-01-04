@@ -53,12 +53,15 @@ namespace dbCompanyTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("員工編號,員工姓名,員工電話,身分證字號,縣市,區,地址,Email,緊急聯絡人,聯絡人關係,聯絡人電話,部門,主管,職稱,密碼,薪資,權限,在職")] TestStaff testStaff)
         {
-            if (ModelState.IsValid)
-            {
+            var count = _context.TestClients.Count() + 1;
+            testStaff.員工編號 = $"ST{testStaff.身分證字號.Substring(1, 1)}-{count.ToString("0000")}{testStaff.身分證字號.Substring(6, 3)}";
+
+            //if (ModelState.IsValid)
+            //{
                 _context.Add(testStaff);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+            //}
             return View(testStaff);
         }
 
