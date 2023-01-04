@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using dbCompanyTest.Models;
+using dbCompanyTest.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace dbCompanyTest.Controllers
 {
@@ -8,10 +10,24 @@ namespace dbCompanyTest.Controllers
         {
             return View();
         }
-
-        public void loginSussess()
+        [HttpPost]
+        public IActionResult Login(CLoginViewModels x)
         {
+            dbCompanyTestContext db = new dbCompanyTestContext();
+            if (db.TestClients.Where(c => c.Email == x.txtAccount && c.密碼 == x.txtPassword) != null)
+            {
+                return RedirectToAction();
+            }
+            else
+            {
+                x.txtPassword = "";
+                return View(x);
+            }
+        }
 
+        public IActionResult loginSussess()
+        {
+            return View();
         }
     }
 }
