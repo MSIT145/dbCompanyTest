@@ -5,7 +5,7 @@ namespace dbCompanyTest.Models
 {
     public partial class ToDoList
     {
-        public string 交辦事項id { get; set; } = null!;
+        public int 交辦事項id { get; set; }
         public string 員工編號 { get; set; } = null!;
         public string 交辦內容 { get; set; } = null!;
         public string 批示 { get; set; } = null!;
