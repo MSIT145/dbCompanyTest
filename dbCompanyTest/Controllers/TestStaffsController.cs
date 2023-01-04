@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
+using System.Collections;
 
 namespace dbCompanyTest.Controllers
 {
@@ -21,6 +22,18 @@ namespace dbCompanyTest.Controllers
         [HttpPost]
         public IActionResult login(CLoginViewModels vm)
         {
+            
+            TestStaff x = _context.TestStaffs.FirstOrDefault(T => T.員工編號.Equals(vm.txtAccount) && T.密碼.Equals(vm.txtPassword));
+            if (x != null)
+            {
+                if (x.密碼.Equals(vm.txtPassword) && x.員工編號.Equals(vm.txtAccount))
+                {
+                    //string json = System.Text.Json.JsonSerializer.Serialize(x);
+                    //HttpContext.Session.SetString(CDictionary.SK_LOGINED_USER, json);
+                    return RedirectToAction("Index");
+                }
+            }
+           
             return View();
         }
 

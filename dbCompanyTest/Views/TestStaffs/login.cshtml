@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "login";
+}
+@{
+    Layout = null;
+}
+@*/TestStaffs/login*@
+<h1>login</h1>
+<form method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <h6>帳號</h6>
+                <input type="text" asp-controller="TestStaffs" asp-action="login" name="txtAccount" value="ST1-0008797" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <h6>帳號</h6>
+                <input type="text" asp-controller="TestStaffs" asp-action="login" name="txtPassword" value="123456"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a asp-action="Index" asp-controller="Home">返回</a>
+                <input type="submit" value="登入" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
