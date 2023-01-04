@@ -7,12 +7,12 @@ namespace dbCompanyTest.Models
     {
         public 商品鞋種()
         {
-            ProductDetails = new HashSet<ProductDetail>();
+            ProductsTypeDetails = new HashSet<ProductsTypeDetail>();
         }
 
         public int 商品鞋種id { get; set; }
         public string? 鞋種 { get; set; }
 
-        public virtual ICollection<ProductDetail> ProductDetails { get; set; }
+        public virtual ICollection<ProductsTypeDetail> ProductsTypeDetails { get; set; }
     }
 }

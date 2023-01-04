@@ -25,7 +25,6 @@ namespace dbCompanyTest.Models
         public virtual ProductsTypeDetail? 商品分類 { get; set; }
         public virtual ProductsSizeDetail? 商品尺寸 { get; set; }
         public virtual Product? 商品編號Navigation { get; set; }
-        public virtual 商品鞋種? 商品鞋種 { get; set; }
         public virtual ProductsColorDetail? 商品顏色 { get; set; }
         public virtual 圖片位置? 圖片位置 { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

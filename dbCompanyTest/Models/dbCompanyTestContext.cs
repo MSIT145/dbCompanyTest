@@ -43,7 +43,7 @@ namespace dbCompanyTest.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=dbCompanyTest;Integrated Security=True;");
+                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=dbCompanyTest;Integrated Security=True");
             }
         }
 
@@ -247,11 +247,6 @@ namespace dbCompanyTest.Models
                     .HasForeignKey(d => d.商品編號id)
                     .HasConstraintName("FK_ProductDetail_Products");
 
-                entity.HasOne(d => d.商品鞋種)
-                    .WithMany(p => p.ProductDetails)
-                    .HasForeignKey(d => d.商品鞋種id)
-                    .HasConstraintName("FK_ProductDetail_商品鞋種");
-
                 entity.HasOne(d => d.商品顏色)
                     .WithMany(p => p.ProductDetails)
                     .HasForeignKey(d => d.商品顏色id)
@@ -296,6 +291,13 @@ namespace dbCompanyTest.Models
                 entity.Property(e => e.商品分類id).HasColumnName("商品分類ID");
 
                 entity.Property(e => e.商品分類名稱).HasMaxLength(50);
+
+                entity.Property(e => e.商品鞋種id).HasColumnName("商品鞋種ID");
+
+                entity.HasOne(d => d.商品鞋種)
+                    .WithMany(p => p.ProductsTypeDetails)
+                    .HasForeignKey(d => d.商品鞋種id)
+                    .HasConstraintName("FK_ProductsTypeDetail_商品鞋種");
             });
 
             modelBuilder.Entity<Staffpanel>(entity =>
