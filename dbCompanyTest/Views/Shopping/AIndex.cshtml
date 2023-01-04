@@ -1,4 +1,4 @@
-﻿@model IEnumerable<dbCompanyTest.ViewModels.CarViewModels>
+﻿@model IEnumerable<dbCompanyTest.Models.會員商品暫存>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                圖
+                @Html.DisplayNameFor(model => model.商品編號)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.商品名稱)
@@ -30,13 +30,20 @@
             <th>
                 @Html.DisplayNameFor(model => model.商品價格)
             </th>
+@*            <th>
+                @Html.DisplayNameFor(model => model.購物車或我的最愛)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.客戶編號Navigation)
+            </th>*@
+            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                    <img src="~/images/@item.car圖片位置.商品圖片1" width="200" />
+                @Html.DisplayFor(modelItem => item.商品編號)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.商品名稱)
@@ -53,6 +60,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.商品價格)
             </td>
+@*            <td>
+                @Html.DisplayFor(modelItem => item.購物車或我的最愛)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.客戶編號Navigation.客戶編號)
+            </td>*@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

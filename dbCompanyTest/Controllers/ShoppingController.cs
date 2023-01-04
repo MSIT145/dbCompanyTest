@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
+using dbCompanyTest.ViewModels;
 
 namespace dbCompanyTest.Controllers
 {
@@ -23,13 +24,42 @@ namespace dbCompanyTest.Controllers
         // GET: Shopping
         public  IActionResult Index()
         {
-            List<會員商品暫存> list=new List<會員商品暫存>();
+            List<CarViewModels> list=new List<CarViewModels>();
+
             //var dbCompanyTestContext = _context.會員商品暫存s.Include(會 => 會.客戶編號Navigation).Where(c => c.購物車或我的最愛==true && c.客戶編號.Contains(name)).ToListAsync();
             //foreach(var c in dbCompanyTestContext.l)
+
             var datas = from c in _context.會員商品暫存s where c.購物車或我的最愛 ==true && c.客戶編號==name
-                        //join o in 
-                        select c;
-            return View(datas);
+                        join o in _context.ProductDetails on c.商品編號 equals o.商品編號id
+                        join a in _context.圖片位置s on o.圖片位置id equals a.圖片位置id
+                       select new
+                       {
+                           a.商品圖片1,
+                           c.商品名稱,
+                           c.商品價格,
+                           c.商品顏色種類,
+                           c.尺寸種類,
+                           c.訂單數量,
+                           c.Id,
+                           c.客戶編號,
+                           c.商品編號
+                       };
+            foreach(var data in datas)
+            {
+                CarViewModels c = new CarViewModels();
+                c.car圖片位置.商品圖片1 = data.商品圖片1;
+                c.訂單數量 = data.訂單數量;
+                c.商品顏色種類 = data.商品顏色種類;
+                c.商品編號 = data.商品編號;
+                c.Id=data.Id;
+                c.商品名稱 = data.商品名稱;
+                c.商品價格 = data.商品價格;
+                c.客戶編號 = data.客戶編號;
+                c.尺寸種類=data.尺寸種類;
+                list.Add(c);
+            }
+            //var datas = (_context.會員商品暫存s).Join(_context.ProductDetails, c => c.商品編號, o => o.商品編號id);
+            return View(list);
         }
 
         // GET: Shopping/Details/5
