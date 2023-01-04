@@ -55,7 +55,9 @@ namespace dbCompanyTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("客戶編號,客戶姓名,客戶電話,身分證字號,縣市,區,地址,Email,密碼,性別,生日")] TestClient testClient)
         {
-            if (ModelState.IsValid)
+            var count = _context.TestClients.Count() + 1;
+            testClient.客戶編號 = $"CL{testClient.身分證字號.Substring(1, 1)}-{count.ToString("0000")}{testClient.身分證字號.Substring(6, 3)}";
+            if (/*ModelState.IsValid*/true)
             {
                 _context.Add(testClient);
                 await _context.SaveChangesAsync();
