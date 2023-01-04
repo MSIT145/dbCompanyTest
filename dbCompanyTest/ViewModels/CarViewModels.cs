@@ -5,15 +5,26 @@ namespace dbCompanyTest.ViewModels
     public class CarViewModels
     {
         private 會員商品暫存 _car;
-
+        private 圖片位置 _car圖片位置;
         public CarViewModels()
         {
             _car = new 會員商品暫存();
+            _car圖片位置=new 圖片位置();
+        }
+        public 圖片位置 car圖片位置
+        {
+            get { return _car圖片位置; }
+            set { _car圖片位置 = value; }
         }
         public 會員商品暫存 car
         {
             get { return _car; }
             set { _car = value; }
+        }
+        public string? 商品圖片1
+        {
+            get { return _car圖片位置.商品圖片1; }
+            set { _car圖片位置.商品圖片1 = value; }
         }
         public int Id
         {
@@ -55,7 +66,7 @@ namespace dbCompanyTest.ViewModels
             get { return _car.商品價格; }
             set { _car.商品價格 = value; }
         }
-        public 圖片位置  car圖片位置 { get;set; }
+
 
     }
 }
