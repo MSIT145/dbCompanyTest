@@ -56,12 +56,12 @@ namespace dbCompanyTest.Controllers
             var count = _context.TestClients.Count() + 1;
             testStaff.員工編號 = $"ST{testStaff.身分證字號.Substring(1, 1)}-{count.ToString("0000")}{testStaff.身分證字號.Substring(6, 3)}";
 
-            //if (ModelState.IsValid)
-            //{
+            if (ModelState.IsValid)
+            {
                 _context.Add(testStaff);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            //}
+            }
             return View(testStaff);
         }
 

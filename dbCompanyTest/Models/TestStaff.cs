@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace dbCompanyTest.Models
 {
@@ -12,11 +13,14 @@ namespace dbCompanyTest.Models
 
         public string 員工編號 { get; set; } = null!;
         public string? 員工姓名 { get; set; }
+        [RegularExpression("/^09[0-9]{8}$/")]
         public string? 員工電話 { get; set; }
+        [RegularExpression("/^[A-Za-z][12]\\d{8}$/")]
         public string? 身分證字號 { get; set; }
         public string? 縣市 { get; set; }
         public string? 區 { get; set; }
         public string? 地址 { get; set; }
+        [EmailAddress]
         public string? Email { get; set; }
         public string? 緊急聯絡人 { get; set; }
         public string? 聯絡人關係 { get; set; }
