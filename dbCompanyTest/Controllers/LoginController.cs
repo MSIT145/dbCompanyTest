@@ -1,5 +1,6 @@
 ﻿using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dbCompanyTest.Controllers
@@ -25,9 +26,6 @@ namespace dbCompanyTest.Controllers
             }
         }
 
-        public IActionResult loginSussess()
-        {
-            return View();
-        }
+        
     }
 }
