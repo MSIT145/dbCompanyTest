@@ -52,7 +52,7 @@ namespace dbCompanyTest.Controllers
                 ViewData["Msg"] += "Picture:" + payload.Picture;
             }
 
-            return View();
+            return RedirectToAction("Index");
         }
         public async Task<GoogleJsonWebSignature.Payload?> VerifyGoogleToken(string? formCredential, string? formToken, string? cookiesToken)
         {
@@ -73,10 +73,10 @@ namespace dbCompanyTest.Controllers
 
                 // 驗證憑證
                 IConfiguration Config = new ConfigurationBuilder().AddJsonFile("appSettings.json").Build();
-                string GoogleApiClientId = Config.GetSection("GoogleApiClientId").Value;
+                string GoogleClientId = Config.GetSection("GoogleClientId").Value;
                 var settings = new GoogleJsonWebSignature.ValidationSettings()
                 {
-                    Audience = new List<string>() { GoogleApiClientId }
+                    Audience = new List<string>() { GoogleClientId }
                 };
                 payload = await GoogleJsonWebSignature.ValidateAsync(formCredential, settings);
                 if (!payload.Issuer.Equals("accounts.google.com") && !payload.Issuer.Equals("https://accounts.google.com"))

@@ -25,7 +25,5 @@ namespace dbCompanyTest.Controllers
                 return View(x);
             }
         }
-
-        
     }
 }
