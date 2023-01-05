@@ -13,9 +13,9 @@ namespace dbCompanyTest.Models
 
         public string 員工編號 { get; set; } = null!;
         public string? 員工姓名 { get; set; }
-        [RegularExpression("/^09[0-9]{8}$/")]
+        [RegularExpression("/^09\\d{8}$/")]
         public string? 員工電話 { get; set; }
-        [RegularExpression("/^[A-Za-z][12]\\d{8}$/")]
+        [RegularExpression("/^[A-Z][12]\\d{8}$/")]
         public string? 身分證字號 { get; set; }
         public string? 縣市 { get; set; }
         public string? 區 { get; set; }
