@@ -122,24 +122,22 @@
     <hr />
     <div>
             <span>結帳金額</span>
-            <span>TWD $0</span>
+                <span id="paymony">TWD $0</span>
     </div>
 </div>
 </div>
 }
 @section Scripts{
     <script>
-        @{
-            //decimal a = totomony;
-            //const aa =
-        }
         const deliverymony = document.querySelector('#delivery')
         const txtdeliverymony =document.querySelector('#TxtDeliverymony')
+        const paymony = document.querySelector('#paymony')
         const xhr = new XMLHttpRequest();
         xhr.addEventListener(`load`,()=>{
             const data = xhr.responseText;
             txtdeliverymony.innerHTML = `TWD $${data}`;
-
+            const mony = parseInt(data) + @totomony;
+            paymony.innerHTML = `TWD $${mony}`
         })
         deliverymony.addEventListener(`change`, () => {
             xhr.open('GET', `/Shopping/GetDeliveryMony?OPvalue=${deliverymony.value}`);
