@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
 using System.Text.Json;
+using System.Text;
 
 namespace dbCompanyTest.Controllers
 {
@@ -79,6 +80,23 @@ namespace dbCompanyTest.Controllers
             //var datas = (_context.會員商品暫存s).Join(_context.ProductDetails, c => c.商品編號, o => o.商品編號id);
             return View(list);
         }
+
+        public IActionResult GetDeliveryMony(string OPvalue)
+        {
+            if (string.IsNullOrEmpty(OPvalue))
+                OPvalue = "0";
+
+            return Content($"{OPvalue}", "text/plain", Encoding.UTF8);
+        }
+
+
+
+
+
+
+
+
+
 
         // GET: Shopping/Details/5
         public async Task<IActionResult> Details(int? id)
