@@ -55,7 +55,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="性別" class="control-label"></label>
-                <input asp-for="性別" class="form-control" />
+                <select asp-for="縣市" class="form-control" id="sex"><option>男</option><option>女</option></select>
                 <span asp-validation-for="性別" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -73,7 +73,8 @@
 
 <div>
     <input asp-for="縣市" type="hidden" id="q1"/>
-    <input asp-for="區" type="hidden" id="q2"/>
+    <input asp-for="區" type="hidden" id="q2" />
+    <input asp-for="性別" type="hidden" id="sexvalue" />
 </div>
 @section Scripts {
     @{

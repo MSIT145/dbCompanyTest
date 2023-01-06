@@ -6,39 +6,38 @@
 @{
     Layout = null;
 }
-<h1>login</h1>
+
+<link href="~/css/staff_login.css" rel="stylesheet" />
+
+
 <form method="post">
     @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-
-        <div class="form-group">
-            <div class="col-md-10">
-                <h6>帳號</h6>
-                <input type="text" asp-controller="TestStaffs" asp-action="login" name="txtAccount" value="ST1-0008797" />
+    <div class="box1">
+        <div class="containerr">
+            <div class="top">
+                <header>員工登入</header>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-10">
-                <h6>密碼</h6>
-                <input type="password" asp-controller="TestStaffs" asp-action="login" name="txtPassword" value="123456" />
+            <div class="input-field">
+                <input type="text" asp-controller="TestStaffs" asp-action="login" name="txtAccount" value="ST1-0008797" class="input" placeholder="Username" />
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <a asp-action="Index" asp-controller="Home">返回</a>
-                <input type="submit" value="登入" class="btn btn-default" />
+            <div class="input-field">
+                <input type="password" asp-controller="TestStaffs" asp-action="login" name="txtPassword" value="123456" class="input" placeholder="Password" />
+            </div>
+
+            <div class="input-field">
+                <input type="submit" class="submit" value="Login" id="">
+            </div>
+
+            <div class="two">
+                <label><a asp-action="Index" asp-controller="Home">返回</a></label>
             </div>
         </div>
     </div>
 </form>
-
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
