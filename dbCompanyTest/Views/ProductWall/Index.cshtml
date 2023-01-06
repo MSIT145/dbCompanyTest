@@ -5,27 +5,72 @@
 }
 
 
-@foreach (var item in Model) {
-    <li>@Html.DisplayFor(modelItem => item.鞋種名稱)</li>
-}
 
-@foreach (var item in Model) {
-    <a asp-action="Details" asp-route-id="@item.商品編號id">
-        <div>
-                @{
-                    if (@item.產品圖片1 != null)
-                    {
-                        <img src="~/images/@item.產品圖片1" width="236" height="324" />
-                    }
-                    else
-                    {
-                        <img src="~/images/404.jpg" width="236" height="324" />
-                    }
-                }
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-9 flex">
+            <div class="row ">
+                <div class="col-md-6">
+                    <ul class="list-inline shop-top-menu pb-3 pt-1">
+                        @foreach (var item in Model)
+                        {
+                            <li class="list-inline-item">
+                                <a class="h3 text-dark text-decoration-none" href="#">@Html.DisplayFor(modelItem => item.鞋種名稱)</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
             <div>
-                @Html.DisplayFor(modelItem => item.商品名稱)
-                @Html.DisplayFor(modelItem => item.商品價格)
+                <div class="row">
+                    @foreach (var item in Model) {
+                            <div class="col-md-4 p-2 ">
+                                <a asp-action="Details" asp-route-id="@item.商品編號id">
+                                    <div class="card mb-4 product-wap rounded-0">
+                                        <div class="card rounded-0">
+                                            <div>
+                                                @{
+                                                    if (@item.產品圖片1 != null)
+                                                    {
+                                                        <img class="card-img rounded-0 img-fluid" src="~/images/@item.產品圖片1" width="236" height="324" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" width="236" height="324" />
+                                                    }
+                                                }
+                                                <div>
+                                                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                                        <ul class="list-unstyled">
+                                                            <li><a class="btn btn-success text-white" href="~/Home/shop_single"><i class="far fa-heart"></i></a></li>
+                                                            <li><a class="btn btn-success text-white mt-2" href="~/Home/shop_single"><i class="far fa-eye"></i></a></li>
+                                                            <li><a class="btn btn-success text-white mt-2" href="~/Home/shop_single"><i class="fas fa-cart-plus"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    @Html.DisplayFor(modelItem => item.商品名稱)
+                                                    <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                                        <li>@Html.DisplayFor(modelItem => item.商品價格)</li>
+                                                        <li class="pt-2">
+                                                            <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                                                            <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                                                            <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                                                            <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                                                            <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                                                        </li>
+                                                    </ul>
+                                                    <p class="text-center mb-0">$250.00</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                    }
+                </div>
             </div>
         </div>
-    </a>
-}
+    </div>
+</div>
