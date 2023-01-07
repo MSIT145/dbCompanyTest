@@ -1,29 +1,33 @@
 ﻿@model IEnumerable<dbCompanyTest.Models.會員商品暫存>
+<link href="~/css/favorites.css" rel="stylesheet" />
 
-<div id="divlist">
-<div class="card-subtitle">收藏清單</div>
+<div class="favorites" id="divlist">
+<div class="favorites-btitle">收藏清單</div>
 <hr />
-<div id="cart">
+<div id="cart" class="cart-box">
         @{
             foreach (var item in Model)
             {
-                <div>
-                            <div>
-                                <div><img src="~/images/404.jpg" width="111px" height="153px"/></div>
-                                <div>
+                <div class="g-item">
+                            <div class="item-cont">
+                                <div><img src="~/images/404.jpg" width="111px" height="153"/></div>
+                                <div class="g-detail">
                                             <div><p>@item.商品名稱</p></div>
                                             <div><span>顏色: </span><span>@item.商品顏色種類</span></div>
                                             <div><span>尺寸: </span><span>@item.尺寸種類</span></div>
                                 </div>
                             </div>
-                            <div>
-                                <div>加入購物車</div>
-                                <div>刪除</div>
+                            <div class="purchase-del">
+                                <div class="purchase">加入購物車</div>
+                                <div class="purchase-icon"></div>
                 
                             </div>
                 </div>
             }
     }
+        <div class="favorites-buying">
+            <a>繼續購買</a>
+    </div>
 </div>
 </div>
 

@@ -1,1 +1,140 @@
-﻿
+﻿.item-cont {
+    margin-top: 25px;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+    color: #636363;
+}
+.g-img {
+    width: 111px;
+    height: 153px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+    display: block;
+}
+.g-detail {
+    margin-left: 0.25rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+    display: block;
+}
+.purchase-del {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0;
+    width: 330px;
+    position: absolute;
+    top: 45px;
+    right: 50px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+}
+.purchase {
+    width: 178px;
+    line-height: 28px;
+    background-color: #d5baa5;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    /* font-size: 100%; */
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+}
+.purchase-icon {
+    width: 25px;
+    height: 25px;
+    background-image: url(https://www.gracegift.com.tw/assets/images/collect-del.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+}
+.cart-box {
+    padding-bottom: 50px;
+    border-bottom: 1px solid #d2d3d7;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+    display: block;
+}
+.g-item {
+    display: inherit;
+    margin-top: 25px;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    /* font-size: 100%; */
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+}
+.favorites-btitle {
+    font-size: 13px;
+    margin: 16px 0;
+    line-height: 16px;
+    font-weight: 600;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    vertical-align: baseline;
+}
+.favorites {
+    margin: 0 auto;
+    width: 911px;
+    padding-top: 100px !important;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+    padding: 0;
+    border: 0;
+}
+.favorites-buying {
+    width: 178px;
+    height: 27px;
+    line-height: 27px;
+    margin: 25px 0 100px auto;
+    cursor: pointer;
+    border-width: 1px;
+    transition: all 0.2s;
+    border: 0.02rem solid #d3d3d5;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 0.04rem;
+    padding: 0;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+}
