@@ -19,7 +19,7 @@
                             </div>
                             <div class="purchase-del">
                                     <div class="purchase">加入購物車</div>
-                                    <div class="purchase-icon"></div>
+                                    <div class="purchase-icon" value="@item.Id"></div>
                             </div>
                 </div>
             }
@@ -31,9 +31,18 @@
 </div>
 
 @section Scripts{
-    <script src="~/js/favorites.js"></script>
 <script>
-        
+        let xhr = new XMLHttpRequest();
+        xhr.addEventListener('load',()=>{
+        let data = xhr.responseText;
+        console.log("傳送成功");
+        })
+        $(`.purchase-icon`).on("click",()=>{
+            var proval = $()
+            console.log(proval);
+           xhr.open("get",`/MyLove/delete?id=${proval}`);
+           xhr.send();
+        })
 </script>
 
 }

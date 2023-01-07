@@ -1,3 +1,1 @@
-﻿$(`.purchase-del`).click(()=>{
-    $
-})
+﻿
