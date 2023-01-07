@@ -5,32 +5,61 @@
 <h1>登入/註冊</h1>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <main>
-    
+
     <div class="loginMain">
         <div class="otherLogin">
-                <div id="g_id_onload"
-                     data-client_id="1097400727922-rjchl3ubr8r1mtjpirchq6v7dl9vfcb2.apps.googleusercontent.com"
-                    data-login_uri="https://localhost:7100/Home/loginSussess"
-                     data-auto_prompt="false">
-                </div>
-                <div class="g_id_signin" style="width:200px;margin:50px auto;height:60px"
-                     data-type="standard"
-                     data-size="large"
-                     data-theme="outline"
-                     data-text="sign_in_with"
-                     data-shape="rectangular"
-                     data-logo_alignment="left">
-                </div>
+            <div id="g_id_onload"
+                 data-client_id="1097400727922-rjchl3ubr8r1mtjpirchq6v7dl9vfcb2.apps.googleusercontent.com"
+                 data-login_uri="https://localhost:7100/Login/loginSussess"
+                 data-auto_prompt="false">
+            </div>
+            <div class="g_id_signin" style="width:200px;margin:50px auto;height:60px"
+                 data-type="standard"
+                 data-size="large"
+                 data-theme="outline"
+                 data-text="sign_in_with"
+                 data-shape="rectangular"
+                 data-logo_alignment="left">
+            </div>
         </div>
         <div class="Login">
             <form>
                 <p>帳號(Email)</p>
-                <input type="text" asp-controller="Login" asp-action="Login" name="txtAccount" class="Linput"/>
+                <input type="text" asp-controller="Login" asp-action="Login" name="txtAccount" class="Linput" id="account" />
                 <p>密碼</p>
-                <input type="text" asp-controller="Login" asp-action="Login" name="txtPassword" class="Linput" /><br />
-                <input type="submit" value="登入" class="btn btn-primary"/>
+                <input type="text" asp-controller="Login" asp-action="Login" name="txtPassword" class="Linput" id="password" />
+                <p id="result"></p>
+                <botton type="submit" class="btn btn-primary" id="login">登入</botton>
             </form>
         </div>
     </div>
 </main>
 
+@section Scripts{
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener(`load`, () => {
+            var result = xhr.responseText;
+            if (result == `成功`) {
+                alert("登入成功")
+            } else {
+                if (result == "Nopassword")
+                    $(`#result`).html(`請輸入密碼`);
+                else
+                    $(`#result`).html(`帳號或密碼錯誤`);
+            }
+        });
+
+        $(`#login`).on(`click`, () => {
+            const account = $(`#account`).val();
+            const password = $(`#password`).val();
+            xhr.open(`post`, `/Login/checkLogin`);
+            xhr.setRequestHeader(`Content-Type`, `application/x-www-form-urlencoded`);
+            xhr.timeout = 5000;
+            xhr.send(`account=${account}&password=${password}`);
+        });
+
+    </script>
+
+
+}
