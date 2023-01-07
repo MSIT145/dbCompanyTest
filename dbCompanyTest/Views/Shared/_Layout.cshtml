@@ -45,9 +45,9 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav flex-grow-1">
-                    
+
                         <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ProductWall" asp-action="Index" asp-route-id="1">男鞋</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ProductWall" asp-action="Index" asp-route-id="1">男鞋</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ProductWall" asp-action="Index" asp-route-id="2">女鞋</a>
@@ -64,7 +64,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ProductWall" asp-action="Index" asp-route-id="6">口罩</a>
                         </li>
-                   
+
                     </ul>
                 </div>
             </div>
@@ -75,7 +75,7 @@
             @RenderBody()
         </main>
     </div>
-    
+
     <div class="chatMain">
         <div class="dot eyes-left"></div>
         <div class="dot eyes-right"></div>
@@ -84,7 +84,10 @@
     <div class="chatBody">
         <div class="chatHeader"></div>
         <div class="chatBBody"></div>
-        <div class="chatFooter"><p>由戴浩宇製作</p></div>
+        <div class="chatFooter">
+            <input type="text" id="msg"/>
+            <p>由戴浩宇製作</p>
+        </div>
     </div>
     <footer class="border-top footer text-muted">
         <div class="container">
