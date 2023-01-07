@@ -8,7 +8,7 @@
         @{
             foreach (var item in Model)
             {
-                <div class="g-item">
+                <div class="g-item" id="@item.Id">
                             <div class="item-cont">
                                 <div><img src="~/images/404.jpg" width="111px" height="153"/></div>
                                 <div class="g-detail">
@@ -18,24 +18,22 @@
                                 </div>
                             </div>
                             <div class="purchase-del">
-                                <div class="purchase">加入購物車</div>
-                                <div class="purchase-icon"></div>
-                
+                                    <div class="purchase">加入購物車</div>
+                                    <div class="purchase-icon"></div>
                             </div>
                 </div>
             }
     }
-        <div class="favorites-buying">
+        <div class="favorites-btn favorites-buying">
             <a>繼續購買</a>
     </div>
 </div>
 </div>
 
 @section Scripts{
+    <script src="~/js/favorites.js"></script>
 <script>
-
-
-
+        
 </script>
 
 }

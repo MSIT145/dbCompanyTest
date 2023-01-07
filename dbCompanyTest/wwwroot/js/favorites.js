@@ -1,6 +1,3 @@
-﻿namespace dbCompanyTest.wwwroot.js
-{
-    public class favorites
-    {
-    }
-}
+﻿$(`.purchase-del`).click(()=>{
+    $
+})
