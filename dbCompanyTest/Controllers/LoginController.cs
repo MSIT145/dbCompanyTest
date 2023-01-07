@@ -15,12 +15,12 @@ namespace dbCompanyTest.Controllers
         public IActionResult checkLogin(string account,string password)
         {
             dbCompanyTestContext db = new dbCompanyTestContext();
-            if(password == "")
+            if(password == null)
             {
                 return Content("Nopassword");
             }
             var a = db.TestClients.Where(c => c.Email == account && c.密碼 == password);
-            if (a != null)
+            if (a.Count() != 0)
             {
                 return Content("成功");
             }
