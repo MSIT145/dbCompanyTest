@@ -1,0 +1,24 @@
+﻿a{
+    text-decoration:none;
+    color:black;
+}
+.logo {
+    padding: 0px 0px 0px 43%
+}
+.tool-box {
+    margin: 0px 0px;
+    margin-right: 3em;
+    align-items:center;
+}
+.tool-p{
+    margin-left:10px;
+}
+.g-nums {
+    margin-left: -15px;
+    margin-top: -10px;
+    line-height: 22px;
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+    overflow: hidden;
+}

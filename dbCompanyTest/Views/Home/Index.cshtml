@@ -1,8 +1,78 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<dbCompanyTest.Models.ProductsTypeDetail>
+@section Style{
+<link href="~/css/HomePage.css" rel="stylesheet">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+}
+    @*==============輪播牆=================*@
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <a href="/ProductWall/Index/1">
+                <img src="~/homeImg/pc01_1.jpg" class="d-block w-100" >
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="/ProductWall/Index/1">
+                <img src="~/homeImg/pc01_2.jpg" class="d-block w-100" >
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="/ProductWall/Index/1">
+                <img src="~/homeImg/pc01_3.jpg" class="d-block w-100" >
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="/ProductWall/Index/1">
+                <img src="~/homeImg/pc01_4.jpg" class="d-block w-100" >
+            </a>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
+
+<div class="h-div">
+    <p class="">WINTER ISSUE</p>
+    <p class="">11.28</p>
+    <p class="">22</p>
+    <div class="">
+        <p>Style is a way to say who you are</p><br>
+        <p>without having to speak</p>
+    </div>
+    <div class="">
+        <p>
+            You’ve got the outfits ready,beauty prep is well underway,now
+            all that’s left to do is to decide which pair of shoes you're
+            going out with.
+        </p>
+    </div>
+    <div class="h-div1">
+
+        <a href="/ProductWall/Index/1">
+            <img src="~/homeImg/h0.png" class="">
+        </a>
+        <a href="/ProductWall/Index/2">
+            <img src="~/homeImg/h1.png" class="">
+        </a>
+        <a href="/ProductWall/Index/3">
+            <img src="~/homeImg/h2.png" class="">
+        </a>
+    </div>
+    
+</div>
+
+<a href="/ProductWall/Index/4">
+    <img src="~/homeImg/h3.png" style="width:100%">
+</a>

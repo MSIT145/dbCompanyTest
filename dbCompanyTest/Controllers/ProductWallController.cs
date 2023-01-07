@@ -16,8 +16,6 @@ namespace dbCompanyTest.Controllers
                 return NotFound();
             else
             {
-
-
                 var datas = from c in _context.Products
                             join d in _context.ProductDetails on c.商品編號id equals d.商品編號id
                             join f in _context.圖片位置s on d.圖片位置id equals f.圖片位置id

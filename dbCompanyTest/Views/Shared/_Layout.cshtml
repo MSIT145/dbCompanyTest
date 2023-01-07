@@ -9,22 +9,47 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/dbCompanyTest.styles.css" asp-append-version="true" />
+    <link href="~/css/layout.css" rel="stylesheet" />
     <link href="~/css/mychat.css" rel="stylesheet" />
+    @await RenderSectionAsync("Style", required: false)
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class=" d-flex justify-content-between" style="padding: 1em 0%">
+            @*==============LOGO=================*@
+            <div class="logo" >
+                <a class="" asp-controller="Home" asp-action="Index"><img src="~/homeImg/Shoespace1.png" /></a>
+            </div>
+            @*==============搜尋,我的最愛,會員中心,購物車=================*@
+            <div class="d-flex justify-content-end">
+                <div class="tool-box d-flex">
+                    <div class="search-box flex-fill">
+                        <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box">
+                    </div>
+                    <div class="tool-p flex-fill">
+                        <a  id="web-search-btn" href=""><img src="~/homeImg/search_header_pc.png"></a>
+                    </div>
+                    <div class="tool-p shortcut flex-fill">
+                        <a class="tool-item" href="">
+                            <img src="~/homeImg/sign_pc.png">
+                        </a>
+                   </div>
+                    <div class="tool-p flex-fill">
+                        <a class="tool-item flex-fill" href=""><img src="~/homeImg/collect_pc.png"></a>
+                    </div>
+                    <div class="tool-p shopping-cart flex-fill">
+                        <a class="tool-item"  href=""><img src="~/homeImg/shopping_cart_pc.png"><span class="g-nums" id="cart_num_pc">0</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom  ">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">dbCompanyTest</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                    <ul class="navbar-nav flex-sm-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="TestClients" asp-action="Index">客戶資料</a>
                         </li>
@@ -44,7 +69,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="index">後台產品維護</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-sm-grow-1">
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ProductWall" asp-action="Index" asp-route-id="1">男鞋</a>
@@ -70,8 +95,8 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div @*class="container"*@>
+        <main role="main" @*class="pb-3"*@>
             @RenderBody()
         </main>
     </div>
