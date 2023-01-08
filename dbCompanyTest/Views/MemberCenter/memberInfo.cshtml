@@ -1,0 +1,88 @@
+﻿@model dbCompanyTest.Models.TestClient
+
+@{
+    ViewData["Title"] = "memberInfo";
+}
+<div class="container">
+    <div class="pb-3">
+        <br />
+        <br />
+        <h4>TestClient</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="memberInfo">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="客戶編號" class="control-label"></label>
+                        <input asp-for="客戶編號" class="form-control" />
+                        <span asp-validation-for="客戶編號" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="客戶姓名" class="control-label"></label>
+                        <input asp-for="客戶姓名" class="form-control" />
+                        <span asp-validation-for="客戶姓名" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="客戶電話" class="control-label"></label>
+                        <input asp-for="客戶電話" class="form-control" />
+                        <span asp-validation-for="客戶電話" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="身分證字號" class="control-label"></label>
+                        <input asp-for="身分證字號" class="form-control" />
+                        <span asp-validation-for="身分證字號" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="縣市" class="control-label"></label>
+                        <input asp-for="縣市" class="form-control" />
+                        <span asp-validation-for="縣市" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="區" class="control-label"></label>
+                        <input asp-for="區" class="form-control" />
+                        <span asp-validation-for="區" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="地址" class="control-label"></label>
+                        <input asp-for="地址" class="form-control" />
+                        <span asp-validation-for="地址" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="密碼" class="control-label"></label>
+                        <input asp-for="密碼" class="form-control" />
+                        <span asp-validation-for="密碼" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="性別" class="control-label"></label>
+                        <input asp-for="性別" class="form-control" />
+                        <span asp-validation-for="性別" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="生日" class="control-label"></label>
+                        <input asp-for="生日" class="form-control" />
+                        <span asp-validation-for="生日" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

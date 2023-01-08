@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+@section Style{
+    <link href="~/css/MBindex.css" rel="stylesheet">
+}
+
+    <div class="container">
+        <div class="pb-3">
+            <br />
+            <br />
+            <h4>會員中心</h4>
+            <hr />
+            <div class="mb1">
+                <div class="d-flex justify-content-between">
+                    <img src="~/homeImg/MBCard.png" class="mbcard" />
+                    <div class="d-flex ">
+                        <a asp-controller="MemberCenter" asp-action="memberInfo">
+                            <div class="card c1">
+                                <div class=" c1body">
+                                    <img src="~/homeImg/vip_grid_icon.png" class="c1img">
+                                    <h5 class="card-title">會員管理</h5>
+                                </div>
+                            </div>
+                        </a>
+                        <a asp-controller="MemberCenter" asp-action="Index">
+                            <div class="card  c1">
+                                <div class="c1body">
+                                    <img src="~/homeImg/order_grid_icon.png" class="c1img">
+                                    <h5 class="card-title">訂單管理</h5>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-between c2">
+                    <div class="c2cod">
+                        <img src="~/homeImg/barcode (1).jpg"  />
+                        <p>會員卡號: 33AA98A9131D4</p>
+                    </div>
+                    <a href="" class="c2logout">
+                        <div class="d-flex ">
+                            <img src="~/homeImg/login_out.png" />
+                            <p>Logout</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>

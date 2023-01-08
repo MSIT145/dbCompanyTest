@@ -2,7 +2,49 @@
     width:5%;
 }
 .h-div {
+
+}
+.title1 {
+    font-size: 68px;
+    margin: 10% 35% 0px 35%;
+    
+}
+.title {
+    font-family: 'Jacques Francois', serif;
+}
+.txt {
+    
+    width: 12%;
+    margin: 7% 4%;
+}
+.txt1 {
+    font-size: 68px;
+    text-align: center;
+}
+.txt2 {
+    line-height: 40px;
+    font-size: 20px;
+    text-align:justify;
 }
 .h-div1 {
+    margin: 9% 0% 19% 0%;
+}
+.img1{
+    
+    margin-bottom:32%
+}
+.img2 {
+    margin-left: 6.8%;
+    margin-top: 17%;
+}
+.txt3 {
+    line-height: 40px;
+    text-align: center;
+}
+.img3 {
+}
 
+.txt4 {
+   font-size: 68px;
+    margin: 7% 2%;
 }

@@ -17,11 +17,11 @@
 <body>
     <header>
         <div class=" d-flex justify-content-between" style="padding: 1em 0%">
-            @*==============LOGO=================*@
+            @*============== LOGO =================*@
             <div class="logo" >
                 <a class="" asp-controller="Home" asp-action="Index"><img src="~/homeImg/Shoespace1.png" /></a>
             </div>
-            @*==============搜尋,我的最愛,會員中心,購物車=================*@
+            @*============== 搜尋,我的最愛,會員中心,購物車 =================*@
             <div class="d-flex justify-content-end">
                 <div class="tool-box d-flex">
                     <div class="search-box flex-fill">
@@ -31,7 +31,7 @@
                         <a  id="web-search-btn" href=""><img src="~/homeImg/search_header_pc.png"></a>
                     </div>
                     <div class="tool-p shortcut flex-fill">
-                        <a class="tool-item" href="">
+                        <a class="tool-item" asp-controller="MemberCenter" asp-action="Index">
                             <img src="~/homeImg/sign_pc.png">
                         </a>
                    </div>
@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-
+        @*================= nav ===================*@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom  ">
             <div class="container-fluid">
