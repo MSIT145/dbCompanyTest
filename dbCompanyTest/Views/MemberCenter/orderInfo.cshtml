@@ -61,7 +61,7 @@
                 @Html.DisplayFor(modelItem => item.付款狀態)
             </td>
             <td>
-                    @Html.ActionLink("Details", "Details", new { id=item.訂單編號 }) 
+                    @Html.ActionLink("訂單詳情", "orderInfoDetail", new { id=item.訂單編號 })
             </td>
         </tr>
 }
