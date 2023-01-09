@@ -11,8 +11,16 @@ namespace dbCompanyTest.Controllers
         dbCompanyTestContext _context = new dbCompanyTestContext();
         public IActionResult Index()
         {
-           
-            ViewBag.acc = HttpContext.Session.GetString("Account"); ;
+            //IEnumerable<TestStaff> stf = null;
+            string stfNum = HttpContext.Session.GetString("Account");
+            var stf = _context.TestStaffs.Where(c => c.員工編號 == stfNum).Select(x => new {x.員工姓名 });
+          
+
+
+            //var datas = from c in _context.Orders
+            //            where c.訂單狀態 == "待出貨"
+            //            select c;
+            ViewBag.acc = $"{HttpContext.Session.GetString("Account")}/{stf}"; 
             return View();
         }
 
@@ -31,14 +39,14 @@ namespace dbCompanyTest.Controllers
                 {
                     string json = "";
                     List<CLoginViewModels> Account = null;
-                    
-                    if (HttpContext.Session.Keys.Contains("Account"))
-                    {
-                        json = HttpContext.Session.GetString("Account");
-                        Account = System.Text.Json.JsonSerializer.Deserialize<List<CLoginViewModels>>(json);
-                    }
-                    
-                    HttpContext.Session.SetString("Account", vm.txtAccount);
+
+                    //if (HttpContext.Session.Keys.Contains("Account"))
+                    //{
+                    //    json = HttpContext.Session.GetString("Account");
+                    //    Account = System.Text.Json.JsonSerializer.Deserialize<List<CLoginViewModels>>(json);
+                    //}
+                    if (!HttpContext.Session.Keys.Contains("Account"))
+                        HttpContext.Session.SetString("Account", vm.txtAccount);
 
                     
                     return RedirectToAction("Index");
