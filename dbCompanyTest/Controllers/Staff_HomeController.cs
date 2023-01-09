@@ -2,6 +2,7 @@
 using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Principal;
 
 namespace dbCompanyTest.Controllers
 {
@@ -29,12 +30,19 @@ namespace dbCompanyTest.Controllers
                 if (x.密碼.Equals(vm.txtPassword) && x.員工編號.Equals(vm.txtAccount))
                 {
                     string json = "";
+                    List<CLoginViewModels> Account = null;
+                    
                     if (HttpContext.Session.Keys.Contains("Account"))
-                        Account = HttpContext.Session.GetString("Account");
+                    {
+                        json = HttpContext.Session.GetString("Account");
+                        Account = System.Text.Json.JsonSerializer.Deserialize<List<CLoginViewModels>>(json);
+                    }
                     
                     HttpContext.Session.SetString("Account", vm.txtAccount);
 
-                    TempData["Account"] = Account;  
+                    string s = HttpContext.Session.GetString("Account");
+
+                    TempData["Account"] = s;  
 
                     
                     return RedirectToAction("Index");
