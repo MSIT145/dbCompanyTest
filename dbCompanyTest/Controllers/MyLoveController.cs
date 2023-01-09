@@ -15,8 +15,16 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult Delete(int? id)
         {
-
-            return Content("Hello" + id, "text/html", Encoding.UTF8);
+            if (id != null)
+            {
+                var data = _context.會員商品暫存s.FirstOrDefault(x => x.Id == id);
+                _context.會員商品暫存s.Remove(data);
+                _context.SaveChanges();
+                return Content("刪除成功");
+            }
+            else {
+                return Content("沒有這筆資料");
+            }
         }
     }
 }
