@@ -11,8 +11,8 @@ namespace dbCompanyTest.Controllers
         dbCompanyTestContext _context = new dbCompanyTestContext();
         public IActionResult Index()
         {
-            string acc = TempData["Account"] as string;
-            ViewBag.acc = acc;
+           
+            ViewBag.acc = HttpContext.Session.GetString("Account"); ;
             return View();
         }
 
@@ -39,10 +39,6 @@ namespace dbCompanyTest.Controllers
                     }
                     
                     HttpContext.Session.SetString("Account", vm.txtAccount);
-
-                    string s = HttpContext.Session.GetString("Account");
-
-                    TempData["Account"] = s;  
 
                     
                     return RedirectToAction("Index");
