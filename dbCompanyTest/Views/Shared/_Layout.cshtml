@@ -109,6 +109,7 @@
     <div class="chatBody">
         <div class="chatHeader"></div>
         <div class="chatBBody">
+            <p class="SelfID"></p>
             <div class="chat">
                 <div class="myName">我</div>
                 <div class="myChat">
@@ -123,7 +124,7 @@
             </div>
         </div>
         <div class="chatFooter">
-            <input type="text" id="msg" />
+            <input type="text" id="message" />
             <img src="~/images/send.png" id="send" style="width:30px;height:30px;"/>
             <p>由戴浩宇製作</p>
         </div>
@@ -136,7 +137,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/mychat.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
