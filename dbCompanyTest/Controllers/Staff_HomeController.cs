@@ -1,5 +1,6 @@
 ﻿using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dbCompanyTest.Controllers
@@ -9,6 +10,8 @@ namespace dbCompanyTest.Controllers
         dbCompanyTestContext _context = new dbCompanyTestContext();
         public IActionResult Index()
         {
+            string acc = TempData["Account"] as string;
+            ViewBag.acc = acc;
             return View();
         }
 
@@ -24,7 +27,16 @@ namespace dbCompanyTest.Controllers
             if (x != null)
             {
                 if (x.密碼.Equals(vm.txtPassword) && x.員工編號.Equals(vm.txtAccount))
-                {                   
+                {
+                    string json = "";
+                    if (HttpContext.Session.Keys.Contains("Account"))
+                        Account = HttpContext.Session.GetString("Account");
+                    
+                    HttpContext.Session.SetString("Account", vm.txtAccount);
+
+                    TempData["Account"] = Account;  
+
+                    
                     return RedirectToAction("Index");
                 }
             }
