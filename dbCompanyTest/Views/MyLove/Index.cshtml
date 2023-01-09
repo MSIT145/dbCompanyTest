@@ -2,53 +2,51 @@
 <link href="~/css/favorites.css" rel="stylesheet" />
 
 <div class="favorites" id="divlist">
-<div class="favorites-btitle">收藏清單</div>
-<hr />
-<div id="cart" class="cart-box">
+    <div class="favorites-btitle">收藏清單</div>
+    <hr />
+    <div id="cart" class="cart-box">
         @{
             foreach (var item in Model)
             {
-                                                        
-                                                                            <div class="g-item" id="@item.Id">
-                                                                                        <div class="item-cont">
-                                                                                            <div><img src="~/images/404.jpg" width="111px" height="153"/></div>
-                                                                                            <div class="g-detail">
-                                                                                                        <div><p>@item.商品名稱</p></div>
-                                                                                                        <div><span>顏色: </span><span>@item.商品顏色種類</span></div>
-                                                                                                        <div><span>尺寸: </span><span>@item.尺寸種類</span></div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="purchase-del">
-                                                                                                <div class="purchase">加入購物車</div>
-                                                                                                <div class="purchase-icon">
-                                                                                                      <input type="hidden" value="@item.Id"/>
-                                                                                                </div>
-                                                                                        </div>
-                                                                            </div>
+                                                <div class="g-item" id="@item.Id">
+                                                    <div class="item-cont">
+                                                        <div><img src="~/images/404.jpg" width="111px" height="153" /></div>
+                                                        <div class="g-detail">
+                                                            <div><p>@item.商品名稱</p></div>
+                                                            <div><span>顏色: </span><span>@item.商品顏色種類</span></div>
+                                                            <div><span>尺寸: </span><span>@item.尺寸種類</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="purchase-del">
+                                                        <div class="purchase">加入購物車</div>
+                                                        <div class="purchase-icon">
+                                                            <input type="hidden" value="@item.Id" />
+                                                        </div>
+                                                    </div>
+                                                </div>
             }
-    }
+        }
         <div class="favorites-btn favorites-buying">
             <a>繼續購買</a>
+        </div>
     </div>
-</div>
 </div>
 
 @section Scripts{
-<script>
-        $(".purchase-icon").on('click', function() {
-               var a = $(this).find("input").val();
-                del(a);
+    <script>
+        $(".purchase-icon").on('click', function () {
+            var a = $(this).find("input").val();
+           del(a);
         });
-        
 
-        async function del(id){
+
+        async function del(id) {
             const data = await fetch(`@Url.Content("~/MyLove/Delete?id=${id}")`);
-            console.log(id);
             const response = await data.text();
             alert(response);
+            $(`#cart`).find(`#${id}`).remove();
         }
-        
-        
-</script>
+
+    </script>
 
 }
