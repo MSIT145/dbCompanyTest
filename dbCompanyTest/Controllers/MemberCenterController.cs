@@ -12,11 +12,14 @@ namespace dbCompanyTest.Controllers
             return View();
         }
 
-        public IActionResult memberInfo(string? email)
+        public IActionResult memberInfo(string id)
         {
-            var data = from c in _context.TestClients
-                       where c.Email == email
-                       select c;
+            id = "CL1-00376";
+            TestClient client = _context.TestClients.FirstOrDefault(x => x.客戶編號 == id);
+            if(client != null)
+            {
+                return View(client);
+            }
             return View();
         }
 

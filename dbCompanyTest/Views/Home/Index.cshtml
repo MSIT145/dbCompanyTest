@@ -6,14 +6,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Jacques+Francois&display=swap" rel="stylesheet">
 }
     @*==============輪播牆=================*@
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
-        <div class="carousel-indicators">
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="true">
+@*        <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
         </div>
-        <div class="carousel-inner">
+*@        <div class="carousel-inner">
             <div class="carousel-item active">
                 <a href="/ProductWall/Index/1">
                     <img src="~/homeImg/pc01_1.jpg" class="d-block w-100">
@@ -35,16 +35,12 @@
                 </a>
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
     </div>
 
+
+    
+
+    
     <p class="title h1 title1 ">WINTER ISSUE</p>
     <div class="h-div d-flex">
 
@@ -78,3 +74,16 @@
     <a href="/ProductWall/Index/4">
         <img src="~/homeImg/h3.png" style="width:100%">
     </a>
+
+
+    @section Scripts{
+        <script>
+            const myNode = document.querySelector('.carousel');
+            const loki = new bootstrap.Carousel(myNode,{
+            pause: false,
+            touch: true
+
+            }); // 建構式
+            loki.cycle(); // 開始循環
+        </script>
+    }

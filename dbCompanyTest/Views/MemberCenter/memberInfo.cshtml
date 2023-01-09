@@ -14,9 +14,7 @@
                 <form asp-action="memberInfo">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="客戶編號" class="control-label"></label>
-                        <input asp-for="客戶編號" class="form-control" />
-                        <span asp-validation-for="客戶編號" class="text-danger"></span>
+                        <input type="hidden" asp-for="客戶編號" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label asp-for="客戶姓名" class="control-label"></label>
@@ -68,6 +66,7 @@
                         <input asp-for="生日" class="form-control" />
                         <span asp-validation-for="生日" class="text-danger"></span>
                     </div>
+                    <br />
                     <div class="form-group">
                         <input type="submit" value="Save" class="btn btn-primary" />
                     </div>
