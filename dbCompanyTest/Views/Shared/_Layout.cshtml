@@ -18,7 +18,7 @@
     <header>
         <div class=" d-flex justify-content-between" style="padding: 1em 0%">
             @*============== LOGO =================*@
-            <div class="logo" >
+            <div class="logo">
                 <a class="" asp-controller="Home" asp-action="Index"><img src="~/homeImg/Shoespace1.png" /></a>
             </div>
             @*============== 搜尋,我的最愛,會員中心,購物車 =================*@
@@ -28,18 +28,18 @@
                         <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box">
                     </div>
                     <div class="tool-p flex-fill">
-                        <a  id="web-search-btn" href=""><img src="~/homeImg/search_header_pc.png"></a>
+                        <a id="web-search-btn" href=""><img src="~/homeImg/search_header_pc.png"></a>
                     </div>
                     <div class="tool-p shortcut flex-fill">
                         <a class="tool-item" asp-controller="MemberCenter" asp-action="Index">
                             <img src="~/homeImg/sign_pc.png">
                         </a>
-                   </div>
+                    </div>
                     <div class="tool-p flex-fill">
                         <a class="tool-item flex-fill" href=""><img src="~/homeImg/collect_pc.png"></a>
                     </div>
                     <div class="tool-p shopping-cart flex-fill">
-                        <a class="tool-item"  href=""><img src="~/homeImg/shopping_cart_pc.png"><span class="g-nums" id="cart_num_pc">0</span></a>
+                        <a class="tool-item" href=""><img src="~/homeImg/shopping_cart_pc.png"><span class="g-nums" id="cart_num_pc">0</span></a>
                     </div>
                 </div>
             </div>
@@ -108,9 +108,16 @@
     </div>
     <div class="chatBody">
         <div class="chatHeader"></div>
-        <div class="chatBBody"></div>
+        <div class="chatBBody">
+            <div class="chat">
+                <div class="myChat">
+                </div>
+                <div style="background-color:aquamarine;border-radius:50%;width:50px;height:50px;">123</div>
+            </div>
+
+        </div>
         <div class="chatFooter">
-            <input type="text" id="msg"/>
+            <input type="text" id="msg" />
             <p>由戴浩宇製作</p>
         </div>
     </div>

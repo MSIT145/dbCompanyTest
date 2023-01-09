@@ -62,6 +62,7 @@
     border-radius: 15px 15px;
     transition: all 0.3s;
     box-shadow: 0px 0px 30px 5px gray;
+    
 }
 
 .chatHeader {
@@ -75,6 +76,7 @@
     background-color: white;
     width: 100%;
     height: 75%;
+    overflow-y:scroll;
 }
 
 .chatFooter {
@@ -91,4 +93,17 @@
 }
 .chatFooter input{
     width:75%;
+}
+
+.chatBBody .chat {
+    margin:5px;
+    display:flex;
+}
+.chatBBody .myChat {
+    margin-left:28%;
+    width: 70%;
+    height: 100px;
+    border-radius: 5px;
+    background-color: rgb(191, 169, 154);
+    color:white;
 }
