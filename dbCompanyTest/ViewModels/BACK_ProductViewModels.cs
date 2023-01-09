@@ -15,4 +15,18 @@
         public string? 商品鞋種 { get; set; }
         public bool? 商品是否上架 { get; set; }
     }
+
+    public class Back_ProducDetail
+    {
+        public string? 明細編號 { get; set; }        
+        public string? 明細尺寸 { get; set; }
+        public string? 顏色 { get; set; }
+        public int? 數量 { get; set; } 
+        public string? 商品圖片1 { get; set; }
+        public string? 商品圖片2 { get; set; }
+        public string? 商品圖片3 { get; set; }
+        public bool? 是否上架 { get; set; }
+        public bool? 是否有貨 { get; set; }
+
+    }
 }

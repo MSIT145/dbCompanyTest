@@ -35,5 +35,13 @@ namespace dbCompanyTest.Controllers
 
             return Json(new { data });
         }
+
+        [HttpPost]
+        public IActionResult showDetail(string id) 
+        { 
+            if(string.IsNullOrEmpty(id))
+            Convert.ToInt32(id);
+           return View();
+        }
     }
 }
