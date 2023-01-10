@@ -1,5 +1,4 @@
 ﻿@model dbCompanyTest.Models.TestStaff
-
 @{
     ViewData["Title"] = "Index";
 }
@@ -16,5 +15,10 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+function LoadSheeplist(){
+
+}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
