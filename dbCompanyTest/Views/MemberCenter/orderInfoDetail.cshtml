@@ -1,82 +1,93 @@
-﻿@model IEnumerable<dbCompanyTest.ViewModels.MemberCenterViewModel>
+﻿@model IEnumerable<dbCompanyTest.ViewModels.OrderInfoDetailViewModel>
 
 @{
     ViewData["Title"] = "orderInfoDetail";
 }
 
+<div class="container">
+    <div class="pb-3">
+        <div>
+            <br />
+            <br />
+            <span class="d-flex"><a asp-action="Index">會員中心</a>><a asp-action="orderInfo" asp-route-id="CL1-00376">訂單管理</a>><a asp-action="orderInfoDetail">訂單詳情</a></span>
+            <hr />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>訂單編號</th>
+                        <th>商品名稱</th>
+                        <th>規格</th>
+                        <th>數量</th>
+                        <th>價格</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-<div>
-    <h4>OrderDetail</h4>
-    <hr />
-    <table class="table">
-        <thead>
-            <tr>
-                <th>訂單編號</th>
-                <th>商品名稱</th>
-                <th>規格</th>
-                <th>數量</th>
-                <th>價格</th>
-            </tr>
-        </thead>
-        <tbody>
-    
-        @{
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.訂單編號)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.圖片)
-                        @Html.DisplayFor(modelItem => item.商品名)
-                    </td>
-                    <td >
-                        @Html.DisplayFor(modelItem => item.規格)
-                    </td>
-                    <td >
-                        @Html.DisplayFor(modelItem => item.數量)
-                    </td>
-                    <td >
-                        @Html.DisplayFor(modelItem => item.價格)
-                    </td>
-                 </tr>
-            }
-            }
-        </tbody>
-    </table>
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.訂單編號)
+                                </td>
+                                <td>
+                                    @{
+                                        if (@item.圖片 != null)
+                                        {
+                                            <img class="card-img rounded-0 img-fluid" src="~/images/@item.圖片" style="width:118px;height:162px" />
+                                        }
+                                        else
+                                        {
+                                            <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" style="width:118px;height:162px" />
+                                        }
+                                    }
+                                    @Html.DisplayFor(modelItem => item.商品名)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.規格)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.數量)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.價格)
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
             <dl class="row">
-            @{
-                foreach (var items in Model)
-                {
-                    <dt class="col-sm-2">
-                                @Html.DisplayNameFor(model => model.付款方式)
-                    </dt>
-                    <dd class="col-sm-10">
-                                @Html.DisplayFor(modelItem => items.付款方式)
-                    </dd>
-                    <dt class="col-sm-2">
-                                @Html.DisplayNameFor(model => model.送貨地址)
-                    </dt>
-                    <dd class="col-sm-10">
-                                @Html.DisplayFor(modelItem => items.送貨地址)
-                    </dd>
-                    <dt class="col-sm-2">
-                                @Html.DisplayNameFor(model => model.總金額)
-                    </dt>
-                    <dd class="col-sm-10">
-                                @Html.DisplayFor(modelItem => items.總金額)
-                    </dd>
+                @{
+                    foreach (var items in Model)
+                    {
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.付款方式)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(modelItem => items.付款方式)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.送貨地址)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(modelItem => items.送貨地址)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.總金額)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(modelItem => items.總金額)
+                        </dd>
+                    }
                 }
-            }
 
             </dl>
+        </div>
+        <div>
+            @*    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+            *@    <a asp-action="orderInfo" asp-route-id="CL1-00376">Back to List</a>
+        </div>
 
-        
-
-    
-</div>
-<div>
-@*    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    *@    <a asp-action="orderInfo">Back to List</a>
+    </div>
 </div>

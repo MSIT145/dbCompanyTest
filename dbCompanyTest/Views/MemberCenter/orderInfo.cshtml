@@ -4,66 +4,71 @@
     ViewData["Title"] = "orderInfo";
 }
 
-<h1>orderInfo</h1>
+<div class="container">
+    <div class="pb-3">
+        <br />
+        <br />
+        <span class="d-flex"><a asp-action="Index">會員中心</a>><a asp-action="orderInfo">訂單管理</a></span>
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.訂單編號)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.付款方式)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.送貨地址)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.總金額)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.下單時間)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.訂單狀態)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.付款狀態)
+                    </th>
+                    <th>訂單詳情</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.訂單編號)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.付款方式)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.送貨地址)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.總金額)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.下單時間)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.訂單狀態)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.付款狀態)
+                        </td>
+                        <td>
+                            @Html.ActionLink("More", "orderInfoDetail", new { id=item.訂單編號 })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.訂單編號)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.付款方式)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.送貨地址)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.總金額)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.下單時間)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.訂單狀態)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.付款狀態)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.訂單編號)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.付款方式)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.送貨地址)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.總金額)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.下單時間)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.訂單狀態)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.付款狀態)
-            </td>
-            <td>
-                    @Html.ActionLink("訂單詳情", "orderInfoDetail", new { id=item.訂單編號 })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    </div>
+</div>
