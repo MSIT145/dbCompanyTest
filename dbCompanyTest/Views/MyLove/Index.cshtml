@@ -8,22 +8,22 @@
         @{
             foreach (var item in Model)
             {
-                                                <div class="g-item" id="@item.Id">
-                                                    <div class="item-cont">
-                                                        <div><img src="~/images/404.jpg" width="111px" height="153" /></div>
-                                                        <div class="g-detail">
-                                                            <div><p>@item.商品名稱</p></div>
-                                                            <div><span>顏色: </span><span>@item.商品顏色種類</span></div>
-                                                            <div><span>尺寸: </span><span>@item.尺寸種類</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="purchase-del">
-                                                        <div class="purchase">加入購物車</div>
-                                                        <div class="purchase-icon">
-                                                            <input type="hidden" value="@item.Id" />
-                                                        </div>
-                                                    </div>
-                                                </div>
+                        <div class="g-item" id="@item.Id">
+                            <div class="item-cont">
+                                <div><img src="~/images/404.jpg" width="111px" height="153" /></div>
+                                <div class="g-detail">
+                                    <div><p>@item.商品名稱</p></div>
+                                    <div><span>顏色: </span><span>@item.商品顏色種類</span></div>
+                                    <div><span>尺寸: </span><span>@item.尺寸種類</span></div>
+                                </div>
+                            </div>
+                            <div class="purchase-del">
+                                <div class="purchase">加入購物車</div>
+                                <div class="purchase-icon">
+                                    <input type="hidden" value="@item.Id" />
+                                </div>
+                            </div>
+                        </div>
             }
         }
         <div class="favorites-btn favorites-buying">
@@ -31,19 +31,32 @@
         </div>
     </div>
 </div>
+<div class="modal" id="error" style="display:none;">
+    <div class="modal-box">
+        <div class="modal-content">
+            <div class="modal-header"><div class="modal-close"></div></div>
+            <div class="content-box">
+                <div class="modal-text"></div>
+                <div class="res-error-ok">確認</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 
 @section Scripts{
     <script>
         $(".purchase-icon").on('click', function () {
             var a = $(this).find("input").val();
-           del(a);
+            del(a);
         });
-
-
         async function del(id) {
             const data = await fetch(`@Url.Content("~/MyLove/Delete?id=${id}")`);
             const response = await data.text();
-            alert(response);
+            console.log(response);
+            $(`#error`).css("display", "block");
+            $(`.modal-text`).text(response);
             $(`#cart`).find(`#${id}`).remove();
         }
 

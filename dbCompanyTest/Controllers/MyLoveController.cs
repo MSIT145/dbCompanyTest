@@ -10,7 +10,7 @@ namespace dbCompanyTest.Controllers
         dbCompanyTestContext _context=new dbCompanyTestContext();
         public IActionResult Index()
         {
-            var data = _context.會員商品暫存s.Select(x=>x).ToList().Where(y=>y.購物車或我的最愛!=true&&y.客戶編號.Contains("CL1-00376"));
+            var data = _context.會員商品暫存s.Select(x=>x).ToList().Where(y=>y.購物車或我的最愛!=true&&y.客戶編號.Contains("CL2-00667"));
             return View(data);
         }
         public IActionResult Delete(int? id)
