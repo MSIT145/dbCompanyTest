@@ -1,0 +1,25 @@
+﻿.car_all{
+    margin:0;
+    padding:0
+}
+.car_body {
+    background-color: antiquewhite;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    
+}
+.car_dital{
+    flex-grow:1;
+    padding:5%;
+}
+.car_dolor{
+    flex-shrink:0;
+    height:10%
+}
+.car_a {
+    flex-shrink: 0;
+    height: 10%
+}
