@@ -22,6 +22,13 @@ namespace dbCompanyTest.Controllers
             }
             return View();
         }
+        [HttpPost]
+        public IActionResult memberInfo()
+        {
+
+            return View();
+        }
+
 
         public IActionResult orderInfo(string id)
         {
@@ -41,7 +48,7 @@ namespace dbCompanyTest.Controllers
                        join h in _context.圖片位置s on e.圖片位置id equals h.圖片位置id
                        join i in _context.Products on e.商品編號id equals i.商品編號id
                        where c.訂單編號 == id
-                       select new ViewModels.MemberCenterViewModel
+                       select new ViewModels.OrderInfoDetailViewModel
                        {
                            訂單編號=d.訂單編號,
                            商品名 = i.商品名稱,

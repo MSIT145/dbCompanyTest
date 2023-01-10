@@ -3,11 +3,12 @@
 @{
     ViewData["Title"] = "memberInfo";
 }
+
 <div class="container">
     <div class="pb-3">
         <br />
         <br />
-        <h4>TestClient</h4>
+        <span class="d-flex"><a asp-action="Index">會員中心</a>><a asp-action="memberInfo">會員管理</a></span>
         <hr />
         <div class="row">
             <div class="col-md-4">
@@ -52,11 +53,6 @@
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="密碼" class="control-label"></label>
-                        <input asp-for="密碼" class="form-control" />
-                        <span asp-validation-for="密碼" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
                         <label asp-for="性別" class="control-label"></label>
                         <input asp-for="性別" class="form-control" />
                         <span asp-validation-for="性別" class="text-danger"></span>
@@ -72,16 +68,35 @@
                     </div>
                 </form>
             </div>
-        </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">舊密碼</label>
+                    <input class="form-control" />
+                    <span asp-validation-for="密碼" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="密碼" class="control-label"></label>
+                    <input class="form-control" />
+                    <br />
+                    <input class="form-control" />
+                    <span asp-validation-for="密碼" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
 
-        <div>
-            <a asp-action="Index">Back to List</a>
+            <div>
+                <a asp-action="Index" >Back to List</a>
+            </div>
+
         </div>
 
     </div>
 
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
