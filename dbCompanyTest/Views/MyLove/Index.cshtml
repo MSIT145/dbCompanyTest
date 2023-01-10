@@ -8,22 +8,24 @@
         @{
             foreach (var item in Model)
             {
-                        <div class="g-item" id="@item.Id">
-                            <div class="item-cont">
-                                <div><img src="~/images/404.jpg" width="111px" height="153" /></div>
-                                <div class="g-detail">
-                                    <div><p>@item.商品名稱</p></div>
-                                    <div><span>顏色: </span><span>@item.商品顏色種類</span></div>
-                                    <div><span>尺寸: </span><span>@item.尺寸種類</span></div>
+                            <form name="@item.Id">
+                            <div class="g-item" id="@item.Id">
+                                <div class="item-cont">
+                                    <div><img src="~/images/404.jpg" width="111px" height="153" /></div>
+                                    <div class="g-detail">
+                                        <div><p>@item.商品名稱</p></div>
+                                        <div><span>顏色: </span><span>@item.商品顏色種類</span></div>
+                                        <div><span>尺寸: </span><span>@item.尺寸種類</span></div>
+                                    </div>
+                                </div>
+                                <div class="purchase-del">
+                                    <div class="purchase">加入購物車</div>
+                                    <div class="purchase-icon">
+                                        <input type="hidden" value="@item.Id" />
+                                    </div>
                                 </div>
                             </div>
-                            <div class="purchase-del">
-                                <div class="purchase">加入購物車</div>
-                                <div class="purchase-icon">
-                                    <input type="hidden" value="@item.Id" />
-                                </div>
-                            </div>
-                        </div>
+                            </form>
             }
         }
         <div class="favorites-btn favorites-buying">
@@ -51,10 +53,23 @@
             var a = $(this).find("input").val();
             del(a);
         });
+        $(".res-error-ok").on('click', function () {
+            $(`#error`).css("display", "none");
+        });
+        $(".modal-close").on('click', function () {
+            $(`#error`).css("display", "none");
+        });
+        $(".purchase").on('click', function () {
+            var itemid = $(this).closest('form').attr("name");
+            var form = $(this).closest('form');
+            var formData = new FormData(form);
+            //console.log($(this).closest(".g-item").find("img").attr("src"));
+            console.log()
+
+        });
         async function del(id) {
             const data = await fetch(`@Url.Content("~/MyLove/Delete?id=${id}")`);
             const response = await data.text();
-            console.log(response);
             $(`#error`).css("display", "block");
             $(`.modal-text`).text(response);
             $(`#cart`).find(`#${id}`).remove();
