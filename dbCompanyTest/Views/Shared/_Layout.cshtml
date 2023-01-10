@@ -39,11 +39,19 @@
                         <a class="tool-item flex-fill" href=""><img src="~/homeImg/collect_pc.png"></a>
                     </div>
                     <div class="tool-p shopping-cart flex-fill">
-                        <a class="tool-item" href=""><img src="~/homeImg/shopping_cart_pc.png"><span class="g-nums" id="cart_num_pc">0</span></a>
+                        <a class="tool-item" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><img src="~/homeImg/shopping_cart_pc.png"><span class="g-nums" id="cart_num_pc">0</span></a>
+                    </div>
+                 
+                </div>
+                <div class="collapse" style="position:absolute;top:70px;z-index:1;width:100px" id="collapseExample">
+                    <div class="card card-body">
+                        Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
                     </div>
                 </div>
             </div>
+
         </div>
+   
         @*================= nav ===================*@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom  ">
