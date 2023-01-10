@@ -10,17 +10,16 @@ namespace dbCompanyTest.Controllers
     {
         dbCompanyTestContext _context = new dbCompanyTestContext();
         public IActionResult Index()
-        {
-            //IEnumerable<TestStaff> stf = null;
+        {          
             string stfNum = HttpContext.Session.GetString("Account");
-            var stf = _context.TestStaffs.Where(c => c.員工編號 == stfNum).Select(x => new {x.員工姓名 });
-          
+            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
-
-            //var datas = from c in _context.Orders
-            //            where c.訂單狀態 == "待出貨"
-            //            select c;
-            ViewBag.acc = $"{HttpContext.Session.GetString("Account")}/{stf}"; 
+            var datas = from c in _context.Orders
+                        where c.訂單狀態 == "待出貨"
+                        select c;
+            var test = datas.ToList();
+            
+            ViewBag.acc = $"{stfNum} {stf.員工姓名} 您好!"; 
             return View();
         }
 
@@ -37,23 +36,18 @@ namespace dbCompanyTest.Controllers
             {
                 if (x.密碼.Equals(vm.txtPassword) && x.員工編號.Equals(vm.txtAccount))
                 {
-                    string json = "";
-                    List<CLoginViewModels> Account = null;
-
-                    //if (HttpContext.Session.Keys.Contains("Account"))
-                    //{
-                    //    json = HttpContext.Session.GetString("Account");
-                    //    Account = System.Text.Json.JsonSerializer.Deserialize<List<CLoginViewModels>>(json);
-                    //}
                     if (!HttpContext.Session.Keys.Contains("Account"))
                         HttpContext.Session.SetString("Account", vm.txtAccount);
-
                     
                     return RedirectToAction("Index");
                 }
             }
-
             return View();
+        }
+        public IActionResult logout()
+        {
+            HttpContext.Session.Remove("Account");
+            return RedirectToAction("login");
         }
     }
 }
