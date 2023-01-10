@@ -42,26 +42,26 @@
                     <div class="tool-p shopping-cart flex-fill">
                         <a class="tool-item" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><img src="~/homeImg/shopping_cart_pc.png"><span class="g-nums" id="cart_num_pc">0</span></a>
                     </div>
-                 
+
                 </div>
                 <div class="collapse  " style="position:absolute;top:1.3%;right:2%;z-index:1;width:350px;" id="collapseExample">
                     <div class="card card-body car_body car_all" style="height:500px">
                         <div class="car_dital car_all">
-                                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+                            Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
                         </div>
                         <div class="car_dolor car_all">
                             TOTAL TWD $0
                         </div>
                         <a href="" class="car_a car_all">
-                            <div >CHECK OUT</div>
+                            <div>CHECK OUT</div>
                         </a>
                     </div>
-                    
+
                 </div>
             </div>
 
         </div>
-   
+
         @*================= nav ===================*@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom  ">
@@ -125,7 +125,7 @@
         <div class="dot mouth"></div>
     </div>
     <div class="chatBody">
-        <div class="chatHeader"></div>
+        <div class="chatHeader"><button id="connection" class="btn btn-dark">連線客服</button></div>
         <div class="chatBBody">
             <p id="SelfID"></p>
             <div class="chat">
@@ -143,7 +143,7 @@
         </div>
         <div class="chatFooter">
             <input type="text" id="message" />
-            <img src="~/images/send.png" id="send" style="width:30px;height:30px;"/>
+            <img src="~/images/send.png" id="send" style="width:30px;height:30px;" />
             <p>由戴浩宇製作</p>
         </div>
     </div>
@@ -157,6 +157,64 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/mychat.js"></script>
+    <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+        $(`#connection`).on(`click`, function () {
+            connection.start().then(function () {
+                console.log("Hub 連線完成");
+            }).catch(function (err) {
+                alert('連線錯誤: ' + err.toString());
+            });
+        })
+
+        connection.on("UpdSelfID", async function (id) {
+            $('#SelfID').html(id);
+            const data = await fetch("@Url.Content("~/Login/getUser")");
+            const uesrName = await data.text();
+            let selfID = $('#SelfID').html();
+            connection.invoke("getName", selfID, uesrName).catch(function (err) {
+                alert('傳送錯誤: ' + err.toString());
+            });
+        });
+
+
+
+
+
+        connection.on("UpdContent", function (msg) {
+            $(`.chatBBody`).append(`<div class="chat">
+                                         <div class="myName">我</div>
+                                         <div class="myChat">
+                                              ${msg}
+                                         </div>
+                                    </div>`);
+            $(`#message`).val("");
+
+            $('.chatBBody').animate({
+                scrollTop: $(".chatBBody").offset().top + $(".chat")[$(".chatBBody").find(".chat").length - 1].scrollHeight
+            }, 500);
+        });
+
+        $(`#send`).on(`click`, async function () {
+            /*let Mymsg = $(`#message`).val();*/
+            //if (Mymsg) {
+            //    $(`.chatBBody`).append(`<div class="chat">
+            //            <div class="myName">我</div>
+            //            <div class="myChat">
+            //                ${Mymsg}
+            //            </div>
+            //        </div>`);
+            //    $(`#message`).val("");
+            //}
+            let selfID = $('#SelfID').html();
+            let message = $('#message').val();
+            //let sendToID = $('#sendToID').val();
+            connection.invoke("SendMessage", selfID, message, /*sendToID*/).catch(function (err) {
+                alert('傳送錯誤: ' + err.toString());
+            });
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

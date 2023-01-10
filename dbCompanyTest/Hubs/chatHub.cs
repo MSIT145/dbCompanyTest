@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace dbCompanyTest.Hubs
 {
-    public class chatHub:Hub
+    public class chatHub : Hub
     {
         // 用戶連線 ID 列表
         public static List<user> userList = new List<user>();
@@ -17,15 +17,15 @@ namespace dbCompanyTest.Hubs
                 newuser.connectionId = Context.ConnectionId;
                 userList.Add(newuser);
             }
-            
+
             string jsonString = JsonConvert.SerializeObject(userList);
             await Clients.All.SendAsync("UpdList", jsonString);
 
-            
+
             await Clients.Client(Context.ConnectionId).SendAsync("UpdSelfID", Context.ConnectionId);
 
-            
-            await Clients.All.SendAsync("UpdContent", "新連線 ID: " + Context.ConnectionId);
+
+            //await Clients.All.SendAsync("UpdContent", "新連線 ID: " + Context.ConnectionId);
 
             await base.OnConnectedAsync();
         }
@@ -37,12 +37,12 @@ namespace dbCompanyTest.Hubs
             {
                 userList.Remove(id);
             }
-            
+
             string jsonString = JsonConvert.SerializeObject(userList);
             await Clients.All.SendAsync("UpdList", jsonString);
 
-            
-            await Clients.All.SendAsync("UpdContent", "已離線 ID: " + Context.ConnectionId);
+
+            await Clients.All.SendAsync("UpdContent", id.userName+"已離線 ID: ");
 
             await base.OnDisconnectedAsync(ex);
         }
@@ -51,7 +51,8 @@ namespace dbCompanyTest.Hubs
         {
             if (/*string.IsNullOrEmpty(sendToID)*/true)
             {
-                await Clients.All.SendAsync("UpdContent", selfID + " 說: " + message);
+                string userName = userList.FirstOrDefault(x => x.connectionId == selfID).userName;
+                await Clients.All.SendAsync("UpdContent", userName + " 說: " + message);
             }
             else
             {
@@ -61,6 +62,12 @@ namespace dbCompanyTest.Hubs
                 // 發送人
                 //await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", "你向 " + sendToID + " 私訊說: " + message);
             }
+        }
+
+        public async Task getName(string selfID,string userName)
+        {
+            userList.FirstOrDefault(c => c.connectionId == Context.ConnectionId).userName = userName;
+            await Clients.All.SendAsync("UpdContent", "歡迎 " + userName);
         }
     }
 }

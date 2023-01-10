@@ -2,6 +2,7 @@
 using dbCompanyTest.ViewModels;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace dbCompanyTest.Controllers
 {
@@ -12,16 +13,17 @@ namespace dbCompanyTest.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult checkLogin(string account,string password)
+        public IActionResult checkLogin(string account, string password)
         {
             dbCompanyTestContext db = new dbCompanyTestContext();
-            if(password == null)
+            if (password == null)
             {
                 return Content("Nopassword");
             }
-            var a = db.TestClients.Where(c => c.Email == account && c.密碼 == password);
-            if (a.Count() != 0)
+            var a = db.TestClients.FirstOrDefault(c => c.Email == account && c.密碼 == password);
+            if (a != null)
             {
+                useSession(a);
                 return Content("成功");
             }
             else
@@ -45,12 +47,12 @@ namespace dbCompanyTest.Controllers
                 return RedirectToAction("Login");
             }
             else
-                {
+            {
                 dbCompanyTestContext db = new dbCompanyTestContext();
-                if(db.TestClients.FirstOrDefault(c=>c.Email == payload.Email) == null)
+                if (db.TestClients.FirstOrDefault(c => c.Email == payload.Email) == null)
                 {
                     TestClient newClient = new TestClient();
-                    newClient.客戶編號 = $"CLG-{payload.JwtId.Substring(0,7)}";
+                    newClient.客戶編號 = $"CLG-{payload.JwtId.Substring(0, 7)}";
                     newClient.Email = payload.Email;
                     newClient.客戶姓名 = payload.Name;
                     db.TestClients.Add(newClient);
@@ -61,7 +63,7 @@ namespace dbCompanyTest.Controllers
                 //ViewData["Msg"] += "Email:" + payload.Email + "<br>";
                 //ViewData["Msg"] += "Name:" + payload.Name + "<br>";
                 //ViewData["Msg"] += "Picture:" + payload.Picture;
-                return RedirectToAction("index","Home");
+                return RedirectToAction("index", "Home");
             }
         }
         public async Task<GoogleJsonWebSignature.Payload?> VerifyGoogleToken(string? formCredential, string? formToken, string? cookiesToken)
@@ -112,6 +114,35 @@ namespace dbCompanyTest.Controllers
                 return null;
             }
             return payload;
+        }
+
+        public void useSession(TestClient x)
+        {
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+            {
+                string json = JsonSerializer.Serialize(x);
+                HttpContext.Session.SetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION, json);
+            }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult getUser()
+        {
+            string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+            string userName = "";
+            if (json == null)
+                userName = "訪客";
+            else
+            {
+                TestClient x = JsonSerializer.Deserialize<TestClient>(json);
+                userName = x.客戶姓名;
+            }
+            return Content(userName);
         }
     }
 }
