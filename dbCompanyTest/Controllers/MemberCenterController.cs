@@ -1,4 +1,5 @@
 ﻿using dbCompanyTest.Models;
+using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dbCompanyTest.Controllers
@@ -23,9 +24,36 @@ namespace dbCompanyTest.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult memberInfo()
+        public IActionResult memberInfo(MemberCenterViewModel vm)
         {
+            TestClient client = _context.TestClients.FirstOrDefault(x => x.客戶編號 == vm.客戶編號);
+            if (client != null)
+            {
+                client.客戶姓名 = vm.客戶姓名;
+                client.客戶電話 = vm.客戶電話;
+                client.身分證字號 = vm.身分證字號;
+                client.縣市 = vm.縣市;
+                client.區 = vm.區;
+                client.地址 = vm.地址;
+                client.Email = vm.Email;
+                client.性別 = vm.性別;
+                client.生日 = vm.生日;
+                
+                _context.SaveChanges();
+            }
+            return View();
+        }
 
+
+        public IActionResult password(MemberCenterViewModel vm)
+        {
+            TestClient client = _context.TestClients.FirstOrDefault(x => x.客戶編號 == vm.客戶編號) ;
+            if (client != null)
+            {
+                client.密碼 = vm.密碼;
+
+                _context.SaveChanges();
+            }
             return View();
         }
 
@@ -60,8 +88,8 @@ namespace dbCompanyTest.Controllers
                            送貨地址=c.送貨地址,
                            總金額=c.總金額
                        };
-
-            return View(data);
+                        
+            return View(data.ToList());
         }
 
     }

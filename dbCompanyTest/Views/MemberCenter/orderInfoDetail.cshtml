@@ -59,27 +59,33 @@
             </table>
             <dl class="row">
                 @{
+                    string 付款="";
+                    string 地址="";
+                    decimal? 總金=0;
                     foreach (var items in Model)
                     {
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.付款方式)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(modelItem => items.付款方式)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.送貨地址)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(modelItem => items.送貨地址)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.總金額)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(modelItem => items.總金額)
-                        </dd>
+                        付款 = items.付款方式;
+                        地址 = items.送貨地址;
+                        總金 = items.總金額;
                     }
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.付款方式)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @付款
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.送貨地址)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @地址
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.總金額)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @總金
+                    </dd>
                 }
 
             </dl>
