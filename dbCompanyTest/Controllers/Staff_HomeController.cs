@@ -16,10 +16,6 @@ namespace dbCompanyTest.Controllers
             string stfNum = HttpContext.Session.GetString("Account");
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
-            
-            //var datas = _context.Orders.Where(c => c.訂單狀態 == "待出貨").Join(_context.OrderDetails,
-            //    c=>c.訂單編號, o=>o.訂單編號, ( c ,o) =>c.訂單編號).Join(_context.ProductDetails, c=>c.);
-
             ViewBag.acc = $"{stfNum} {stf.員工姓名} 您好!"; 
             return View();
         }
@@ -77,5 +73,14 @@ namespace dbCompanyTest.Controllers
             return Json(datas);
         }
 
+        public IActionResult LoadToDoList(string stf)
+        {
+            var datas = from c in _context.ToDoLists
+                        join o in _context.TestStaffs on c.員工編號 equals o.員工編號
+                        where c.員工編號 == stf
+                        select c;
+
+            return Json(datas);
+        }
     }
 }
