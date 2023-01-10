@@ -17,14 +17,14 @@ namespace dbCompanyTest.Hubs
                 newuser.connectionId = Context.ConnectionId;
                 userList.Add(newuser);
             }
-            // 更新連線 ID 列表
+            
             string jsonString = JsonConvert.SerializeObject(userList);
             await Clients.All.SendAsync("UpdList", jsonString);
 
-            // 更新個人 ID
-            //await Clients.Client(Context.ConnectionId).SendAsync("UpdSelfID", Context.ConnectionId);
+            
+            await Clients.Client(Context.ConnectionId).SendAsync("UpdSelfID", Context.ConnectionId);
 
-            // 更新聊天內容
+            
             await Clients.All.SendAsync("UpdContent", "新連線 ID: " + Context.ConnectionId);
 
             await base.OnConnectedAsync();
@@ -37,11 +37,11 @@ namespace dbCompanyTest.Hubs
             {
                 userList.Remove(id);
             }
-            // 更新連線 ID 列表
+            
             string jsonString = JsonConvert.SerializeObject(userList);
             await Clients.All.SendAsync("UpdList", jsonString);
 
-            // 更新聊天內容
+            
             await Clients.All.SendAsync("UpdContent", "已離線 ID: " + Context.ConnectionId);
 
             await base.OnDisconnectedAsync(ex);
