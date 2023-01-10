@@ -36,12 +36,32 @@ namespace dbCompanyTest.Controllers
             return Json(new { data });
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult showDetail(string id) 
-        { 
-            if(string.IsNullOrEmpty(id))
-            Convert.ToInt32(id);
-           return View();
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                int PDid = Convert.ToInt32(id);
+                var data = from pd in db.ProductDetails.ToList()
+                           join z in db.ProductsSizeDetails on pd.商品尺寸id equals z.商品尺寸id
+                           join c in db.ProductsColorDetails on pd.商品顏色id equals c.商品顏色id
+                           join i in db.圖片位置s on pd.圖片位置id equals i.圖片位置id
+                           where pd.商品編號id == PDid
+                           select new Back_ProducDetail
+                           {
+                               明細編號 = pd.Id.ToString(),
+                               明細尺寸 = z.尺寸種類,
+                               顏色 = c.商品顏色種類,
+                               數量 = pd.商品數量,
+                               商品圖片1 = i.商品圖片1,
+                               商品圖片2 = i.商品圖片2,
+                               商品圖片3 = i.商品圖片3,
+                               是否上架 = pd.商品是否上架,
+                               是否有貨 = pd.商品是否有貨
+                           };
+                return Json(new { data });
+            }
+            return View();
         }
     }
 }
