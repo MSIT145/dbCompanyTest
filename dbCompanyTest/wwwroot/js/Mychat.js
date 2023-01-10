@@ -13,18 +13,33 @@ $(`.chatMain`).hover(function () {
 
 
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-connection.start().then(function () {
-    console.log("Hub 連線完成");
-}).catch(function (err) {
-    alert('連線錯誤: ' + err.toString());
-});
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-connection.on("UpdSelfID", function (id) {
-    $('#SelfID').html(id);
-});
+    connection.start().then(function () {
+        console.log("Hub 連線完成");
+    }).catch(function (err) {
+        alert('連線錯誤: ' + err.toString());
+    });
 
+    connection.on("UpdSelfID", function (id) {
+        $('#SelfID').html(id);
+    });
+
+
+    connection.on("UpdContent", function (msg) {
+        $(`.chatBBody`).append(`<div class="chat">
+                                <div class="myName">我</div>
+                                <div class="myChat">
+                                    ${msg}
+                                </div>
+                            </div>`);
+        $(`#message`).val("");
+
+        $('.chatBBody').animate({
+            scrollTop: $(".chatBBody").offset().top + $(".chat")[$(".chatBBody").find(".chat").length - 1].scrollHeight
+        }, 500);
+    });
 
 $(`#send`).on(`click`, function () {
     /*let Mymsg = $(`#message`).val();*/
@@ -55,20 +70,4 @@ $(`#send`).on(`click`, function () {
 //        $("#IDList").append($("<li></li>").attr("class", "list-group-item").text(list[i]));
 //    }
 //});
-
-
-
-connection.on("UpdContent", function (msg) {
-    $(`.chatBBody`).append(`<div class="chat">
-                                <div class="myName">我</div>
-                                <div class="myChat">
-                                    ${msg}
-                                </div>
-                            </div>`);
-    $(`#message`).val("");
-
-    $('.chatBBody').animate({
-        scrollTop: $(".chatBBody").offset().top + $(".chat")[$(".chatBBody").find(".chat").length - 1].scrollHeight
-    }, 500);
-});
 
