@@ -44,7 +44,7 @@ $(`#send`).on(`click`, function () {
         alert('傳送錯誤: ' + err.toString());
     });
 
-    
+
 });
 
 
@@ -60,11 +60,11 @@ $(`#send`).on(`click`, function () {
 
 connection.on("UpdContent", function (msg) {
     $(`.chatBBody`).append(`<div class="chat">
-                <div class="myName">我</div>
-                <div class="myChat">
-                    ${msg}
-               </div>
-           </div>`);
+                                <div class="myName">我</div>
+                                <div class="myChat">
+                                    ${msg}
+                                </div>
+                            </div>`);
     $(`#message`).val("");
 
     $('.chatBBody').animate({
