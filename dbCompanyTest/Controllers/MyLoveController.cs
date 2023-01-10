@@ -1,5 +1,6 @@
 ﻿using dbCompanyTest.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.Text;
 using System.Xml.Linq;
 
@@ -25,6 +26,11 @@ namespace dbCompanyTest.Controllers
             else {
                 return Content("沒有這筆資料");
             }
+        }
+        public IActionResult JoinCart(string proname,string procolor,string prosize,int count) 
+        {
+
+            return Content("成功加入購物車"+proname+procolor+prosize+count);
         }
     }
 }
