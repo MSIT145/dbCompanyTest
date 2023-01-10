@@ -8,7 +8,7 @@
 
 <div class="container-xxl flex-grow-1 container-p-y">
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> 商品與明細</h4>
-
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda_P_C"> 新增商品</button>
 <div class="container-fluid px-4">  
     </div>
     <div class="card mb-4">
@@ -30,7 +30,7 @@
                         <th>成本</th>
                         <th>分類</th>
                         <th>鞋種</th>
-                        <th>新增</th>        
+                        <th>新增明細</th>        
                         <th>修改</th>
                         <th>刪除</th>
                     </tr>
@@ -40,6 +40,62 @@
         </div>
     </div>
 </div>
+@*Modal_新增產品*@
+<div class="modal fade" id="Moda_P_C" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModal-label">新增產品</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+     
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_CreateProduct")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*Modal_新增產品*@
+<div class="modal fade" id="Moda_D_C" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModal-label">新增產品明細</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+     
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_CreateProduct")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal_產品細目*@
+<div class="modal fade" id="Moda_P_C" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModal-label">新增產品細目</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+     
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_CreateDetail")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>
@@ -86,7 +142,7 @@
                                 data: null,
                                 className: 'create',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="create" title="新增"><i class="fas fa-edit"></i>新增</button>';
+                                    return '<button type="button" class="btn btn-primary" id="create" title="新增" data-bs-toggle="modal" data-bs-target="#Moda_D_C"><i class="fas fa-edit"></i>新增</button>';
 
                                 },
                                 orderable: false,

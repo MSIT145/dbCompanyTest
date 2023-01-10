@@ -11,6 +11,18 @@ namespace dbCompanyTest.Controllers
         {
             return View();
         }
+
+        public IActionResult _CreateDetail()
+        {
+
+            return PartialView();
+        }
+        public IActionResult _CreateProduct()
+        {
+            
+            return PartialView();
+        }
+
         [HttpGet]
         public IActionResult showlist()
         {
