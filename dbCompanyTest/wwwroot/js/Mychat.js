@@ -23,7 +23,6 @@ connection.start().then(function () {
 
 connection.on("UpdSelfID", function (id) {
     $('#SelfID').html(id);
-    alert(`${id}`)
 });
 
 
