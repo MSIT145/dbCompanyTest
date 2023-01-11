@@ -45,7 +45,12 @@ namespace dbCompanyTest.Controllers
         {
             HttpContext.Session.Remove("Account");
             return RedirectToAction("login");
+        }      
+        public IActionResult PartialSheeplist()
+        {
+            return PartialView();
         }
+
 
 
         //==================================================

@@ -11,24 +11,8 @@
 <h4>TestStaff</h4>
 <h2 id="stf_info">@ViewBag.acc</h2>
 
-<div >
-    <table>
-        <caption>待出貨清單</caption>
-        <thead>
-            <tr>
-                <th>訂單編號</th>
-                <th>客戶編號</th>
-                <th>訂單狀態</th>
-                <th>商品名稱</th>
-                <th>尺寸種類</th>
-                <th>商品數量</th>
-                <th>送貨地址</th>
-            </tr>
-        </thead>
-        <tbody id="Sheeplist_tbody">
-
-        </tbody>
-    </table>
+<div id="Sheeplist_div">
+    
 </div>
 <div >
     <table>
@@ -47,6 +31,8 @@
 </div>
 
 
+
+
 @section Scripts {
 
     <script>
@@ -55,27 +41,14 @@
         LoadSheeplist();
         LoadToDoList();
 
-        function LoadSheeplist() {
-            $.ajax({
-                url: `@Url.Content("~/Staff_Home/LoadSheeplist")`,
-                type: "GET",
-                dataType: "json"
-            })
-                .done(data => {
-                    let docFrag = $(document.createDocumentFragment());
-                    $.each(data, function (i, i_val) {
-                        const eleT = $(`<tr></tr>`).append(`<td>${i_val.訂單編號}</td>
-                        <td>${i_val.客戶編號}</td>
-                        <td>${i_val.訂單狀態}</td>
-                        <td>${i_val.商品名稱}</td>
-                        <td>${i_val.尺寸種類}</td>
-                        <td>${i_val.商品數量}</td>
-                        <td>${i_val.送貨地址}</td>`);
-                        docFrag.append(eleT);
-                    });
-                    $("#Sheeplist_tbody").html(docFrag);
+        
 
-                })
+        function LoadSheeplist() {
+
+            $('#Sheeplist_div').load("@Url.Content("~/Staff_Home/PartialSheeplist")")
+            $.getScript("@Url.Content("~/js/LoadSheeplist.js")");
+
+           
         }
 
         function LoadToDoList() {
