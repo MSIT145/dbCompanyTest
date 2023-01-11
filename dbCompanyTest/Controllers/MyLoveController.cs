@@ -2,6 +2,7 @@
 using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
@@ -10,31 +11,42 @@ namespace dbCompanyTest.Controllers
 {
     public class MyLoveController : Controller
     {
-        dbCompanyTestContext _context=new dbCompanyTestContext();
-        List<CarViewModels> list = null;
+        dbCompanyTestContext _context = new dbCompanyTestContext();
+        List<會員商品暫存> shoppingcart = null;
         List<會員商品暫存> MyLovelist = null;
         public IActionResult Index()
         {
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
             {
-
-                if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_MYLOVE_SESSION_NEW))
+                string login = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                var user = JsonSerializer.Deserialize<TestClient>(login);
+                if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_MYLOVE_SESSION_OLD))
                 {
-                    string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION_NEW);
-                    MyLovelist = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
-                    var data = _context.會員商品暫存s.Select(x => x).ToList().Where(y => y.購物車或我的最愛 != true && y.客戶編號.Contains("CL2-00667"));
-                    MyLovelist.AddRange(data.ToList());
-                    return View(MyLovelist);
+                    var data = _context.會員商品暫存s.Select(x => x).Where(y => y.購物車或我的最愛 != true && y.客戶編號.Contains(user.客戶編號)).ToList();
+                    string myloveold = JsonSerializer.Serialize(data);
+                    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION_OLD, myloveold);
+                    return View(data);
                 }
                 else 
-                { 
-                var data = _context.會員商品暫存s.Select(x => x).ToList().Where(y => y.購物車或我的最愛 != true && y.客戶編號.Contains("CL2-00667"));
-                return View(data.ToList());
+                {
+                    var json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION_OLD);
+                    var data = JsonSerializer.Deserialize<List < 會員商品暫存 >> (json);
+                    if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_MYLOVE_SESSION_NEW))
+                    {
+                        string jsonnew = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION_NEW);
+                        MyLovelist = JsonSerializer.Deserialize<List<會員商品暫存>>(jsonnew);
+                        MyLovelist.AddRange(data);
+                        return View(MyLovelist);
+                    }
+                    else
+                    {
+                        return View(data);
+                    }
                 }
             }
-            else 
+            else
             {
-                return RedirectToAction(Url.Content("~/Login/Login"));
+                return RedirectToAction("Login", "Login");
             }
 
         }
@@ -47,25 +59,39 @@ namespace dbCompanyTest.Controllers
                 _context.SaveChanges();
                 return Content("刪除成功");
             }
-            else {
+            else
+            {
                 return Content("沒有這筆資料");
             }
         }
-        public IActionResult JoinCart() 
+        public IActionResult JoinCart(int? id)
         {
-            //if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
-            //{
-            //    string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
-            //    list = JsonSerializer.Deserialize<List<CarViewModels>>(json);
-            //}
-            //else 
-            //{
-            //    list = new List<CarViewModels>();
-
-            
-            
-            //}
-            return Content("成功加入購物車");
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
+            {
+                //讀出購物車session
+                string cartjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+                shoppingcart = JsonSerializer.Deserialize<List<會員商品暫存>>(cartjson);
+                //讀出我的最愛session
+                string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION_NEW);
+                MyLovelist = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson);
+                會員商品暫存 data = new 會員商品暫存();
+                data = MyLovelist.Find(x => x.Id == id);
+                shoppingcart.Add(data);
+                cartjson = JsonSerializer.Serialize(shoppingcart);
+                HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
+                return Content("加入購物車成功");
+            }
+            else
+            {
+                string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION_NEW);
+                MyLovelist = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson);
+                會員商品暫存 data = new 會員商品暫存();
+                data = MyLovelist.Find(x => x.Id == id);
+                shoppingcart.Add(data);
+                string cartjson = JsonSerializer.Serialize(shoppingcart);
+                HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
+                return Content("加入購物車成功");
+            }
         }
     }
 }

@@ -130,6 +130,8 @@ namespace dbCompanyTest.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Remove(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+            HttpContext.Session.Remove(CDittionary.SK_USE_FOR_MYLOVE_SESSION_OLD);
+            HttpContext.Session.Remove(CDittionary.SK_USE_FOR_MYLOVE_SESSION_NEW);
             return RedirectToAction("Index", "Home");
         }
 
