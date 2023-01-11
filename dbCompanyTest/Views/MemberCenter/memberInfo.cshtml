@@ -8,9 +8,10 @@
     <div class="pb-3">
         <br />
         <br />
-        <span class="d-flex"><a asp-action="Index">會員中心</a>><a asp-action="memberInfo">會員管理</a></span>
+        <span class="d-flex"><a asp-action="Index" asp-route-id="CL1-00376">會員中心</a>><a asp-action="memberInfo" asp-route-id="CL1-00376">會員管理</a></span>
         <hr />
-        <div class="row">
+        <div class="row ">
+            <div class="col-md-1"></div>
             <div class="col-md-4">
                 <form asp-action="memberInfo">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -34,12 +35,12 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="縣市" class="control-label"></label>
-                        <input asp-for="縣市" class="form-control" />
+                        <select asp-for="縣市" class="form-control" id="city"></select>
                         <span asp-validation-for="縣市" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="區" class="control-label"></label>
-                        <input asp-for="區" class="form-control" />
+                        <select asp-for="區" class="form-control" id="town"></select>
                         <span asp-validation-for="區" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -54,7 +55,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="性別" class="control-label"></label>
-                        <input asp-for="性別" class="form-control" />
+                        <select asp-for="性別" class="form-control" id="sex"><option>男</option><option>女</option></select>
                         <span asp-validation-for="性別" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -68,7 +69,7 @@
                     </div>
                 </form>
             </div>
-            
+            <div class="col-md-2" ></div>
             <div class="col-md-4" id="password">
                 
                 <form asp-action="password">
@@ -90,20 +91,29 @@
                     </div>
                 </form>
             </div>
+            <div class="col-md-1"></div>
 
-            <div>
+@*            <div>
                 <a asp-action="Index" >Back to List</a>
-            </div>
+            </div>*@
 
         </div>
 
     </div>
+    <div>
+        <input asp-for="縣市" type="hidden" id="q1" />
+        <input asp-for="區" type="hidden" id="q2" />
+        <input asp-for="性別" type="hidden" id="sexvalue" />
+    </div>
 
     @section Scripts {
         <script>
+
             //$("#password").load("@Url.Content("~/MemberCenter/password")")
         </script>
         @{
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
+        <script src="~/datas/taiwan_districts.js"></script>
+        <script src="~/js/city_data.js"></script>
     }

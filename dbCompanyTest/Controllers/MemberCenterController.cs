@@ -19,6 +19,9 @@ namespace dbCompanyTest.Controllers
             TestClient client = _context.TestClients.FirstOrDefault(x => x.客戶編號 == id);
             if(client != null)
             {
+                ViewBag.city = client.縣市;
+                ViewBag.area = client.區;
+                ViewBag.sex = client.性別;
                 return View(client);
             }
             return View();
@@ -40,6 +43,7 @@ namespace dbCompanyTest.Controllers
                 client.生日 = vm.生日;
                 
                 _context.SaveChanges();
+                
             }
             return View();
         }

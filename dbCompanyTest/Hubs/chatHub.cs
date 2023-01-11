@@ -19,13 +19,13 @@ namespace dbCompanyTest.Hubs
             }
 
             string jsonString = JsonConvert.SerializeObject(userList);
-            await Clients.All.SendAsync("UpdList", jsonString);
+            //await Clients.All.SendAsync("UpdList", jsonString);
 
 
             await Clients.Client(Context.ConnectionId).SendAsync("UpdSelfID", Context.ConnectionId);
 
 
-            //await Clients.All.SendAsync("UpdContent", "新連線 ID: " + Context.ConnectionId);
+            await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "連線成功");
 
             await base.OnConnectedAsync();
         }
@@ -42,7 +42,7 @@ namespace dbCompanyTest.Hubs
             await Clients.All.SendAsync("UpdList", jsonString);
 
 
-            await Clients.All.SendAsync("UpdContent", id.userName+"已離線 ID: ");
+            await Clients.All.SendAsync("UpdSystem", id.userName+" 已離線");
 
             await base.OnDisconnectedAsync(ex);
         }
@@ -51,14 +51,15 @@ namespace dbCompanyTest.Hubs
         {
             if (/*string.IsNullOrEmpty(sendToID)*/true)
             {
-                string userName = userList.FirstOrDefault(x => x.connectionId == selfID).userName;
-                await Clients.All.SendAsync("UpdContent", userName + " 說: " + message);
+                string userName = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId).userName;
+                await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
+                await Clients.Others.SendAsync("UpdSystem", userName+"說: "+ message);
             }
             else
             {
                 // 接收人
                 //await Clients.Client(sendToID).SendAsync("UpdContent", selfID + " 私訊向你說: " + message);
-
+                
                 // 發送人
                 //await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", "你向 " + sendToID + " 私訊說: " + message);
             }
@@ -67,7 +68,7 @@ namespace dbCompanyTest.Hubs
         public async Task getName(string selfID,string userName)
         {
             userList.FirstOrDefault(c => c.connectionId == Context.ConnectionId).userName = userName;
-            await Clients.All.SendAsync("UpdContent", "歡迎 " + userName);
+            await Clients.Others.SendAsync("UpdSystem", "歡迎 " + userName);
         }
     }
 }

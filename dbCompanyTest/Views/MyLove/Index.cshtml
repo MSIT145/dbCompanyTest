@@ -63,21 +63,22 @@
             const procolor = $(`.g-item`).find("span").eq(1).text();
             const prosize = $(`.g-item`).find("span").eq(3).text();
             console.log(proname);
-            const FD = new FormData();
-            FD.append("proname", proname);
-            FD.append("procolor", procolor);
-            FD.append("prosize", prosize);
-            FD.append("count", 1);
+            //const FD = new FormData();
+            //FD.append("proname", proname);
+            //FD.append("procolor", procolor);
+            //FD.append("prosize", prosize);
+            //FD.append("count", 1);
             $.ajax({
                 url: "@Url.Content("~/MyLove/JoinCart")",
                 type :"get",
-                //data : {
-                //    proname: $(`.g-item`).find("p").text(),
-                //    procolor: $(`.g-item`).find("span").eq(1).text(),
-                //    prosize: $(`.g-item`).find("span").eq(3).text(),
-                //count: 1,
-                //},
-                data:FD,
+                data : {
+                    proname: $(`.g-item`).find("p").text(),
+                    procolor: $(`.g-item`).find("span").eq(1).text(),
+                    prosize: $(`.g-item`).find("span").eq(3).text(),
+                count: 1,
+                },
+                //processData: false,
+                //data:FD,
                 datatype:"json"
             }).done(data =>console.log(data))
 
