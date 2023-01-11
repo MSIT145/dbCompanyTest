@@ -2,28 +2,9 @@
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-<table>
-    <thead>
-        <tr>
-            <th>
-
-            </th>
-            <th>
-                商品資訊
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.訂單數量)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.商品價格)
-            </th>
-        </tr>
-        
-    </thead>
-    <tbody>
     @foreach (var item in Model)
     {
-        <tr>
+        <ul>
             <td>
                 <img src="~/images/@item.car圖片位置.商品圖片1" width="200" />
 
@@ -60,6 +41,5 @@
             <td>
                 <a asp-action="Delete" asp-route-id="@item.Id">X</a>
             </td>
-        </tr>
+        </ul>
     }
-</table>
