@@ -49,7 +49,8 @@ namespace dbCompanyTest.Controllers
             else
             {
                 dbCompanyTestContext db = new dbCompanyTestContext();
-                if (db.TestClients.FirstOrDefault(c => c.Email == payload.Email) == null)
+                TestClient loggingUser = db.TestClients.FirstOrDefault(c => c.Email == payload.Email);
+                if (loggingUser == null)
                 {
                     TestClient newClient = new TestClient();
                     newClient.客戶編號 = $"CLG-{payload.JwtId.Substring(0, 7)}";
@@ -58,6 +59,7 @@ namespace dbCompanyTest.Controllers
                     db.TestClients.Add(newClient);
                     db.SaveChanges();
                 }
+                useSession(loggingUser);
                 //驗證成功，取使用者資訊內容
                 //ViewData["Msg"] = "驗證 Google 授權成功" + "<br>";
                 //ViewData["Msg"] += "Email:" + payload.Email + "<br>";
@@ -144,10 +146,19 @@ namespace dbCompanyTest.Controllers
             }
             return Content(userName);
         }
-
-        public IActionResult CreateClient(TestClient x)
+        public IActionResult CreateClient()
         {
             return PartialView();
+        }
+        [HttpPost]
+        public IActionResult CreateClient(TestClient x)
+        {
+            if (x == null)
+                return PartialView();
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }

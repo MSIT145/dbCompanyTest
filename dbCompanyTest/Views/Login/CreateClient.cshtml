@@ -1,5 +1,5 @@
 ﻿<div id="createPage">
-    <form style="margin:auto">
+    <form asp-action="Create" asp-controller="TestClients">
         <input type="hidden" name="客戶編號" />
         <input type="text" name="客戶姓名" class="Linput" placeholder="姓名" /><br />
         <input type="text" name="客戶電話" class="Linput" placeholder="電話" /><br />
@@ -11,14 +11,14 @@
         <input type="text" name="密碼" class="Linput" placeholder="密碼" /> <br />
         <input type="text" name="性別" class="Linput" placeholder="性別" /><br />
         <input type="text" name="生日" class="Linput" placeholder="生日" /><br />
-        <input type="submit" value="新增" id="checkcreate" />
+        <input type="submit" value="註冊" id="checkcreate" />
     </form>
 </div>
     <script src="~/datas/taiwan_districts.js"></script>
     <script src="~/js/city_data.js"></script>
     <script>
-        $(`#checkcreate`).on(`click`, function (event) {
-            event.preventDefault();
-            alert("t/6");
-        });
+        //$(`#checkcreate`).on(`click`, function (event) {
+        //    event.preventDefault();
+            
+        //});
     </script>

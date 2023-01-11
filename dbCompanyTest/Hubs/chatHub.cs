@@ -25,7 +25,7 @@ namespace dbCompanyTest.Hubs
             await Clients.Client(Context.ConnectionId).SendAsync("UpdSelfID", Context.ConnectionId);
 
 
-            await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "連線成功");
+            await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem","系統" ,"連線成功");
 
             await base.OnConnectedAsync();
         }
@@ -42,7 +42,7 @@ namespace dbCompanyTest.Hubs
             await Clients.All.SendAsync("UpdList", jsonString);
 
 
-            await Clients.All.SendAsync("UpdSystem", id.userName+" 已離線");
+            await Clients.All.SendAsync("UpdSystem","系統", id.userName+" 已離線");
 
             await base.OnDisconnectedAsync(ex);
         }
@@ -53,7 +53,7 @@ namespace dbCompanyTest.Hubs
             {
                 string userName = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId).userName;
                 await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
-                await Clients.Others.SendAsync("UpdSystem", userName+"說: "+ message);
+                await Clients.Others.SendAsync("UpdSystem", userName, message);
             }
             else
             {
@@ -68,7 +68,7 @@ namespace dbCompanyTest.Hubs
         public async Task getName(string selfID,string userName)
         {
             userList.FirstOrDefault(c => c.connectionId == Context.ConnectionId).userName = userName;
-            await Clients.Others.SendAsync("UpdSystem", "歡迎 " + userName);
+            await Clients.Others.SendAsync("UpdSystem", "系統","歡迎 " + userName);
         }
     }
 }

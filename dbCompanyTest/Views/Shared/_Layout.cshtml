@@ -164,9 +164,9 @@
 
         });
 
-        connection.on("UpdSystem", function (msg) {
+        connection.on("UpdSystem", function (user,msg) {
             $(`.chatBBody`).append(`<div class="chat">
-                <div class="otherName">系統</div>
+                <div class="otherName">${user}</div>
                 <div class="otherChat">
                             ${msg}
                 </div>
