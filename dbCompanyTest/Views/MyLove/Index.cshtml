@@ -1,97 +1,89 @@
 ﻿@model IEnumerable<dbCompanyTest.Models.會員商品暫存>
-<link href="~/css/favorites.css" rel="stylesheet" />
 
-<div class="favorites" id="divlist">
-    <div class="favorites-btitle">收藏清單</div>
-    <hr />
-    <div id="cart" class="cart-box">
-        @{
-            foreach (var item in Model)
-            {
-                <div class="g-item" id="@item.Id">
-                    <div class="item-cont">
-                        <div><img src="~/images/404.jpg" width="111px" height="153" /></div>
-                        <div class="g-detail">
-                            <div><p>@item.商品名稱</p></div>
-                            <div><span class="val">顏色: </span><span>@item.商品顏色種類</span></div>
-                            <div><span class="val">尺寸: </span><span>@item.尺寸種類</span></div>
-                        </div>
-                    </div>
-                    <div class="purchase-del">
-                        <div class="purchase">加入購物車</div>
-                        <div class="purchase-icon">
-                            <input type="hidden" value="@item.Id" />
-                        </div>
-                    </div>
-                </div>
-            }
-        }
-        <div class="favorites-btn favorites-buying">
-            <a>繼續購買</a>
-        </div>
-    </div>
-</div>
-<div class="modal" id="error" style="display:none;">
-    <div class="modal-box">
-        <div class="modal-content">
-            <div class="modal-header"><div class="modal-close"></div></div>
-            <div class="content-box">
-                <div class="modal-text"></div>
-                <div class="res-error-ok">確認</div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-
-@section Scripts{
-    <script>
-        $(".purchase-icon").on('click', function () {
-            var a = $(this).find("input").val();
-            del(a);
-        });
-        $(".res-error-ok").on('click', function () {
-            $(`#error`).css("display", "none");
-        });
-        $(".modal-close").on('click', function () {
-            $(`#error`).css("display", "none");
-        });
-        $(".purchase").on('click', function () {
-            var itemid = $(this).closest('form').attr("id");
-            const proname = $(`.g-item`).find("p").text();
-            const procolor = $(`.g-item`).find("span").eq(1).text();
-            const prosize = $(`.g-item`).find("span").eq(3).text();
-            console.log(proname);
-            //const FD = new FormData();
-            //FD.append("proname", proname);
-            //FD.append("procolor", procolor);
-            //FD.append("prosize", prosize);
-            //FD.append("count", 1);
-            $.ajax({
-                url: "@Url.Content("~/MyLove/JoinCart")",
-                type :"get",
-                data : {
-                    proname: $(`.g-item`).find("p").text(),
-                    procolor: $(`.g-item`).find("span").eq(1).text(),
-                    prosize: $(`.g-item`).find("span").eq(3).text(),
-                count: 1,
-                },
-                //processData: false,
-                //data:FD,
-                datatype:"json"
-            }).done(data =>console.log(data))
-
-
-        });
-        async function del(id) {
-            const data = await fetch(`@Url.Content("~/MyLove/Delete?id=${id}")`);
-            const response = await data.text();
-            $(`#error`).css("display", "block");
-            $(`.modal-text`).text(response);
-            $(`#cart`).find(`#${id}`).remove();
-        }
-
-    </script>
-
+@{
+    ViewData["Title"] = "Index";
 }
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.客戶編號)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.商品編號)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.商品名稱)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.尺寸種類)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.商品顏色種類)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.訂單數量)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.商品價格)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.購物車或我的最愛)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.圖片1檔名)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.客戶編號)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.商品編號)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.商品名稱)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.尺寸種類)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.商品顏色種類)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.訂單數量)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.商品價格)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.購物車或我的最愛)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.圖片1檔名)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
