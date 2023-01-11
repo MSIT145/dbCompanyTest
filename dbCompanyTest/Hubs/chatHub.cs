@@ -25,7 +25,7 @@ namespace dbCompanyTest.Hubs
             await Clients.Client(Context.ConnectionId).SendAsync("UpdSelfID", Context.ConnectionId);
 
 
-            await Clients.All.SendAsync("UpdSystem", "新連線 ID: " + Context.ConnectionId);
+            await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "連線成功");
 
             await base.OnConnectedAsync();
         }
@@ -42,7 +42,7 @@ namespace dbCompanyTest.Hubs
             await Clients.All.SendAsync("UpdList", jsonString);
 
 
-            await Clients.All.SendAsync("UpdSystem", id.userName+"已離線 ID: ");
+            await Clients.All.SendAsync("UpdSystem", id.userName+" 已離線");
 
             await base.OnDisconnectedAsync(ex);
         }
