@@ -9,10 +9,11 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<hr />
 <table class="table">
+
     <thead>
         <tr>
-             <tr>
             <th>
 
             </th>
@@ -25,36 +26,38 @@
             <th>
                 @Html.DisplayNameFor(model => model.商品價格)
             </th>
-            <th></th>
         </tr>
+        
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-                <td>
-                        <img src="~/images/@item.圖片1檔名" width="200" />
-                </td>
             <td>
-                     <dl class="row">
-                             <dt class="col-sm-2">
-                                品名:
-                            </dt>
-                                 <dd class="col-sm-10">
+                    <img src="~/images/@item.圖片1檔名" width="200" />
+
+            </td>
+                <td>
+                    <dl class="row">
+
+                        <dt class="col-sm-2">
+                            品名:
+                        </dt>
+                        <dd class="col-sm-10">
                             @Html.DisplayFor(modelItem => item.商品名稱)
-                                 </dd>
-                                     <dt class="col-sm-2">
-                                尺寸:
-                            </dt>
-                            <dd class="col-sm-10">
+                        </dd>
+                        <dt class="col-sm-2">
+                            尺寸:
+                        </dt>
+                        <dd class="col-sm-10">
                             @Html.DisplayFor(modelItem => item.尺寸種類)
-                            </dd>
-                                <dt class="col-sm-2">
-                                顏色:
-                            </dt>
-                            <dd class="col-sm-10">
+                        </dd>
+                        <dt class="col-sm-2">
+                            顏色:
+                        </dt>
+                        <dd class="col-sm-10">
                             @Html.DisplayFor(modelItem => item.商品顏色種類)
-                            </dd>
-                     </dl>
+                        </dd>
+                    </dl>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.訂單數量)
@@ -62,9 +65,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.商品價格)
             </td>
-
             <td>
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">X</a>
             </td>
         </tr>
 }
@@ -108,39 +110,39 @@
         totomony += (decimal)item.商品價格;
     }
     <div>
+<div>
     <div>
-        <div>
-                <span>總金額</span>
-                    <span>TWD $@totomony</span>
-        </div>
-        <div>
-                <span>運費</span>
-                    <span id="TxtDeliverymony">TWD $0</span>
-        </div>
-        <hr />
-        <div>
-                <span>結帳金額</span>
-                    <span id="paymony">TWD $0</span>
-        </div>
+            <span>總金額</span>
+                <span>TWD $@totomony</span>
     </div>
+    <div>
+            <span>運費</span>
+                <span id="TxtDeliverymony">TWD $0</span>
     </div>
+    <hr />
+    <div>
+            <span>結帳金額</span>
+                <span id="paymony">TWD $0</span>
+    </div>
+</div>
+</div>
 }
 @section Scripts{
-        <script>
-            const deliverymony = document.querySelector('#delivery')
-            const txtdeliverymony =document.querySelector('#TxtDeliverymony')
-            const paymony = document.querySelector('#paymony')
-            const xhr = new XMLHttpRequest();
-            xhr.addEventListener(`load`,()=>{
-                const data = xhr.responseText;
-                txtdeliverymony.innerHTML = `TWD $${data}`;
-                const mony = parseInt(data) + @totomony;
-                paymony.innerHTML = `TWD $${mony}`
-            })
-            deliverymony.addEventListener(`change`, () => {
-                xhr.open('GET', `/Shopping/GetDeliveryMony?OPvalue=${deliverymony.value}`);
-                xhr.send();
-            })
+    <script>
+        const deliverymony = document.querySelector('#delivery')
+        const txtdeliverymony =document.querySelector('#TxtDeliverymony')
+        const paymony = document.querySelector('#paymony')
+        const xhr = new XMLHttpRequest();
+        xhr.addEventListener(`load`,()=>{
+            const data = xhr.responseText;
+            txtdeliverymony.innerHTML = `TWD $${data}`;
+            const mony = parseInt(data) + @totomony;
+            paymony.innerHTML = `TWD $${mony}`
+        })
+        deliverymony.addEventListener(`change`, () => {
+            xhr.open('GET', `/Shopping/GetDeliveryMony?OPvalue=${deliverymony.value}`);
+            xhr.send();
+        })
 
-        </script>
+    </script>
 }
