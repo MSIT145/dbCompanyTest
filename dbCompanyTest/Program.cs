@@ -5,7 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("AllowAll",
+        builder=>builder.SetIsOriginAllowed(a=>true).AllowAnyHeader().AllowAnyMethod().AllowCredentials() );
+});
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(op =>
 {
@@ -17,7 +21,7 @@ builder.Services.AddSession(op =>
 builder.Services.AddSignalR();
 
 var app = builder.Build();
-
+app.UseCors("AllowAll");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
