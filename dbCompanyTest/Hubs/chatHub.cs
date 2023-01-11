@@ -58,7 +58,7 @@ namespace dbCompanyTest.Hubs
             {
                 // 接收人
                 //await Clients.Client(sendToID).SendAsync("UpdContent", selfID + " 私訊向你說: " + message);
-
+                
                 // 發送人
                 //await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", "你向 " + sendToID + " 私訊說: " + message);
             }
