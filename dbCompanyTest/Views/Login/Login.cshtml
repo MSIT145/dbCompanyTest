@@ -5,9 +5,8 @@
 <h1>登入/註冊</h1>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <main>
-
-    <div class="loginMain">
-        <div class="otherLogin">
+    <div id="LoginBack">
+        <div id="loginPage">
             <div id="g_id_onload"
                  data-client_id="1097400727922-rjchl3ubr8r1mtjpirchq6v7dl9vfcb2.apps.googleusercontent.com"
                  data-login_uri="https://localhost:7100/Login/loginSussess"
@@ -21,8 +20,6 @@
                  data-shape="rectangular"
                  data-logo_alignment="left">
             </div>
-        </div>
-        <div class="Login">
             <form>
                 <p>帳號(Email)</p>
                 <input type="text" asp-controller="Login" asp-action="Login" name="txtAccount" class="Linput" id="account" />
