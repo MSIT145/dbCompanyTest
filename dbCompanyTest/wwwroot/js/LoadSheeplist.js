@@ -1,5 +1,4 @@
 ﻿var path = $(`#path`).val();
-console.log(path)
 $.ajax({
     url: `${path}`,
     type: "GET",
@@ -18,5 +17,4 @@ $.ajax({
             docFrag.append(eleT);
         });
         $("#Sheeplist_tbody").html(docFrag);
-
     })

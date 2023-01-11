@@ -8,19 +8,13 @@
 
 <input type="hidden" id="TDLpath" value="@Url.Content("~/Staff_Home/LoadToDoList")" />
 <input type="hidden" id="path" value="@Url.Content("~/Staff_Home/LoadSheeplist")" />
-<h1>員工頁面</h1>
+<h1>員工頁面(行政)</h1>
 
 
 <h2 id="stf_info">@ViewBag.acc</h2>
 
-<div id="Sheeplist_div">
-    
-</div>
-<div id="ToDoList_div">
-   
-</div>
-
-
+<div id="Sheeplist_div"></div>
+<div id="ToDoList_div"></div>
 
 @section Scripts {
 
@@ -41,10 +35,8 @@
         }
 
     </script>
-
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
 }
 

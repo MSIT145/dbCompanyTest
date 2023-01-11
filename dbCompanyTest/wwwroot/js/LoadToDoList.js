@@ -1,7 +1,4 @@
 ﻿var TDLpath = $(`#TDLpath`).val();
-
-console.log(TDLpath)
-console.log(stf)
 $.ajax({
     url: `${TDLpath}`,
     type: "GET",
@@ -17,5 +14,4 @@ $.ajax({
             docFrag.append(eleT);
         });
         $("#ToDolist_tbody").html(docFrag);
-
     })

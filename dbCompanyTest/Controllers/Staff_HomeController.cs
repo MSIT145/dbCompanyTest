@@ -2,6 +2,7 @@
 using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Policy;
 using System.Security.Principal;
 using static NuGet.Packaging.PackagingConstants;
@@ -12,17 +13,20 @@ namespace dbCompanyTest.Controllers
     {
         dbCompanyTestContext _context = new dbCompanyTestContext();
         public IActionResult Index()
-        {          
+        {
             string stfNum = HttpContext.Session.GetString("Account");
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
-            var datas = from c in _context.TestStaffs
-                        .Where(c => c.員工編號 ==stfNum) 
-                        select c;
-
-
-            ViewBag.acc = $"{stfNum} {stf.員工姓名} 您好!"; 
+            ViewBag.acc = $"{stfNum} {stf.員工姓名} 您好! {stf.部門}";
             return View();
+        }
+        public async Task<IActionResult> Index_HR()
+        {
+            string stfNum = HttpContext.Session.GetString("Account");
+            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+
+            ViewBag.HR = $"{stfNum} {stf.員工姓名} 您好! {stf.部門}";
+            return View(await _context.TestStaffs.ToListAsync());
         }
 
         public IActionResult login()
@@ -32,7 +36,6 @@ namespace dbCompanyTest.Controllers
         [HttpPost]
         public IActionResult login(CLoginViewModels vm)
         {
-
             TestStaff x = _context.TestStaffs.FirstOrDefault(T => T.員工編號.Equals(vm.txtAccount) && T.密碼.Equals(vm.txtPassword));
             if (x != null)
             {
@@ -40,9 +43,16 @@ namespace dbCompanyTest.Controllers
                 {
                     if (!HttpContext.Session.Keys.Contains("Account"))
                         HttpContext.Session.SetString("Account", vm.txtAccount);
-                    
-                    return RedirectToAction("Index");
+                    if (x.部門 == "行政")
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else if(x.部門 == "人事")
+                    {
+                        return RedirectToAction("Index_HR");
+                    }
                 }
+
             }
             return View();
         }
@@ -50,7 +60,7 @@ namespace dbCompanyTest.Controllers
         {
             HttpContext.Session.Remove("Account");
             return RedirectToAction("login");
-        }      
+        }
         public IActionResult PartialSheeplist()
         {
             return PartialView();

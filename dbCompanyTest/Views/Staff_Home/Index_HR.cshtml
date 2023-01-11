@@ -1,0 +1,126 @@
+﻿@model IEnumerable<dbCompanyTest.Models.TestStaff>
+
+@{
+    ViewData["Title"] = "Index_HR";
+}
+@{
+    Layout = "_Back_Layout";
+}
+
+<input type="hidden" id="TDLpath" value="@Url.Content("~/Staff_Home/LoadToDoList")" />
+<input type="hidden" id="path" value="@Url.Content("~/Staff_Home/LoadSheeplist")" />
+<h1>員工頁面(人事)</h1>
+
+<h2 id="stf_info">@ViewBag.HR</h2>
+
+
+<div id="ToDoList_div"></div>
+
+<table class="table table-striped-columns">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.員工編號)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.員工姓名)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.部門)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.職稱)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.員工電話)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.身分證字號)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.主管)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.薪資)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.權限)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.在職)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.員工編號)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.員工姓名)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.部門)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.職稱)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.員工電話)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.身分證字號)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.主管)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.薪資)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.權限)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.在職)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.員工編號">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.員工編號">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.員工編號">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+
+@section Scripts {
+
+    <script>
+        var split = $(`#stf_info`).text().indexOf(' ');
+        var stf = $(`#stf_info`).text().substr(0, split)
+        LoadToDoList();
+
+        function LoadToDoList() {
+            $('#ToDoList_div').load("@Url.Content("~/Staff_Home/PartialToDoList")")
+            $.getScript("@Url.Content("~/js/LoadToDoList.js")");
+        }
+
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
