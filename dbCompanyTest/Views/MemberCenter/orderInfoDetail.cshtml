@@ -9,8 +9,9 @@
         <div>
             <br />
             <br />
-            <span class="d-flex"><a asp-action="Index">會員中心</a>><a asp-action="orderInfo" asp-route-id="CL1-00376">訂單管理</a>><a asp-action="orderInfoDetail">訂單詳情</a></span>
+            <span class="d-flex"><a asp-action="Index" asp-route-id="CL1-00376">會員中心</a> > <a asp-action="orderInfo" asp-route-id="CL1-00376">訂單管理</a> > <a asp-action="orderInfoDetail">訂單詳情</a></span>
             <hr />
+            <br />
             <table class="table">
                 <thead>
                     <tr>
@@ -49,51 +50,56 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.數量)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.價格)
-                                </td>
+                                @{
+                                    decimal 價格 = (decimal)item.價格;
+                                    <td>
+                                    @價格.ToString("###,###,##0")$
+                                    </td>
+                                }
                             </tr>
                         }
                     }
                 </tbody>
             </table>
+            <br />
             <dl class="row">
                 @{
                     string 付款="";
                     string 地址="";
-                    decimal? 總金=0;
+                    decimal 總金=0;
                     foreach (var items in Model)
                     {
                         付款 = items.付款方式;
                         地址 = items.送貨地址;
-                        總金 = items.總金額;
+                        總金 = (decimal)items.總金額;
                     }
-                    <dt class="col-sm-2">
+                    
+                    <hr />
+                    <dt class="col-sm-10 text-end pe-5">
                         @Html.DisplayNameFor(model => model.付款方式)
                     </dt>
-                    <dd class="col-sm-10">
+                    <dd class="col-sm-2 text-end">
                         @付款
                     </dd>
-                    <dt class="col-sm-2">
+                    <dt class="col-sm-10 text-end pe-5">
                         @Html.DisplayNameFor(model => model.送貨地址)
                     </dt>
-                    <dd class="col-sm-10">
+                    <dd class="col-sm-2 text-end">
                         @地址
                     </dd>
-                    <dt class="col-sm-2">
+                    <dt class="col-sm-10 text-end pe-5">
                         @Html.DisplayNameFor(model => model.總金額)
                     </dt>
-                    <dd class="col-sm-10">
-                        @總金
+                    <dd class="col-sm-2 text-end">
+                        @總金.ToString("###,###,##0")$
                     </dd>
                 }
 
             </dl>
         </div>
         <div>
-            @*    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-            *@    <a asp-action="orderInfo" asp-route-id="CL1-00376">Back to List</a>
-        </div>
+@*               <a asp-action="orderInfo" asp-route-id="CL1-00376">Back to List</a>
+*@        </div>
 
     </div>
 </div>
