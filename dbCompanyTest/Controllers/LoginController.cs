@@ -144,5 +144,10 @@ namespace dbCompanyTest.Controllers
             }
             return Content(userName);
         }
+
+        public IActionResult CreateClient(TestClient x)
+        {
+            return PartialView();
+        }
     }
 }
