@@ -43,7 +43,7 @@ namespace dbCompanyTest.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=dbCompanyTest;Integrated Security=True;");
+                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=dbCompanyTest;Integrated Security=True;trustservercertificate=true");
             }
         }
 
@@ -444,6 +444,8 @@ namespace dbCompanyTest.Models
                 entity.Property(e => e.商品名稱).HasMaxLength(50);
 
                 entity.Property(e => e.商品顏色種類).HasMaxLength(50);
+
+                entity.Property(e => e.圖片1檔名).HasMaxLength(50);
 
                 entity.Property(e => e.客戶編號).HasMaxLength(50);
 

@@ -3,23 +3,32 @@
     padding:0
 }
 .car_body {
-    background-color: antiquewhite;
+    background-color: cornsilk;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     align-content: center;
-    
+    border: solid 1px #C4C4C4
 }
 .car_dital{
     flex-grow:1;
     padding:5%;
 }
-.car_dolor{
-    flex-shrink:0;
-    height:10%
+.car_dolor {
+    flex-shrink: 0;
+    height: 50px;
+    width: 350px;
+    text-align: center;
+    line-height: 50px;
+    border: solid 1px #C4C4C4
 }
 .car_a {
     flex-shrink: 0;
-    height: 10%
+    height: 50px;
+    width: 350px;
+    text-align: center;
+    line-height: 50px;
+    border: solid 1px #C4C4C4;
+    background-color: burlywood;
 }

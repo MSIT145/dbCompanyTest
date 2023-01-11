@@ -14,6 +14,7 @@ namespace dbCompanyTest.Models
         public int? 訂單數量 { get; set; }
         public decimal? 商品價格 { get; set; }
         public bool? 購物車或我的最愛 { get; set; }
+        public string? 圖片1檔名 { get; set; }
 
         public virtual TestClient? 客戶編號Navigation { get; set; }
     }
