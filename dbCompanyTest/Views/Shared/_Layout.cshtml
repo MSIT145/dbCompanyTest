@@ -127,7 +127,6 @@
     <div class="chatBody">
         <div class="chatHeader"><button id="connection" class="btn btn-dark">連線客服</button></div>
         <div class="chatBBody">
-            <p id="SelfID"></p>
             <div class="chat">
                 <div class="myName">我</div>
                 <div class="myChat">
@@ -161,34 +160,42 @@
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
         $(`#connection`).on(`click`, function () {
-            connection.start().then(function () {
-                console.log("Hub 連線完成");
+            connection.start().then(async function () {
+                const data = await fetch("@Url.Content("~/Login/getUser")");
+                const uesrName = await data.text();
+                let selfID = $('#SelfID').html();
+                connection.invoke("getName", selfID, uesrName).catch(function (err) {
+                    alert('傳送錯誤: ' + err.toString());
+                });
             }).catch(function (err) {
                 alert('連線錯誤: ' + err.toString());
             });
         })
 
-        connection.on("UpdSelfID", async function (id) {
-            $('#SelfID').html(id);
-            const data = await fetch("@Url.Content("~/Login/getUser")");
-            const uesrName = await data.text();
-            let selfID = $('#SelfID').html();
-            connection.invoke("getName", selfID, uesrName).catch(function (err) {
-                alert('傳送錯誤: ' + err.toString());
-            });
+        connection.on("UpdSelfID", function (id) {
+
         });
 
-
-
+        connection.on("UpdSystem", function (msg) {
+            $(`.chatBBody`).append(`<div class="chat">
+                <div class="otherName">系統</div>
+                <div class="otherChat">
+                            ${msg}
+                </div>
+            </div>`);
+            $('.chatBBody').animate({
+                scrollTop: $(".chatBBody").offset().top + $(".chat")[$(".chatBBody").find(".chat").length - 1].scrollHeight
+            }, 500);
+        });
 
 
         connection.on("UpdContent", function (msg) {
             $(`.chatBBody`).append(`<div class="chat">
-                                         <div class="myName">我</div>
-                                         <div class="myChat">
-                                              ${msg}
-                                         </div>
-                                    </div>`);
+                                       <div class="myName">我</div>
+                                    <div class="myChat">
+                                         ${msg}
+                                  </div>
+                             </div>`);
             $(`#message`).val("");
 
             $('.chatBBody').animate({
@@ -197,20 +204,10 @@
         });
 
         $(`#send`).on(`click`, async function () {
-            /*let Mymsg = $(`#message`).val();*/
-            //if (Mymsg) {
-            //    $(`.chatBBody`).append(`<div class="chat">
-            //            <div class="myName">我</div>
-            //            <div class="myChat">
-            //                ${Mymsg}
-            //            </div>
-            //        </div>`);
-            //    $(`#message`).val("");
-            //}
             let selfID = $('#SelfID').html();
             let message = $('#message').val();
             //let sendToID = $('#sendToID').val();
-            connection.invoke("SendMessage", selfID, message, /*sendToID*/).catch(function (err) {
+            connection.invoke("SendMessage", selfID, message/*, sendToID*/).catch(function (err) {
                 alert('傳送錯誤: ' + err.toString());
             });
         });
