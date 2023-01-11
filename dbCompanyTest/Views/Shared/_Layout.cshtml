@@ -47,11 +47,11 @@
                 <div class="collapse  " style="position:absolute;top:1.3%;right:2%;z-index:1;width:350px;" id="collapseExample">
                     <div class="card card-body car_body car_all" style="height:500px">
                         <div class="car_dital car_all">
-                            @*@Html.Partial("~/Views/Shopping/CarPartial.cshtml")*@
+
                         </div>
                         <div class="car_dolor car_all">
-                            <div>
-                                TOTAL TWD $0
+                            <div class="total_twd">
+                                @*TOTAL TWD $0*@
                             </div>
                         </div>
                         <a href="" class="car_a car_all">
@@ -216,6 +216,7 @@
         });
 
         $('.car_dital').load("@Url.Content("~/Shopping/CarPartial")")
+        $('.car_dolor').load("@Url.Content("~/Shopping/CarTwdPartial")")
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)

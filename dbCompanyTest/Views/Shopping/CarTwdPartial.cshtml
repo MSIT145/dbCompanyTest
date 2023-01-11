@@ -1,0 +1,13 @@
+﻿@model IEnumerable<dbCompanyTest.Models.會員商品暫存>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    decimal a = 0;
+    foreach (var item in Model){
+        a += (decimal)item.商品價格;
+
+    }
+    string TOTAL_TWD = $"TOTAL TWD ${a}";
+    <div>@TOTAL_TWD</div>
+}

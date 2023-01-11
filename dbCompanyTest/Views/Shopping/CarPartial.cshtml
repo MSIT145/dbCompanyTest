@@ -5,24 +5,20 @@
 <div class="row">
 @foreach (var item in Model){
         <div class="col-3">
-            <img  src="~/images/@item.圖片1檔名" width="70" />
+            <img  src="@Url.Content("~/images/"+item.圖片1檔名)" width="70" />
         </div>
         <div class="col-9">
-            <div>品名:@Html.DisplayFor(modelItem => item.商品名稱)</div>
-            <div>尺寸: @Html.DisplayFor(modelItem => item.尺寸種類)</div>
-            <div>顏色:@Html.DisplayFor(modelItem => item.商品顏色種類)</div>
-            <div>數量:@Html.DisplayFor(modelItem => item.訂單數量)</div>
-            <div>價格:@Html.DisplayFor(modelItem => item.商品價格)</div>
+            <div>品名:<a>@Html.DisplayFor(modelItem => item.商品名稱)</a></div>
+            <div>尺寸:<a> @Html.DisplayFor(modelItem => item.尺寸種類)</a></div>
+            <div>顏色:<a>@Html.DisplayFor(modelItem => item.商品顏色種類)</a></div>
+            <div>數量:<a>@Html.DisplayFor(modelItem => item.訂單數量)</a></div>
+            <div>價格:<a class="m">@Html.DisplayFor(modelItem => item.商品價格)</a></div>
         </div>
-
-
-        
-
-
-@*        <li class="list-group-item">品名:@Html.DisplayFor(modelItem => item.商品名稱)</li>
-        <li class="list-group-item"> 尺寸: @Html.DisplayFor(modelItem => item.尺寸種類)</li>
-        <li class="list-group-item"> 顏色:@Html.DisplayFor(modelItem => item.商品顏色種類)</li>*@
-@*        <li class="list-group-item">數量:@Html.DisplayFor(modelItem => item.訂單數量)</li>
-        <li class="list-group-item">價格:@Html.DisplayFor(modelItem => item.商品價格)</li>*@
 }
     </div>
+<script src="~/js/car.js"></script>
+@*    @section Scripts{
+        <script>
+            
+        </script>
+    }*@

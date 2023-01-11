@@ -96,6 +96,10 @@ namespace dbCompanyTest.Controllers
         {
             return PartialView(_context.會員商品暫存s.Include(會 => 會.客戶編號Navigation).Where(c => c.購物車或我的最愛 == true && c.客戶編號.Contains(name)));
         }
+        public IActionResult CarTwdPartial()
+        {
+            return PartialView(_context.會員商品暫存s.Include(會 => 會.客戶編號Navigation).Where(c => c.購物車或我的最愛 == true && c.客戶編號.Contains(name)));
+        }
 
 
 
