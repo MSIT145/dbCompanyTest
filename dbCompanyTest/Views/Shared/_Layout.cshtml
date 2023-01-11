@@ -89,27 +89,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="index">後台產品維護</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav flex-sm-grow-1">
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ProductWall" asp-action="Index" asp-route-id="1">男鞋</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ProductWall" asp-action="Index" asp-route-id="2">女鞋</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ProductWall" asp-action="Index" asp-route-id="3">KOL聯名</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ProductWall" asp-action="Index" asp-route-id="4">迪士尼</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ProductWall" asp-action="Index" asp-route-id="5">服飾包袋</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ProductWall" asp-action="Index" asp-route-id="6">口罩</a>
-                        </li>
-
+                    <ul class="navbar-nav flex-sm-grow-1" id="nav">
                     </ul>
                 </div>
             </div>
@@ -153,13 +133,18 @@
             &copy; 2023 - dbCompanyTest - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>$("#nav").load("@Url.Content("~/Home/nav")")</script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/mychat.js"></script>
     <script src="~/js/car.js"></script>
+
     <script>
+        
+
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
         $(`#connection`).on(`click`, function () {
@@ -216,6 +201,7 @@
         });
 
         $('.car_dital').load("@Url.Content("~/Shopping/CarPartial")")
+        
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)

@@ -17,21 +17,23 @@ namespace dbCompanyTest.Controllers
         {
             
             TestClient client = _context.TestClients.FirstOrDefault(x => x.客戶編號 == id);
-            if(client != null)
+            if(client == null)
             {
-                ViewBag.city = client.縣市;
+                return NotFound();
+            }
+            ViewBag.city = client.縣市;
                 ViewBag.area = client.區;
                 ViewBag.sex = client.性別;
                 return View(client);
-            }
-            return View();
         }
         [HttpPost]
         public IActionResult memberInfo(MemberCenterViewModel vm)
         {
             TestClient client = _context.TestClients.FirstOrDefault(x => x.客戶編號 == vm.客戶編號);
-            if (client != null)
+            if (client == null)
             {
+                return NotFound();
+            }
                 client.客戶姓名 = vm.客戶姓名;
                 client.客戶電話 = vm.客戶電話;
                 client.身分證字號 = vm.身分證字號;
@@ -44,21 +46,19 @@ namespace dbCompanyTest.Controllers
                 
                 _context.SaveChanges();
                 
-            }
-            return View();
+            
+            return View(client);
         }
-
-
-        public IActionResult password(MemberCenterViewModel vm)
+        
+        public IActionResult password(string id)
         {
-            TestClient client = _context.TestClients.FirstOrDefault(x => x.客戶編號 == vm.客戶編號) ;
-            if (client != null)
+            id = "CL1-00376";
+            TestClient client = _context.TestClients.FirstOrDefault(x => x.客戶編號 == id);
+            if (client == null)
             {
-                client.密碼 = vm.密碼;
-
-                _context.SaveChanges();
+                return NotFound();
             }
-            return View();
+            return PartialView(client);
         }
 
 
