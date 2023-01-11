@@ -72,24 +72,6 @@
             <div class="col-md-2" ></div>
             <div class="col-md-4" id="password">
                 
-                <form asp-action="password">
-                    <div class="form-group">
-                        <label class="control-label">舊密碼</label>
-                        <input class="form-control" />
-                        <span asp-validation-for="密碼" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="密碼" class="control-label"></label>
-                        <input asp-for="密碼" class="form-control" value="" />
-                        <br />
-                        <input class="form-control" />
-                        <span asp-validation-for="密碼" class="text-danger"></span>
-                    </div>
-                    <br />
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
-                    </div>
-                </form>
             </div>
             <div class="col-md-1"></div>
 
@@ -100,6 +82,7 @@
         </div>
 
     </div>
+</div>
     <div>
         <input asp-for="縣市" type="hidden" id="q1" />
         <input asp-for="區" type="hidden" id="q2" />
@@ -109,7 +92,7 @@
     @section Scripts {
         <script>
 
-            //$("#password").load("@Url.Content("~/MemberCenter/password")")
+            $("#password").load("@Url.Content("~/MemberCenter/password")")
         </script>
         @{
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
