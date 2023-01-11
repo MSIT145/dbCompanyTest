@@ -8,7 +8,7 @@
 
 <div class="container-xxl flex-grow-1 container-p-y">
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> 商品與明細</h4>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda_P_C"> 新增商品</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda_P_C" id="btn_ProForm"> 新增商品</button>
 <div class="container-fluid px-4">  
     </div>
     <div class="card mb-4">
@@ -40,7 +40,7 @@
         </div>
     </div>
 </div>
-@*Modal_新增產品*@
+@*Modal_新增與修改_產品*@
 <div class="modal fade" id="Moda_P_C" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -50,25 +50,110 @@
      
             </div>
             <div class="modal-body">
-                @Html.Partial("_CreateProduct")
+                @*Product Create_Start*@
+                            <hr />
+                            <div class="row align-items-center">
+                            <div class="col-md-2 "></div>
+                            <div class="col-md-8 ">
+                            <form name="ProC_Form" id="form01">                                
+                                <div class="form-group">
+
+                                <div class="form-group" style="display: none;">
+                                        <label  class="control-label">商品編號id</label>
+                                        <input name="id" class="form-control"  />
+                                </div>
+               
+                                </div>
+                                <div class="form-group">
+                                    <label  class="control-label">上架時間</label>
+                                   <input name="time" class="form-control" type="date" />                
+                                </div>
+                                    <div class="form-group">
+                                    <label class="control-label">商品名稱</label>
+                                    <input name="name" class="form-control" />
+               
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">商品價格</label>
+                                    <input name="price" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" />
+                                </div>
+                                <div class="form-group">
+                                    <label  class="control-label">商品介紹</label>
+                                    <input name="introduce" class="form-control" />
+               
+                                </div>
+                                <div class="form-group">
+                                    <label  class="control-label">商品材質</label>
+                                <input name="material" class="form-control" />
+              
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">商品重量</label>
+                                <input name="weight" type="number" class="form-control" />
+                
+                                </div>
+                                <div class="form-group">
+                                    <label  class="control-label">商品成本</label>
+                                    <input name="cost" type="number" class="form-control" />                
+                                </div>
+            
+                                <div class="form-group">
+                                    <label  class="control-label">商品分類</label>
+                                <select id="_商品分類id" name="_商品分類id" class="form-select" aria-label="商品分類">
+                                    <option selected>ajax_select</option>
+                                    </select>
+                                    <input name="typeid" class="form-control" type="hidden" />
+                                </div>
+                                <div class="form-group">
+                                    <label  class="control-label">商品鞋種</label>
+                                <select id="_商品鞋種id"  class="form-select" aria-label="商品分類">
+                                    <option selected>ajax_select</option>
+                                    </select>
+                                    <input name="shoeid" class="form-control" type="hidden" />
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                                <label  class="control-label">商品是否有貨</label>
+                                                <input type="checkbox" id="_有貨"  checked>
+                                                <input name="instock" class="form-control" type="hidden" />
+                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            <label  class="control-label">商品是否上架</label>
+                                            <input type="checkbox" id="_上架"  checked>
+                                            <input name="onshelves" class="form-control" type="hidden" />
+                                    </div>
+                                </div>
+                                </div>
+                                <br>
+                            </form>
+                            </div>
+                            <div class="col-md-2 "></div>
+                            </div>
+                @*Product Create_END*@
             </div>
             <div class="modal-footer">
+                <button type="button" id="P_Create" class="btn btn-success" >新增</button>
+                <button type="button" id="P_Edit" class="btn btn-primary"  style="display: none;">修改</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
             </div>
         </div>
     </div>
 </div>
-@*Modal_新增產品*@
+@*Modal_新增與修改_明細*@
 <div class="modal fade" id="Moda_D_C" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModal-label">新增產品明細</h4>
+                <h4 class="modal-title" id="myModal-label">新增細項商品</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
      
             </div>
-            <div class="modal-body">
-                @Html.Partial("_CreateProduct")
+            <div class="modal-body" >
+               @* @Html.Partial("_CreateProduct")*@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
@@ -77,24 +162,7 @@
     </div>
 </div>
 
-@*Modal_產品細目*@
-<div class="modal fade" id="Moda_P_C" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModal-label">新增產品細目</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-     
-            </div>
-            <div class="modal-body">
-                @Html.Partial("_CreateDetail")
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 @section Scripts{
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.css" />
@@ -104,6 +172,56 @@
 
         let url01 = '@Url.ActionLink("showlist","Product")';
         let url02 = '@Url.RouteUrl("default", new{Controller = "TestClients", Action = "showlist"})';
+        //新增產品 Form表單顯示按鈕事件
+        $("#btn_ProForm").on('click',()=>{
+            $.get("@Url.Content("~/Product/GetTyteD")",(datas)=>{
+                 console.log(datas);
+                //新增產品類別select
+                 var options = datas.map(data=>{
+                    const { 商品分類id, 商品分類名稱 } =data;
+                    return (`<option value="${商品分類id}"">${商品分類名稱}</option>`);
+                 });
+                $("#_商品分類id").html(options);
+            });
+
+            $.get("@Url.Content("~/Product/GetShoe")",(datas)=>{
+                //新增鞋種select
+                var S_options = datas.map(data=>{
+                    const { 商品鞋種id, 鞋種 } = data;
+                    return (`<option value="${商品鞋種id}"">${鞋種}</option>`);
+                });
+                $("#_商品鞋種id").html(S_options);
+            });
+        });
+        //新增產品表單送出按鈕
+        $("#P_Create").on('click',()=>{
+             //取得是否有貨的值寫入instock
+            $("input[name='instock']").val($("#_商品分類id").val());
+            //取得是否上架的值寫入onshelves
+            $("input[name='onshelves']").val($("#_商品鞋種id").val());
+            //取得鞋種寫入shoeid
+            $("input[name='shoeid']").val($("#_有貨").prop("checked"));
+            //取得分類寫入typeid
+            $("input[name='typeid']").val($("#_上架").prop("checked"));
+
+            console.log($("input[name='instock']").val());
+            console.log($("input[name='onshelves']").val());
+            console.log($("input[name='shoeid']").val());
+            console.log($("input[name='typeid']").val());
+
+            var formData = new FormData(document.ProC_Form); //from 的名稱
+            $.post("@Url.Content("~/product/CreateProduct")", $("#form01").serialize(), (datas) => {
+                console.log(datas);
+            
+            });
+
+        });
+      
+
+
+
+
+
         //用 table代表整個表單
         let table = null;
         console.log("url01=" + url01);
@@ -142,7 +260,7 @@
                                 data: null,
                                 className: 'create',
                                 render: function (data, type, row) {
-                                    return '<button type="button" class="btn btn-primary" id="create" title="新增" data-bs-toggle="modal" data-bs-target="#Moda_D_C"><i class="fas fa-edit"></i>新增</button>';
+                                    return '<button type="button" name="DetailCreate" class="btn btn-primary" id="create" title="新增" data-bs-toggle="modal" data-bs-target="#Moda_D_C" ><i class="fas fa-edit"></i>新增</button>';
 
                                 },
                                 orderable: false,
@@ -170,6 +288,11 @@
                     ]
 
                 });
+
+            //加入按鈕事件(新增明細)
+            $('#tableAll').on('click', 'button[name="DetailCreate"]', function () {
+                $("#Moda_D_C .modal-body").load("@Url.Content("~/Product/_CreateDetail")");
+            })
         }
 
         //每一行明細的點擊事件
@@ -298,6 +421,8 @@
 
         $(document).ready(function () {
                     funcLoad();
+        
+
                 });
     </script>
 

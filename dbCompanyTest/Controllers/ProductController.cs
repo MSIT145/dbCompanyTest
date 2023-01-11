@@ -17,11 +17,24 @@ namespace dbCompanyTest.Controllers
 
             return PartialView();
         }
-        public IActionResult _CreateProduct()
+        public IActionResult CreateProduct(string id,string time,string name,string price,string introduce ,string material,string weight,string cost ,string typeid,string shoeid,string instock,string onshelves)
         {
-            
-            return PartialView();
+
+            return Json(name);
         }
+
+        public IActionResult GetTyteD()
+        {
+            IEnumerable<ProductsTypeDetail> data = db.ProductsTypeDetails.ToList();
+            return Json(data);
+        }
+
+        public IActionResult GetShoe()
+        {
+            IEnumerable<商品鞋種> data = db.商品鞋種s.ToList(); 
+            return Json(data);
+        }
+
 
         [HttpGet]
         public IActionResult showlist()
