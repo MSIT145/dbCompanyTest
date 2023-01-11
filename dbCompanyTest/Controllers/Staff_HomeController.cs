@@ -50,7 +50,10 @@ namespace dbCompanyTest.Controllers
         {
             return PartialView();
         }
-
+        public IActionResult PartialToDoList()
+        {
+            return PartialView();
+        }
 
 
         //==================================================
