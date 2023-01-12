@@ -118,7 +118,6 @@
     border: 0;
     font: inherit;
     vertical-align: baseline;
-    vertical-align: baseline;
 }
 
 .favorites {
@@ -158,6 +157,11 @@
         background-color: #d3d3d5 !important;
         color: #fff !important;
     }
+a {
+    color: #7e8c8d !important;
+    text-decoration: none;
+    -webkit-backface-visibility: hidden;
+}
 
 .modal .res-error-ok {
     width: 30%;
@@ -198,6 +202,7 @@
     padding: 0;
     border: 0;
 }
+
 .modal-box {
     width: auto;
     background-color: rgba(0,0,0,0.6);
@@ -220,6 +225,7 @@
     font-weight: normal;
     vertical-align: baseline;
 }
+
 .modal-content {
     background-color: #fff;
     max-width: 200px;
@@ -233,11 +239,12 @@
     font-weight: normal;
     vertical-align: baseline;
 }
+
 .modal-header {
     display: flex;
     justify-content: flex-end;
     background-color: #fff;
-    min-height:22px;
+    min-height: 22px;
     margin: 0;
     padding: 0;
     border: 0;
@@ -245,6 +252,7 @@
     font-weight: normal;
     vertical-align: baseline;
 }
+
 .modal-close {
     width: 15px;
     height: 10px;
@@ -262,6 +270,7 @@
     font-weight: normal;
     vertical-align: baseline;
 }
+
 .content-box {
     padding-bottom: 40px;
     margin: 0;
@@ -293,5 +302,6 @@
     font-weight: normal;
     vertical-align: baseline;
 }
+
 .val {
 }

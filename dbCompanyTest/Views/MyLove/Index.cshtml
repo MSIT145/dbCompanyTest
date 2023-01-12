@@ -22,7 +22,10 @@
                             }
                         }
                         <div class="g-detail">
-                            <div><p>@item.商品名稱</p></div>
+                            @{
+                                string name = item.商品名稱 + " " + item.商品顏色種類;
+                            }
+                            <div><p>@name</p></div>
                             <div><span class="val">顏色: </span><span>@item.商品顏色種類</span></div>
                             <div><span class="val">尺寸: </span><span>@item.尺寸種類</span></div>
                         </div>
