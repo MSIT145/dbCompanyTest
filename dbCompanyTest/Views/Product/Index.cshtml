@@ -66,8 +66,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label  class="control-label">上架時間</label>
-                                   <input name="time" class="form-control" type="date" />                
-                                </div>
+                                <input name="time" class="form-control" type="datetime-local" />
+                            </div>
                                     <div class="form-group">
                                     <label class="control-label">商品名稱</label>
                                     <input name="name" class="form-control" />
@@ -79,8 +79,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label  class="control-label">商品介紹</label>
-                                    <input name="introduce" class="form-control" />
-               
+                                   <textarea class="form-control" placeholder="撰寫產品介紹" id="_introduce" style="height: 100px"></textarea>
+                                    <input name="introduce" class="form-control"  type="hidden"/>
                                 </div>
                                 <div class="form-group">
                                     <label  class="control-label">商品材質</label>
@@ -112,7 +112,7 @@
                                     <input name="shoeid" class="form-control" type="hidden" />
                                     </div>
                                     <br>
-                                    <div class="row">
+                            <div class="row" style="display: none;">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                                 <label  class="control-label">商品是否有貨</label>
@@ -138,7 +138,7 @@
             <div class="modal-footer">
                 <button type="button" id="P_Create" class="btn btn-success" >新增</button>
                 <button type="button" id="P_Edit" class="btn btn-primary"  style="display: none;">修改</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                <button type="button"  id="P_Close" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
             </div>
         </div>
     </div>
@@ -193,28 +193,27 @@
                 $("#_商品鞋種id").html(S_options);
             });
         });
+
+
         //新增產品表單送出按鈕
         $("#P_Create").on('click',()=>{
              //取得是否有貨的值寫入instock
-            $("input[name='instock']").val($("#_商品分類id").val());
+            $("input[name='instock']").val($("#_有貨").prop("checked"));
             //取得是否上架的值寫入onshelves
-            $("input[name='onshelves']").val($("#_商品鞋種id").val());
+            $("input[name='onshelves']").val($("#_上架").prop("checked"));
             //取得鞋種寫入shoeid
-            $("input[name='shoeid']").val($("#_有貨").prop("checked"));
+            $("input[name='typeid']").val($("#_商品分類id").val());
             //取得分類寫入typeid
-            $("input[name='typeid']").val($("#_上架").prop("checked"));
-
-            console.log($("input[name='instock']").val());
-            console.log($("input[name='onshelves']").val());
-            console.log($("input[name='shoeid']").val());
-            console.log($("input[name='typeid']").val());
+            $("input[name='shoeid']").val($("#_商品鞋種id").val());
+            //取得產品資訊
+            $("input[name='introduce']").val($("#_introduce").val());
+          
 
             var formData = new FormData(document.ProC_Form); //from 的名稱
-            $.post("@Url.Content("~/product/CreateProduct")", $("#form01").serialize(), (datas) => {
-                console.log(datas);
-            
-            });
-
+            $.post("@Url.Content("~/product/CreateProduct")", $("#form01").serialize(), (datas) => { alert(datas); $("#P_Close").click(); })
+            //清空欄位
+            //重新載入
+            change_table();
         });
       
 
@@ -226,6 +225,7 @@
         let table = null;
         console.log("url01=" + url01);
         let funcLoad = () => {
+          
             table = $('#tableAll').DataTable(
                 {
                     /*@Url.Action()只能在cshtml上執行，因為是Rezer語法，在js檔內只會被當成字串 */
@@ -270,7 +270,7 @@
                                 data: null,
                                 className: 'edit',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" title="修改"><i class="fas fa-edit"></i> 修改</button>';
+                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="P_btnEdit" title="修改" ><i class="fas fa-edit"></i> 修改</button>';
 
                                 },
                                 orderable: false,
@@ -293,7 +293,52 @@
             $('#tableAll').on('click', 'button[name="DetailCreate"]', function () {
                 $("#Moda_D_C .modal-body").load("@Url.Content("~/Product/_CreateDetail")");
             })
+
+            //加入按鈕事件(產品編輯)
+            $('#tableAll').on('click', 'button[name="P_btnEdit"]',function(){
+                 var row = $(this).parents('tr');
+
+                $("#btn_ProForm").click();
+                $("#Moda_P_C input[name='id']").parent().show();
+                $("#Moda_P_C input[name='id']").val(row.find('td:eq(1)').text().trim())
+                $("#Moda_P_C input[name='time']").val(row.find('td:eq(2)').text().trim())
+                 $("#Moda_P_C input[name='name']").val(row.find('td:eq(3)').text().trim())
+                $("#Moda_P_C input[name='price']").val(row.find('td:eq(4)').text().trim())
+                //_introduce
+                $("#Moda_P_C #_introduce").val(row.find('td:eq(5)').text().trim())
+                //material
+                $("#Moda_P_C input[name='material']").val(row.find('td:eq(6)').text().trim())
+                //weight
+                $("#Moda_P_C input[name='weight']").val(row.find('td:eq(7)').text().trim())
+                //cost
+                $("#Moda_P_C input[name='cost']").val(row.find('td:eq(8)').text().trim())
+                //_商品分類id
+                //$("#Moda_P_C #_商品分類id option:selected").text(row.find('td:eq(9)').text().trim())
+                //_商品鞋種id
+                //$("#Moda_P_C #_商品鞋種id option:selected").text(row.find('td:eq(10)').text().trim())
+                //$("#_商品分類id option:eq(3)").attr('selected', 'selected');
+
+                //$("#_商品分類id").val();
+                //'4'
+                //id=P_Create
+                $("#Moda_P_C #P_Create ").hide();
+                //id=P_Edit
+                $("#Moda_P_C #P_Edit ").show();
+                console.log(row.find('td:eq(3)').text().trim());
+
+            })
         }
+
+        //重新加載
+      function change_table()
+      {
+          table.destroy();
+          funcLoad();
+      }
+
+    
+
+
 
         //每一行明細的點擊事件
         $('#tableAll>tbody').on('click', 'td.details-control', function () {
@@ -353,7 +398,7 @@
                                         `<td><img src="@Url.Content("~/images")/${item.商品圖片3}.jpg" width="100" height="50" '/></td>` +
                                         `<td>${item.是否上架}</td>` +
                                         `<td>${item.是否有貨}</td>` +
-                                        `<td><button type="submit" class="btn btn-primary" id="E_${item.明細編號}" title="修改"><i class="fas fa-edit">修改</i></button></td>` +
+                                        `<td><button type="submit" class="btn btn-primary" id="E_${item.明細編號}" title="修改" ><i class="fas fa-edit">修改</i></button></td>` +
                                         `<td><button type="submit" class="btn btn-primary" id="D_${item.明細編號}" title="刪除"><i class="fa fa-minus-square"> 刪除</i></button></td>` +
                                         `</tr>`;
                     appH += temptr;
