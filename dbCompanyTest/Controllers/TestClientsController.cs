@@ -21,7 +21,7 @@ namespace dbCompanyTest.Controllers
         // GET: TestClients
         public async Task<IActionResult> Index()
         {
-              return View(await _context.TestClients.ToListAsync());
+            return View(await _context.TestClients.ToListAsync());
         }
 
         // GET: TestClients/Details/5
@@ -39,7 +39,7 @@ namespace dbCompanyTest.Controllers
                 return NotFound();
             }
 
-                return View(testClient);
+            return View(testClient);
         }
 
         // GET: TestClients/Create
@@ -55,10 +55,10 @@ namespace dbCompanyTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("客戶編號,客戶姓名,客戶電話,身分證字號,縣市,區,地址,Email,密碼,性別,生日")] TestClient testClient)
         {
-            var count = _context.TestClients.Count() + 1;
-            testClient.客戶編號 = $"CL{testClient.身分證字號.Substring(1, 1)}-{count.ToString("0000")}{testClient.身分證字號.Substring(6, 3)}";
-            if (/*ModelState.IsValid*/true)
+            if (!_context.TestClients.Any(c => c.Email == testClient.Email || c.客戶電話 == testClient.客戶電話 || c.身分證字號 == testClient.身分證字號))
             {
+                var count = _context.TestClients.Count() + 1;
+                testClient.客戶編號 = $"CL{testClient.身分證字號.Substring(1, 1)}-{count.ToString("0000")}{testClient.身分證字號.Substring(7, 3)}";
                 _context.Add(testClient);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -149,14 +149,14 @@ namespace dbCompanyTest.Controllers
             {
                 _context.TestClients.Remove(testClient);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TestClientExists(string id)
         {
-          return _context.TestClients.Any(e => e.客戶編號 == id);
+            return _context.TestClients.Any(e => e.客戶編號 == id);
         }
     }
 }

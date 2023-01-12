@@ -2,6 +2,7 @@
 using dbCompanyTest.ViewModels;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Text.Json;
 
 namespace dbCompanyTest.Controllers
@@ -164,14 +165,24 @@ namespace dbCompanyTest.Controllers
         {
             return PartialView();
         }
-        [HttpPost]
-        public IActionResult CreateClient(TestClient x)
+        
+        public IActionResult CheckClient(TestClient x)
         {
             if (x == null)
-                return PartialView();
+                return Content("請輸入資料");
             else
             {
-                return RedirectToAction("Index", "Home");
+                dbCompanyTestContext _context = new dbCompanyTestContext();
+                if (!_context.TestClients.Any(c=>c.Email == x.Email || c.客戶電話 == x.客戶電話 || c.身分證字號 == x.身分證字號))
+                {
+                    int count = _context.TestClients.Count() + 1;
+                    x.客戶編號 = $"CL{x.身分證字號.Substring(1, 1)}-{count.ToString("0000")}{x.身分證字號.Substring(7, 3)}";
+                    _context.TestClients.Add(x);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                    return Content("Email,電話或身分證字號已被使用");
             }
         }
     }

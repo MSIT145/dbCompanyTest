@@ -1,5 +1,5 @@
 ﻿<div id="createPage">
-    <form asp-action="Create" asp-controller="TestClients">
+    <form id="userForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="客戶編號" />
         <input type="text" name="客戶姓名" class="Linput" placeholder="姓名" /><br />
         <input type="text" name="客戶電話" class="Linput" placeholder="電話" /><br />
@@ -14,11 +14,17 @@
         <input type="submit" value="註冊" id="checkcreate" />
     </form>
 </div>
-    <script src="~/datas/taiwan_districts.js"></script>
-    <script src="~/js/city_data.js"></script>
-    <script>
-        //$(`#checkcreate`).on(`click`, function (event) {
-        //    event.preventDefault();
-            
-        //});
-    </script>
+<script src="~/datas/taiwan_districts.js"></script>
+<script src="~/js/city_data.js"></script>
+<script>
+    $(`#checkcreate`).on(`click`, async function (event) {
+        event.preventDefault();
+
+        const userdata = new FormData($(`#userForm`).eq(0)[0]);
+        $.post("@Url.Content("~/Login/CheckClient")", userdata, function (data) {
+            console.log(data);
+            alert(data);
+
+        })
+    });
+</script>
