@@ -129,9 +129,21 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult Logout()
         {
+            //Gary
+            dbCompanyTestContext _context = new dbCompanyTestContext();
+            string userjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+            var userdata = JsonSerializer.Deserialize<TestClient>(userjson);
+            var user = _context.TestClients.Where(x => x.客戶編號 == userdata.客戶編號);
+            _context.TestClients.RemoveRange(user);
+            _context.SaveChanges();
+            string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
+            var lovedata = JsonSerializer.Deserialize<TestClient>(lovejson);
+            _context.TestClients.AddRange(lovedata);
+            _context.SaveChanges();
+            //--------------------------------------------------------------
+
             HttpContext.Session.Remove(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
-            HttpContext.Session.Remove(CDittionary.SK_USE_FOR_MYLOVE_SESSION_OLD);
-            HttpContext.Session.Remove(CDittionary.SK_USE_FOR_MYLOVE_SESSION_NEW);
+            HttpContext.Session.Remove(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
             return RedirectToAction("Index", "Home");
         }
 

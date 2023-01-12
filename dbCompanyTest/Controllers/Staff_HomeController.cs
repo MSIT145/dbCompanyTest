@@ -31,6 +31,7 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult login()
         {
+            HttpContext.Session.Remove("Account");
             return View();
         }
         [HttpPost]
@@ -86,7 +87,6 @@ namespace dbCompanyTest.Controllers
                             訂單編號 = c.訂單編號,
                             客戶編號 = c.客戶編號,
                             送貨地址 = c.送貨地址,
-                            訂單狀態 = c.訂單狀態,
                             商品名稱 = e.商品名稱,
                             尺寸種類 = b.尺寸種類,
                             色碼 = d.色碼,

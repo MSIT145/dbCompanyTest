@@ -10,5 +10,12 @@ namespace dbCompanyTest.ViewModels
         public string? pro商品顏色 { get; set; }
         public string? pro商品尺寸 { get; set; }
         public string? pro商品分類 { get; set; }
+        public string? pro商品材質 { get; set; }
+        public string? pro商品介紹 { get; set; }
+        public string? pro商品圖片1 { get; set; }
+        public string? pro商品圖片2 { get; set; }
+        public string? pro商品圖片3 { get; set; }
+        
+
     }
 }
