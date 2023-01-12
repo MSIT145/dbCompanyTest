@@ -1,4 +1,8 @@
 ﻿var TDLpath = $(`#TDLpath`).val();
+
+console.log(`PartialView`)
+
+
 $.ajax({
     url: `${TDLpath}`,
     type: "GET",

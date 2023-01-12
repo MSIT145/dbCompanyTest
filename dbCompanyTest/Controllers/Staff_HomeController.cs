@@ -17,7 +17,7 @@ namespace dbCompanyTest.Controllers
             string stfNum = HttpContext.Session.GetString("Account");
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
-            ViewBag.acc = $"{stfNum} {stf.員工姓名} 您好! {stf.部門}";
+            ViewBag.acc = $"{stfNum} {stf.員工姓名} {stf.部門}";
             return View();
         }
         public async Task<IActionResult> Index_HR()
@@ -25,7 +25,7 @@ namespace dbCompanyTest.Controllers
             string stfNum = HttpContext.Session.GetString("Account");
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
-            ViewBag.HR = $"{stfNum} {stf.員工姓名} 您好! {stf.部門}";
+            ViewBag.HR = $"{stfNum} {stf.員工姓名} {stf.部門}";
             return View(await _context.TestStaffs.ToListAsync());
         }
 
