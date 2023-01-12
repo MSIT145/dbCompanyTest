@@ -49,6 +49,8 @@ namespace dbCompanyTest.Controllers
                 var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
                 var data = datas.FirstOrDefault(x => x.Id == id);
                 datas.Remove(data);
+                json = JsonSerializer.Serialize(datas);
+                HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
                 return Content("刪除成功");
             }
             else
@@ -60,15 +62,16 @@ namespace dbCompanyTest.Controllers
         {
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
             {
-                List<會員商品暫存> shoppingcart = null;
+                List<會員商品暫存> shoppingcart = new List<會員商品暫存>();
                 //讀出購物車session
                 string cartjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
                 shoppingcart = JsonSerializer.Deserialize<List<會員商品暫存>>(cartjson);
                 //讀出我的最愛session
                 string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
                 var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson);
-                會員商品暫存 data = new 會員商品暫存();
-                data = datas.Find(x => x.Id == id);
+                會員商品暫存 data = null;
+                data = datas.FirstOrDefault(x => x.Id == id);
+                data.購物車或我的最愛 = true;
                 shoppingcart.Add(data);
                 cartjson = JsonSerializer.Serialize(shoppingcart);
                 HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
@@ -76,11 +79,12 @@ namespace dbCompanyTest.Controllers
             }
             else
             {
-                List<會員商品暫存> shoppingcart = null;
+                List<會員商品暫存> shoppingcart = new List<會員商品暫存>();
                 string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
                 var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson);
-                會員商品暫存 data = new 會員商品暫存();
-                data = datas.Find(x => x.Id == id);
+                會員商品暫存 data = null;
+                data = datas.FirstOrDefault(x => x.Id == id);
+                data.購物車或我的最愛 = true;
                 shoppingcart.Add(data);
                 string cartjson = JsonSerializer.Serialize(shoppingcart);
                 HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
