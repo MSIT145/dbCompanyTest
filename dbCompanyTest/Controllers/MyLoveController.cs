@@ -12,51 +12,43 @@ namespace dbCompanyTest.Controllers
     public class MyLoveController : Controller
     {
         dbCompanyTestContext _context = new dbCompanyTestContext();
-        List<會員商品暫存> shoppingcart = null;
-        List<會員商品暫存> MyLovelist = null;
         public IActionResult Index()
         {
+            //判斷是否登入
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
             {
+                //取得Login Session
                 string login = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
                 var user = JsonSerializer.Deserialize<TestClient>(login);
-                if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_MYLOVE_SESSION_OLD))
+                //判斷之前是否有Session
+                if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_MYLOVE_SESSION))
                 {
+                    //開啟MyloveSession
                     var data = _context.會員商品暫存s.Select(x => x).Where(y => y.購物車或我的最愛 != true && y.客戶編號.Contains(user.客戶編號)).ToList();
-                    string myloveold = JsonSerializer.Serialize(data);
-                    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION_OLD, myloveold);
+                    string json = JsonSerializer.Serialize(data);
+                    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
                     return View(data);
                 }
-                else 
+                else
                 {
-                    var json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION_OLD);
-                    var data = JsonSerializer.Deserialize<List < 會員商品暫存 >> (json);
-                    if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_MYLOVE_SESSION_NEW))
-                    {
-                        string jsonnew = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION_NEW);
-                        MyLovelist = JsonSerializer.Deserialize<List<會員商品暫存>>(jsonnew);
-                        MyLovelist.AddRange(data);
-                        return View(MyLovelist);
-                    }
-                    else
-                    {
-                        return View(data);
-                    }
+                    var json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
+                    var data = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
+                    return View(data);
                 }
             }
             else
             {
                 return RedirectToAction("Login", "Login");
             }
-
         }
         public IActionResult Delete(int? id)
         {
             if (id != null)
             {
-                var data = _context.會員商品暫存s.FirstOrDefault(x => x.Id == id);
-                _context.會員商品暫存s.Remove(data);
-                _context.SaveChanges();
+                string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
+                var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
+                var data = datas.FirstOrDefault(x => x.Id == id);
+                datas.Remove(data);
                 return Content("刪除成功");
             }
             else
@@ -68,14 +60,15 @@ namespace dbCompanyTest.Controllers
         {
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
             {
+                List<會員商品暫存> shoppingcart = null;
                 //讀出購物車session
                 string cartjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
                 shoppingcart = JsonSerializer.Deserialize<List<會員商品暫存>>(cartjson);
                 //讀出我的最愛session
-                string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION_NEW);
-                MyLovelist = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson);
+                string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
+                var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson);
                 會員商品暫存 data = new 會員商品暫存();
-                data = MyLovelist.Find(x => x.Id == id);
+                data = datas.Find(x => x.Id == id);
                 shoppingcart.Add(data);
                 cartjson = JsonSerializer.Serialize(shoppingcart);
                 HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
@@ -83,10 +76,11 @@ namespace dbCompanyTest.Controllers
             }
             else
             {
-                string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION_NEW);
-                MyLovelist = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson);
+                List<會員商品暫存> shoppingcart = null;
+                string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
+                var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson);
                 會員商品暫存 data = new 會員商品暫存();
-                data = MyLovelist.Find(x => x.Id == id);
+                data = datas.Find(x => x.Id == id);
                 shoppingcart.Add(data);
                 string cartjson = JsonSerializer.Serialize(shoppingcart);
                 HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
