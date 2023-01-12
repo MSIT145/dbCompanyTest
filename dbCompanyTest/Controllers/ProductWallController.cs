@@ -44,7 +44,7 @@ namespace dbCompanyTest.Controllers
         //---------------------- Gary產品頁 ----------------------------
         public IActionResult Details(int? id)
         {
-            id = 1;
+            id = 4;
             List<ProductDetailViewModels> PDMS = new List<ProductDetailViewModels>();
             ProductDetailViewModels pdm = null;
             if (id == null)
@@ -57,7 +57,6 @@ namespace dbCompanyTest.Controllers
                                     join procolor in _context.ProductsColorDetails on prod.商品顏色id equals procolor.商品顏色id
                                     join prosize in _context.ProductsSizeDetails on prod.商品尺寸id equals prosize.商品尺寸id
                                     join pro分類 in _context.ProductsTypeDetails on c.商品分類id equals pro分類.商品分類id
-
                                     where c.商品編號id == id
                                     select new
                                     {
