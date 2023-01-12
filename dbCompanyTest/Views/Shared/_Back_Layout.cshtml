@@ -31,6 +31,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">商品資料</a>
                         </li>
+                        <h4>@await RenderSectionAsync("User_info", required: false)</h4>
 
                     </ul>
                 </div>

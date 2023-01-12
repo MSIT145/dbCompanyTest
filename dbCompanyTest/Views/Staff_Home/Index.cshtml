@@ -5,6 +5,9 @@
 @{
     Layout = "_Back_Layout";
 }
+@section User_info {
+    @ViewBag.acc
+}
 
 <input type="hidden" id="TDLpath" value="@Url.Content("~/Staff_Home/LoadToDoList")" />
 <input type="hidden" id="path" value="@Url.Content("~/Staff_Home/LoadSheeplist")" />

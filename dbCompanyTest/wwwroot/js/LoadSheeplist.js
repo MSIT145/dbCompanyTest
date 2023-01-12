@@ -9,7 +9,6 @@ $.ajax({
         $.each(data, function (i, i_val) {
             const eleT = $(`<tr></tr>`).append(`<td>${i_val.訂單編號}</td>
                         <td>${i_val.客戶編號}</td>
-                        <td>${i_val.訂單狀態}</td>
                         <td>${i_val.商品名稱}</td>
                         <td>${i_val.尺寸種類}</td>
                         <td>${i_val.商品數量}</td>
