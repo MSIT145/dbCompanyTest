@@ -92,17 +92,24 @@ namespace dbCompanyTest.Controllers
             return Content($"{OPvalue}", "text/plain", Encoding.UTF8);
         }
 
-
-
-        public IActionResult CarPartial()
+public IActionResult DeleteCarSession(int? id)
         {
-            return PartialView(_context.會員商品暫存s.Include(會 => 會.客戶編號Navigation).Where(c => c.購物車或我的最愛 == true && c.客戶編號.Contains(name)));
+            List<會員商品暫存>? carSession = null;
+            if(id != null)
+            {
+                var json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+                var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
+                var data =datas.FirstOrDefault(x=>x.Id==id);
+                datas.Remove(data);
+                json=JsonSerializer.Serialize(datas);
+                HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
+                return Content("刪除");
+            }
+            else
+            {
+                return Content("NO");
+            }
         }
-        public IActionResult CarTwdPartial()
-        {
-            return PartialView(_context.會員商品暫存s.Include(會 => 會.客戶編號Navigation).Where(c => c.購物車或我的最愛 == true && c.客戶編號.Contains(name)));
-        }
-
 
 
 

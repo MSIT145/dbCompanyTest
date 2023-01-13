@@ -13,7 +13,6 @@
     <link href="~/css/mychat.css" rel="stylesheet" />
     <link href="~/css/car.css" rel="stylesheet" />
     @await RenderSectionAsync("Style", required: false)
-
 </head>
 <body>
     <header>
@@ -205,14 +204,37 @@
 
 
         const carjson = document.querySelector('#car_iten');
-        const carHtml = document.querySelector('.car_click')
-        const TotoM = document.querySelector('.total_twd')
-        
+        const carHtml = document.querySelector('.car_click');
+        const TotoM = document.querySelector('.total_twd');
+        //const TrashCan = document.querySelector('.purchase-icon');
+
         carHtml.addEventListener('click', () => {
             SetCar();
+
         })
+        //TrashCan.addEventListener('click', () => {
+        //    console.log("123");
+        //    //deleteIton();
+        //});
+
         //SetCar();
         joinCarSession();
+
+        //function deleteIton(){
+            
+        //    var a = $(this).find("input").val();
+        //    console.log(a);
+        //    del(a);
+        //}
+
+        async function del(id) {
+            console.log(id);
+            const data = await fetch(`@Url.Content("~/Shopping/DeleteCarSession?id=${id}")`);
+            const response = await data.text();
+            error(response);
+            $(`#car_iten`).find(`#${id}`).remove();
+        }
+
         async function joinCarSession() {
             const reb = await fetch(`@Url.Content("~/Shopping/joinSQLToSession")`)
             const data =await reb.text();
@@ -229,29 +251,47 @@
                 a = value.圖片1檔名
                 x = value.商品價格
                 countM += x
-                return (`<div class="row">
+                return (`<div class="row" id="${value.Id}">
                     <div class="col-3">
                                         <img  src="@Url.Content("~/images/${a}")" width="70" />
                     </div>
-                    <div class="col-9">
+                    <div class="col-8">
                                 <div>品名:<a>${value.商品名稱}</a></div>
                                         <div>尺寸:<a>${value.尺寸種類}</a></div>
                                         <div>顏色:<a>${value.商品顏色種類}</a></div>
                                         <div>數量:<a>${value.訂單數量}</a></div>
                                 <div>價格:<a class="m">${value.商品價格}</a></div>
                     </div>
-            </div>
+                    <div class="purchase-icon col-1">
+                                            <input type="hidden" value="${value.Id}" />
+                                </div>
             <br/>`);
             })
             TOTAL_TWD = `TOTAL TWD $${countM}`
             carjson.innerHTML = carOpts.join("")
             TotoM.innerHTML = TOTAL_TWD
+            const TrashCan = document.querySelector('.purchase-icon');
+            TrashCan.addEventListener('click', ()=>{
+                console.log("123");
+                var a = $( event.currentTarget ).find("input").val();
+                console.log(a);
+                del(a);
+            });
         }
 
+                        
         //$('.car_dital').load("@Url.Content("~/Shopping/CarPartial")")
         //$('.car_dolor').load("@Url.Content("~/Shopping/CarTwdPartial")")
     </script>
-
+@*    <script defer>
+        document.addEventListener("DOMContentLoaded", () => {
+            const TrashCan = document.querySelector('.purchase-icon');
+            TrashCan.addEventListener('click', () => {
+                console.log("123");
+                //deleteIton();
+            });
+        })
+    </script>*@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

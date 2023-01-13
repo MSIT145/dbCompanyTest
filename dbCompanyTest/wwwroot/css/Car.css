@@ -34,3 +34,18 @@
     border: solid 1px #C4C4C4;
     background-color: burlywood;
 }
+
+.purchase-icon {
+    width: 25px;
+    height: 25px;
+    background-image: url(https://www.gracegift.com.tw/assets/images/collect-del.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+}
