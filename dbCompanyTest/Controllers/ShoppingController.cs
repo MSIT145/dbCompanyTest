@@ -30,58 +30,60 @@ namespace dbCompanyTest.Controllers
             //List<CarViewModels> list=null;
 
             var dbCompanyTestContext = _context.會員商品暫存s.Include(會 => 會.客戶編號Navigation).Where(c => c.購物車或我的最愛 == true && c.客戶編號.Contains(name)).ToList();
-            //foreach (var c in dbCompanyTestContext.l)
 
-            //    var datas = from c in _context.會員商品暫存s where c.購物車或我的最愛 ==true && c.客戶編號==name
-            //            join o in _context.ProductDetails on c.商品編號 equals o.商品編號id
-            //            join a in _context.圖片位置s on o.圖片位置id equals a.圖片位置id
-            //           select new
-            //           {
-            //               a.商品圖片1,
-            //               c.商品名稱,
-            //               c.商品價格,
-            //               c.商品顏色種類,
-            //               c.尺寸種類,
-            //               c.訂單數量,
-            //               c.Id,
-            //               c.客戶編號,
-            //               c.商品編號
-            //           };
-            //if (datas == null)
-            //    return Redirect("../Home/Index");
-            //string json = "";
-            //if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
-            //{
-            //    json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
-            //    list = JsonSerializer.Deserialize<List<CarViewModels>>(json);
-            //}
-            //else
-            //    list = new List<CarViewModels>();
+            List<會員商品暫存> carSession = null;
+            string json = "";
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
+            {
+                json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+                carSession = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
+            }
+            else
+                carSession = new List<會員商品暫存>();
+            foreach(會員商品暫存 x in dbCompanyTestContext)
+            {
+                carSession.Add(x);
+                json = JsonSerializer.Serialize(carSession);
+                HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
 
-            //foreach (var data in dbCompanyTestContext)
-            //{
-            //    CarViewModels c = new CarViewModels();
-            //    if (data.商品圖片1 == "0201")
-            //        c.car圖片位置.商品圖片1 = "404.jpg";
-            //    else
-            //        c.car圖片位置.商品圖片1 = data.商品圖片1;
-            //    c.訂單數量 = data.訂單數量;
-            //    c.商品顏色種類 = data.商品顏色種類;
-            //    c.商品編號 = data.商品編號;
-            //    c.Id=data.Id;
-            //    c.商品名稱 = data.商品名稱;
-            //    c.商品價格 = data.商品價格;
-            //    c.客戶編號 = data.客戶編號;
-            //    c.尺寸種類=data.尺寸種類;
-            //    list.Add(c);
-                //json = JsonSerializer.Serialize(dbCompanyTestContext);
-                //HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
-            //}
-
-            //var datas = (_context.會員商品暫存s).Join(_context.ProductDetails, c => c.商品編號, o => o.商品編號id);
+            }
             return View(dbCompanyTestContext);
         }
+        public IActionResult joinSQLToSession()
+        {
+            var dbCompanyTestContext = _context.會員商品暫存s.Select(x => x).Where(c => c.購物車或我的最愛 == true && c.客戶編號.Contains(name)).ToList();
+            List<會員商品暫存>? carSession = null;
+            string json = "";
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
+            {
+                json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+                carSession = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
+            }
+            else
+                carSession = new List<會員商品暫存>();
+            foreach (會員商品暫存 x in dbCompanyTestContext)
+            {
+                carSession.Add(x);
+                json = JsonSerializer.Serialize(carSession);
+                HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
 
+            }
+            return Content("加入");
+        }
+        public IActionResult GetCarJson()
+        {
+            var json = "";
+            List<會員商品暫存>? carSession = null;
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
+            {
+                json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+                carSession = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
+            }
+            else
+                json = "NO";
+
+                return Json(carSession);
+        }
         public IActionResult GetDeliveryMony(string OPvalue)
         {
             if (string.IsNullOrEmpty(OPvalue))

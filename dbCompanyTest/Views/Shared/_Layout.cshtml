@@ -40,13 +40,13 @@
                         <a class="tool-item flex-fill" href=""><img src="~/homeImg/collect_pc.png"></a>
                     </div>
                     <div class="tool-p shopping-cart flex-fill">
-                        <a class="tool-item" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><img src="~/homeImg/shopping_cart_pc.png"><span class="g-nums" id="cart_num_pc">0</span></a>
+                        <a class="tool-item car_click" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><img src="~/homeImg/shopping_cart_pc.png"><span class="g-nums" id="cart_num_pc">0</span></a>
                     </div>
 
                 </div>
                 <div class="collapse  " style="position:absolute;top:1.3%;right:2%;z-index:1;width:350px;" id="collapseExample">
                     <div class="card card-body car_body car_all" style="height:500px">
-                        <div class="car_dital car_all">
+                        <div class="car_dital car_all"id="car_iten">
 
                         </div>
                         <div class="car_dolor car_all">
@@ -200,8 +200,53 @@
             });
         });
 
-        $('.car_dital').load("@Url.Content("~/Shopping/CarPartial")")
-        $('.car_dolor').load("@Url.Content("~/Shopping/CarTwdPartial")")
+
+        const carjson = document.querySelector('#car_iten');
+        const carHtml = document.querySelector('.car_click')
+        const TotoM = document.querySelector('.total_twd')
+        
+        carHtml.addEventListener('click', () => {
+            SetCar();
+        })
+        //SetCar();
+        joinCarSession();
+        async function joinCarSession() {
+            const reb = await fetch(`@Url.Content("~/Shopping/joinSQLToSession")`)
+            const data =await reb.text();
+            console.log(data);
+        }
+
+        async function SetCar() {
+            const reb = await fetch(`@Url.Content("~/Shopping/GetCarJson")`)
+            const data = await reb.json();
+            console.log(reb);
+            console.log(data);
+            countM=0;
+            const carOpts =data.map((value)=>{
+                a = value.圖片1檔名
+                x = value.商品價格
+                countM += x
+                return (`<div class="row">
+                    <div class="col-3">
+                                        <img  src="@Url.Content("~/images/${a}")" width="70" />
+                    </div>
+                    <div class="col-9">
+                                <div>品名:<a>${value.商品名稱}</a></div>
+                                        <div>尺寸:<a>${value.尺寸種類}</a></div>
+                                        <div>顏色:<a>${value.商品顏色種類}</a></div>
+                                        <div>數量:<a>${value.訂單數量}</a></div>
+                                <div>價格:<a class="m">${value.商品價格}</a></div>
+                    </div>
+            </div>
+            <br/>`);
+            })
+            TOTAL_TWD = `TOTAL TWD $${countM}`
+            carjson.innerHTML = carOpts.join("")
+            TotoM.innerHTML = TOTAL_TWD
+        }
+
+        //$('.car_dital').load("@Url.Content("~/Shopping/CarPartial")")
+        //$('.car_dolor').load("@Url.Content("~/Shopping/CarTwdPartial")")
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
