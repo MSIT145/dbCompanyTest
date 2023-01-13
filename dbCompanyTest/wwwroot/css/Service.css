@@ -1,0 +1,10 @@
+﻿#serviceName {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#Main{
+    width:80%;
+    height:800px;
+    margin:5px 15%;
+    background-color:aquamarine;
+}
