@@ -1,5 +1,5 @@
 ﻿<div id="createPage">
-    <form id="userForm" method="post" enctype="multipart/form-data">
+    <form name="userForm" method="post">
         <input type="hidden" name="客戶編號" />
         <input type="text" name="客戶姓名" class="Linput" placeholder="姓名" /><br />
         <input type="text" name="客戶電話" class="Linput" placeholder="電話" /><br />
@@ -17,14 +17,34 @@
 <script src="~/datas/taiwan_districts.js"></script>
 <script src="~/js/city_data.js"></script>
 <script>
+    $(`input[name=Email],input[name=客戶電話],input[name=身分證字號]`).on(`blur`, function () {
+        const checkInput = $(this);
+        const EIP = checkInput.val();
+        if (EIP) {
+            $.post("@Url.Content("~/TestClients/checkJoindata")", { "EIP": EIP }, function (bool) {
+                if (bool == "True") {
+                    checkInput.next().remove();
+                    checkInput.after($(`<p style="color:red;margin:0;">已經有人使用</p>`));
+                }
+                else {
+                    if (checkInput.next().text()) {
+                        checkInput.next().remove();
+                        checkInput.after($(`<br/>`));
+                    }
+                }
+            });
+        }
+    });
+
     $(`#checkcreate`).on(`click`, async function (event) {
         event.preventDefault();
 
-        const userdata = new FormData($(`#userForm`).eq(0)[0]);
-        $.post("@Url.Content("~/Login/CheckClient")", userdata, function (data) {
-            console.log(data);
-            alert(data);
-
-        })
+        const userdata = new FormData(document.userForm);
+        const response = await fetch("@Url.Content("~/Login/CheckClient")",{
+            method:"POST",
+            body:userdata
+        });
+        const data = await response.text();
+        console.log(data);
     });
 </script>

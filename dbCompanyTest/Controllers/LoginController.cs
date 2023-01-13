@@ -185,5 +185,6 @@ namespace dbCompanyTest.Controllers
                     return Content("Email,電話或身分證字號已被使用");
             }
         }
+
     }
 }

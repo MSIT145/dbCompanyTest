@@ -158,5 +158,10 @@ namespace dbCompanyTest.Controllers
         {
             return _context.TestClients.Any(e => e.客戶編號 == id);
         }
+
+        public IActionResult checkJoindata(string EIP)
+        {
+            return Content(_context.TestClients.Any(e => e.Email == EIP || e.客戶電話 == EIP || e.身分證字號 == EIP).ToString());
+        }
     }
 }
