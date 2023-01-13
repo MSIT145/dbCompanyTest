@@ -141,8 +141,12 @@ namespace dbCompanyTest.Controllers
                 _context.SaveChanges();
                 //讀取我的最愛Session
                 string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
-                var lovedata = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson);
-                _context.會員商品暫存s.AddRange(lovedata.ToArray());
+                var lovedata = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson).ToArray();
+                foreach (var item in lovedata) {
+                    item.Id = 0;
+                }
+                _context.會員商品暫存s.AddRange(lovedata);
+                _context.SaveChanges();
                 HttpContext.Session.Remove(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
             }
             //--------------------------------------------------------------
