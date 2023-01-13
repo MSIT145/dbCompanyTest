@@ -473,7 +473,7 @@ namespace dbCompanyTest.Models
             {
                 entity.ToTable("會員商品暫存");
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.商品價格).HasColumnType("money");
 
