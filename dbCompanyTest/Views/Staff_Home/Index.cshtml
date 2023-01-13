@@ -2,11 +2,11 @@
 @{
     ViewData["Title"] = "Index";
 }
-@section User_info {
+@*@section User_info {
     @ViewBag.acc
-}
+}*@
 @{
-    Layout = "_Back_Layout";
+    Layout = "_Back_Layout_Sneat";
 }
 
 <input type="hidden" id="TDLpath" value="@Url.Content("~/Staff_Home/LoadToDoList")" />
@@ -14,7 +14,7 @@
 <h1>員工頁面(行政)</h1>
 
 
-@*<h2 id="stf_info">@ViewBag.acc</h2>*@
+<h2 id="stf_info">@ViewBag.acc</h2>
 
 <div id="Sheeplist_div"></div>
 <div id="ToDoList_div"></div>

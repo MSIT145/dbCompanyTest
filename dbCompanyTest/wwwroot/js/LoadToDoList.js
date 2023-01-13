@@ -12,8 +12,8 @@ $.ajax({
     .done(data => {
         let docFrag = $(document.createDocumentFragment());
         $.each(data, function (i, i_val) {
-            const eleT = $(`<tr></tr>`).append(`<td>${i_val.交辦內容}</td>
-                                        <td>${i_val.批示}</td>
+            const eleT = $(`<tr></tr>`).append(`<td>${i_val.表單類型}</td>
+                                        <td>${i_val.表單內容}</td>
                                         <td>${i_val.狀態}</td>`);
             docFrag.append(eleT);
         });
