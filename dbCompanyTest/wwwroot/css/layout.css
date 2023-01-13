@@ -22,3 +22,32 @@
     font-size: 12px;
     overflow: hidden;
 }
+
+.shortcut-box {
+    position: absolute;
+    width: 170px;
+    height: 202px;
+    border: 1px solid #d3d3d5;
+    background-color: #fff;
+    color: #d5baa5;
+    top:4em;
+    right: 2%;
+    z-index: 2;
+    animation: dropdown-menu-fade-in 0.3s ease 1, dropdown-menu-move-down 0.3s ease-out 1;
+    margin-top: 0px;
+    display: none;
+}
+    .shortcut-box a {
+        color: #d5baa5;
+    }
+.shortcut-i {
+    padding: 0 12px;
+    height: 67px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    border-bottom: 1px solid #d3d3d5;
+    color: #d5baa5;
+}
+

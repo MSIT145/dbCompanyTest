@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\homeImg\cb28915426068cce507ee57e90f73fce.jpeg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\staff_login.css" />
   </ItemGroup>
 

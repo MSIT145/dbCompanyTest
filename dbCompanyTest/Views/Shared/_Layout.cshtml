@@ -34,6 +34,20 @@
                         <a class="tool-item" asp-controller="MemberCenter" asp-action="Index">
                             <img src="~/homeImg/sign_pc.png">
                         </a>
+                        <div class="shortcut-box" style="display: blcok;">
+                            <div class="shortcut-i">
+                                <a asp-controller="MemberCenter" asp-action="Index" class="us">MY ACCOUNT</a>
+                                <a asp-controller="MemberCenter" asp-action="Index" class="cn">會員中心</a>
+                            </div>
+                            <div class="shortcut-i">
+                                <a asp-controller="MemberCenter" asp-action="orderinfo" asp-route-id="CL1-00376" class="us">MY ORDERS</a>
+                                <a asp-controller="MemberCenter" asp-action="orderinfo" asp-route-id="CL1-00376" class="cn">訂單查詢</a>
+                            </div>
+                            <div class="shortcut-i">
+                                <a asp-controller="Login" asp-action="Login" class="us">LOGIN</a>
+                                <a asp-controller="Login" asp-action="Login" class="cn">登入</a>
+                            </div>
+                        </div>
                     </div>
                     <div class="tool-p flex-fill">
                         <a class="tool-item flex-fill" href=""><img src="~/homeImg/collect_pc.png"></a>
@@ -103,7 +117,7 @@
         </main>
     </div>
 
-    <div class="chatMain">
+    <div class="chatMain" style="z-index:10;">
         <div class="dot eyes-left"></div>
         <div class="dot eyes-right"></div>
         <div class="dot mouth"></div>
@@ -282,6 +296,32 @@
                         
         //$('.car_dital').load("@Url.Content("~/Shopping/CarPartial")")
         //$('.car_dolor').load("@Url.Content("~/Shopping/CarTwdPartial")")
+
+
+        // 會員下拉選單
+        $('body').delegate('.shortcut', 'click', function () {
+            const _this = $(this);
+            const shortcutBox = _this.find('.shortcut-box');
+            if (shortcutBox.is(':hidden')) {
+                shortcutBox.show()
+
+            } else {
+                shortcutBox.hide();
+            }
+            return false;
+        })
+        
+        $('body').delegate('.shortcut-box', 'click', function (e) {
+            e.stopPropagation();
+        })
+        // 點擊空白區域關閉下拉框
+        $(document).on('click', function (e) {
+            var cont = $('.shortcut,.shortcut-box');
+            if (!cont.is(e.target) && cont.has(e.target).length === 0) {
+                $('.shortcut-box').hide();
+            }
+        })
+
     </script>
 @*    <script defer>
         document.addEventListener("DOMContentLoaded", () => {
