@@ -43,7 +43,7 @@ namespace dbCompanyTest.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=dbCompanyTest;Integrated Security=True;trustservercertificate=true");
+                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=dbCompanyTest;Integrated Security=True;");
             }
         }
 
@@ -240,6 +240,8 @@ namespace dbCompanyTest.Models
 
                 entity.Property(e => e.商品顏色id).HasColumnName("商品顏色ID");
 
+                entity.Property(e => e.商品顏色圖片).HasMaxLength(50);
+
                 entity.Property(e => e.圖片位置id).HasColumnName("圖片位置ID");
 
                 entity.HasOne(d => d.商品尺寸)
@@ -408,9 +410,43 @@ namespace dbCompanyTest.Models
 
                 entity.Property(e => e.交辦事項id).HasColumnName("交辦事項ID");
 
+                entity.Property(e => e.協辦部門).HasMaxLength(50);
+
+                entity.Property(e => e.協辦部門簽核).HasMaxLength(50);
+
+                entity.Property(e => e.協辦部門簽核人員).HasMaxLength(50);
+
+                entity.Property(e => e.協辦部門簽核時間).HasMaxLength(50);
+
                 entity.Property(e => e.員工編號).HasMaxLength(50);
 
-                entity.Property(e => e.狀態).HasMaxLength(50);
+                entity.Property(e => e.執行人).HasMaxLength(50);
+
+                entity.Property(e => e.執行人簽核).HasMaxLength(50);
+
+                entity.Property(e => e.執行時間).HasMaxLength(50);
+
+                entity.Property(e => e.老闆簽核).HasMaxLength(50);
+
+                entity.Property(e => e.老闆簽核時間).HasMaxLength(50);
+
+                entity.Property(e => e.表單狀態).HasMaxLength(50);
+
+                entity.Property(e => e.表單類型).HasMaxLength(50);
+
+                entity.Property(e => e.起單人).HasMaxLength(50);
+
+                entity.Property(e => e.起單時間).HasMaxLength(50);
+
+                entity.Property(e => e.部門主管).HasMaxLength(50);
+
+                entity.Property(e => e.部門主管簽核).HasMaxLength(50);
+
+                entity.Property(e => e.部門主管簽核時間).HasMaxLength(50);
+
+                entity.Property(e => e.附件).HasMaxLength(50);
+
+                entity.Property(e => e.附件path).HasMaxLength(50);
 
                 entity.HasOne(d => d.員工編號Navigation)
                     .WithMany(p => p.ToDoLists)

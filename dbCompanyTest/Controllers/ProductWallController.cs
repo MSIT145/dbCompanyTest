@@ -44,7 +44,8 @@ namespace dbCompanyTest.Controllers
         //---------------------- Gary產品頁 ----------------------------
         public IActionResult Details(int? id)
         {
-            id = 4;
+            //測試用
+            id = 1;
             List<ProductDetailViewModels> PDMS = new List<ProductDetailViewModels>();
             ProductDetailViewModels pdm = null;
             if (id == null)
@@ -71,15 +72,13 @@ namespace dbCompanyTest.Controllers
                                         pro商品圖片1 = prophoto.商品圖片1,
                                         pro商品圖片2 = prophoto.商品圖片2,
                                         pro商品圖片3 = prophoto.商品圖片3
-
-
                                     };
                 foreach (var item in productdetail)
                 {
                     pdm = new ProductDetailViewModels();
-                    pdm.pro商品id = item.pro商品id;
-                    //pdm.pro商品顏色 = item.pro商品顏色;
-                    //pdm.pro商品尺寸 = item.pro商品尺寸;
+                    pdm.pro商品編號 = item.pro商品id;
+                    pdm.pro商品顏色 = item.pro商品顏色;
+                    pdm.pro商品尺寸 = item.pro商品尺寸;
                     pdm.pro商品分類 = item.pro商品分類;
                     pdm.pro商品色碼 = item.pro商品色碼;
                     pdm.pro商品名稱 = item.pro商品名稱;
@@ -93,6 +92,7 @@ namespace dbCompanyTest.Controllers
                 return View(PDMS);
 
             }
+
 
         }
     }

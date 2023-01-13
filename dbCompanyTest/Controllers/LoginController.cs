@@ -131,20 +131,23 @@ namespace dbCompanyTest.Controllers
         public IActionResult Logout()
         {
             //Gary
-            dbCompanyTestContext _context = new dbCompanyTestContext();
-            string userjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
-            var userdata = JsonSerializer.Deserialize<TestClient>(userjson);
-            var user = _context.TestClients.Where(x => x.客戶編號 == userdata.客戶編號);
-            _context.TestClients.RemoveRange(user);
-            _context.SaveChanges();
-            string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
-            var lovedata = JsonSerializer.Deserialize<TestClient>(lovejson);
-            _context.TestClients.AddRange(lovedata);
-            _context.SaveChanges();
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_MYLOVE_SESSION))
+            {
+                dbCompanyTestContext _context = new dbCompanyTestContext();
+                string userjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                var userdata = JsonSerializer.Deserialize<TestClient>(userjson);
+                var del = _context.會員商品暫存s.Select(x => x).Where(y => y.客戶編號 == userdata.客戶編號 && y.購物車或我的最愛 == false);
+                _context.會員商品暫存s.RemoveRange(del);
+                _context.SaveChanges();
+                //讀取我的最愛Session
+                string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
+                var lovedata = JsonSerializer.Deserialize<會員商品暫存>(lovejson);
+                _context.會員商品暫存s.AddRange(lovedata);
+                _context.SaveChanges();
+                HttpContext.Session.Remove(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
+            }
             //--------------------------------------------------------------
-
             HttpContext.Session.Remove(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
-            HttpContext.Session.Remove(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
             return RedirectToAction("Index", "Home");
         }
 

@@ -25,9 +25,18 @@ namespace dbCompanyTest.Controllers
                 {
                     //開啟MyloveSession
                     var data = _context.會員商品暫存s.Select(x => x).Where(y => y.購物車或我的最愛 != true && y.客戶編號.Contains(user.客戶編號)).ToList();
-                    string json = JsonSerializer.Serialize(data);
-                    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
-                    return View(data);
+                    if (data.Count == 0)
+                    {
+                        return View(data);
+                    }
+                    else 
+                    {
+                        string json = JsonSerializer.Serialize(data);
+                        HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
+                        return View(data);
+                    }
+                    
+                    
                 }
                 else
                 {
