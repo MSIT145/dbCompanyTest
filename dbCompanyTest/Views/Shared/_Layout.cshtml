@@ -154,7 +154,7 @@
                 const data = await fetch("@Url.Content("~/Login/getUser")");
                 const uesrName = await data.text();
                 let selfID = $('#SelfID').html();
-                connection.invoke("getName", selfID, uesrName).catch(function (err) {
+                connection.invoke("getName", uesrName).catch(function (err) {
                     alert('傳送錯誤: ' + err.toString());
                 });
             }).catch(function (err) {

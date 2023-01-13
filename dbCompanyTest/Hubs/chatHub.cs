@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using dbCompanyTest.Models;
+using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using System.Text.Json;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace dbCompanyTest.Hubs
 {
@@ -10,7 +13,6 @@ namespace dbCompanyTest.Hubs
 
         public override async Task OnConnectedAsync()
         {
-
             if (userList.Where(p => p.connectionId == Context.ConnectionId).FirstOrDefault() == null)
             {
                 user newuser = new user();
@@ -18,12 +20,8 @@ namespace dbCompanyTest.Hubs
                 userList.Add(newuser);
             }
 
-            string jsonString = JsonConvert.SerializeObject(userList);
             //await Clients.All.SendAsync("UpdList", jsonString);
-
-
-            await Clients.Client(Context.ConnectionId).SendAsync("UpdSelfID", Context.ConnectionId);
-
+            //await Clients.Client(Context.ConnectionId).SendAsync("UpdSelfID", Context.ConnectionId);
 
             await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "系統", "連線成功");
 
@@ -38,9 +36,7 @@ namespace dbCompanyTest.Hubs
                 userList.Remove(id);
             }
 
-            string jsonString = JsonConvert.SerializeObject(userList);
-            await Clients.All.SendAsync("UpdList", jsonString);
-
+            Update();
 
             await Clients.All.SendAsync("UpdSystem", "系統", id.userName + " 已離線");
 
@@ -49,18 +45,24 @@ namespace dbCompanyTest.Hubs
 
         public async Task SendMessage(string selfID, string message/*, string sendToID*/)
         {//客戶傳訊息
-            if (/*string.IsNullOrEmpty(sendToID)*/true)
+            user user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId);
+            if (user.userName != "客服人員")
             {
-                user user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId);
-                if(user.userWords ==null)
+                if (user.userWords == null)
                     user.userWords = new List<string>();
+                if (user.waiter == null)
+                    user.newWords++;
+                else
+                    user.newWords = 0;
+
                 user.userWords.Add(message);
                 string userName = user.userName;
                 await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
                 if (user.waiter == null)
-                    await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", userName , "客服全在忙線中請稍後");
+                    await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", userName, "客服全在忙線中請稍後");
                 else
                     await Clients.Client(user.waiter).SendAsync("UpdSystem", userName, message);
+                Update();
             }
             else
             {
@@ -72,10 +74,30 @@ namespace dbCompanyTest.Hubs
             }
         }
 
-        public async Task getName(string selfID, string userName)
+        public async Task getName(string userName)
         {//設定使用者名稱
             userList.FirstOrDefault(c => c.connectionId == Context.ConnectionId).userName = userName;
-            await Clients.Others.SendAsync("UpdSystem", "系統", "歡迎 " + userName);
+            //if (userName != "客服人員")
+            //    await Clients.Others.SendAsync("UpdSystem", "系統", "歡迎 " + userName);
+            Update();
+        }
+
+        public async Task bindWaiterUser(string userId)
+        {
+            user olduser = userList.FirstOrDefault(x => x.waiter == Context.ConnectionId);
+            if (olduser != null)
+                olduser.waiter = null;
+            user user = userList.FirstOrDefault(x => x.connectionId == userId);
+            user.waiter = Context.ConnectionId;
+        }
+
+        public async void Update()
+        {
+            List<user> client = userList.Where(x => x.userName != "客服人員").ToList();
+            string jsonString = JsonConvert.SerializeObject(client);
+            List<string> waiter = userList.Where(x => x.userName == "客服人員").Select(x => x.connectionId).ToList();
+            foreach (string item in waiter)
+                await Clients.Client(item).SendAsync("userList", jsonString);
         }
     }
 }

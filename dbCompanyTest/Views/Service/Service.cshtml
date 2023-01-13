@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Service";
+    Layout = "~/Views/Shared/_Back_Layout_Sneat.cshtml";
 }
 <link href="~/css/service.css" rel="stylesheet" />
 <div id="serviceName">
@@ -7,7 +8,7 @@
     <div id="Main">
         <div class="row">
             <div class="list-group col-3">
-                <div class="list-group-item list-group-item-action" id="Gary" >
+                <div class="list-group-item list-group-item-action" id="Gary">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">Gary</h5>
                         <div style="width:10px;height:10px;border-radius:50px;background-color:red"></div>
@@ -36,12 +37,12 @@
 
             <div class="col-5" id="callback">
                 <div id="msgArea">
-                    <input type="hidden" id="connectionUserID"/>
+                    <input type="text" id="connectionUserID" />
                     <h3 id="userName" style="text-align:center;"></h3>
 
                 </div>
                 <div id="inputArea">
-                    <input type="text" id="msg"/>
+                    <input type="text" id="msg" />
                     <img src="~/images/send.png" id="serverSend" />
                 </div>
             </div>
@@ -52,23 +53,46 @@
 
 
 @section Scripts{
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script>
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-        
-        connection.start().then(function(){
+
+        connection.start().then(function () {
+            connection.invoke(`getName`, "客服人員");
             console.log("連線成功");
         });
 
+        connection.on(`userList`, function (data) {
+            const userList = JSON.parse(data);
+            const htmluserList = userList.map((value) => {
+                let color = "red";
+                if (value.newWords == 0) {
+                    color = "gray"
+                }
+                return (`<div class="list-group-item list-group-item-action" id="${value.connectionId}">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">${value.userName}</h5>
+                                                <div style="width:10px;height:10px;border-radius:50px;background-color:${color}"></div>
+                                            </div>
+                                        </div>`);
+            })
+            $(`.list-group`).html(htmluserList.join(""));
 
-        let customerID = "";
-        $(`.list-group-item`).on(`dblclick`,function(){
-            customerID = $(this).attr("id");
-            $(`#connectionUserID`).val(customerID);
-            $(`#userName`).text($(this).find(`h5`).text());
-            //alert(customerID);
-        });
+            let customerID = "";
+            let userdiv = document.getElementsByClassName(`list-group-item`);
+            for (let Item of userdiv) {
+                Item.addEventListener(`dblclick`, function () {
+                    console.log("qwe");
+                    customerID = $(this).attr("id");
+                    $(`#connectionUserID`).val(customerID);
+                    $(`#userName`).text($(this).find(`h5`).text());
+                    $(this).find(`h5`).next().css("background-color", "gray");
+                    connection.invoke(`bindWaiterUser`, customerID);
+                });
+            }
+        })
 
-        $(`#serverSend`).on('click',function(){
+        $(`#serverSend`).on('click', function () {
             //connection.invoke("");
         });
     </script>
