@@ -78,8 +78,8 @@ namespace dbCompanyTest.Controllers
                 {
                     pdm = new ProductDetailViewModels();
                     pdm.pro商品id = item.pro商品id;
-                    pdm.pro商品顏色 = item.pro商品顏色;
-                    pdm.pro商品尺寸 = item.pro商品尺寸;
+                    //pdm.pro商品顏色 = item.pro商品顏色;
+                    //pdm.pro商品尺寸 = item.pro商品尺寸;
                     pdm.pro商品分類 = item.pro商品分類;
                     pdm.pro商品色碼 = item.pro商品色碼;
                     pdm.pro商品名稱 = item.pro商品名稱;
