@@ -179,7 +179,7 @@
                 //新增產品類別select
                  var options = datas.map(data=>{
                     const { 商品分類id, 商品分類名稱 } =data;
-                    return (`<option value="${商品分類id}"">${商品分類名稱}</option>`);
+                    return (`<option value="${商品分類id}" data-text="${商品分類名稱}">${商品分類名稱}</option>`);
                  });
                 $("#_商品分類id").html(options);
             });
@@ -188,7 +188,7 @@
                 //新增鞋種select
                 var S_options = datas.map(data=>{
                     const { 商品鞋種id, 鞋種 } = data;
-                    return (`<option value="${商品鞋種id}"">${鞋種}</option>`);
+                    return (`<option value="${商品鞋種id}" data-text="${鞋種}">${鞋種}</option>`);
                 });
                 $("#_商品鞋種id").html(S_options);
             });
@@ -314,7 +314,16 @@
                 $("#Moda_P_C input[name='cost']").val(row.find('td:eq(8)').text().trim())
                 //_商品分類id
                 //$("#Moda_P_C #_商品分類id option:selected").text(row.find('td:eq(9)').text().trim())
+                const cel9 = row.find('td:eq(9)').text().trim();     
+                console.log("cel9="+cel9);
+                setTimeout(function () { $(`#Moda_P_C #_商品分類id option[data-text=${cel9}]`).prop("selected", true); }, 500);
+              
                 //_商品鞋種id
+                
+                const cel10 = row.find('td:eq(10)').text().trim();
+                console.log("cel10=" + cel10);
+                setTimeout(function () { $(`#Moda_P_C #_商品鞋種id option[data-text=${cel10}]`).prop("selected", true); }, 500);
+                
                 //$("#Moda_P_C #_商品鞋種id option:selected").text(row.find('td:eq(10)').text().trim())
                 //$("#_商品分類id option:eq(3)").attr('selected', 'selected');
 
