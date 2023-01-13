@@ -25,7 +25,7 @@ namespace dbCompanyTest.Hubs
             await Clients.Client(Context.ConnectionId).SendAsync("UpdSelfID", Context.ConnectionId);
 
 
-            await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem","系統" ,"連線成功");
+            await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "系統", "連線成功");
 
             await base.OnConnectedAsync();
         }
@@ -42,33 +42,40 @@ namespace dbCompanyTest.Hubs
             await Clients.All.SendAsync("UpdList", jsonString);
 
 
-            await Clients.All.SendAsync("UpdSystem","系統", id.userName+" 已離線");
+            await Clients.All.SendAsync("UpdSystem", "系統", id.userName + " 已離線");
 
             await base.OnDisconnectedAsync(ex);
         }
 
         public async Task SendMessage(string selfID, string message/*, string sendToID*/)
-        {
+        {//客戶傳訊息
             if (/*string.IsNullOrEmpty(sendToID)*/true)
             {
-                string userName = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId).userName;
+                user user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId);
+                if(user.userWords ==null)
+                    user.userWords = new List<string>();
+                user.userWords.Add(message);
+                string userName = user.userName;
                 await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
-                await Clients.Others.SendAsync("UpdSystem", userName, message);
+                if (user.waiter == null)
+                    await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", userName , "客服全在忙線中請稍後");
+                else
+                    await Clients.Client(user.waiter).SendAsync("UpdSystem", userName, message);
             }
             else
             {
                 // 接收人
                 //await Clients.Client(sendToID).SendAsync("UpdContent", selfID + " 私訊向你說: " + message);
-                
+
                 // 發送人
                 //await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", "你向 " + sendToID + " 私訊說: " + message);
             }
         }
 
-        public async Task getName(string selfID,string userName)
-        {
+        public async Task getName(string selfID, string userName)
+        {//設定使用者名稱
             userList.FirstOrDefault(c => c.connectionId == Context.ConnectionId).userName = userName;
-            await Clients.Others.SendAsync("UpdSystem", "系統","歡迎 " + userName);
+            await Clients.Others.SendAsync("UpdSystem", "系統", "歡迎 " + userName);
         }
     }
 }
