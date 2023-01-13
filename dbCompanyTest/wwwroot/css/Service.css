@@ -25,3 +25,12 @@
     border-radius: 8px;
     width:85%;
 }
+
+#msgArea {
+    margin: 10px auto;
+    width: 100%;
+    height: 90%;
+    border: 3px solid lightgray;
+    background-color: lightblue;
+    overflow-y:scroll auto;
+}

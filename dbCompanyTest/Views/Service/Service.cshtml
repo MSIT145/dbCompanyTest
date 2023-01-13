@@ -7,39 +7,42 @@
     <div id="Main">
         <div class="row">
             <div class="list-group col-3">
-                <div class="list-group-item list-group-item-action" >
-                    <input type="hidden" name="connectionId"/>
+                <div class="list-group-item list-group-item-action" id="Gary" >
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">Gary</h5>
                         <div style="width:10px;height:10px;border-radius:50px;background-color:red"></div>
                     </div>
                 </div>
-                <div class="list-group-item list-group-item-action" >
-                    <input type="hidden" name="connectionId"/>
+                <div class="list-group-item list-group-item-action" id="Gary1">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">Gary</h5>
                         <div style="width:10px;height:10px;border-radius:50px;background-color:red"></div>
                     </div>
                 </div>
-                <div class="list-group-item list-group-item-action">
-                    <input type="hidden" name="connectionId" />
+                <div class="list-group-item list-group-item-action" id="小楊">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">小楊</h5>
                         <div style="width:10px;height:10px;border-radius:50px;background-color:red"></div>
                     </div>
                 </div>
-                <div class="list-group-item list-group-item-action">
-                    <input type="hidden" name="connectionId" />
+                <div class="list-group-item list-group-item-action" id="Alan">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">Alan</h5>
                         <div style="width:10px;height:10px;border-radius:50px;background-color:red"></div>
                     </div>
                 </div>
             </div>
+
+
             <div class="col-5" id="callback">
+                <div id="msgArea">
+                    <input type="hidden" id="connectionUserID"/>
+                    <h3 id="userName" style="text-align:center;"></h3>
+
+                </div>
                 <div id="inputArea">
                     <input type="text" id="msg"/>
-                    <img src="~/images/send.png"/>
+                    <img src="~/images/send.png" id="serverSend" />
                 </div>
             </div>
         </div>
@@ -51,6 +54,23 @@
 @section Scripts{
     <script>
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        
+        connection.start().then(function(){
+            console.log("連線成功");
+        });
+
+
+        let customerID = "";
+        $(`.list-group-item`).on(`dblclick`,function(){
+            customerID = $(this).attr("id");
+            $(`#connectionUserID`).val(customerID);
+            $(`#userName`).text($(this).find(`h5`).text());
+            //alert(customerID);
+        });
+
+        $(`#serverSend`).on('click',function(){
+            //connection.invoke("");
+        });
     </script>
 }
 
