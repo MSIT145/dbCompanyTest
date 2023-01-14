@@ -1,11 +1,11 @@
 ﻿@model dbCompanyTest.ViewModels.ProductDetailViewModels
 
-<div class ="d-flex flex-row">
+<div class="d-flex flex-row">
 
     @*center*@
-        <div class="d-flex flex-column justify-content-center">
-            @*麵包*@
-            <div>
+    <div class="d-flex flex-column justify-content-center">
+        @*麵包*@
+        <div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">首頁</a></li>
@@ -14,9 +14,9 @@
                     <li class="breadcrumb-item active" aria-current="page">@Model.pro商品尺寸list.Count</li>
                 </ol>
             </nav>
-            </div>
-            @*輪播*@
-            <div>
+        </div>
+        @*輪播*@
+        <div>
             <div id="carouselExampleDark" class="carousel carousel-dark slide w-100 h-atuo">
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="" aria-label="Slide 1"></button>
@@ -32,14 +32,14 @@
                         </div>
                     </div>
                     <div class="carousel-item" data-bs-interval="2000">
-                            <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" class="d-block w-100 h-auto" width="800" height="400" />
+                        <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" class="d-block w-100 h-auto" width="800" height="400" />
                         <div class="carousel-caption d-none d-md-block">
                             @*<h5>Second slide label</h5>
                             <p>Some representative placeholder content for the second slide.</p>*@
                         </div>
                     </div>
                     <div class="carousel-item active">
-                            <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" class="d-block w-100 h-auto" width="800" height="400" />
+                        <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" class="d-block w-100 h-auto" width="800" height="400" />
                         <div class="carousel-caption d-none d-md-block">
                             @*<h5>Third slide label</h5>
                             <p>Some representative placeholder content for the third slide.</p>*@
@@ -55,21 +55,42 @@
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>
-            </div>
-            @*其他圖片*@
-            <div class="d-flex flex-column">
-                <img src="@Url.Content("~/images/"+Model.pro商品圖片1)"></img>
-                <img src="@Url.Content("~/images/"+Model.pro商品圖片2)"></img>
-                <img src="@Url.Content("~/images/"+Model.pro商品圖片3)"></img>
+        </div>
+        @*其他圖片*@
+        <div class="d-flex flex-column">
+            <img src="@Url.Content("~/images/"+Model.pro商品圖片1)"></img>
+            <img src="@Url.Content("~/images/"+Model.pro商品圖片2)"></img>
+            <img src="@Url.Content("~/images/"+Model.pro商品圖片3)"></img>
 
-            </div>
+        </div>
     </div>
     @*detail*@
     <div class="d-flex flex-column">
         <div>@Model.pro商品名稱 @Model.pro商品顏色</div>
         <div>@Model.pro商品金額</div>
         <div>顏色:@Model.pro商品顏色</div>
-        <div><img src="@Url.Content("~/images/colorimg"+Model.pro商品顏色圖片)"/></div>
+        @*<div>
+            @{
+                foreach (var item in Model.pro商品顏色圖片list)
+                {
+                    <div><a src="@Url.Content("~/images/colorimg/"+item)" /></div>
+                }
+            }
+        </div>*@
+        <div>SIZE:</div>
+        <div>
+        @{
+        foreach (var item in Model.pro商品尺寸list)
+        {
+        <div>@item</div>
+        }
+        }
+        </div>
+        <div><a src="@Url.Content("~/images/尺寸對 照表.jpeg")"/></div>
+        <div>
+            <span></span>
+            <span>ADD TO FAVORITE</span>
+        </div>
 
     </div>
 

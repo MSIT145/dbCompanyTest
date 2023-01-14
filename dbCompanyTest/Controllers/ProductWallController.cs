@@ -47,7 +47,7 @@ namespace dbCompanyTest.Controllers
             //測試用 productDetail ID
             id = 4;
             ProductDetailViewModels pdm = new ProductDetailViewModels();
-            pdm.pro商品顏色list = new List<string>();
+            pdm.pro商品顏色圖片list = new List<string>();
             pdm.pro商品尺寸list = new List<string>();
             int Key = 0;
             if (id == null)
@@ -90,7 +90,7 @@ namespace dbCompanyTest.Controllers
                     pdm.pro商品圖片3 = item.pro商品圖片3;
                 }
                 var totallist = from item in _context.Products
-                                join prodetail in _context.ProductDetails on item.商品分類id equals prodetail.商品編號id
+                                join prodetail in _context.ProductDetails on item.商品編號id equals prodetail.商品編號id
                                 join prosize in _context.ProductsSizeDetails on prodetail.商品尺寸id equals prosize.商品尺寸id
                                 where item.商品編號id == Key
                                 select new
