@@ -44,7 +44,7 @@ namespace dbCompanyTest.Controllers
         //---------------------- Gary產品頁 ----------------------------
         public IActionResult Details(int? id)
         {
-            //測試用
+            //測試用 productDetail ID
             id = 4;
             ProductDetailViewModels pdm = new ProductDetailViewModels();
             pdm.pro商品顏色list = new List<string>();
@@ -63,6 +63,7 @@ namespace dbCompanyTest.Controllers
                                     select new
                                     {
                                         pro商品編號 = prodetail.商品編號id,
+                                        pro商品金額 = product.商品價格,
                                         pro商品顏色 = procolor.商品顏色種類,
                                         pro商品顏色圖片 = prodetail.商品顏色圖片,
                                         pro商品分類 = pro分類.商品分類名稱,
@@ -78,6 +79,7 @@ namespace dbCompanyTest.Controllers
                     Key = (int)item.pro商品編號;
                     pdm.pro商品編號 = (int)item.pro商品編號;
                     pdm.pro商品顏色 = item.pro商品顏色;
+                    pdm.pro商品金額 = item.pro商品金額;
                     pdm.pro商品顏色圖片 = item.pro商品顏色圖片;
                     pdm.pro商品分類 = item.pro商品分類;
                     pdm.pro商品名稱 = item.pro商品名稱;
