@@ -1,1 +1,87 @@
-﻿
+﻿html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+}
+a {
+    text-decoration: none;
+}
+    a:hover {
+        text-decoration: none;
+        color: black;
+    }
+img {
+    width:inherit;
+    height:inherit;
+}
+.detail-center {
+    
+    float:left;
+    max-width:100%;
+
+}
+.d-position {
+    font-size:13px;
+    
+}
+.d-carouse {
+    width:620px;
+    height:856px;       
+}
+.d-carouse-pic {
+    width: inherit;
+    height: inherit;
+}
+.d-right-detail {
+    float:right;
+}
+.d-right-detail-item {
+    
+}
+.d-right-color {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    position:absolute;
+}
+.d-right-color-item {
+    border: 1px solid #bcbcbc;
+    width: 29px;
+    height: 29px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 8px;
+    border-radius: 1px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.d-right-color-item-color {
+    width: 25px;
+    height: 25px;
+    background-color: white;
+}
+    .d-right-color-item-color img {
+        width: 40px;
+        height: 40px;
+        max-width: 100%;
+        max-height: 100%;
+    }
+.d-right-color .active {
+    border: 1px solid black;
+}

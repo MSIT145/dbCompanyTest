@@ -28,9 +28,6 @@ namespace dbCompanyTest.Controllers
                     string json = JsonSerializer.Serialize(data);
                     HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
                     return View(data);
-
-
-
                 }
                 else
                 {

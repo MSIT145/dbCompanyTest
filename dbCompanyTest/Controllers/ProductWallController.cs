@@ -45,10 +45,15 @@ namespace dbCompanyTest.Controllers
         public IActionResult Details(int? id)
         {
             //測試用 productDetail ID
-            id = 4;
+            if (id == null) 
+            {
+                id = 4;
+            }
             ProductDetailViewModels pdm = new ProductDetailViewModels();
+            
             pdm.pro商品顏色圖片list = new List<string>();
             pdm.pro商品尺寸list = new List<string>();
+            pdm.pro商品DetailIDlist = new List<int>();
             int Key = 0;
             if (id == null)
                 return NotFound();
@@ -62,6 +67,7 @@ namespace dbCompanyTest.Controllers
                                     where prodetail.Id == id
                                     select new
                                     {
+                                        prodetailID = prodetail.Id,
                                         pro商品編號 = prodetail.商品編號id,
                                         pro商品金額 = product.商品價格,
                                         pro商品顏色 = procolor.商品顏色種類,
@@ -78,6 +84,7 @@ namespace dbCompanyTest.Controllers
                 {
                     Key = (int)item.pro商品編號;
                     pdm.pro商品編號 = (int)item.pro商品編號;
+                    pdm.prodetailID = item.prodetailID;
                     pdm.pro商品顏色 = item.pro商品顏色;
                     pdm.pro商品金額 = item.pro商品金額.ToString();
                     pdm.pro商品顏色圖片 = item.pro商品顏色圖片;
@@ -96,12 +103,14 @@ namespace dbCompanyTest.Controllers
                                 select new
                                 {
                                     pro商品顏色圖片list = prodetail.商品顏色圖片,
-                                    pro商品尺寸list = prosize.尺寸種類
+                                    pro商品尺寸list = prosize.尺寸種類,
+                                    pro商品DetailIDlist = prodetail.Id
                                 };
                 foreach (var CC in totallist) 
                 {
                     pdm.pro商品尺寸list.Add(CC.pro商品尺寸list);
                     pdm.pro商品顏色圖片list.Add(CC.pro商品顏色圖片list);
+                    pdm.pro商品DetailIDlist.Add(CC.pro商品DetailIDlist);
                 }
                 return View(pdm);
 
