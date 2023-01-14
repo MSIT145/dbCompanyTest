@@ -37,13 +37,13 @@ namespace dbCompanyTest.Hubs
             }
 
             Update();
-
-            await Clients.All.SendAsync("UpdSystem", "系統", id.userName + " 已離線");
+            if(id.waiter != null)
+            await Clients.Client(id.waiter).SendAsync("UpdSystem", "系統", id.userName + " 已離線");
 
             await base.OnDisconnectedAsync(ex);
         }
 
-        public async Task SendMessage(string selfID, string message/*, string sendToID*/)
+        public async Task SendMessage(string ClientID, string message/*, string sendToID*/)
         {//客戶傳訊息
             user user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId);
             if (user.userName != "客服人員")
@@ -59,18 +59,15 @@ namespace dbCompanyTest.Hubs
                 string userName = user.userName;
                 await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
                 if (user.waiter == null)
-                    await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", userName, "客服全在忙線中請稍後");
+                    await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "系統", "客服全在忙線中請稍後");
                 else
                     await Clients.Client(user.waiter).SendAsync("UpdSystem", userName, message);
                 Update();
             }
             else
             {
-                // 接收人
-                //await Clients.Client(sendToID).SendAsync("UpdContent", selfID + " 私訊向你說: " + message);
-
-                // 發送人
-                //await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", "你向 " + sendToID + " 私訊說: " + message);
+                await Clients.Client(ClientID).SendAsync("UpdSystem",user.userName, message);
+                await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
             }
         }
 
@@ -89,6 +86,10 @@ namespace dbCompanyTest.Hubs
                 olduser.waiter = null;
             user user = userList.FirstOrDefault(x => x.connectionId == userId);
             user.waiter = Context.ConnectionId;
+            string userMsgJSON = JsonConvert.SerializeObject(user.userWords);
+            user.newWords = 0;
+            await Clients.Client(Context.ConnectionId).SendAsync("newClientMsg", userMsgJSON);
+            Update();
         }
 
         public async void Update()
