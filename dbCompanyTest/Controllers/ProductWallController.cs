@@ -79,7 +79,7 @@ namespace dbCompanyTest.Controllers
                     Key = (int)item.pro商品編號;
                     pdm.pro商品編號 = (int)item.pro商品編號;
                     pdm.pro商品顏色 = item.pro商品顏色;
-                    pdm.pro商品金額 = item.pro商品金額;
+                    pdm.pro商品金額 = item.pro商品金額.ToString();
                     pdm.pro商品顏色圖片 = item.pro商品顏色圖片;
                     pdm.pro商品分類 = item.pro商品分類;
                     pdm.pro商品名稱 = item.pro商品名稱;
@@ -91,18 +91,17 @@ namespace dbCompanyTest.Controllers
                 }
                 var totallist = from item in _context.Products
                                 join prodetail in _context.ProductDetails on item.商品分類id equals prodetail.商品編號id
-                                join procolor in _context.ProductsColorDetails on prodetail.商品顏色id equals procolor.商品顏色id
                                 join prosize in _context.ProductsSizeDetails on prodetail.商品尺寸id equals prosize.商品尺寸id
                                 where item.商品編號id == Key
                                 select new
                                 {
-                                    pro商品顏色list = procolor.商品顏色種類,
+                                    pro商品顏色圖片list = prodetail.商品顏色圖片,
                                     pro商品尺寸list = prosize.尺寸種類
                                 };
                 foreach (var CC in totallist) 
                 {
                     pdm.pro商品尺寸list.Add(CC.pro商品尺寸list);
-                    pdm.pro商品顏色list.Add(CC.pro商品顏色list);
+                    pdm.pro商品顏色圖片list.Add(CC.pro商品顏色圖片list);
                 }
                 return View(pdm);
 

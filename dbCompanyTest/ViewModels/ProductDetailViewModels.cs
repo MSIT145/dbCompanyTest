@@ -8,7 +8,7 @@ namespace dbCompanyTest.ViewModels
         public string? pro商品名稱 { get; set; }
         public string? pro商品金額 { get; set; }
         public string? pro商品顏色 { get; set; }
-        public List<string>? pro商品顏色list { get; set; }
+        public List<string>? pro商品顏色圖片list { get; set; }
         public string? pro商品顏色圖片 { get; set; }
         public List<string>? pro商品尺寸list { get; set; }
         public string? pro商品分類 { get; set; }
