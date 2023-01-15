@@ -48,7 +48,7 @@
         <div class="d-right-detail-item">@Model.pro商品名稱 @Model.pro商品顏色</div>
         <div class="d-right-detail-item">金額: @Convert.ToDouble(Model.pro商品金額).ToString("#")</div>
         <div class="d-right-detail-item">
-            <div class="d-right-detail-item">COLOR: @Model.pro商品顏色</div>
+            <div class="d-right-detail-item Color">COLOR: <span>@Model.pro商品顏色</span></div>
             <div class="d-right-color col-8">
                 @{
                     for (int i = 0; i < Model.pro商品DetailIDlist.Count; i++)
@@ -119,23 +119,25 @@
             $('#error').css("display", "none");
         });
         $('.d-right-share-pic,.d-right-share-pic-Text').on(`click`, function () {
-            const sizecheck = $(".size-item.active").text();
-            const idcheck = $(".d-right-color-item.active").find('a').attr("id");
+            let sizecheck = $(".size-item.active").text();
+            let idcheck = $(".d-right-color-item.active").find('a').attr("id");
+            let Colorcheck = $(".Color").find('span').text();
             if (sizecheck === "") {
                 $('#error').css("display", "block");
                 $('.modal-text').text("請選擇尺寸");
             }
             else
             {
-                AddtoMyLove(idcheck,sizecheck);
+                AddtoMyLove(idcheck,sizecheck,Colorcheck);
             }
         });
 
-        async function AddtoMyLove(id, size) {
-            const data = await fetch(`@Url.Content("~/MyLove/Create/?id=${id}&size=${size}")`);
+        async function AddtoMyLove(id, size,color) {
+            const data = await fetch(`../MyLove/Create/?id=${id}&size=${size}&color=${color}`);
             const response = await data.text();
             $('#error').css("display", "block");
             $('.modal-text').text(`${response}`);
+        
         }
 
 
