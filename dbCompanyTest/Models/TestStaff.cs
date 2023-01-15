@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace dbCompanyTest.Models
 {
@@ -28,7 +29,7 @@ namespace dbCompanyTest.Models
         public string? 薪資 { get; set; }
         public string? 權限 { get; set; }
         public string? 在職 { get; set; }
-
+        
         public virtual ICollection<ToDoList> ToDoLists { get; set; }
     }
 }
