@@ -10,6 +10,5 @@
         public string 尺寸種類 { get; set; }
         public string 色碼 { get; set; }
         public int 商品數量 { get; set; }
-        
     }
 }

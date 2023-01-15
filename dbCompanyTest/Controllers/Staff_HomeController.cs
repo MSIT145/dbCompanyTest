@@ -70,7 +70,15 @@ namespace dbCompanyTest.Controllers
         {
             return PartialView();
         }
+        public IActionResult Create_TDL()
+        {
+            string stfNum = HttpContext.Session.GetString("Account");
+            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
+            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
+            return View();
+        }
+      
 
         //==================================================
         public IActionResult LoadSheeplist()
@@ -100,9 +108,19 @@ namespace dbCompanyTest.Controllers
         {
             var datas = from c in _context.ToDoLists
                         join o in _context.TestStaffs on c.員工編號 equals o.員工編號
-                        where c.員工編號 == stf
+                        where c.員工編號 == stf || c.協辦部門簽核人員 ==stf || c.部門主管 ==stf ||c.起單人 ==stf ||c.執行人== stf
                         select c;
 
+            return Json(datas);
+        }
+        public IActionResult stf_info(string stf)
+        {
+            TestStaff datas = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stf);
+            return Json(datas);
+        }
+        public IActionResult all_stf_info()
+        {
+            var datas = from c in _context.TestStaffs select c;
             return Json(datas);
         }
     }
