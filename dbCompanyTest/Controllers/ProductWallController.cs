@@ -31,6 +31,7 @@ namespace dbCompanyTest.Controllers
                             {
                                 鞋種名稱 = b.鞋種,
                                 商品編號id = c.商品編號id,
+                                商品鞋種id = (int)c.商品鞋種id,
                                 商品名稱 = c.商品名稱,
                                 商品價格 = (decimal)c.商品價格,
                                 產品圖片1 = f.商品圖片1,
@@ -38,14 +39,61 @@ namespace dbCompanyTest.Controllers
                             };
 
                 return View(datas.ToPagedList(page,5));
-
-
-
-
-
-
             }
         }
+
+        public IActionResult type(int? id, int page = 1)
+        {
+            if (id == null)
+                return NotFound();
+            else
+            {
+                var datas = from c in _context.Products
+                            join d in _context.ProductDetails on c.商品編號id equals d.商品編號id
+                            join e in _context.ProductsTypeDetails on c.商品分類id equals e.商品分類id
+                            join f in _context.圖片位置s on d.圖片位置id equals f.圖片位置id
+                            join b in _context.商品鞋種s on c.商品鞋種id equals b.商品鞋種id
+                            where c.商品鞋種id == id
+                            select new ViewModels.ProductWallViewModel
+                            {
+                                鞋種名稱 = b.鞋種,
+                                商品編號id = c.商品編號id,
+                                商品鞋種id=(int)c.商品鞋種id,
+                                商品名稱 = c.商品名稱,
+                                商品價格 = (decimal)c.商品價格,
+                                產品圖片1 = f.商品圖片1,
+                                商品分類名稱 = e.商品分類名稱
+                            };
+                
+                return View(datas.ToPagedList(page, 5));
+            }
+        }
+
+        //public IActionResult shoesclass(int? id)
+        //{
+        //    id = 1;
+        //    if (id == null)
+        //        return NotFound();
+        //    else
+        //    {
+        //        var datas = from c in _context.Products
+        //                    join d in _context.ProductDetails on c.商品編號id equals d.商品編號id
+        //                    join e in _context.ProductsTypeDetails on c.商品分類id equals e.商品分類id
+        //                    join f in _context.圖片位置s on d.圖片位置id equals f.圖片位置id
+        //                    join b in _context.商品鞋種s on c.商品鞋種id equals b.商品鞋種id
+        //                    where c.商品分類id == id
+        //                    select new ViewModels.ProductWallViewModel
+        //                    {
+        //                        鞋種名稱 = b.鞋種,
+        //                        商品編號id = c.商品編號id,
+        //                        商品鞋種id = (int)c.商品鞋種id,
+        //                    };
+
+        //        return PartialView(datas);
+        //    }
+        //}
+
+
         //---------------------- Gary產品頁 ----------------------------
         public IActionResult Details(int? id)
         {

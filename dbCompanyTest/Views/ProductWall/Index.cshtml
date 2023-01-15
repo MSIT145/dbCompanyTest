@@ -6,7 +6,6 @@
 
 @section Style{
     <link href="~/css/ProductWall.css" rel="stylesheet">
-    
 }
 
 <div class="container py-5">
@@ -14,11 +13,11 @@
         <div class="col-lg-12 d-flex">
             <div class="row">
                 <div class="col-md-6">
-                    <ul class="list-inline shop-top-menu pb-3 pt-1">
+                    <ul class="list-inline shop-top-menu pb-3 pt-1" id="sclass">
                         @foreach (var item in Model)
                         {
                             <li class="list-inline-item">
-                                <a class="h5 text-dark text-decoration-none" href="#">@Html.DisplayFor(modelItem => item.鞋種名稱)</a>
+                                <a class="h5 text-dark text-decoration-none" asp-action="type" asp-route-id="@item.商品鞋種id">@Html.DisplayFor(modelItem => item.鞋種名稱)</a>
                             </li>
                         }
                     </ul>
@@ -35,11 +34,11 @@
                                             @{
                                                 if (@item.產品圖片1 != null)
                                                 {
-                                                        <img class="card-img rounded-0 img-fluid" src="~/images/@item.產品圖片1" width="236" height="324" />
+                                                            <img class="card-img rounded-0 img-fluid" src="~/images/@item.產品圖片1" width="236" height="324" />
                                                 }
                                                 else
                                                 {
-                                                        <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" width="236" height="324" />
+                                                            <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" width="236" height="324" />
                                                 }
                                             }
                                         </div>
@@ -78,3 +77,11 @@
 *@    </ul>
 </nav>
 <br />
+
+
+
+@section Scripts{
+    <script>
+        $("#sclass").load("@Url.Content("~/ProductWall/shoesclass")")
+    </script>
+}
