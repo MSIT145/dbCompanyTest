@@ -3,6 +3,8 @@ using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Cryptography.Xml;
+using X.PagedList;
+
 
 namespace dbCompanyTest.Controllers
 {
@@ -10,8 +12,11 @@ namespace dbCompanyTest.Controllers
     {
         dbCompanyTestContext _context = new dbCompanyTestContext();
 
-        public IActionResult Index(int? id)
+        public IActionResult Index(int? id, int page = 1)
         {
+
+    
+
             if (id == null)
                 return NotFound();
             else
@@ -32,7 +37,7 @@ namespace dbCompanyTest.Controllers
                                 商品分類名稱 = e.商品分類名稱
                             };
 
-                return View(datas.ToList());
+                return View(datas.ToPagedList(page,5));
 
 
 

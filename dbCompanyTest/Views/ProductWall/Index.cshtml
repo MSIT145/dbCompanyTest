@@ -1,8 +1,12 @@
-﻿@model IEnumerable<dbCompanyTest.ViewModels.ProductWallViewModel>
+﻿@using X.PagedList
+@using X.PagedList.Web.Common
+@using X.PagedList.Mvc.Core
+@model IPagedList<dbCompanyTest.ViewModels.ProductWallViewModel>
+
 
 @section Style{
     <link href="~/css/ProductWall.css" rel="stylesheet">
-
+    
 }
 
 <div class="container py-5">
@@ -57,19 +61,20 @@
 
 <nav>
     <ul class="pagination justify-content-center ">
-        <li class="page-item">
+@*        <li class="page-item">
             <a class="page-link" href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
+*@        @Html.PagedListPager((IPagedList)Model, page=>Url.Action("Index",new {page}))
+@*        <li class="page-item"><a class="page-link" href="#">1</a></li>
         <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
+        <li class="page-item"><a class="page-link" href="#">3</a></li>*@
+@*        <li class="page-item">
             <a class="page-link" href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
-    </ul>
+*@    </ul>
 </nav>
 <br />
