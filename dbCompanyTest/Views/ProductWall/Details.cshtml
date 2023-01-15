@@ -1,7 +1,6 @@
 ﻿@model dbCompanyTest.ViewModels.ProductDetailViewModels
 
 <link href="~/css/productdetail.css" rel="stylesheet" />
-
 <div class="content d-flex flex-row justify-content-center">
     <div class="detail-center">
         @*麵包*@
@@ -47,33 +46,98 @@
     </div>
     <div class="d-right-detail">
         <div class="d-right-detail-item">@Model.pro商品名稱 @Model.pro商品顏色</div>
-        <div class="d-right-detail-item">金額: @Model.pro商品金額</div>
-        <div class="d-right-detail-item">COLOR: @Model.pro商品顏色</div>
-        <div class="d-right-color">
-            @{
-                for (int i = 0; i < Model.pro商品DetailIDlist.Count; i++)
-                {
-                    if (Model.pro商品DetailIDlist[i] == Model.prodetailID)
+        <div class="d-right-detail-item">金額: @Convert.ToDouble(Model.pro商品金額).ToString("#")</div>
+        <div class="d-right-detail-item">
+            <div class="d-right-detail-item">COLOR: @Model.pro商品顏色</div>
+            <div class="d-right-color col-8">
+                @{
+                    for (int i = 0; i < Model.pro商品DetailIDlist.Count; i++)
                     {
-                        <div class="d-right-color-item"><div class="d-right-color-item-color active"><a><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
-                    }
-                    else
-                    {
-                        <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品DetailIDlist[i])" id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
-                    }
+                        if (Model.pro商品DetailIDlist[i] == Model.prodetailID)
+                        {
+                            <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                        }
+                        else
+                        {
+                            <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品DetailIDlist[i])" id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                        }
 
-                } 
-            }
+                    }
+                }
+            </div>
+        </div>
+        <div class="d-choose-size">
+            <div class="d-right-detail-item">SIZE</div>
+            <div class="d-right-size col-8">
+                @{
+                    for (int i = 0; i < Model.pro商品DetailIDlist.Count; i++)
+                    {
+                        <div class="size-item">@Model.pro商品尺寸list[i]</div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="d-right-detail-item">
+            <div>尺寸對照表</div>
+            <div class="d-right-share">
+                <div class="d-right-share-Add">
+                    <span class="d-right-share-pic"></span>
+                    <span class="d-right-share-pic-Text">ADD TO FAVORITE</span>
+                </div>
+                <div class="d-right-share-share">
+                    <span class="d-right-share-icon-Text">SHARE</span>
+                    <span class="d-right-share-icon"></span>
+                </div>
+            </div>
+        </div>
+
+        <div>
         </div>
 
 
     </div>
 </div>
+@*錯誤訊息*@
+<div class="modal" id="error" style="display:none;">
+    <div class="modal-box">
+        <div class="modal-content">
+            <div class="modal-header"><div class="modal-close"></div></div>
+            <div class="content-box">
+                <div class="modal-text"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
     <script>
-        
-        
+        $('.size-item').on('click', function () {
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+        $('.modal-close').on('click', function () {
+
+            $('#error').css("display", "none");
+        });
+        $('.d-right-share-pic,.d-right-share-pic-Text').on(`click`, function () {
+            const sizecheck = $(".size-item.active").text();
+            const idcheck = $(".d-right-color-item.active").find('a').attr("id");
+            if (sizecheck === "") {
+                $('#error').css("display", "block");
+                $('.modal-text').text("請選擇尺寸");
+            }
+            else
+            {
+                AddtoMyLove(idcheck,sizecheck);
+            }
+        });
+
+        async function AddtoMyLove(id, size) {
+            const data = await fetch(`@Url.Content("~/MyLove/Create/?id=${id}&size=${size}")`);
+            const response = await data.text();
+            $('#error').css("display", "block");
+            $('.modal-text').text(`${response}`);
+        }
+
 
     </script>
 }

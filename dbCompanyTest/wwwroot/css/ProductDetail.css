@@ -30,10 +30,9 @@ img {
     height:inherit;
 }
 .detail-center {
-    
-    float:left;
-    max-width:100%;
+    float: left;
 
+    max-width: 100%;
 }
 .d-position {
     font-size:13px;
@@ -49,6 +48,7 @@ img {
 }
 .d-right-detail {
     float:right;
+    max-width:100%;
 }
 .d-right-detail-item {
     
@@ -57,7 +57,6 @@ img {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    position:absolute;
 }
 .d-right-color-item {
     border: 1px solid #bcbcbc;
@@ -84,4 +83,183 @@ img {
     }
 .d-right-color .active {
     border: 1px solid black;
+}
+.size-item {
+    border: 1px solid #c2c2c2;
+    width: 27px;
+    height: 27px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 27px;
+    text-align: center;
+    margin-right: 9px;
+    border-radius: 1px;
+    color: #6f6f6f;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.d-right-size {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+    .d-right-size .active {
+        background-color: #e6d7cc;
+        border: 1px solid black;
+    }
+.d-right-share {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 18px;
+    margin-bottom: 12px;
+}
+.d-right-share-Add {
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.d-right-share-share {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.d-right-share-pic {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-left: auto;
+    background-image: url(/images/share_pic.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+}
+.d-right-share-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-left: auto;
+    background-image: url(/images/share.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    margin-right: 2px;
+}
+.d-choose-color {
+}
+.d-choose-size {
+}
+
+.model {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+    right: 0;
+    bottom: 0;
+    background-position: 1rem 1rem;
+    overflow: hidden;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.modal-box {
+    width: auto;
+    background-color: rgba(0,0,0,0.6);
+    max-height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 5px;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    /* font-size: 100%; */
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+}
+
+/*錯誤視窗*/
+.modal-content {
+    background-color: #fff;
+    max-width: 200px;
+    min-height: 190px;
+    min-width: 340px;
+    margin: auto;
+    padding-bottom: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #fff;
+    min-height: 22px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+}
+
+.modal-close {
+    width: 25px;
+    height: 25px;
+    margin-top: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAABGklEQVRYhe3WyxGEIAwG4GS3IqzAWmhEtpG0slpBSnIvusMwhEeCN/6LBxG/IY4JwMzMzLN5Sze892FZlq9zDpl5H/Gylj1f0sOIuN1X730YgYn3lNaJoPM8PzHOgoox6d5pxJIx8+6cQ0RcL9SqKV8OQ0ShGzQC1YupggooYOajgtkQ8f/yFkwTSIPSYppBPagMJhCR+BGrQS0oKwYAAHsW38l8rOECmjBqUA4VR4sB6CxZnLR8IzAAhT+1IepTBzCckFQy7R/dBBJ602FtMyqQ1A5G9b4uUK03jUA1g1rbgbb3dYF6e5MFVQVdZWrGVFDV8hVBmnnGiioO+RaMFlUd8i2YO0QU0hldWlsd8q2YHKo05M/MzDydH+wLPOcpanK5AAAAAElFTkSuQmCC);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+}
+
+.content-box {
+    padding-bottom: 40px;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
+    display: block;
+    color: #636363;
+}
+
+.modal-text {
+    text-align: center;
+    line-height: 20px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 30px;
+    font-size: 13px;
+    margin-top: 25px;
+    line-height: 25px;
+    font: inherit;
+    font-weight: normal;
+    vertical-align: baseline;
 }

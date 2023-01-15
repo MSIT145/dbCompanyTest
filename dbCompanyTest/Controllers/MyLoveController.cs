@@ -1,4 +1,5 @@
-﻿using dbCompanyTest.Models;
+﻿using dbCompanyTest.Hubs;
+using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -39,6 +40,20 @@ namespace dbCompanyTest.Controllers
             else
             {
                 return RedirectToAction("Login", "Login");
+            }
+        }
+        public IActionResult Create(int id, string size)
+        {
+
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+            {
+                string userjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                var userinfo = JsonSerializer.Deserialize<TestClient>(userjson);
+                return Content("已加入收藏");
+            }
+            else
+            {
+                return Content("請先登入會員");
             }
         }
         public IActionResult Delete(int? id)
