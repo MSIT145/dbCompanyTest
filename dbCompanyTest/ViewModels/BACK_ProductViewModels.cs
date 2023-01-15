@@ -14,6 +14,10 @@
         public string? 商品分類 { get; set; }
         public string? 商品鞋種 { get; set; }
         public bool? 商品是否上架 { get; set; }
+
+        public IFormFile excel { get; set; }
+
+        public string? fileName { get; set; }
     }
 
     public class Back_ProducDetail
