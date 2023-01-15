@@ -69,7 +69,7 @@ namespace dbCompanyTest.Controllers
                 
                 _context.Add(toDoList);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Staff_Home");
             }
             ViewData["員工編號"] = new SelectList(_context.TestStaffs, "員工編號", "員工編號", toDoList.員工編號);
             return View(toDoList);
