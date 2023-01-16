@@ -73,7 +73,7 @@
                 body: userdata
             });
             const data = await response.text();
-            if("OK"){
+            if ("OK") {
                 window.location.assign("https://localhost:7100/Home/Index");
             }
         }
@@ -116,4 +116,53 @@
             checkInput.after($(`<p style="color:red;margin:0;">${text}</p>`));
         }
     }
+
+    $(`input[name=Email]`).on(`blur`, function () {
+        let thisval = $(this).val();
+    });
+
+    $(`input[name=客戶電話]`).on(`blur`, function () {
+
+    });
+
+    $(`input[name=身分證字號]`).on(`blur`, function () {
+
+    });
+
+    $(`input[name=密碼]`).on(`blur`, function () {
+        let checkInput = $(this);
+        let CPchar, a = [false, false, false, false];
+        let special = "!#$%^&*";
+        const name = checkInput.attr("name");
+        if (checkInput.val().length > 6) {
+            a[3] = true;
+        }
+        for (let i = 0; i < checkInput.val().length; i++) {
+            CPchar = checkInput.val().charAt(i).toUpperCase();
+            if (CPchar >= "A" && CPchar <= "Z") {
+                a[0] = true;
+            }
+            if (CPchar >= "0" && CPchar <= "9") {
+                a[1] = true;
+            }
+            for (let j = 0; j < special.length; j++) {
+                specialchar = special.charAt(j);
+                if (CPchar == specialchar) {
+                    a[2] = true;
+                }
+            }
+        }
+        console.log(a[0]);
+        console.log(a[1]);
+        console.log(a[2]);
+        console.log(a[3]);
+        if (a[0] && a[1] && a[2]&& a[3]){
+            userArray(name,true);
+        }
+        else{
+            toggleErro(checkInput, false, `密碼要包含英、數字、特殊符號(!#$%^&*)且長度需大於6`);
+            userArray(name,false);
+        }
+    });
+
 </script>
