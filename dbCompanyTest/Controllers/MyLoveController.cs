@@ -46,84 +46,14 @@ namespace dbCompanyTest.Controllers
                 return RedirectToAction("Login", "Login");
             }
         }
-        public IActionResult Create(int id, string size,string color)
+        public IActionResult Create(會員商品暫存 prod)
         {
 
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
             {
                 string userjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
                 var userinfo = JsonSerializer.Deserialize<TestClient>(userjson);
-                //判斷之前是否有Session
-                if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_MYLOVE_SESSION))
-                {
-                    List<會員商品暫存> list = new List<會員商品暫存>();
-                    會員商品暫存 data = new 會員商品暫存();
-                    var dd = from item in _context.ProductDetails
-                             join product in _context.Products on item.商品編號id equals product.商品編號id
-                             join procolor in _context.ProductsColorDetails on item.商品顏色id equals procolor.商品顏色id
-                             join prosize in _context.ProductsSizeDetails on item.商品尺寸id equals prosize.商品尺寸id
-                             join prophoto in _context.圖片位置s on item.圖片位置id equals prophoto.圖片位置id
-                             where item.Id == id
-                                select new {
-                                username = userinfo.客戶編號,
-                                productID= item.商品編號id,
-                                productName = product.商品名稱,
-                                productPrice = product.商品價格,
-                                productPhoto = prophoto.商品圖片1
-                                };
-                    foreach (var item in dd) {
-                        data.商品價格 = item.productPrice;
-                        data.商品名稱 = item.productName;
-                        data.商品編號 = item.productID;
-                        data.商品顏色種類 = color;
-                        data.圖片1檔名 = item.productPhoto.ToString();
-                        data.客戶編號 = item.username;
-                        data.尺寸種類 = size;
-                        data.購物車或我的最愛 = false;
-                        data.訂單數量 = 1;
-                    }
-                    list.Add(data);
-                    string json = JsonSerializer.Serialize(list);
-                    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
-                    return Content("已加入收藏");
-
-                }
-                else
-                {
-                    var json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
-                    var list = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
-                    會員商品暫存 data = new 會員商品暫存();
-                    var dd = from item in _context.ProductDetails
-                             join product in _context.Products on item.商品編號id equals product.商品編號id
-                             join procolor in _context.ProductsColorDetails on item.商品顏色id equals procolor.商品顏色id
-                             join prosize in _context.ProductsSizeDetails on item.商品尺寸id equals prosize.商品尺寸id
-                             join prophoto in _context.圖片位置s on item.圖片位置id equals prophoto.圖片位置id
-                             where item.Id == id
-                             select new
-                             {
-                                 username = userinfo.客戶編號,
-                                 productID = item.商品編號id,
-                                 productName = product.商品名稱,
-                                 productPrice = product.商品價格,
-                                 productPhoto = prophoto.商品圖片1
-                             };
-                    foreach (var item in dd)
-                    {
-                        data.商品價格 = item.productPrice;
-                        data.商品名稱 = item.productName;
-                        data.商品編號 = item.productID;
-                        data.商品顏色種類 = color;
-                        data.圖片1檔名 = item.productPhoto;
-                        data.客戶編號 = item.username;
-                        data.尺寸種類 = size;
-                        data.購物車或我的最愛 = false;
-                        data.訂單數量 = 1;
-                    }
-                    list.Add(data);
-                    json = JsonSerializer.Serialize(list);
-                    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
-                    return Content("已加入收藏");
-                }
+                return Content("成功");
             }
             else
             {

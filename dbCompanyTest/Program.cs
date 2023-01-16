@@ -1,10 +1,16 @@
 using dbCompanyTest.Hubs;
 using Microsoft.AspNetCore.Builder;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<HtmlEncoder>(
+     HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
+                                               UnicodeRanges.CjkUnifiedIdeographs })
+    );
 builder.Services.AddCors(option =>
 {
     option.AddPolicy("AllowAll",
