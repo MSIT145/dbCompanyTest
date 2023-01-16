@@ -218,16 +218,19 @@ namespace dbCompanyTest.Controllers
             }
         }
 
-        //下載
-        public IActionResult Downloads(BACK_ProductViewModels vc)
+        //下載(請改用ajax來寫)
+        public IActionResult Downloads(string filename)
         {
+            if (searchData.Count == 0)
+                return Json("沒有可輸出資料!!");
+
             //取得欄位名稱
             DataTable dt = ConvertToDataTable(searchData.ToArray());
             string path = DataTableToExcelFile(dt);
 
             //string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             string contentType = "application/vnd.ms-excel";
-            string fileName = $"{vc.fileName}.xls";
+            string fileName = $"{filename}.xls";
             //寫入檔案
 
             //FileStream fs = new FileStream(path, FileMode.Open);     
@@ -421,8 +424,12 @@ namespace dbCompanyTest.Controllers
 
 
         [HttpGet]
-        public IActionResult showlist()
+        public IActionResult showlist(string key)
         {
+            int _key = 0;
+            IEnumerable<Product> tmepdata = null;
+
+            //結合相關表單產生有意義的資料
             var data =from  p in db.Products.ToList()
                       join pt in db.ProductsTypeDetails on p.商品分類id equals pt.商品分類id
                       join s in db.商品鞋種s on p.商品鞋種id equals s.商品鞋種id
@@ -441,6 +448,25 @@ namespace dbCompanyTest.Controllers
                             商品鞋種 = s.鞋種,
                             商品是否上架  = p.商品是否上架
                        };
+
+            if (!string.IsNullOrEmpty(key))
+            {
+
+                data = data.Where(d => d.商品編號id == (Int32.TryParse(key, out _key) ? _key : 0) || d.商品名稱.Contains(key) || d.商品鞋種.Contains(key) || d.商品介紹.Contains(key) || d.商品分類.Contains(key) || d.商品材質.Contains(key)).ToList();
+            }
+          
+            //存入輸出暫存          
+            searchData = new List<Product>();   //初始化
+            foreach (var item in data)
+            {
+                foreach (var p in db.Products)
+                {
+                    if (item.商品編號id == p.商品編號id)
+                    {
+                        searchData.Add(p);
+                    }
+                }
+            }
 
             return Json(new { data });
         }
