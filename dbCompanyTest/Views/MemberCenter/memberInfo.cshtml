@@ -23,7 +23,7 @@
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <input type="hidden" asp-for="客戶編號" class="form-control" />
+                        <input type="hidden" asp-for="客戶編號" class="form-control" id="UserID" />
                     </div>
                     <div class="form-group">
                         <label asp-for="客戶姓名" class="control-label"></label>
@@ -76,23 +76,24 @@
                     </div>
                 </div>
                 <div class="col-md-2"></div>
-                <div class="col-md-4" id="password">
+                <div class="col-md-4" >
                     <input type="hidden" asp-for="客戶編號" class="form-control" />
                     <div class="form-group">
                         <label class="control-label">舊密碼</label>
-                        <input class="form-control" />
-                        <span asp-validation-for="密碼" class="text-danger"></span>
+                        <input class="form-control" id="oldpassword" />
+                        <span  class="text-danger"  id="validMessage"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="密碼" class="control-label"></label>
-                        <input asp-for="密碼" class="form-control" value="" />
+                        <input asp-for="密碼" class="form-control" value="" id="password" />
+                        <span  class="text-danger" id="validMessage1"></span>
                         <br />
-                        <input class="form-control" />
-                        <span asp-validation-for="密碼" class="text-danger"></span>
+                        <input class="form-control" id="repassword" />
+                        <span class="text-danger" id="validMessage2 "></span>
                     </div>
                     <br />
                     <div class="form-group">
-                        <input type="submit" value="Save2" class="btn btn-primary" asp-action="password" asp-route-id="CL1-00376" />
+                        <input type="submit" value="Save2" class="btn btn-primary" asp-action="password"  id="updateBtn" />
                     </div>
                 </div>
                 <div class="col-md-1"></div>
@@ -114,13 +115,68 @@
     </div>
 
     @section Scripts {
+    <script src="~/datas/taiwan_districts.js"></script>
+    <script src="~/js/city_data.js"></script>
         <script>
 
-            //$("#password").load("@Url.Content("~/MemberCenter/password")")
+            //驗證還沒做完
+            //$(function () {
+            //    const id= $("#UserID");
+            //    $("#updateBtn").click( function () {
+            //         if ($("#oldpassword").val() == "") {
+            //            $("#validMessage").html('請輸入舊密碼').show();
+            //            $("#oldpassword").focus();
+            //            return false;
+            //         }
+            //         $("#validMessage").html('').show();
+            //        if ($("#password").val() == '') {
+            //            $("#validMessage1").html('請輸入密碼').show();
+            //            $("#password").focus();
+            //            return false;
+            //        }
+            //        $("#validMessage1").html('').show();
+            //        if ($("#repassword").val() == '') {
+            //            $("#validMessage2").html('請輸入確認密碼').show();
+            //            $("#repassword").focus();
+            //            return false;
+            //        }
+            //        $("#validMessage2").html('').show();
+            //        if ($("#password").val() != $("#repassword").val()) {
+            //            $("#validMessage2").html('新密碼與確認密碼不一致').show();
+            //            $("#repassword").focus();
+            //            return false;
+            //        }
+            //        var passwd = $("#password").val();
+            //        if (passwd.length < 6 || passwd.length > 20) {
+            //            $("#validMessage").html('密碼長度6-20位').show();
+            //            return false;
+            //        }
+                   
+            //        if (!((passwd.match(/[a-z]/) != null || passwd.match(/[A-Z]/) != null) && passwd.match(/\d/) != null)) {
+            //            $("#validMessage").html('密碼格式錯誤，密碼長度6-20位，字母加數字或符號的混合').show();
+            //            return false;
+            //        }
+            //        $.ajax({
+            //            type: "POST",
+            //            url: "/MemberCenter/password",
+            //            data: "userid=" + $("#UserID").val() + "&password=" + $("#password").val() ,
+            //            success: function (msg) {
+            //                if (validMessage == "True") {
+            //                   alert("密碼修改成功");
+            //                } else {
+                                
+            //                }
+            //            }
+            //        });
+            //    })
+
+            //})
         </script>
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        }
-        <script src="~/datas/taiwan_districts.js"></script>
-        <script src="~/js/city_data.js"></script>
+
+        
+        
+
+
+
+
     }

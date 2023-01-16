@@ -63,7 +63,7 @@ namespace dbCompanyTest.Controllers
             client.密碼 = vm.密碼;
             
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("index");
         }
 
 
