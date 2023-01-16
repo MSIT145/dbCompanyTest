@@ -33,4 +33,9 @@
         public bool? 是否有貨 { get; set; }
 
     }
+
+    public class Product_CDictionary
+    {        
+        public static readonly string SK_SEARCH_PRODUCTS_LIST = "SK_SEARCH_PRODUCTS_LIST";
+    }
 }

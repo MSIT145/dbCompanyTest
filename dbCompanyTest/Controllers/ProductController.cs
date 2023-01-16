@@ -10,6 +10,7 @@ using NPOI.Util;
 using System.Data;
 using System.Xml.Linq;
 using System.ComponentModel;
+using System.Text.Json;
 
 namespace dbCompanyTest.Controllers
 {
@@ -17,12 +18,14 @@ namespace dbCompanyTest.Controllers
     {
         dbCompanyTestContext db = new dbCompanyTestContext();
         private IWebHostEnvironment _eviroment; //宣告取域 環境變數
-        public ProductController(IWebHostEnvironment eviroment)  //建構子，將環境變數注入
+        private readonly ILogger<ProductController> _logger;  //設定成紀錄類型
+        public ProductController(IWebHostEnvironment eviroment, ILogger<ProductController> logger)  //建構子，將環境變數注入
         {
             _eviroment = eviroment;
+            _logger = logger; //注入，才能用session
         }
         //存放Product的資料，搜尋請改用Session
-        static List<Product> searchData = new List<Product>();
+        //static List<Product> searchData = new List<Product>();
 
         public IActionResult Index()
         {
@@ -221,6 +224,18 @@ namespace dbCompanyTest.Controllers
         //下載(請改用ajax來寫)
         public IActionResult Downloads(string filename)
         {
+            //把 Session 到回ListData
+            List<BACK_ProductViewModels> searchData = null;
+            string json;
+            if (HttpContext.Session.Keys.Contains(Product_CDictionary.SK_SEARCH_PRODUCTS_LIST)) //判斷Session 的key是否含有SK_PURCHASED_PRODUCTS_LIST
+            {
+                json = HttpContext.Session.GetString(Product_CDictionary.SK_SEARCH_PRODUCTS_LIST);   //將Session 轉為字串
+                searchData = JsonSerializer.Deserialize<List<BACK_ProductViewModels>>(json);
+            }
+            else
+                searchData = new List<BACK_ProductViewModels>();
+
+
             if (searchData.Count == 0)
                 return Json("沒有可輸出資料!!");
 
@@ -456,18 +471,24 @@ namespace dbCompanyTest.Controllers
             }
           
             //存入輸出暫存          
-            searchData = new List<Product>();   //初始化
-            foreach (var item in data)
+            //List<Product> searchData = new List<Product>();   //初始化
+            //foreach (var item in data)
+            //{
+            //    foreach (var p in db.Products)
+            //    {
+            //        if (item.商品編號id == p.商品編號id)
+            //        {
+            //            searchData.Add(p);
+            //        }
+            //    }
+            //}
+
+            //將得到的值存入Session
+            if (data.Count() != 0)
             {
-                foreach (var p in db.Products)
-                {
-                    if (item.商品編號id == p.商品編號id)
-                    {
-                        searchData.Add(p);
-                    }
-                }
+                string json = JsonSerializer.Serialize(data);
+                HttpContext.Session.SetString(Product_CDictionary.SK_SEARCH_PRODUCTS_LIST, json);
             }
-            string gg = null;
 
             return Json(new { data });
         }

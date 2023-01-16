@@ -58,6 +58,18 @@
                 <tbody id="tbody"></tbody>
             </table>
         </div>
+        <div class="row">
+            <div class="col-md-4">                
+            </div>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-2">
+                <div class="input-group ">
+                    <input type="text" class="form-control" placeholder="檔案名稱" aria-label="檔案名稱" aria-describedby="btn-download" id="fileName" name="fileName">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-download">下載</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @*Modal_新增與修改_產品*@
@@ -268,7 +280,16 @@
         let Pro_Edit_Post = () => { $.post("@Url.Content("~/product/EditProduct")", $("#form01").serialize(), (datas) => { alert(datas); $("#P_Close").click(); }); }
         //產品新增ajax
         let Pro_Create_Post = () => { $.post("@Url.Content("~/product/CreateProduct")", $("#form01").serialize(), (datas) => { alert(datas); $("#P_Close").click(); }); }
-        //查詢
+
+
+        let Pro_DownLoadFile_Get = () => { $.get("@Url.Content("~/product/Downloads")", $("#fileName").serialize(), (datas) => { alert(datas);  }); }
+
+        //檔案下載事件
+        $("#btn-download").on('click',function(){
+            Pro_DownLoadFile_Get();        
+        });
+
+        //查詢事件綁定
         $("#btn-Search").on('click', function () {
         //重新載入
             console.log($("#keywork").val());
@@ -321,14 +342,14 @@
             //$("#Moda_P_C #_商品分類id option:selected").text(row.find('td:eq(9)').text().trim())
             const cel9 = row.find('td:eq(9)').text().trim();
             console.log("cel9=" + cel9);
-            setTimeout(function () { $(`#Moda_P_C #_商品分類id option[data-text=${cel9}]`).prop("selected", true); }, 500);
-
+            //setTimeout(function () { $(`#Moda_P_C #_商品分類id option[data-text=${cel9}]`).prop("selected", true); }, 400);
+            $(`#Moda_P_C #_商品分類id option[data-text=${cel9}]`).prop("selected", true);
             //_商品鞋種id
 
             const cel10 = row.find('td:eq(10)').text().trim();
             console.log("cel10=" + cel10);
-            setTimeout(function () { $(`#Moda_P_C #_商品鞋種id option[data-text=${cel10}]`).prop("selected", true); }, 500);
-
+            //setTimeout(function () { $(`#Moda_P_C #_商品鞋種id option[data-text=${cel10}]`).prop("selected", true); }, 500);
+            $(`#Moda_P_C #_商品鞋種id option[data-text=${cel10}]`).prop("selected", true);
             //$("#Moda_P_C #_商品鞋種id option:selected").text(row.find('td:eq(10)').text().trim())
             //$("#_商品分類id option:eq(3)").attr('selected', 'selected');
 
@@ -353,6 +374,7 @@
             $("#Moda_P_C input[name='id']").parent().hide();
             //隱藏Edit按鈕
             $("#Moda_P_C #P_Edit ").hide();
+            $.ajaxSettings.async = false;
             $.get("@Url.Content("~/Product/GetTyteD")", (datas) => {
                 console.log(datas);
                 //新增產品類別select
@@ -371,6 +393,7 @@
                 });
                 $("#_商品鞋種id").html(S_options);
             });
+             $.ajaxSettings.async = true;
         });
 
 
