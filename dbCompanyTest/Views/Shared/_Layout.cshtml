@@ -64,7 +64,7 @@
                         </div>
                         <div class="car_dolor car_all">
                             <div class="total_twd">
-                                @*TOTAL TWD $0*@
+                                TOTAL TWD $0
                             </div>
                         </div>
                         <a href="@Url.Content("~/Shopping")" class="car_a car_all" style="color:white">
@@ -221,8 +221,9 @@
         const carHtml = document.querySelector('.car_click');
         const TotoM = document.querySelector('.total_twd');
         //const TrashCan = document.querySelector('.purchase-icon');
-
+         joinCarSession();
         carHtml.addEventListener('click', () => {
+            joinCarSession();
             SetCar();
 
         })
@@ -232,7 +233,7 @@
         //});
 
         //SetCar();
-        joinCarSession();
+        //joinCarSession();
 
         //function deleteIton(){
             
