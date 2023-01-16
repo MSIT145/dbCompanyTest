@@ -15,17 +15,12 @@ $.ajax({
                                         <td>${i_val.表單類型}</td>
                                         <td>${i_val.表單內容}</td>
                                         <td>${i_val.表單狀態}</td>
-                                        <td><button class= "btn btn-primary mb-3 btnTDL_DT">詳細資料
-                                        </button></td>`
+                                        <td><a href = "${TDL_DTpath}/?listNum=${i_val.交辦事項id}"><button class= "btn btn-primary mb-3 btnTDL_DT">詳細資料
+                                        </button></a></td>`
             );
             docFrag.append(eleT);
         });
         $("#ToDolist_tbody").html(docFrag);
-
-        $(".btnTDL_DT").on('click', function () {
-            let TID = $(this).parents("td").siblings("td").first().text()
-           
-        })
     });
 
 

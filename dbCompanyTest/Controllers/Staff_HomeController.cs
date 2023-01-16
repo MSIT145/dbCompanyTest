@@ -78,9 +78,14 @@ namespace dbCompanyTest.Controllers
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             return View();
         }
-        public IActionResult DT_TDL()
+
+        public IActionResult DT_TDL(int listNum)
         {
-            return View();
+            var data = from c in _context.ToDoLists
+                       where c.交辦事項id == listNum
+                       select c;
+
+            return View(data);
         }
 
 
