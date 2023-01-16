@@ -61,18 +61,21 @@
         event.preventDefault();
         let canAdd = 0;
         $.each(check, function (index, value) {
+            console.log(value);
             if (value) {
                 canAdd++;
             }
         });
-        if (canAdd == 4) {
+        if (canAdd == 5) {
             const userdata = new FormData(document.userForm);
             const response = await fetch("@Url.Content("~/Login/CheckClient")", {
                 method: "POST",
                 body: userdata
             });
             const data = await response.text();
-            console.log(data);
+            if("OK"){
+                window.location.assign("https://localhost:7100/Home/Index");
+            }
         }
         else {
             alert("請輸入完整資料");
