@@ -1,6 +1,7 @@
 ﻿using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace dbCompanyTest.Controllers
 {
@@ -47,18 +48,22 @@ namespace dbCompanyTest.Controllers
                 _context.SaveChanges();
                 
             
-            return View(client);
+            return RedirectToAction("memberInfo");
         }
-        
-        public IActionResult password(string id)
+
+        [HttpPost]
+        public IActionResult password(MemberCenterViewModel vm)
         {
-            id = "CL1-00376";
-            TestClient client = _context.TestClients.FirstOrDefault(x => x.客戶編號 == id);
+            TestClient client = _context.TestClients.FirstOrDefault(x => x.客戶編號 == vm.客戶編號);
+
             if (client == null)
             {
                 return NotFound();
             }
-            return PartialView(client);
+            client.密碼 = vm.密碼;
+            
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
 
