@@ -39,7 +39,8 @@ namespace dbCompanyTest.Controllers
                 carSession = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
             }
             else
-                carSession = new List<會員商品暫存>();
+            {
+            carSession = new List<會員商品暫存>();
             foreach(會員商品暫存 x in dbCompanyTestContext)
             {
                 carSession.Add(x);
@@ -47,7 +48,9 @@ namespace dbCompanyTest.Controllers
                 HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
 
             }
-            return View(dbCompanyTestContext);
+            }
+             
+            return View(carSession);
         }
         public IActionResult joinSQLToSession()
         {
