@@ -20,6 +20,7 @@ time, mark, audio, video {
 }
 a {
     text-decoration: none;
+    z-index:-1;
 }
     a:hover {
         text-decoration: none;
@@ -262,4 +263,21 @@ img {
     font: inherit;
     font-weight: normal;
     vertical-align: baseline;
+}
+#share a{
+    color: #7e8c8d;
+    text-decoration: none;
+    -webkit-backface-visibility: hidden;
+}
+.share-item {
+    line-height: 24px;
+    margin-bottom: 35px;
+    font-weight: 500;
+    font-size: 18px;
+}
+.share-box{
+    text-align: center;
+    font-weight: 600;
+    line-height: 20px;
+    font-size: 13px;
 }
