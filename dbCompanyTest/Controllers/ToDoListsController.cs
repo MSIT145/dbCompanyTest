@@ -27,23 +27,23 @@ namespace dbCompanyTest.Controllers
         //}
 
         // GET: ToDoLists/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null || _context.ToDoLists == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.ToDoLists == null)
+            {
+                return NotFound();
+            }
 
-        //    var toDoList = await _context.ToDoLists
-        //        .Include(t => t.員工編號Navigation)
-        //        .FirstOrDefaultAsync(m => m.交辦事項id == id);
-        //    if (toDoList == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var toDoList = await _context.ToDoLists
+                .Include(t => t.員工編號Navigation)
+                .FirstOrDefaultAsync(m => m.交辦事項id == id);
+            if (toDoList == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(toDoList);
-        //}
+            return View(toDoList);
+        }
 
         // GET: ToDoLists/Create
         public IActionResult Create()

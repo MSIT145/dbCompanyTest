@@ -78,7 +78,11 @@ namespace dbCompanyTest.Controllers
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             return View();
         }
-      
+        public IActionResult DT_TDL()
+        {
+            return View();
+        }
+
 
         //==================================================
         public IActionResult LoadSheeplist()
@@ -108,7 +112,7 @@ namespace dbCompanyTest.Controllers
         {
             var datas = from c in _context.ToDoLists
                         join o in _context.TestStaffs on c.員工編號 equals o.員工編號
-                        where c.員工編號 == stf || c.協辦部門簽核人員 ==stf || c.部門主管 ==stf ||c.起單人 ==stf ||c.執行人== stf
+                        where c.員工編號 == stf/* || c.協辦部門簽核人員 ==stf || c.部門主管 ==stf ||c.起單人 ==stf ||c.執行人== stf*/
                         select c;
 
             return Json(datas);
@@ -122,6 +126,16 @@ namespace dbCompanyTest.Controllers
         {
             var datas = from c in _context.TestStaffs select c;
             return Json(datas);
+        }
+        public IActionResult stf_info_dep(string dep)
+        {
+            var datas = from c in _context.TestStaffs 
+                        where c.部門 == dep 
+                        select c;
+            var data = (from t in datas
+                       orderby Guid.NewGuid()
+                       select t).Take(2);
+            return Json(data);
         }
     }
 }
