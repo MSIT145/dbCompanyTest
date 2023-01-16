@@ -81,9 +81,12 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult DT_TDL(int listNum)
         {
-            var data = from c in _context.ToDoLists
-                       where c.交辦事項id == listNum
-                       select c;
+            string stfNum = HttpContext.Session.GetString("Account");
+            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
+
+            var data = _context.ToDoLists.FirstOrDefault( c=> c.交辦事項id== listNum);
+
 
             return View(data);
         }
