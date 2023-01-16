@@ -424,9 +424,9 @@ namespace dbCompanyTest.Controllers
 
 
         [HttpGet]
-        public IActionResult showlist(string key)
+        public IActionResult showlist(string id)
         {
-            int _key = 0;
+            string key = id;
             IEnumerable<Product> tmepdata = null;
 
             //結合相關表單產生有意義的資料
@@ -452,7 +452,7 @@ namespace dbCompanyTest.Controllers
             if (!string.IsNullOrEmpty(key))
             {
 
-                data = data.Where(d => d.商品編號id == (Int32.TryParse(key, out _key) ? _key : 0) || d.商品名稱.Contains(key) || d.商品鞋種.Contains(key) || d.商品介紹.Contains(key) || d.商品分類.Contains(key) || d.商品材質.Contains(key)).ToList();
+                data = data.Where(d =>  d.商品名稱.Contains(key) || d.商品鞋種.Contains(key) || d.商品介紹.Contains(key) || d.商品分類.Contains(key) || d.商品材質.Contains(key)).ToList();
             }
           
             //存入輸出暫存          
@@ -467,6 +467,7 @@ namespace dbCompanyTest.Controllers
                     }
                 }
             }
+            string gg = null;
 
             return Json(new { data });
         }
