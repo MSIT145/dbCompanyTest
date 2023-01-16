@@ -1,5 +1,28 @@
 ﻿@model IEnumerable<dbCompanyTest.ViewModels.OrderInfoDetailViewModel>
 
+@section Style{
+    <style>
+        .tbcolor{
+            vertical-align: middle;
+            text-align:center;
+            border-radius: 5px 0 0 0;
+        }
+        .thead{
+            background-color:#BDAC9F;
+            text-align:center;
+            font-weight:bold;
+        }
+        .btncolor{
+            background-color:#D5BBA6;
+            font-weight:bold;
+            color:white;
+        }
+        .dttxt{
+
+        }
+    </style>
+}
+
 @{
     ViewData["Title"] = "orderInfoDetail";
 }
@@ -18,8 +41,8 @@
         </nav>
             <hr />
             <br />
-            <table class="table">
-                <thead>
+            <table class="table  tbcolor">
+                <thead class="thead">
                     <tr>
                         <th>訂單編號</th>
                         <th>商品名稱</th>
@@ -33,42 +56,43 @@
                     @{
                         foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.訂單編號)
-                                </td>
-                                <td>
-                                    @{
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.訂單編號)
+                                    </td>
+                                    <td>
+                                        @{
                                         if (@item.圖片 != null)
                                         {
-                                            <img class="card-img rounded-0 img-fluid" src="~/images/@item.圖片" style="width:118px;height:162px" />
+                                                    <img class="card-img rounded-0 img-fluid" src="~/images/@item.圖片" style="width:118px;height:162px" />
                                         }
                                         else
                                         {
-                                            <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" style="width:118px;height:162px" />
+                                                    <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" style="width:118px;height:162px" />
                                         }
-                                    }
-                                    @Html.DisplayFor(modelItem => item.商品名)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.規格)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.數量)
-                                </td>
-                                @{
-                                    decimal 價格 = (decimal)item.價格;
-                                    <td>
-                                    @價格.ToString("###,###,##0")$
+                                        }
+                                        @Html.DisplayFor(modelItem => item.商品名)
                                     </td>
-                                }
-                            </tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.規格)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.數量)
+                                    </td>
+                                    @{
+                                    decimal 價格 = (decimal)item.價格;
+                                            <td>
+                                            @價格.ToString("###,###,##0")$
+                                            </td>
+                                    }
+                                </tr>
                         }
                     }
                 </tbody>
             </table>
             <br />
-            <dl class="row">
+            <br />
+            <dl class="row dttxt lh-lg">
                 @{
                     string 付款="";
                     string 地址="";
@@ -80,25 +104,25 @@
                         總金 = (decimal)items.總金額;
                     }
                     
-                    <hr />
-                    <dt class="col-sm-10 text-end pe-5">
-                        @Html.DisplayNameFor(model => model.付款方式)
-                    </dt>
-                    <dd class="col-sm-2 text-end">
-                        @付款
-                    </dd>
-                    <dt class="col-sm-10 text-end pe-5">
-                        @Html.DisplayNameFor(model => model.送貨地址)
-                    </dt>
-                    <dd class="col-sm-2 text-end">
-                        @地址
-                    </dd>
-                    <dt class="col-sm-10 text-end pe-5">
-                        @Html.DisplayNameFor(model => model.總金額)
-                    </dt>
-                    <dd class="col-sm-2 text-end">
-                        @總金.ToString("###,###,##0")$
-                    </dd>
+                        <hr />
+                        <dt class="col-sm-10 text-end pe-5">
+                            @Html.DisplayNameFor(model => model.付款方式)
+                        </dt>
+                        <dd class="col-sm-2 text-end">
+                            @付款
+                        </dd>
+                        <dt class="col-sm-10 text-end pe-5">
+                            @Html.DisplayNameFor(model => model.送貨地址)
+                        </dt>
+                        <dd class="col-sm-2 text-end">
+                            @地址
+                        </dd>
+                        <dt class="col-sm-10 text-end pe-5">
+                            @Html.DisplayNameFor(model => model.總金額)
+                        </dt>
+                        <dd class="col-sm-2 text-end">
+                            @總金.ToString("###,###,##0")$
+                        </dd>
                 }
 
             </dl>

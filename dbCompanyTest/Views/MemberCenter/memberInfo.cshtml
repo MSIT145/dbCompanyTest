@@ -1,12 +1,23 @@
 ﻿@model dbCompanyTest.Models.TestClient
 @addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@section Style{
+    <style>
+        .btncolor{
+            background-color:#D5BBA6;
+            font-weight:bold;
+            color:white;
+        }
+    </style>
+}
+
+
 
 @{
     ViewData["Title"] = "memberInfo";
 }
 
 <div class="container">
-    <div class="pb-3">
+    <div class="pb-3 lh-lg">
         <br />
         <br />
         <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
@@ -72,7 +83,7 @@
                     </div>
                     <br />
                     <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" asp-action="memberInfo" />
+                        <input type="submit" value="確定修改" class="btn btncolor" asp-action="memberInfo" />
                     </div>
                 </div>
                 <div class="col-md-2"></div>
@@ -92,20 +103,17 @@
                         <span class="text-danger" id="validMessage2 "></span>
                     </div>
                     <br />
-                    <div class="form-group">
-                        <input type="submit" value="Save2" class="btn btn-primary" asp-action="password"  id="updateBtn" />
+                    <div class="form-group ">
+                        <input type="submit" value="確定修改" class="btn  btncolor " asp-action="password" id="updateBtn" />
                     </div>
                 </div>
                 <div class="col-md-1"></div>
 
-                @*            <div>
-                <a asp-action="Index" >Back to List</a>
-                </div>*@
 
             </div>
 
         </form>
-
+        <br />
     </div>
 </div>
     <div>
