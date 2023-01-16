@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
+using dbCompanyTest.ViewModels;
 
 namespace dbCompanyTest.Controllers
 {
@@ -163,5 +164,6 @@ namespace dbCompanyTest.Controllers
         {
             return Content(_context.TestClients.Any(e => e.Email == EIP || e.客戶電話 == EIP || e.身分證字號 == EIP).ToString());
         }
+
     }
 }

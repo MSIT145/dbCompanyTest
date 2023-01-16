@@ -8,7 +8,7 @@
         <select name="縣市" id="city" class="Linput"></select><br />
         <select name="區" id="town" class="Linput"></select><br />
         <input type="text" name="地址" class="Linput" placeholder="地址" /> <br />
-        <input type="text" name="Email" class="Linput" placeholder="Email" /><br />
+        <input asp-for="Email" type="text" name="Email" class="Linput" placeholder="Email" /><br />
         <input type="text" name="密碼" class="Linput" placeholder="密碼" /> <br />
         <select name="性別" id="sex" class="Linput"><option>男</option><option>女</option></select><br />
         <input type="text" name="生日" class="Linput" placeholder="生日" /><br />
@@ -18,34 +18,99 @@
 <script src="~/datas/taiwan_districts.js"></script>
 <script src="~/js/city_data.js"></script>
 <script>
-    $(`input[name=Email],input[name=客戶電話],input[name=身分證字號]`).on(`blur`, function () {
+    var check = [false, false, false, false, false];
+    $(`input[name=Email],input[name=客戶電話],input[name=身分證字號],input[name=密碼],input[name=客戶姓名]`).on(`blur`, function () {
         const checkInput = $(this);
         const EIP = checkInput.val();
-        if (EIP) {
-            $.post("@Url.Content("~/TestClients/checkJoindata")", { "EIP": EIP }, function (bool) {
-                if (bool == "True") {
-                    checkInput.next().remove();
-                    checkInput.after($(`<p style="color:red;margin:0;">已經有人使用</p>`));
-                }
-                else {
-                    if (checkInput.next().text()) {
-                        checkInput.next().remove();
-                        checkInput.after($(`<br/>`));
+        const name = $(this).attr("name");
+        if ($(this).attr("name") != "密碼" && $(this).attr("name") != "客戶姓名") {
+            if (EIP) {
+                $.post("@Url.Content("~/TestClients/checkJoindata")", { "EIP": EIP }, function (bool) {
+                    if (bool == "True") {
+                        toggleErro(checkInput, false, `已經有人使用`);
+                        userArray(name, false);
                     }
+                    else {
+                        if (checkInput.next().text()) {
+                            toggleErro(checkInput, true, ``);
+                        }
+                        userArray(name, true);
+                    }
+                });
+            }
+            else {
+                toggleErro(checkInput, false, `不可是空白`);
+                userArray(name, false);
+            }
+        }
+        else {
+            if (EIP) {
+                if (checkInput.next().text()) {
+                    toggleErro(checkInput, true, ``);
                 }
-            });
+                userArray(name, true);
+            }
+            else {
+                toggleErro(checkInput, false, `不可是空白`);
+                userArray(name, false);
+            }
         }
     });
 
     $(`#checkcreate`).on(`click`, async function (event) {
         event.preventDefault();
-
-        const userdata = new FormData(document.userForm);
-        const response = await fetch("@Url.Content("~/Login/CheckClient")",{
-            method:"POST",
-            body:userdata
+        let canAdd = 0;
+        $.each(check, function (index, value) {
+            if (value) {
+                canAdd++;
+            }
         });
-        const data = await response.text();
-        console.log(data);
+        if (canAdd == 4) {
+            const userdata = new FormData(document.userForm);
+            const response = await fetch("@Url.Content("~/Login/CheckClient")", {
+                method: "POST",
+                body: userdata
+            });
+            const data = await response.text();
+            console.log(data);
+        }
+        else {
+            alert("請輸入完整資料");
+        }
     });
+
+    function userArray(name, Bool) {
+        switch (name) {
+            case `Email`: {
+                check[0] = Bool;
+                break;
+            }
+            case `客戶電話`: {
+                check[1] = Bool;
+                break;
+            }
+            case `身分證字號`: {
+                check[2] = Bool;
+                break;
+            }
+            case `密碼`: {
+                check[3] = Bool;
+                break;
+            }
+            case `客戶姓名`: {
+                check[4] = Bool;
+                break;
+            }
+        }
+    }
+
+    function toggleErro(checkInput, onoff, text) {
+        checkInput.next().remove();
+        if (onoff) {
+            checkInput.after($(`<br/>`));
+        }
+        else {
+            checkInput.after($(`<p style="color:red;margin:0;">${text}</p>`));
+        }
+    }
 </script>

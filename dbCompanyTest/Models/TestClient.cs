@@ -14,7 +14,6 @@ namespace dbCompanyTest.Models
         }
 
         public string 客戶編號 { get; set; } = null!;
-        
         public string? 客戶姓名 { get; set; }
         public string? 客戶電話 { get; set; }
         public string? 身分證字號 { get; set; }

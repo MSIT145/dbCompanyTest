@@ -185,7 +185,7 @@ namespace dbCompanyTest.Controllers
                     x.客戶編號 = $"CL{x.身分證字號.Substring(1, 1)}-{count.ToString("0000")}{x.身分證字號.Substring(7, 3)}";
                     _context.TestClients.Add(x);
                     _context.SaveChanges();
-                    return RedirectToAction("Index", "Home");
+                    return Content("OK");
                 }
                 else
                     return Content("Email,電話或身分證字號已被使用");
