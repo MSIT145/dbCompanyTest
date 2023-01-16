@@ -31,10 +31,20 @@
                         userArray(name, false);
                     }
                     else {
-                        if (checkInput.next().text()) {
-                            toggleErro(checkInput, true, ``);
+                        switch (name) {
+                            case `Email`: {
+                                userEmail(checkInput);
+                                break;
+                            }
+                            case `客戶電話`: {
+                                userphone(checkInput);
+                                break;
+                            }
+                            case `身分證字號`: {
+                                userIDCARD(checkInput);
+                                break;
+                            }
                         }
-                        userArray(name, true);
                     }
                 });
             }
@@ -117,17 +127,71 @@
         }
     }
 
-    $(`input[name=Email]`).on(`blur`, function () {
-        let thisval = $(this).val();
-    });
+    function userEmail(value) {
+        let checkInput = value;
+        let re = /^\w+((-\w+)|(\.\w+))*\@@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+        if (re.test(checkInput.val())){
+            userArray(name, true);
+            toggleErro(checkInput, true, ``);
+        }
+        else{
+            userArray(name, false);
+            toggleErro(checkInput, false, `不符合Email格式`);
+        }
+    };
 
-    $(`input[name=客戶電話]`).on(`blur`, function () {
+    function userphone(value) {
+        let checkInput = value;
+        let re = /^[0]{1}[9]{1}[0-9]{8}$/, a = [false, false];
+        if (checkInput.val().length == 10) {
+            if (re.test(checkInput.val())) {
+                a[0] = true;
+            }
+            else {
+                a[0] = false;
+            }
+            a[1] = true;
+        } else {
+            a[1] = false;
+        }
+        if (a[0] && a[1]) {
+            userArray(name, true);
+            toggleErro(checkInput, true, ``);
+        }
+        else {
+            userArray(name, false);
+            toggleErro(checkInput, false, `不符合電話格式(09xxxxxxxx)`);
+        }
+    };
 
-    });
+    function userIDCARD(value) {
+        let checkInput = value;
+        let re = /^[A-Z]{1}[1-2,8-9]{1}[0-9]{8}$/, a = [false, false];
+        const name = checkInput.attr("name");
+        if (checkInput.val().length == 10) {
+            if (re.test(checkInput.val())) {
+                a[0] = true;
+            }
+            else {
+                a[0] = false;
+            }
+            a[1] = true;
+        }
+        else {
+            a[1] = false;
+        }
 
-    $(`input[name=身分證字號]`).on(`blur`, function () {
+        if (a[0] && a[1]) {
+            userArray(name, true);
+            toggleErro(checkInput, true, ``);
+        }
+        else {
+            userArray(name, false);
+            toggleErro(checkInput, false, `不符合身分證格式`);
+        }
+    };
 
-    });
+
 
     $(`input[name=密碼]`).on(`blur`, function () {
         let checkInput = $(this);
@@ -152,12 +216,12 @@
                 }
             }
         }
-        if (a[0] && a[1] && a[2]&& a[3]){
-            userArray(name,true);
+        if (a[0] && a[1] && a[2] && a[3]) {
+            userArray(name, true);
         }
-        else{
+        else {
             toggleErro(checkInput, false, `密碼要包含英、數字、特殊符號(!#$%^&*)且長度需大於6`);
-            userArray(name,false);
+            userArray(name, false);
         }
     });
 

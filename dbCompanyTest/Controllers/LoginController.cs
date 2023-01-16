@@ -1,4 +1,5 @@
-﻿using dbCompanyTest.Models;
+﻿using dbCompanyTest.Hubs;
+using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Mvc;
@@ -192,6 +193,5 @@ namespace dbCompanyTest.Controllers
                     return Content("Email,電話或身分證字號已被使用");
             }
         }
-
     }
 }
