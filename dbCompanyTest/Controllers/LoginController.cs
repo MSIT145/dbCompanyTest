@@ -203,7 +203,7 @@ namespace dbCompanyTest.Controllers
                 var mail = new MailMessage();
                 mail.To.Add("alan20100525@gmail.com");
                 mail.Subject = "SheoseGift忘記密碼變更";
-                mail.Body= "<a href=`https://localhost:7100/Login/RePassword`>點選這裡變更密碼</a>";
+                mail.Body= $"<a href=`https://localhost:7100/Login/RePassword?Email={Email}`>點選這裡變更密碼</a>";
                 mail.IsBodyHtml= true;
                 mail.Priority = MailPriority.Normal;
                 mail.From = new MailAddress("msit145finalpj@gmail.com", "SheoseGift");
@@ -219,10 +219,20 @@ namespace dbCompanyTest.Controllers
             else
                 return Content("沒有這個帳號");
         }
-
-        public IActionResult RePassword()
+        [HttpGet]
+        public IActionResult RePassword(string Email)
         {
+            ViewBag.Email = Email;
             return View();
+        }
+
+        public IActionResult ResetPassword(string Email,string Password)
+        {
+            dbCompanyTestContext _context = new dbCompanyTestContext();
+            TestClient client = _context.TestClients.FirstOrDefault(c=>c.Email == Email);
+            client.密碼 = Password;
+            _context.SaveChanges();
+            return Content("");
         }
     }
 }
