@@ -93,10 +93,22 @@
             xhr.setRequestHeader(`Content-Type`, `application/x-www-form-urlencoded`);
             xhr.timeout = 5000;
             xhr.send(`account=${account}&password=${password}`);
+            //joinCarSession()
         });
         $(`#create`).on(`click`, function () {
             $(`#loginPage`).load("@Url.Content("~/Login/CreateClient")");
+            //joinCarSession()
         });
+
+        //---購物車載入
+        async function joinCarSession() {
+            const reb = await fetch(`@Url.Content("~/Shopping/joinSQLToSession")`)
+            const data = await reb.text();
+            console.log(data);
+        };
+       //---購物車載入結束
+
+
     </script>
     <script src="~/js/city_data.js"></script>
 }
