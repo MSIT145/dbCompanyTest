@@ -4,6 +4,7 @@ using dbCompanyTest.ViewModels;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Net.Mail;
 using System.Text.Json;
 
 namespace dbCompanyTest.Controllers
@@ -192,6 +193,36 @@ namespace dbCompanyTest.Controllers
                 else
                     return Content("Email,電話或身分證字號已被使用");
             }
+        }
+
+        public IActionResult forgetPassword(string Email)
+        {
+            dbCompanyTestContext _context = new dbCompanyTestContext();
+            if (_context.TestClients.Any(c => c.Email == Email))
+            {//zlazqafpmuwxkxvo
+                var mail = new MailMessage();
+                mail.To.Add("alan20100525@gmail.com");
+                mail.Subject = "SheoseGift忘記密碼變更";
+                mail.Body= "<a href=`https://localhost:7100/Login/RePassword`>點選這裡變更密碼</a>";
+                mail.IsBodyHtml= true;
+                mail.Priority = MailPriority.Normal;
+                mail.From = new MailAddress("msit145finalpj@gmail.com", "SheoseGift");
+                var smtp = new SmtpClient("smtp.gmail.com", 587)
+                {
+                    Credentials = new System.Net.NetworkCredential("msit145finalpj@gmail.com", "zlazqafpmuwxkxvo"),
+                    EnableSsl = true
+                };
+                smtp.Send(mail);
+                mail.Dispose();
+                return Content("請至信箱接收密碼更改信件");
+            }
+            else
+                return Content("沒有這個帳號");
+        }
+
+        public IActionResult RePassword()
+        {
+            return View();
         }
     }
 }
