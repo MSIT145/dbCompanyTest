@@ -126,58 +126,77 @@
     <script src="~/js/city_data.js"></script>
         <script>
 
-            //驗證還沒做完
-            //$(function () {
-            //    const id= $("#UserID");
-            //    $("#updateBtn").click( function () {
-            //         if ($("#oldpassword").val() == "") {
-            //            $("#validMessage").html('請輸入舊密碼').show();
-            //            $("#oldpassword").focus();
-            //            return false;
-            //         }
-            //         $("#validMessage").html('').show();
-            //        if ($("#password").val() == '') {
-            //            $("#validMessage1").html('請輸入密碼').show();
-            //            $("#password").focus();
-            //            return false;
-            //        }
-            //        $("#validMessage1").html('').show();
-            //        if ($("#repassword").val() == '') {
-            //            $("#validMessage2").html('請輸入確認密碼').show();
-            //            $("#repassword").focus();
-            //            return false;
-            //        }
-            //        $("#validMessage2").html('').show();
-            //        if ($("#password").val() != $("#repassword").val()) {
-            //            $("#validMessage2").html('新密碼與確認密碼不一致').show();
-            //            $("#repassword").focus();
-            //            return false;
-            //        }
-            //        var passwd = $("#password").val();
-            //        if (passwd.length < 6 || passwd.length > 20) {
-            //            $("#validMessage").html('密碼長度6-20位').show();
-            //            return false;
-            //        }
-                   
-            //        if (!((passwd.match(/[a-z]/) != null || passwd.match(/[A-Z]/) != null) && passwd.match(/\d/) != null)) {
-            //            $("#validMessage").html('密碼格式錯誤，密碼長度6-20位，字母加數字或符號的混合').show();
-            //            return false;
-            //        }
-            //        $.ajax({
-            //            type: "POST",
-            //            url: "/MemberCenter/password",
-            //            data: "userid=" + $("#UserID").val() + "&password=" + $("#password").val() ,
-            //            success: function (msg) {
-            //                if (validMessage == "True") {
-            //                   alert("密碼修改成功");
-            //                } else {
-                                
-            //                }
-            //            }
-            //        });
-            //    })
+          
+        $(function () {
+                const id= $("#UserID");
+                const btn=document.querySelector("#updateBtn")
+            var passwd = $("#password").val();
+            $("#oldpassword").on("blur", function () {
+                //alert("blur");
+                if ($("#oldpassword").val() == "") {
+                    $("#validMessage").html('請輸入舊密碼').show();
+                    btn.setAttribute('disabled', 'disabled')
+                   // $("#oldpassword").focus();
+                    return false;
+                }
+                $("#validMessage").html('').show();
 
-            //})
+
+            })
+
+            $("#password").on("blur", function () {
+                if ($("#password").val() == '') {
+                    $("#validMessage1").html('請輸入密碼').show();
+                    //$("#password").focus();
+                    return false;
+                }
+                $("#validMessage1").html('').show();
+
+                if (passwd.length < 6 || passwd.length > 20) {
+                    $("#validMessage1").html('密碼長度6-20位').show();
+                    return false;
+                }
+                $("#validMessage1").html('').show();
+
+                if (!((passwd.match(/[a-z]/) != null || passwd.match(/[A-Z]/) != null) && passwd.match(/\d/) != null)) {
+                    $("#validMessage").html('密碼格式錯誤，密碼長度6-20位，字母加數字或符號的混合').show();
+                    return false;
+                }
+                $("#validMessage1").html('').show();
+            })
+
+            $("#repassword").on("blur", function () {
+                if ($("#repassword").val() == '') {
+                    $("#validMessage2").html('請輸入確認密碼').show();
+                    //$("#repassword").focus();
+                    return false;
+                }
+                $("#validMessage2").html('').show();
+
+                if ($("#password").val() != $("#repassword").val()) {
+                    $("#validMessage2").html('新密碼與確認密碼不一致').show();
+                    //$("#repassword").focus();
+                    return false;
+                }
+                $("#validMessage2").html('').show();
+            })
+
+                $("#updateBtn").click( function () {
+                    //$.ajax({
+                    //    type: "POST",
+                    //    url: "/MemberCenter/password",
+                    //    data: "userid=" + $("#UserID").val() + "&password=" + $("#password").val() ,
+                    //    success: function (msg) {
+                    //        if (validMessage == "True") {
+                    //           alert("密碼修改成功");
+                    //        } else {
+                                
+                    //        }
+                    //    }
+                    //});
+                })
+
+            })
         </script>
 
         

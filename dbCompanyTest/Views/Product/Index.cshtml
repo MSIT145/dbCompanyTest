@@ -59,14 +59,15 @@
             </table>
         </div>
         <div class="row">
-            <div class="col-md-4">                
+            <div class="col-md-3">                
             </div>
             <div class="col-md-6">
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="input-group ">
-                    <input type="text" class="form-control" placeholder="檔案名稱" aria-label="檔案名稱" aria-describedby="btn-download" id="fileName" name="fileName">
-                    <button class="btn btn-outline-secondary" type="button" id="btn-download">下載</button>
+                    
+                    <input type="text" class="form-control" placeholder="請輸入檔案名稱" aria-label="請輸入檔案名稱檔案名稱" aria-describedby="btn-download" id="fileName" name="fileName">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-download">下載成Excel</button>
                 </div>
             </div>
         </div>
@@ -281,12 +282,17 @@
         //產品新增ajax
         let Pro_Create_Post = () => { $.post("@Url.Content("~/product/CreateProduct")", $("#form01").serialize(), (datas) => { alert(datas); $("#P_Close").click(); }); }
 
-
-        let Pro_DownLoadFile_Get = () => { $.get("@Url.Content("~/product/Downloads")", $("#fileName").serialize(), (datas) => { alert(datas);  }); }
+        //將顯示畫面以Excel下載
+        let Pro_DownLoadFile_Get = (filename) => { 
+            
+            window.location = `@Url.Content("~/product/Downloads")?filename=${filename}`;
+        }
 
         //檔案下載事件
         $("#btn-download").on('click',function(){
-            Pro_DownLoadFile_Get();        
+            let filename = $("#fileName").val();
+            Pro_DownLoadFile_Get(filename);
+            $("#fileName").val("");
         });
 
         //查詢事件綁定
