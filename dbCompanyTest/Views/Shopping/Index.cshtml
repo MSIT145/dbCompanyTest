@@ -136,13 +136,42 @@
 <br />
 <input id="btn_page1" type="button"  value="結帳" disabled/>
     <br />
-</div>
-<form>
 
-</form>
-<div id="clientDital" style="visibility: hidden">
+    <div id="clientDital" style="visibility: hidden">
 
+        <form>
+            <div>訂購人資訊</div>
+            <div>
+                <span>姓名</span>
+                <input type="text" class="userName" id="NameText" />
+            </div>
+            <div>
+                <span>手機號碼</span>
+                <input type="text" class="userPhone" id="PhoneText" />
+            </div>
+            <div>
+                <span>電子郵件</span>
+                <input type="text" class="userEmail" id="EmailText" />
+            </div>
+            <div>
+                <span>地址</span>
+                <select class="userAddress" id="CitySelect">
+                </select>
+                <select class="userAddress" id="DistrictSelect">
+                </select>
+                <select class="userAddress" id="RoadSelect">
+                </select>
+                <input type="text" class="userAddress" id="DitalText" />
+            </div>
+            <div>
+                <input type="button" value="確認購買" />
+            </div>
+
+        </form>
+    </div>
 </div>
+
+
 @section Scripts{
         <script>
             const deliverymony = document.querySelector('#delivery')
@@ -170,6 +199,7 @@
             $('.step1').removeClass("active")
             $('.step2').addClass("active")
             $('#btn_slectCar').attr("style", "display:block;");
+            $('#clientDital').attr("style", "display:block;");
         })
         slectCar.addEventListener('click', function () {
             $('.hidaing').toggle();
