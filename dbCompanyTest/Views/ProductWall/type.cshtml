@@ -17,12 +17,12 @@
                         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">首頁</a></li>
                         @{
                         string type = "";
-                        int sid = 0;
+                        int sid=1 ;
                         string stype = "";
                         foreach (var item in Model)
                         {
                             type = item.商品分類名稱;
-                            sid = item.商品編號id;
+                            sid = item.商品分類id;
                             stype = item.鞋種名稱;
                         }
                         <li class="breadcrumb-item active" aria-current="page"><a asp-controller="ProductWall" asp-action="Index" asp-route-id=@sid>@type</a></li>
@@ -34,19 +34,19 @@
     </div>
         <div class="row ">
             <div class="col-lg-12 d-flex">
-                <div class="row">
+                <div class="row col-md-2">
                     <div class="col-md-6">
                         <ul class="list-inline shop-top-menu pb-3 pt-1">
                             @{
                             string name = "";
-                            int id = 0;
+                            
                             foreach (var item in Model)
                             {
                                 name = item.鞋種名稱;
-                                id = @item.商品鞋種id;
+                                
                             }
                             <li class="list-inline-item">
-                                <a class="h5 text-dark text-decoration-none" asp-action="type" asp-route-id="@id">@name</a>
+                                <p class="h5 text-dark text-decoration-none avtive" >@name</p>
                             </li>
                         }
                     </ul>

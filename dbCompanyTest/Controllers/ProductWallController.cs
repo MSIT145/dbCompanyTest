@@ -31,7 +31,7 @@ namespace dbCompanyTest.Controllers
                             {
                                 鞋種名稱 = b.鞋種,
                                 商品編號id = c.商品編號id,
-                                商品分類id = e.商品分類id,
+                                商品分類id = (int)id,
                                 商品鞋種id = (int)c.商品鞋種id,
                                 商品名稱 = c.商品名稱,
                                 商品價格 = (decimal)c.商品價格,
@@ -44,7 +44,7 @@ namespace dbCompanyTest.Controllers
             }
         }
 
-        public IActionResult type(int? id, int page = 1)
+        public IActionResult type(int? id,int? tid,string? type, int page = 1)
         {
             if (id == null)
                 return NotFound();
@@ -60,11 +60,12 @@ namespace dbCompanyTest.Controllers
                             {
                                 鞋種名稱 = b.鞋種,
                                 商品編號id = c.商品編號id,
-                                商品鞋種id=(int)c.商品鞋種id,
+                                商品分類id = (int)tid,
+                                商品鞋種id = (int)c.商品鞋種id,
                                 商品名稱 = c.商品名稱,
                                 商品價格 = (decimal)c.商品價格,
                                 產品圖片1 = f.商品圖片1,
-                                商品分類名稱 = e.商品分類名稱
+                                商品分類名稱 = type
                             };
                 
                 return View(datas.ToPagedList(page, 5));
