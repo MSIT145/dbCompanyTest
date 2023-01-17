@@ -46,6 +46,7 @@ a {
 .d-right-detail {
     float:right;
     max-width:100%;
+    width:15%;
 }
 .d-right-detail-item {
     
@@ -133,12 +134,23 @@ a {
     background-position: center;
     background-size: 100%;
 }
-.d-right-share-icon {
+.d-right-share-FB {
     width: 20px;
     height: 20px;
     display: inline-block;
     margin-left: auto;
-    background-image: url(/images/share.jpg);
+    background-image: url(/images/facebook.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    margin-right: 2px;
+}
+.d-right-share-LINE {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-left: auto;
+    background-image: url(/images/line.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100%;

@@ -87,8 +87,8 @@
                         <span class="d-right-share-pic-Text">ADD TO FAVORITE</span>
                     </div>
                     <div class="d-right-share-share">
-                        <span class="d-right-share-icon-Text">SHARE</span>
-                        <span class="d-right-share-icon"></span>
+                        <span class="d-right-share-FB"><a></a></span>
+                        <span class="d-right-share-LINE"><a></a></span>
                     </div>
                 </div>
             </div>
@@ -137,16 +137,21 @@
 
 @section Scripts{
     <script>
-        $(`.d-right-share-icon-Text,.d-right-share-icon`).on('click',function(){
-            $(`#shareline`).find('a').click(function(){
+        $(`.d-right-share-FB,.d-right-share-LINE`).on('click', function () {
+            $(this).find('a').click(function(){
                 window.open(`https://social-plugins.line.me/lineit/share?url=${location.href}`);
             });
-            $(`#shareFB`).find('a').click(function () {
+            $(this).find('a').click(function () {
                 window.open(`https://www.facebook.com/sharer/sharer.php?u=${location.href}`);
             });
 
             $('#share').css("display","block");
         });
+
+
+
+
+
         $('.size-item').on('click', function () {
             $(this).addClass("active").siblings().removeClass("active");
         });
