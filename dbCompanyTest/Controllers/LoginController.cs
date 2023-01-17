@@ -133,21 +133,21 @@ namespace dbCompanyTest.Controllers
         public IActionResult Logout()
         {
             //Gary
-            MyLoveAndSoppingCar(CDittionary.SK_USE_FOR_MYLOVE_SESSION, false);
+            MyLoveAndSoppingCar(CDittionary.SK_USE_FOR_MYLOVE_SESSION, CDittionary.SK_USE_FOR_LOGIN_USER_SESSION, false);
             //--------------------------------------------------------------
             //---購物車Logout--LU--感謝Gary<3
-            MyLoveAndSoppingCar(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, true);
+            MyLoveAndSoppingCar(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, CDittionary.SK_USE_FOR_LOGIN_USER_SESSION, true);
             //---購物車Logout結束--LU
             HttpContext.Session.Remove(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
             return RedirectToAction("Index", "Home");
         }
 
-        private void MyLoveAndSoppingCar(string session,bool MyloveOrShoppingcar)
+        private void MyLoveAndSoppingCar(string session,string usersession,bool MyloveOrShoppingcar)
         {
             if (HttpContext.Session.Keys.Contains(session))
             {
                 dbCompanyTestContext _context = new dbCompanyTestContext();
-                string userjson = HttpContext.Session.GetString(session);
+                string userjson = HttpContext.Session.GetString(usersession);
                 var userdata = JsonSerializer.Deserialize<TestClient>(userjson);
                 var del = _context.會員商品暫存s.Select(x => x).Where(y => y.客戶編號 == userdata.客戶編號 && y.購物車或我的最愛 == MyloveOrShoppingcar);
                 _context.會員商品暫存s.RemoveRange(del);

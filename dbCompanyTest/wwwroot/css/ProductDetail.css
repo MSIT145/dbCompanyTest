@@ -26,10 +26,6 @@ a {
         text-decoration: none;
         color: black;
     }
-img {
-    width:inherit;
-    height:inherit;
-}
 .detail-center {
     float: left;
 
@@ -281,3 +277,10 @@ img {
     line-height: 20px;
     font-size: 13px;
 }
+img {
+    transform: scale(1,1);
+    transition: all 1s ease-out;
+    width: inherit;
+    height: inherit;
+}
+img:hover{transform:scale(1.2,1.2);}

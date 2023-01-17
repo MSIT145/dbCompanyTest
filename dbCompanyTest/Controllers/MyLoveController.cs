@@ -57,27 +57,42 @@ namespace dbCompanyTest.Controllers
                 {
                     string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
                     var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
+                    foreach (var item in datas) 
+                    {
+                        if (item.商品編號 == prod.商品編號 && item.商品顏色種類.Equals(prod.商品顏色種類) && item.尺寸種類.Equals(prod.尺寸種類))
+                        {
+                            return Content("收藏清單已有相同商品");
+                        }
+                    
+                    }
                     會員商品暫存 data = prod;
                     data.客戶編號 = userinfo.客戶編號;
                     data.訂單數量 = 1;
                     data.購物車或我的最愛 = false;
                     datas.Add(data);
-                    json =JsonSerializer.Serialize(datas);
+                    json = JsonSerializer.Serialize(datas);
                     HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
                     return Content("加入收藏成功");
                 }
                 else 
                 {
                     var list = _context.會員商品暫存s.Select(x => x).Where(y => y.購物車或我的最愛 == false && y.客戶編號.Contains(userinfo.客戶編號)).ToList();
-                    List<會員商品暫存> datas = new List<會員商品暫存>();
-                    會員商品暫存 data = prod;
-                    data.客戶編號 = userinfo.客戶編號;
-                    data.訂單數量 = 1;
-                    data.購物車或我的最愛 = false;
-                    datas.Add(data);
-                    datas.AddRange(list);
-                    string json = JsonSerializer.Serialize(datas);
-                    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
+                    foreach (var item in list)
+                    {
+                        if (item.商品編號 == prod.商品編號 && item.商品顏色種類.Equals(prod.商品顏色種類) && item.尺寸種類.Equals(prod.尺寸種類))
+                        {
+                            return Content("收藏清單已有相同商品");
+                        }
+                    }
+                        List<會員商品暫存> datas = new List<會員商品暫存>();
+                        會員商品暫存 data = prod;
+                        data.客戶編號 = userinfo.客戶編號;
+                        data.訂單數量 = 1;
+                        data.購物車或我的最愛 = false;
+                        datas.Add(data);
+                        datas.AddRange(list);
+                        string json = JsonSerializer.Serialize(datas);
+                        HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
                     return Content("加入收藏成功");
                 }
             }
