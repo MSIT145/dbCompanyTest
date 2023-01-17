@@ -1,12 +1,32 @@
 ﻿@model IEnumerable<dbCompanyTest.Models.Order>
 
+@section Style{
+    <style>
+        .tbcolor{
+            
+            text-align:center;
+            vertical-align: middle;
+        }
+        .thead{
+            background-color:#BDAC9F;
+            text-align:center;
+            font-weight:bold;
+        }
+        .btncolor{
+            background-color:#D5BBA6;
+            font-weight:bold;
+            color:white;
+        }
+    </style>
+}
+
+
 @{
     ViewData["Title"] = "orderInfo";
 }
 
 <div class="container">
-    <div class="pb-3">
-        <br />
+    <div class="pb-3 lh-lg">
         <br />
         <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -16,8 +36,9 @@
         </nav>
 
         <hr />
-        <table class="table  table-striped">
-            <thead>
+        <br />
+        <table class="table  table-striped tbcolor">
+            <thead class="thead">
                 <tr>
                     <th>
                         @Html.DisplayNameFor(model => model.訂單編號)
@@ -58,9 +79,9 @@
                         </td>
                         @{
                             decimal 金額 = (decimal)item.總金額;
-                        <td>
-                          @金額.ToString("###,###,##0")$
-                        </td>
+                                                    <td>
+                                                      @金額.ToString("###,###,##0")$
+                                                    </td>
 
                         }
                         <td>
@@ -73,12 +94,12 @@
                             @Html.DisplayFor(modelItem => item.付款狀態)
                         </td>
                         <td>
-                            @Html.ActionLink("More", "orderInfoDetail", new { id=item.訂單編號 },new {@class="btn btn-dark"})
+                            @Html.ActionLink("More", "orderInfoDetail", new { id=item.訂單編號 },new {@class="btn btncolor"})
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-
+        <br />
     </div>
 </div>

@@ -130,6 +130,7 @@
     function userEmail(value) {
         let checkInput = value;
         let re = /^\w+((-\w+)|(\.\w+))*\@@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+        const name = checkInput.attr("name");
         if (re.test(checkInput.val())){
             userArray(name, true);
             toggleErro(checkInput, true, ``);
@@ -143,6 +144,7 @@
     function userphone(value) {
         let checkInput = value;
         let re = /^[0]{1}[9]{1}[0-9]{8}$/, a = [false, false];
+        const name = checkInput.attr("name");
         if (checkInput.val().length == 10) {
             if (re.test(checkInput.val())) {
                 a[0] = true;
@@ -218,6 +220,7 @@
         }
         if (a[0] && a[1] && a[2] && a[3]) {
             userArray(name, true);
+            toggleErro(checkInput, true, ``);
         }
         else {
             toggleErro(checkInput, false, `密碼要包含英、數字、特殊符號(!#$%^&*)且長度需大於6`);

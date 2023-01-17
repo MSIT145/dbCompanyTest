@@ -12,18 +12,23 @@
 }
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-@*<div>
-    <div class="form-group">
-        <label class="control-label">關鍵字</label>
-        <input name="key" type="text"  id="key" class="form-control" />
-    </div>        
-    <input type="button" value="查詢">
-  
-</div>*@
+
 
 <div class="container-xxl flex-grow-1 container-p-y">
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> 商品與明細</h4>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda_P_C" id="btn_ProForm"> 新增商品</button>
+     <div class="row">
+        <div class="col-md-4">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda_P_C" id="btn_ProForm"> 新增商品</button>
+        </div>
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-2">
+            <div class="input-group ">
+            <input type="text" class="form-control" placeholder="關鍵字" aria-label="關鍵字" aria-describedby="btn-Search" id="keywork" name="keywork">
+            <button class="btn btn-outline-secondary" type="button" id="btn-Search">查詢</button>
+           </div>
+        </div>
+    </div>
 <div class="container-fluid px-4">  
     </div>
     <div class="card mb-4">
@@ -52,6 +57,18 @@
                 </thead>
                 <tbody id="tbody"></tbody>
             </table>
+        </div>
+        <div class="row">
+            <div class="col-md-4">                
+            </div>
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-2">
+                <div class="input-group ">
+                    <input type="text" class="form-control" placeholder="檔案名稱" aria-label="檔案名稱" aria-describedby="btn-download" id="fileName" name="fileName">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-download">下載</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -186,21 +203,18 @@
         <script>
 
         let url01 = '@Url.ActionLink("showlist","Product")';
-        let url02 = '@Url.RouteUrl("default", new{Controller = "TestClients", Action = "showlist"})';
-
-       
+        let keywork = $("#keywork").val();       
         //用 table代表整個表單
         //Table Load Start==========================
         let table = null;
-        console.log("url01=" + url01);
+        //console.log("url01=" + url01);
                         let funcLoad = () => {
-          
+                            let _keywork = $("#keywork").val();                              
                             table = $('#tableAll').DataTable(
                                 {
-                                    /*@Url.Action()只能在cshtml上執行，因為是Rezer語法，在js檔內只會被當成字串 */
-                                    "ajax": url01,
-                                    /* "ajax": '@Url.Action("showlist", "Product")',*/
-                                    //ajax: "http://localhost:5277/HCustomer/showlist",
+                                    "searching": false,
+                                    "ajax": url01 + `/?id=${_keywork}`,
+                                    "type":'get',                                   
                                     "lengthMenu": [[5, 10, 25, 50, -1], [5,10, 25, 50, "All"]],
                                     "columns":
                                     [
@@ -257,6 +271,7 @@
                                     ]
 
                                 });
+                             
                         }
         //Table Load Ending==========================
 
@@ -265,6 +280,23 @@
         let Pro_Edit_Post = () => { $.post("@Url.Content("~/product/EditProduct")", $("#form01").serialize(), (datas) => { alert(datas); $("#P_Close").click(); }); }
         //產品新增ajax
         let Pro_Create_Post = () => { $.post("@Url.Content("~/product/CreateProduct")", $("#form01").serialize(), (datas) => { alert(datas); $("#P_Close").click(); }); }
+
+
+        let Pro_DownLoadFile_Get = () => { $.get("@Url.Content("~/product/Downloads")", $("#fileName").serialize(), (datas) => { alert(datas);  }); }
+
+        //檔案下載事件
+        $("#btn-download").on('click',function(){
+            Pro_DownLoadFile_Get();        
+        });
+
+        //查詢事件綁定
+        $("#btn-Search").on('click', function () {
+        //重新載入
+            console.log($("#keywork").val());
+           change_table(); 
+            
+        });
+
         //新增產品表單送出按鈕
         $("#Moda_P_C #P_Create").on('click', () => {
             Pro_Create_Edit_Sumit(Pro_Create_Post);
@@ -310,14 +342,14 @@
             //$("#Moda_P_C #_商品分類id option:selected").text(row.find('td:eq(9)').text().trim())
             const cel9 = row.find('td:eq(9)').text().trim();
             console.log("cel9=" + cel9);
-            setTimeout(function () { $(`#Moda_P_C #_商品分類id option[data-text=${cel9}]`).prop("selected", true); }, 500);
-
+            //setTimeout(function () { $(`#Moda_P_C #_商品分類id option[data-text=${cel9}]`).prop("selected", true); }, 400);
+            $(`#Moda_P_C #_商品分類id option[data-text=${cel9}]`).prop("selected", true);
             //_商品鞋種id
 
             const cel10 = row.find('td:eq(10)').text().trim();
             console.log("cel10=" + cel10);
-            setTimeout(function () { $(`#Moda_P_C #_商品鞋種id option[data-text=${cel10}]`).prop("selected", true); }, 500);
-
+            //setTimeout(function () { $(`#Moda_P_C #_商品鞋種id option[data-text=${cel10}]`).prop("selected", true); }, 500);
+            $(`#Moda_P_C #_商品鞋種id option[data-text=${cel10}]`).prop("selected", true);
             //$("#Moda_P_C #_商品鞋種id option:selected").text(row.find('td:eq(10)').text().trim())
             //$("#_商品分類id option:eq(3)").attr('selected', 'selected');
 
@@ -342,6 +374,7 @@
             $("#Moda_P_C input[name='id']").parent().hide();
             //隱藏Edit按鈕
             $("#Moda_P_C #P_Edit ").hide();
+            $.ajaxSettings.async = false;
             $.get("@Url.Content("~/Product/GetTyteD")", (datas) => {
                 console.log(datas);
                 //新增產品類別select
@@ -360,6 +393,7 @@
                 });
                 $("#_商品鞋種id").html(S_options);
             });
+             $.ajaxSettings.async = true;
         });
 
 

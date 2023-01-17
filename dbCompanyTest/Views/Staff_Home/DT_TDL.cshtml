@@ -1,6 +1,12 @@
 ﻿@model dbCompanyTest.Models.ToDoList
 
-<h4>ToDoList123123</h4>
+@{
+    ViewData["Title"] = "DT_TDL";
+}
+
+<h1>DT_TDL</h1>
+
+<h4>ToDoList</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="表單類型" class="control-label"></label>
-                <input asp-for="表單類型" class="form-control" />
+                <input asp-for="表單類型" class="form-control"/>
                 <span asp-validation-for="表單類型" class="text-danger"></span>
             </div>
             <div class="form-group">

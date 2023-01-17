@@ -48,12 +48,38 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult Create(會員商品暫存 prod)
         {
-
+            //判斷是否登入
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
             {
                 string userjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
                 var userinfo = JsonSerializer.Deserialize<TestClient>(userjson);
-                return Content("成功");
+                if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_MYLOVE_SESSION))
+                {
+                    string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
+                    var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
+                    會員商品暫存 data = prod;
+                    data.客戶編號 = userinfo.客戶編號;
+                    data.訂單數量 = 1;
+                    data.購物車或我的最愛 = false;
+                    datas.Add(data);
+                    json =JsonSerializer.Serialize(datas);
+                    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
+                    return Content("加入收藏成功");
+                }
+                else 
+                {
+                    var list = _context.會員商品暫存s.Select(x => x).Where(y => y.購物車或我的最愛 == false && y.客戶編號.Contains(userinfo.客戶編號)).ToList();
+                    List<會員商品暫存> datas = new List<會員商品暫存>();
+                    會員商品暫存 data = prod;
+                    data.客戶編號 = userinfo.客戶編號;
+                    data.訂單數量 = 1;
+                    data.購物車或我的最愛 = false;
+                    datas.Add(data);
+                    datas.AddRange(list);
+                    string json = JsonSerializer.Serialize(datas);
+                    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
+                    return Content("加入收藏成功");
+                }
             }
             else
             {
