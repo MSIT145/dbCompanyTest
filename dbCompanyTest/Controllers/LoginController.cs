@@ -13,7 +13,10 @@ namespace dbCompanyTest.Controllers
     {
         public IActionResult Login()
         {
-            return View();
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+                return View();
+            else
+                return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         public IActionResult checkLogin(string account, string password)
@@ -142,7 +145,7 @@ namespace dbCompanyTest.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private void MyLoveAndSoppingCar(string session,string usersession,bool MyloveOrShoppingcar)
+        private void MyLoveAndSoppingCar(string session, string usersession, bool MyloveOrShoppingcar)
         {
             if (HttpContext.Session.Keys.Contains(session))
             {
@@ -182,7 +185,7 @@ namespace dbCompanyTest.Controllers
         {
             return PartialView();
         }
-        
+
         public IActionResult CheckClient(TestClient x)
         {
             if (x == null)
@@ -190,7 +193,7 @@ namespace dbCompanyTest.Controllers
             else
             {
                 dbCompanyTestContext _context = new dbCompanyTestContext();
-                if (!_context.TestClients.Any(c=>c.Email == x.Email || c.客戶電話 == x.客戶電話 || c.身分證字號 == x.身分證字號))
+                if (!_context.TestClients.Any(c => c.Email == x.Email || c.客戶電話 == x.客戶電話 || c.身分證字號 == x.身分證字號))
                 {
                     int count = _context.TestClients.Count() + 1;
                     x.客戶編號 = $"CL{x.身分證字號.Substring(1, 1)}-{count.ToString("0000")}{x.身分證字號.Substring(7, 3)}";
@@ -212,8 +215,8 @@ namespace dbCompanyTest.Controllers
                 var mail = new MailMessage();
                 mail.To.Add("alan20100525@gmail.com");
                 mail.Subject = "SheoseGift忘記密碼變更";
-                mail.Body= $"<a href=`https://localhost:7100/Login/RePassword?Email={Email}`>點選這裡變更密碼</a>";
-                mail.IsBodyHtml= true;
+                mail.Body = $"<a href=`https://localhost:7100/Login/RePassword?Email={Email}`>點選這裡變更密碼</a>";
+                mail.IsBodyHtml = true;
                 mail.Priority = MailPriority.Normal;
                 mail.From = new MailAddress("msit145finalpj@gmail.com", "SheoseGift");
                 var smtp = new SmtpClient("smtp.gmail.com", 587)
@@ -235,10 +238,10 @@ namespace dbCompanyTest.Controllers
             return View();
         }
 
-        public IActionResult ResetPassword(string Email,string Password)
+        public IActionResult ResetPassword(string Email, string Password)
         {
             dbCompanyTestContext _context = new dbCompanyTestContext();
-            TestClient client = _context.TestClients.FirstOrDefault(c=>c.Email == Email);
+            TestClient client = _context.TestClients.FirstOrDefault(c => c.Email == Email);
             client.密碼 = Password;
             _context.SaveChanges();
             return Content("");
