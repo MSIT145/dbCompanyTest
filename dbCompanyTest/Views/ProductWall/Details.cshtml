@@ -57,11 +57,11 @@
                         {
                             if (Model.pro商品DetailIDlist[i] == Model.prodetailID)
                             {
-                                        <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                                                                    <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
                             }
                             else
                             {
-                                        <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品DetailIDlist[i])" id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                                                                    <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品DetailIDlist[i])" id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
                             }
 
                         }
@@ -74,7 +74,7 @@
                     @{
                         for (int i = 0; i < Model.pro商品DetailIDlist.Count; i++)
                         {
-                                    <div class="size-item">@Model.pro商品尺寸list[i]</div>
+                                                                <div class="size-item">@Model.pro商品尺寸list[i]</div>
                         }
                     }
                 </div>
@@ -87,8 +87,8 @@
                         <span class="d-right-share-pic-Text">ADD TO FAVORITE</span>
                     </div>
                     <div class="d-right-share-share">
-                        <span class="d-right-share-FB"><a></a></span>
-                        <span class="d-right-share-LINE"><a></a></span>
+                        <span class="d-right-share-FB"></span>
+                        <span class="d-right-share-LINE"></span>
                     </div>
                 </div>
             </div>
@@ -137,20 +137,12 @@
 
 @section Scripts{
     <script>
-        $(`.d-right-share-FB,.d-right-share-LINE`).on('click', function () {
-            $(this).find('a').click(function(){
-                window.open(`https://social-plugins.line.me/lineit/share?url=${location.href}`);
-            });
-            $(this).find('a').click(function () {
-                window.open(`https://www.facebook.com/sharer/sharer.php?u=${location.href}`);
-            });
-
-            $('#share').css("display","block");
+        $(".d-right-share-FB").on('click',function(){
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${location.href}`);
         });
-
-
-
-
+        $(".d-right-share-LINE").on('click', function () {
+            window.open(`https://social-plugins.line.me/lineit/share?url=${location.href}`);
+        });
 
         $('.size-item').on('click', function () {
             $(this).addClass("active").siblings().removeClass("active");
