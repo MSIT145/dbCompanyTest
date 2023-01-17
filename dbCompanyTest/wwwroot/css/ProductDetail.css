@@ -284,3 +284,10 @@ img {
     height: inherit;
 }
 img:hover{transform:scale(1.2,1.2);}
+.d-right-color img {
+    transform: none;
+    transition: none;
+}
+    .d-right-color img:hover {
+        transform: none;
+    }
