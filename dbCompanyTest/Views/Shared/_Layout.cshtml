@@ -222,6 +222,7 @@
         const TotoM = document.querySelector('.total_twd');
         //const TrashCan = document.querySelector('.purchase-icon');
         carHtml.addEventListener('click', () => {
+            //joinCarSession();
             SetCar();
 
         })
@@ -231,7 +232,7 @@
         //});
 
         //SetCar();
-        //joinCarSession();
+
 
         //function deleteIton(){
             
@@ -260,41 +261,43 @@
             console.log(reb);
             console.log(data);
             countM=0;
-            const carOpts =data.map((value)=>{
-                id = value.id
-                a = value.圖片1檔名
-                x = value.商品價格
-                countM += x
-                return (
-                    `<div class="row" id="${id}">
-                    <div class="col-3">
-                                        <img  src="@Url.Content("~/images/${a}")" width="70" />
-                    </div>
-                    <div class="col-8">
-                                <div>品名:<a>${value.商品名稱}</a></div>
-                                <div>尺寸:<a>${value.尺寸種類}</a></div>
-                                <div>顏色:<a>${value.商品顏色種類}</a></div>
-                                <div>數量:<a>${value.訂單數量}</a></div>
-                                <div>價格:<a class="m">${value.商品價格}</a></div>
-                                
-                    </div>
-                            <div class="purchase-icon-car col-1">
-                                                        <input type="hidden" value="${id}" />
-                                     </div>
-                            <br/>
-                            </div>  `
-            );
-            })
-            TOTAL_TWD = `TOTAL TWD $${countM}`
-            carjson.innerHTML = carOpts.join("")
-            TotoM.innerHTML = TOTAL_TWD
-            const TrashCan = document.querySelector('.purchase-icon-car');
-            TrashCan.addEventListener('click', ()=>{
-                console.log("123");
-                var a = $( event.currentTarget ).find("input").val();
-                console.log(a);
-                dele(a);
-            });
+            if(data!=null){
+                const carOpts = data.map((value) => {
+                    id = value.id
+                    a = value.圖片1檔名
+                    x = value.商品價格
+                    countM += x
+                    return (
+                        `<div class="row" id="${id}">
+                            <div class="col-3">
+                                                <img  src="@Url.Content("~/images/${a}")" width="70" />
+                            </div>
+                            <div class="col-8">
+                                        <div>品名:<a>${value.商品名稱}</a></div>
+                                        <div>尺寸:<a>${value.尺寸種類}</a></div>
+                                        <div>顏色:<a>${value.商品顏色種類}</a></div>
+                                        <div>數量:<a>${value.訂單數量}</a></div>
+                                        <div>價格:<a class="m">${value.商品價格}</a></div>
+
+                            </div>
+                                    <div class="purchase-icon-car col-1">
+                                                                <input type="hidden" value="${id}" />
+                                             </div>
+                                    <br/>
+                                    </div>  `
+                    );
+                })
+                TOTAL_TWD = `TOTAL TWD $${countM}`
+                carjson.innerHTML = carOpts.join("")
+                TotoM.innerHTML = TOTAL_TWD
+                const TrashCan = document.querySelector('.purchase-icon-car');
+                TrashCan.addEventListener('click', () => {
+                    console.log("123");
+                    var a = $(event.currentTarget).find("input").val();
+                    console.log(a);
+                    dele(a);
+                });
+            }
         }
         //-------購物車結束----
                         
