@@ -152,6 +152,27 @@ namespace dbCompanyTest.Controllers
                 HttpContext.Session.Remove(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
             }
             //--------------------------------------------------------------
+            //---購物車Logout--LU--感謝Gary<3
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
+            {
+                dbCompanyTestContext _context = new dbCompanyTestContext();
+                string userjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                var userdata = JsonSerializer.Deserialize<TestClient>(userjson);
+                var del = _context.會員商品暫存s.Select(x => x).Where(y => y.客戶編號 == userdata.客戶編號 && y.購物車或我的最愛 == true);
+                _context.會員商品暫存s.RemoveRange(del);
+                _context.SaveChanges();
+                //讀取我的最愛Session
+                string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+                var lovedata = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson).ToArray();
+                foreach (var item in lovedata)
+                {
+                    item.Id = 0;
+                }
+                _context.會員商品暫存s.AddRange(lovedata);
+                _context.SaveChanges();
+                HttpContext.Session.Remove(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+            }
+            //---購物車Logout結束--LU
             HttpContext.Session.Remove(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
             return RedirectToAction("Index", "Home");
         }
