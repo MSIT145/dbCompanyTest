@@ -12,9 +12,9 @@
     <div class="stepRow" ></div>
     <div class="step step3" > 3 訂購完成</div>
 </div>
-
-
-    <table class="table car_table ">
+        <input id="btn_slectCar" type="button" value="購物清單" style="visibility: hidden" />
+    <hr />
+<table class="table car_table hidaing">
     <thead>
         <tr>
              <tr>
@@ -75,8 +75,9 @@
 }
     </tbody>
 </table>
-</div>
-<dl class="row">
+
+
+<dl class="row" id="ChoosePay">
     <dt class="col-sm-2">付款方式</dt>
     <dd class="col-sm-10">
 
@@ -104,16 +105,16 @@
             <option value="60">全家取貨</option>
         </select>
     </dd>
-
+        <hr />
 </dl>
-<hr />
+
 @{
     decimal totomony = 0;
     foreach (var item in Model)
     {
         totomony += (decimal)item.商品價格;
     }
-    <div>
+    <div class="hidaing">
     <div>
         <div>
                 <span>總金額</span>
@@ -129,24 +130,49 @@
                     <span id="paymony">TWD $0</span>
         </div>
     </div>
+            <hr />
     </div>
 }
+<br />
+<input id="btn_page1" type="button"  value="結帳" disabled/>
+    <br />
+</div>
+<form>
+
+</form>
+<div id="clientDital" style="visibility: hidden">
+
+</div>
 @section Scripts{
         <script>
             const deliverymony = document.querySelector('#delivery')
             const txtdeliverymony =document.querySelector('#TxtDeliverymony')
             const paymony = document.querySelector('#paymony')
+           const btn1 = document.querySelector('#btn_page1')
+        const slectCar = document.querySelector('#btn_slectCar')
+
             const xhr = new XMLHttpRequest();
             xhr.addEventListener(`load`,()=>{
                 const data = xhr.responseText;
                 txtdeliverymony.innerHTML = `TWD $${data}`;
                 const mony = parseInt(data) + @totomony;
-                paymony.innerHTML = `TWD $${mony}`
+                paymony.innerHTML = `TWD $${mony}`;
+            $('#btn_page1').attr('disabled', false);
             })
             deliverymony.addEventListener(`change`, () => {
                 xhr.open('GET', `/Shopping/GetDeliveryMony?OPvalue=${deliverymony.value}`);
                 xhr.send();
             })
-
+        btn1.addEventListener('click',function(){
+            $('#ChoosePay').hide();
+            $('.hidaing').hide();
+            $(this).hide();
+            $('.step1').removeClass("active")
+            $('.step2').addClass("active")
+            $('#btn_slectCar').attr("style", "display:block;");
+        })
+        slectCar.addEventListener('click', function () {
+            $('.hidaing').toggle();
+        })
         </script>
 }

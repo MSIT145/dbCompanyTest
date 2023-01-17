@@ -220,34 +220,15 @@
         const carjson = document.querySelector('#car_iten');
         const carHtml = document.querySelector('.car_click');
         const TotoM = document.querySelector('.total_twd');
-        //const TrashCan = document.querySelector('.purchase-icon');
         carHtml.addEventListener('click', () => {
-            //joinCarSession();
             SetCar();
-
         })
-        //TrashCan.addEventListener('click', () => {
-        //    console.log("123");
-        //    //deleteIton();
-        //});
-
-        //SetCar();
-
-
-        //function deleteIton(){
-            
-        //    var a = $(this).find("input").val();
-        //    console.log(a);
-        //    del(a);
-        //}
-
         async function dele(id) {
             console.log(id);
             const data = await fetch(`@Url.Content("~/Shopping/DeleteCarSession?id=${id}")`);
             $(`#car_iten`).find(`#${id}`).remove();
             SetCar()
         }
-
 
         async function joinCarSession() {
             const reb = await fetch(`@Url.Content("~/Shopping/joinSQLToSession")`)
@@ -327,15 +308,6 @@
         })
 
     </script>
-@*    <script defer>
-        document.addEventListener("DOMContentLoaded", () => {
-            const TrashCan = document.querySelector('.purchase-icon');
-            TrashCan.addEventListener('click', () => {
-                console.log("123");
-                //deleteIton();
-            });
-        })
-    </script>*@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
