@@ -14,7 +14,6 @@ namespace dbCompanyTest.Models
         public int? 商品編號id { get; set; }
         public int? 商品尺寸id { get; set; }
         public int? 商品顏色id { get; set; }
-        public string? 商品顏色圖片 { get; set; }
         public int? 商品數量 { get; set; }
         public string? 商品編號 { get; set; }
         public int? 圖片位置id { get; set; }

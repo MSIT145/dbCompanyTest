@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace dbCompanyTest.Models
 {
@@ -31,7 +30,7 @@ namespace dbCompanyTest.Models
         public string? 執行人簽核 { get; set; }
         public string? 附件 { get; set; }
         public string? 附件path { get; set; }
-        [ForeignKey("員工編號")]
+
         public virtual TestStaff 員工編號Navigation { get; set; } = null!;
     }
 }
