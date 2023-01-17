@@ -87,8 +87,16 @@ namespace dbCompanyTest.Controllers
 
             var data = _context.ToDoLists.FirstOrDefault( c=> c.交辦事項id== listNum);
 
-
             return View(data);
+        }
+
+        public IActionResult PartialSchedule_HR()
+        {
+            return PartialView();
+        }
+        public IActionResult PartialSchedule_RG()
+        {
+            return PartialView();
         }
 
 
