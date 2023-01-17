@@ -33,9 +33,9 @@
                     <span style="color:red;display:none" id="accounterror">請輸入帳號</span>
                     <input type="text" asp-controller="Login" asp-action="Login" name="txtPassword" class="Linput" id="password" placeholder="密碼" value="123456" />
                     <p id="result"></p>
-                    <botton type="submit" id="login">登入</botton><br/>
+                    <botton type="submit" id="login">登入</botton><br />
                     <botton id="forgetPassword" class="btn btn-warning">忘記密碼</botton>
-                    
+
                 </form>
             </div>
             <p>
@@ -81,6 +81,7 @@
             var result = xhr.responseText;
             if (result == `成功`) {
                 history.back();
+                joinCarSession();
             } else {
                 if (result == "Nopassword")
                     $(`#result`).html(`請輸入密碼`);
@@ -96,9 +97,6 @@
             xhr.setRequestHeader(`Content-Type`, `application/x-www-form-urlencoded`);
             xhr.timeout = 5000;
             xhr.send(`account=${account}&password=${password}`);
-            //--購物車載入--LU
-            xhr.addEventListener("load", () => joinCarSession())
-            //---購物車載入結束--LU
         });
         $(`#create`).on(`click`, function () {
             $(`#loginPage`).load("@Url.Content("~/Login/CreateClient")");
@@ -106,24 +104,25 @@
 
         $(`#forgetPassword`).on('click', async function () {
             let account = $(`#account`);
-            if(account.val()){
-                $.post("@Url.Content("~/Login/forgetPassword")", { "Email":account.val() }, function (data) {
+            if (account.val()) {
+                $.post("@Url.Content("~/Login/forgetPassword")", { "Email": account.val() }, function (data) {
                     $(`#accounterror`).css("display", "block");
                     $(`#accounterror`).text(data);
                 })
             }
-            else{
-                $(`#accounterror`).css("display","block");
+            else {
+                $(`#accounterror`).css("display", "block");
                 $(`#accounterror`).text("請輸入帳號");
             }
         });
+
         //---購物車載入--LU
         async function joinCarSession() {
             const reb = await fetch(`@Url.Content("~/Shopping/joinSQLToSession")`)
             const data = await reb.text();
             console.log(data);
         };
-         //---購物車載入結束--LU
+        //---購物車載入結束--LU
 
 
     </script>
