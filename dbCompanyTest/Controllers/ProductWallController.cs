@@ -127,7 +127,7 @@ namespace dbCompanyTest.Controllers
                                         pro商品編號 = prodetail.商品編號id,
                                         pro商品金額 = product.商品價格,
                                         pro商品顏色 = procolor.商品顏色種類,
-                                        //pro商品顏色圖片 = prodetail.商品顏色圖片,
+                                        pro商品顏色圖片 = procolor.商品顏色圖片,
                                         pro商品分類 = pro分類.商品分類名稱,
                                         pro商品名稱 = product.商品名稱,
                                         pro商品介紹 = product.商品介紹,
@@ -143,7 +143,7 @@ namespace dbCompanyTest.Controllers
                     pdm.prodetailID = item.prodetailID;
                     pdm.pro商品顏色 = item.pro商品顏色;
                     pdm.pro商品金額 = item.pro商品金額.ToString();
-                    //pdm.pro商品顏色圖片 = item.pro商品顏色圖片;
+                    pdm.pro商品顏色圖片 = item.pro商品顏色圖片;
                     pdm.pro商品分類 = item.pro商品分類;
                     pdm.pro商品名稱 = item.pro商品名稱;
                     pdm.pro商品介紹 = item.pro商品介紹;
@@ -155,17 +155,18 @@ namespace dbCompanyTest.Controllers
                 var totallist = from item in _context.Products
                                 join prodetail in _context.ProductDetails on item.商品編號id equals prodetail.商品編號id
                                 join prosize in _context.ProductsSizeDetails on prodetail.商品尺寸id equals prosize.商品尺寸id
+                                join procolor in _context.ProductsColorDetails on prodetail.商品顏色id equals procolor.商品顏色id
                                 where item.商品編號id == Key
                                 select new
                                 {
-                                    //pro商品顏色圖片list = prodetail.商品顏色圖片,
+                                    pro商品顏色圖片list = procolor.商品顏色圖片,
                                     pro商品尺寸list = prosize.尺寸種類,
                                     pro商品DetailIDlist = prodetail.Id
                                 };
                 foreach (var CC in totallist) 
                 {
                     pdm.pro商品尺寸list.Add(CC.pro商品尺寸list);
-                    //pdm.pro商品顏色圖片list.Add(CC.pro商品顏色圖片list);
+                    pdm.pro商品顏色圖片list.Add(CC.pro商品顏色圖片list);
                     pdm.pro商品DetailIDlist.Add(CC.pro商品DetailIDlist);
                 }
                 return View(pdm);
