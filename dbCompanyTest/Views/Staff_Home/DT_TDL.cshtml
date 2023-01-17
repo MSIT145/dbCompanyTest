@@ -128,7 +128,7 @@
             </div>
             <div class="form-group" id="div_executor">
                 <label asp-for="執行人" class="control-label"></label>
-                <select asp-for="執行人" class="form-control" id="sele_executor"></select>
+                <input asp-for="執行人" class="form-control" id="sele_executor"/>
                 <span asp-validation-for="執行人" class="text-danger"></span>
             </div>
             <div class="form-group" id="div_execut_time">
@@ -165,13 +165,17 @@
 
 @section Scripts {
     <script>
+        var split = $(`#stf_info`).text().split(' ');
+        var splitstf = split[1]
+        var split1 = $(`#inp_whostart`).val().split(' ');
+        var splitstf1 = split1[1]
         var list_type = $("#list_type").val()
-        $("#div_data").css("display", "none");
+        //$("#div_data").css("display", "none");
         $("#span_whostart").text($("#inp_whostart").val());
         $("#span_list_type").text(list_type);
         $("#span_sta").text($("#inp_sta").val());
         $("#span_cont").text($("#inp_cont").val());
-        if (list_type == 常規表單)
+        if (list_type == `常規表單`)
             LoadPartialSchedule_RG();
         else
             LoadPartialSchedule_HR();
@@ -181,13 +185,17 @@
 
 
         function LoadPartialSchedule_HR() {
-            $('#Sheeplist_div').load("@Url.Content("~/Staff_Home/PartialSchedule_HR")")
+            $('#schedule').load("@Url.Content("~/Staff_Home/PartialSchedule_HR")")
             $.getScript("@Url.Content("~/js/LoadPartialSchedule_HR.js")");
+           
         }
 
         function LoadPartialSchedule_RG() {
-            $('#ToDoList_div').load("@Url.Content("~/Staff_Home/PartialSchedule_RG")")
-            $.getScript("@Url.Content("~/js/LoadPartialSchedule_RG.js")");
+            $('#schedule').load("@Url.Content("~/Staff_Home/PartialSchedule_RG")")
+            //$.getScript(`@Url.Content("~/js/LoadPartialSchedule_RG.js")`);
+
+        //    var table = document.getElementById(`dpm_str`);
+        //    table.innerHTML = document.getElementById(`inp_sta`).value;
         }
     </script>
 

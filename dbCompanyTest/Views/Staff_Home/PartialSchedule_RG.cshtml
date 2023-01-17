@@ -1,4 +1,4 @@
-﻿<table>
+﻿<table class="table table-striped-columns" id="GR_table">
     <thead>
         <tr>
             <th>部門</th>
@@ -13,10 +13,10 @@
             <td id="dpm_str"></td>
             <td id="man_str"></td>
             <td id="time_str"></td>
-            <td id="">com_str</td>
-            <td id="">sin_str</td>
+            <td id="com_str"></td>
+            <td id="sin_str"></td>
         </tr>
-         <tr>
+        <tr>
             <td id="dpm_ecu"></td>
             <td id="man_ecu"></td>
             <td id="time_ecu"></td>
@@ -25,3 +25,21 @@
         </tr>
     </tbody>
 </table>
+
+<script>
+    
+    $("#sin_str").text(`敬陳`);
+    $("#dpm_str").text($("#inp_whostart").val());
+    $("#man_str").text($("#inp_whostart").val());
+    $("#time_str").text($("#inp_starttime").val());
+    $("#com_str").text();
+    $("#dpm_ecu").text($("#sele_executor").val());
+    $("#man_ecu").text($("#sele_executor").val());
+    console.log(splitstf)
+    console.log($("#inp_whostart").val())
+    if ($("#inp_whostart").val() == splitstf){
+        console.log(`123`)
+        $("#sin_ecu").text($("#inp_executor_sin").val());
+    }
+        
+</script>
