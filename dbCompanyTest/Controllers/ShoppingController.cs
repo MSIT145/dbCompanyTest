@@ -79,9 +79,9 @@ namespace dbCompanyTest.Controllers
 
                 var dbCompanyTestContext = _context.會員商品暫存s.Select(x => x).Where(c => c.購物車或我的最愛 == true && c.客戶編號.Contains(user.客戶編號)).ToList();
                 //是否有car session
-                if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
-                {
-                    //有car session
+                //if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
+                //{
+                    //沒有car session
                     //是否有dbCompanyTestContext
                     if (dbCompanyTestContext.Count != 0)
                     {
@@ -96,11 +96,13 @@ namespace dbCompanyTest.Controllers
                         //    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
                         //}
                     }
-                }
+                //}
                 //else
                 //{
+                //    //有car session
                 //    carSession = new List<會員商品暫存>();
                 //    json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+                //    carSession=dbCompanyTestContext;
                 //    carSession = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
                 //}
             }
