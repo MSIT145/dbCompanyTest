@@ -115,24 +115,24 @@
         {
             totomony += (decimal)item.商品價格;
         }
-        <div class="hidaing">
-            <div>
-                <div>
-                    <span>總金額</span>
-                    <span>TWD $@totomony</span>
-                </div>
-                <div>
-                    <span>運費</span>
-                    <span id="TxtDeliverymony">TWD $0</span>
-                </div>
-                <hr />
-                <div>
-                    <span>結帳金額</span>
-                    <span id="paymony">TWD $0</span>
-                </div>
-            </div>
-            <hr />
-        </div>
+                                <div class="hidaing">
+                                    <div>
+                                        <div>
+                                            <span>總金額</span>
+                                            <span>TWD $@totomony</span>
+                                        </div>
+                                        <div>
+                                            <span>運費</span>
+                                            <span id="TxtDeliverymony">TWD $0</span>
+                                        </div>
+                                        <hr />
+                                        <div>
+                                            <span>結帳金額</span>
+                                            <span id="paymony">TWD $0</span>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                </div>
     }
     <br />
     <input id="btn_page1" type="button" value="結帳" disabled />
@@ -267,11 +267,16 @@
 
         $('#copyCkBox').change( function () {
             if(this.checked){
+                
                 $('#RrceiveNameText').val($('#OrderNameText').val())
                 $('#RrceivePhoneText').val($('#OrderPhoneText').val())
                 $('#RrceiveEmailText').val($('#OrderEmailText').val())
                 $('#city2').val($('#city').val());
-                $('#town2').val($('#town').val())
+                setTimeout(function(){
+                    console.log($('#town').val());
+                    console.log($('#town2').val());
+                    $('#town2').val($('#town').val())
+                },500);
                 $('#RrceiveDitalText').val($('#OrderDitalText').val())
             }
         })

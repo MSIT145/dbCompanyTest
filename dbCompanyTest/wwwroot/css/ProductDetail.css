@@ -36,19 +36,27 @@ a {
     
 }
 .d-carouse {
-    width:620px;
-    height:856px;       
+    width:600px;
+    height:800px;       
 }
-.d-carouse-pic {
-    width: inherit;
-    height: inherit;
-}
+    .d-carouse img {
+        width: inherit;
+        height: inherit;
+        transform: scale(1,1);
+        transition: all 1s ease-out;
+    }
+    .d-carouse-pic {
+        width: inherit;
+        height: inherit;
+    }
 .d-right-detail {
     float:right;
     max-width:100%;
     width:15%;
 }
 .d-right-detail-item {
+    min-width:300px;
+    max-width:1090px;
     
 }
 .d-right-color {
@@ -289,7 +297,7 @@ a {
     line-height: 20px;
     font-size: 13px;
 }
-img {
+/*img {
     transform: scale(1,1);
     transition: all 1s ease-out;
     width: inherit;
@@ -299,7 +307,7 @@ img:hover{transform:scale(1.2,1.2);}
 .d-right-color img {
     transform: none;
     transition: none;
-}
+}*/
     .d-right-color img:hover {
         transform: none;
     }
@@ -314,4 +322,42 @@ img:hover{transform:scale(1.2,1.2);}
     height: 20px;
     max-height:100%;
     max-width:100%;
+}
+.p-num-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #d3d3d5;
+    margin-bottom: 10px;
+}
+    .p-num-box .icon {
+        font-size: 20px;
+        font-style: normal;
+        line-height: 35px;
+        margin: 0 12px;
+        text-align: center;
+        color: #636363;
+        cursor: pointer;
+    }
+.number-box input {
+    border: none;
+    outline: none;
+    appearance: none;
+    text-align: center;
+    font-size: 16px;
+    -webkit-appearance: none;
+}
+.d-right-detail-item input[type=number]::-webkit-inner-spin-button,
+.d-right-detail-item input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.user-choose-size {
+    font-size: 15px;
+    border: 1px solid #d3d3d5;
+    text-align: center;
+    line-height: 35px;
+    height: 35px;
+    width: 300px; /*在注意變更*/
+    cursor: pointer;
 }
