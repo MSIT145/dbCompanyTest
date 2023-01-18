@@ -21,8 +21,17 @@
     color:black
 }
 
-
-
 .car_table {
     width: 50%;
+}
+
+
+/*Form*/
+
+label {
+    float: left;
+    width: 100px;
+}
+.setMargin{
+    margin:20px
 }

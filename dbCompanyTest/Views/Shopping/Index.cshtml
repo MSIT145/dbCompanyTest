@@ -144,25 +144,25 @@
             <fieldset>
                 <legend>訂購資訊</legend>
                 <hr />
-                <div>
+                <div class="setMargin">
                     <label>姓名</label>
                     <input type="text" class="userName" id="NameText" />
                 </div>
-                <div>
+                <div class="setMargin">
                     <label>手機號碼</label>
                     <input type="text" class="userPhone" id="PhoneText" />
                 </div>
-                <div>
+                <div class="setMargin">
                     <label>電子郵件</label>
                     <input type="text" class="userEmail" id="EmailText" />
                 </div>
-                <div>
+                <div class="setMargin">
                     <label>地址</label>
-                    <select class="userAddress" id="CitySelect">
+                    <select class="userAddress" id="city">
+                        @*<option selected disabled>請選擇縣市</option>*@
                     </select>
-                    <select class="userAddress" id="DistrictSelect">
-                    </select>
-                    <select class="userAddress" id="RoadSelect">
+                    <select class="userAddress" id="town">
+               @*         <option selected disabled>請選擇區</option>*@
                     </select>
                     <input type="text" class="userAddress" id="DitalText" />
                 </div>
@@ -170,9 +170,37 @@
             <fieldset>
                 <legend>收件資訊</legend>
                 <hr />
+                <div class="setMargin">
+                    <input type="checkbox" />
+                    <label>同訂購人</label>
+                </div>
+                <div class="setMargin">
+                    <label>姓名</label>
+                    <input type="text" class="userName" id="NameText" />
+                </div>
+                <div class="setMargin">
+                    <label>手機號碼</label>
+                    <input type="text" class="userPhone" id="PhoneText" />
+                </div>
+                <div class="setMargin">
+                    <label>電子郵件</label>
+                    <input type="text" class="userEmail" id="EmailText" />
+                </div>
+                <div class="setMargin">
+                    <label>地址</label>
+                    <select class="userAddress" id="city2">
+                    </select>
+                    <select class="userAddress" id="town2">
+                    </select>
+                    <input type="text" class="userAddress" id="DitalText" />
+                </div>
+                <div class="setMargin">
+                    <label class="whoToGet">7-11取貨</label>
+                    <input type="button" value="選擇門市" />
+                </div>
             </fieldset>
-            
-            <div>
+
+            <div class="setMargin">
                 <input type="button" value="確認購買" />
             </div>
 
@@ -182,6 +210,7 @@
 
 
 @section Scripts{
+    <script src="~/datas/taiwan_districts.js"></script>
     <script>
         const deliverymony = document.querySelector('#delivery')
         const txtdeliverymony = document.querySelector('#TxtDeliverymony')
@@ -213,5 +242,30 @@
         slectCar.addEventListener('click', function () {
             $('.hidaing').toggle();
         })
+
+
+
+        $.each(data, function (i, i_value) { $("#city2").append(`<option>${i_value.name}</option>`) });
+        $("#city2").change(function () {
+            let Myarea = $(`#city2 option:selected`).index();
+            area2(Myarea);
+        })
+        $.each(data[0].districts, function (j, j_value) { $("#town2").append(`<option>${j_value.name}</option>`) })
+        function area2(a) {
+            $("#town2").empty();
+            $.each(data[a].districts, function (j, j_value) { $("#town2").append(`<option>${j_value.name}</option>`) })
+        }
+
+        $.each(data, function (i, i_value) { $("#city").append(`<option>${i_value.name}</option>`) });
+        $("#city").change(function () {
+            let Myarea = $(`#city option:selected`).index();
+            area(Myarea);
+        })
+        $.each(data[0].districts, function (j, j_value) { $("#town").append(`<option>${j_value.name}</option>`) })
+        function area(a) {
+            $("#town").empty();
+            $.each(data[a].districts, function (j, j_value) { $("#town").append(`<option>${j_value.name}</option>`) })
+        }
     </script>
+@*    <script src="~/js/city_data.js"></script>*@
 }
