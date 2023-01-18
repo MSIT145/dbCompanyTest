@@ -114,7 +114,8 @@
             </div>
             <div class="form-group" id="div_executor">
                 <label asp-for="執行人" class="control-label"></label>
-                <select asp-for="執行人" class="form-control" id="sele_executor"></select>
+                <select class="form-control" id="sele_executor"></select>
+                <input asp-for="執行人" type="hidden" class="form-control" id="inp_executor" />
                 <span asp-validation-for="執行人" class="text-danger"></span>
             </div>
             <div class="form-group" id="div_execut_time">
@@ -164,9 +165,8 @@
             dataType: "json"
         })
             .done(data => {
-                let whostart = `${data.部門} ${data.員工編號} ${data.員工姓名}`;
-                $("#inp_whostart").val(whostart);
-                $("#inp_super_vs").val(`${data.部門} ${data.主管}`);
+                $("#inp_whostart").val(data.員工編號);
+                $("#inp_super_vs").val(data.主管);
                
             })
 
@@ -178,7 +178,7 @@
             .done(data => {
                 let docFrag = $(document.createDocumentFragment());
                 $.each(data, function (i, i_val) {
-                    const sele = $(`<option></option>`).append(`${i_val.部門} ${i_val.員工編號} ${i_val.員工姓名}`);
+                    const sele = $(`<option></option>`).append(`${i_val.部門} ${i_val.員工編號} ${i_val.員工姓名 }`);
                     docFrag.append(sele);
                 });
                 $("#sele_executor").html(docFrag);
@@ -216,16 +216,22 @@
                     dataType: "json"
                 })
                     .done(data => {
-                        $("#sele_executor").val(`${data[0].部門} ${data[0].員工編號} ${data[0].員工姓名}`)
-                        $("#inp_co_dep_who").val((`${data[1].部門} ${data[1].員工編號} ${data[1].員工姓名}`));
+                        $("#sele_executor").val(data[0].員工編號)
+                        $("#inp_co_dep_who").val(data[1].員工編號);
                     })
             }
         })
 
         $("#inp_start").on('click', function () {
             let dt = new Date();
+            var seleindex = $(`#sele_executor option:selected`).index()
+            var split = $(`#sele_executor`).val().split(' ');
+            var splitstf = split[1]
             $("#inp_starttime").val(dt)
+            $("#inp_executor").val(splitstf)
         })
+
+         
 
 
 

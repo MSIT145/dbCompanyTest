@@ -49,6 +49,23 @@
 }
 
     <div class="container py-5" style="font-family:'Microsoft YaHei';">
+    <div class="row">
+            <div class="col-md-2 "></div>
+            <div class=" col-md-10 ">
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">首頁</a></li>
+                        @{
+                        string type= "";
+                        foreach (var item in Model){
+                            type = item.商品分類名稱;
+                        }
+                        <li class="breadcrumb-item active" aria-current="page">@type</li>
+                        }
+                    </ol>
+                </nav>
+            </div>
+    </div>
     <div class="row ">
         <div class="col-lg-12 d-flex">
                 <div class="col-md-2 row ">
@@ -57,13 +74,13 @@
                         @foreach (var item in Model)
                         {
                             <li class="list-inline-item">
-                                <a class="h5 text-dark text-decoration-none" asp-action="type" asp-route-id="@item.商品鞋種id">@Html.DisplayFor(modelItem => item.鞋種名稱)</a>
+                                <a class="h5 text-dark text-decoration-none" asp-action="type" asp-route-id="@item.商品鞋種id" asp-route-tid="@item.商品分類id" asp-route-type="@item.商品分類名稱">@Html.DisplayFor(modelItem => item.鞋種名稱)</a>
                             </li>
                         }
                     </ul>
                 </div>
             </div>
-            <div class="row">
+            <div class="row col-md-10">
                     @foreach (var item in Model)
                     {
                         <div class="col-md-3 p-2 ">
@@ -74,11 +91,11 @@
                                             @{
                                                 if (@item.產品圖片1 != null)
                                                 {
-                                                                        <img class="card-img rounded-0 img-fluid" src="~/images/@item.產品圖片1" width="236" height="324" />
+                                                           <img class="card-img rounded-0 img-fluid" src="~/images/@item.產品圖片1" width="236" height="324" />
                                                 }
                                                 else
                                                 {
-                                                                        <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" width="236" height="324" />
+                                                           <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" width="236" height="324" />
                                                 }
                                             }
                                         </div>

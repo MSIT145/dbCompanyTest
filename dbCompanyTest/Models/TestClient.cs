@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace dbCompanyTest.Models
 {
@@ -20,7 +19,6 @@ namespace dbCompanyTest.Models
         public string? 縣市 { get; set; }
         public string? 區 { get; set; }
         public string? 地址 { get; set; }
-        [EmailAddress]
         public string? Email { get; set; }
         public string? 密碼 { get; set; }
         public string? 性別 { get; set; }

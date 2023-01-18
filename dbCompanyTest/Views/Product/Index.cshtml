@@ -17,12 +17,20 @@
 <div class="container-xxl flex-grow-1 container-p-y">
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> 商品與明細</h4>
      <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-2">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda_P_C" id="btn_ProForm"> 新增商品</button>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-7">
+            @using (Html.BeginForm("Upload", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="input-group ">
+                    <input type="file" class="form-control" aria-describedby="btn-Upload" id="excel" name="excel" accept=".xlsx,.xls">
+                    <button class="btn btn-outline-secondary" type="submit" id="btn-Upload" >Excel批次匯入商品建檔</button>
+                </div>
+            }
+            
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="input-group ">
             <input type="text" class="form-control" placeholder="關鍵字" aria-label="關鍵字" aria-describedby="btn-Search" id="keywork" name="keywork">
             <button class="btn btn-outline-secondary" type="button" id="btn-Search">查詢</button>
@@ -66,8 +74,8 @@
             <div class="col-md-3">
                 <div class="input-group ">
                     
-                    <input type="text" class="form-control" placeholder="請輸入檔案名稱" aria-label="請輸入檔案名稱檔案名稱" aria-describedby="btn-download" id="fileName" name="fileName">
-                    <button class="btn btn-outline-secondary" type="button" id="btn-download">下載成Excel</button>
+                    <input type="text" class="form-control" placeholder="請先輸入檔案名稱" aria-label="請先輸入檔案名稱" aria-describedby="btn-download" id="fileName" name="fileName">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-download" disabled="disabled">下載成Excel</button>
                 </div>
             </div>
         </div>
@@ -288,11 +296,25 @@
             window.location = `@Url.Content("~/product/Downloads")?filename=${filename}`;
         }
 
+        //檔案上傳事件(先用sumit代替)
+        $("#btn-Upload").on('click',function(){
+        
+        });
+
+        //要輸入檔名才能按按鈕
+        $("#fileName").on('change',function(){
+           if($(this).val()=="")
+                $("#btn-download").prop("disabled",true);
+                else
+                $("#btn-download").prop("disabled", false);
+        })
+
         //檔案下載事件
         $("#btn-download").on('click',function(){
             let filename = $("#fileName").val();
             Pro_DownLoadFile_Get(filename);
             $("#fileName").val("");
+            $(this).prop("disabled",true);
         });
 
         //查詢事件綁定

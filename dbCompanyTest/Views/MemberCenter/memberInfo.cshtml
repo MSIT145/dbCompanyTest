@@ -97,9 +97,10 @@
                         <label asp-for="密碼" class="control-label"></label>
                         <input asp-for="密碼" class="form-control" value="" id="password" />
                         <span  class="text-danger" id="validMessage1"></span>
-                        <br />
+                        
+                        <label  class="control-label">確認密碼</label>
                         <input class="form-control" id="repassword" />
-                        <span class="text-danger" id="validMessage2 "></span>
+                        <span class="text-danger" id="validMessage2"></span>
                     </div>
                     <br />
                     <div class="form-group ">
@@ -130,12 +131,22 @@
         $(function () {
                 const id= $("#UserID");
                 const btn=document.querySelector("#updateBtn")
-            var passwd = $("#password").val();
+                var passwd = $("#password").val();
+
+
+            if ($("#oldpassword").val() == "" || $("#password").val() == '' || $("#repassword").val() == '') {
+                btn.setAttribute("disabled", "disabled");
+            } else {
+                if ($("#validMessage").val() == "" || $("#validMessage1").val() == "" || $("#validMessage2").val() == "") {
+                    btn.removeAttribute("disabled", "disabled");
+                }
+            }
+
             $("#oldpassword").on("blur", function () {
                 //alert("blur");
                 if ($("#oldpassword").val() == "") {
                     $("#validMessage").html('請輸入舊密碼').show();
-                    btn.setAttribute('disabled', 'disabled')
+                    
                    // $("#oldpassword").focus();
                     return false;
                 }
@@ -152,17 +163,17 @@
                 }
                 $("#validMessage1").html('').show();
 
-                if (passwd.length < 6 || passwd.length > 20) {
-                    $("#validMessage1").html('密碼長度6-20位').show();
-                    return false;
-                }
-                $("#validMessage1").html('').show();
+                //if (passwd.length < 6 || passwd.length > 20) {
+                //    $("#validMessage1").html('密碼長度6-20位').show();
+                //    return false;
+                //}
+                //$("#validMessage1").html('').show();
 
-                if (!((passwd.match(/[a-z]/) != null || passwd.match(/[A-Z]/) != null) && passwd.match(/\d/) != null)) {
-                    $("#validMessage").html('密碼格式錯誤，密碼長度6-20位，字母加數字或符號的混合').show();
-                    return false;
-                }
-                $("#validMessage1").html('').show();
+                //if (!((passwd.match(/[a-z]/) != null || passwd.match(/[A-Z]/) != null) && passwd.match(/\d/) != null)) {
+                //    $("#validMessage1").html('密碼格式錯誤，密碼長度6-20位，字母加數字或符號的混合').show();
+                //    return false;
+                //}
+                //$("#validMessage1").html('').show();
             })
 
             $("#repassword").on("blur", function () {
@@ -179,6 +190,15 @@
                     return false;
                 }
                 $("#validMessage2").html('').show();
+
+                if ($("#oldpassword").val() == "" || $("#password").val() == '' || $("#repassword").val() == '') {
+                    btn.setAttribute("disabled", "disabled");
+                } else {
+                    if ($("#validMessage").val() == "" || $("#validMessage1").val() == "" || $("#validMessage2").val() == "") {
+                        btn.removeAttribute("disabled", "disabled");
+                    }
+                }
+
             })
 
                 $("#updateBtn").click( function () {

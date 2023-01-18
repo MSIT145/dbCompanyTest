@@ -194,6 +194,28 @@ namespace dbCompanyTest.Controllers
             //dataTable跑回圈，insert資料至DB
             foreach (DataRow dr in dataTable.Rows)
             {
+                int _分類id = 0;
+                int _鞋種id = 0;
+                //dr[8] 與 dr[9] 查詢相應table 回傳可存入的數值
+                if (!string.IsNullOrEmpty(dr[8].ToString()))
+                {
+                   var  temp = db.ProductsTypeDetails.FirstOrDefault(pd => pd.商品分類名稱 == dr[9].ToString());
+                    if (temp != null)
+                    {
+                        _分類id = temp.商品分類id;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(dr[9].ToString()))
+                {
+                    var temp = db.商品鞋種s.FirstOrDefault(s => s.鞋種 == dr[10].ToString());
+                    if (temp != null)
+                    {
+                        _鞋種id = temp.商品鞋種id;
+                    }
+                }
+
+
                 Product x = new Product();
                 x.上架時間 = dr[1].ToString(); 
                 x.商品名稱 = dr[2].ToString(); 
@@ -202,9 +224,9 @@ namespace dbCompanyTest.Controllers
                 x.商品材質 = dr[5].ToString();
                 x.商品重量 = Int32.TryParse(dr[6].ToString(), out int _weight) ? _weight : 0;
                 x.商品成本 = Convert.ToDecimal(double.TryParse(dr[7].ToString(), out double _cost) ? _cost : 0);
-                x.商品分類id = Int32.TryParse(dr[8].ToString(), out int _typeid) ? _typeid : 0;
-                x.商品鞋種id = Int32.TryParse(dr[9].ToString(), out int _shoeid) ? _shoeid : 0;
-                x.商品是否有貨 = bool.TryParse(dr[10].ToString(), out bool _instock) ? _instock : false;
+                x.商品分類id = _分類id;
+                x.商品鞋種id = _鞋種id;
+                x.商品是否有貨 = bool.TryParse(dr[8].ToString(), out bool _instock) ? _instock : false;
                 x.商品是否上架 = bool.TryParse(dr[11].ToString(), out bool _onshelves) ? _onshelves : false;
 
                 try
@@ -221,7 +243,7 @@ namespace dbCompanyTest.Controllers
             }
         }
 
-        //下載(請改用ajax來寫)
+        //下載
         public IActionResult Downloads(string filename)
         {
             //把 Session 到回ListData

@@ -9,21 +9,44 @@
 }
 
     <div class="container py-5">
+        <div class="row">
+            <div class="col-md-2 "></div>
+            <div class=" col-md-10 ">
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">首頁</a></li>
+                        @{
+                        string type = "";
+                        int sid=1 ;
+                        string stype = "";
+                        foreach (var item in Model)
+                        {
+                            type = item.商品分類名稱;
+                            sid = item.商品分類id;
+                            stype = item.鞋種名稱;
+                        }
+                        <li class="breadcrumb-item active" aria-current="page"><a asp-controller="ProductWall" asp-action="Index" asp-route-id=@sid>@type</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">@stype</li>
+                    }
+                </ol>
+            </nav>
+        </div>
+    </div>
         <div class="row ">
             <div class="col-lg-12 d-flex">
-                <div class="row">
+                <div class="row col-md-2">
                     <div class="col-md-6">
                         <ul class="list-inline shop-top-menu pb-3 pt-1">
                             @{
                             string name = "";
-                            int id = 0;
+                            
                             foreach (var item in Model)
                             {
                                 name = item.鞋種名稱;
-                                id = @item.商品鞋種id;
+                                
                             }
                             <li class="list-inline-item">
-                                <a class="h5 text-dark text-decoration-none" asp-action="type" asp-route-id="@id">@name</a>
+                                <p class="h5 text-dark text-decoration-none avtive" >@name</p>
                             </li>
                         }
                     </ul>

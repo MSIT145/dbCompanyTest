@@ -31,18 +31,20 @@ namespace dbCompanyTest.Controllers
                             {
                                 鞋種名稱 = b.鞋種,
                                 商品編號id = c.商品編號id,
+                                商品分類id = (int)id,
                                 商品鞋種id = (int)c.商品鞋種id,
                                 商品名稱 = c.商品名稱,
                                 商品價格 = (decimal)c.商品價格,
                                 產品圖片1 = f.商品圖片1,
                                 商品分類名稱 = e.商品分類名稱
+
                             };
 
                 return View(datas.ToPagedList(page,5));
             }
         }
 
-        public IActionResult type(int? id, int page = 1)
+        public IActionResult type(int? id,int? tid,string? type, int page = 1)
         {
             if (id == null)
                 return NotFound();
@@ -58,11 +60,12 @@ namespace dbCompanyTest.Controllers
                             {
                                 鞋種名稱 = b.鞋種,
                                 商品編號id = c.商品編號id,
-                                商品鞋種id=(int)c.商品鞋種id,
+                                商品分類id = (int)tid,
+                                商品鞋種id = (int)c.商品鞋種id,
                                 商品名稱 = c.商品名稱,
                                 商品價格 = (decimal)c.商品價格,
                                 產品圖片1 = f.商品圖片1,
-                                商品分類名稱 = e.商品分類名稱
+                                商品分類名稱 = type
                             };
                 
                 return View(datas.ToPagedList(page, 5));
@@ -124,7 +127,7 @@ namespace dbCompanyTest.Controllers
                                         pro商品編號 = prodetail.商品編號id,
                                         pro商品金額 = product.商品價格,
                                         pro商品顏色 = procolor.商品顏色種類,
-                                        pro商品顏色圖片 = prodetail.商品顏色圖片,
+                                        pro商品顏色圖片 = procolor.商品顏色圖片,
                                         pro商品分類 = pro分類.商品分類名稱,
                                         pro商品名稱 = product.商品名稱,
                                         pro商品介紹 = product.商品介紹,
@@ -152,10 +155,11 @@ namespace dbCompanyTest.Controllers
                 var totallist = from item in _context.Products
                                 join prodetail in _context.ProductDetails on item.商品編號id equals prodetail.商品編號id
                                 join prosize in _context.ProductsSizeDetails on prodetail.商品尺寸id equals prosize.商品尺寸id
+                                join procolor in _context.ProductsColorDetails on prodetail.商品顏色id equals procolor.商品顏色id
                                 where item.商品編號id == Key
                                 select new
                                 {
-                                    pro商品顏色圖片list = prodetail.商品顏色圖片,
+                                    pro商品顏色圖片list = procolor.商品顏色圖片,
                                     pro商品尺寸list = prosize.尺寸種類,
                                     pro商品DetailIDlist = prodetail.Id
                                 };
