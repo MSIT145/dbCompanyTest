@@ -166,11 +166,13 @@
 @section Scripts {
     <script>
         var split = $(`#stf_info`).text().split(' ');
-        var splitstf = split[1]
+        var splitstf = split[1];
         var split1 = $(`#inp_whostart`).val().split(' ');
-        var splitstf1 = split1[1]
-        var list_type = $("#list_type").val()
+        var splitstf1 = split1[1];
+        var list_type = $("#list_type").val();
         //$("#div_data").css("display", "none");
+        $("#inp_start").css("display", "");
+
         $("#span_whostart").text($("#inp_whostart").val());
         $("#span_list_type").text(list_type);
         $("#span_sta").text($("#inp_sta").val());

@@ -14,32 +14,64 @@
             <td id="man_str"></td>
             <td id="time_str"></td>
             <td id="com_str"></td>
-            <td id="sin_str"></td>
+            <td id="sin_str">
+                <span id="span_sin_str">敬陳</span>
+                <select class="form-control" id="list_stu">
+                    <option>未啟動</option>
+                    <option>敬陳</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td id="dpm_ecu"></td>
             <td id="man_ecu"></td>
             <td id="time_ecu"></td>
-            <td id="com_ecu"></td>
-            <td id="sin_ecu"></td>
+            <td id="com_ecu"><input class="form-control" id="inp_com_ecu" /></td>
+            <td id="sin_ecu">
+                <span id="span_sin_ecu"></span>
+                <select class="form-control" id="list_stu_sin_ecu">
+                    <option>退回起單人</option>
+                    <option>完成</option>
+                </select>
+            </td>
         </tr>
     </tbody>
 </table>
 
 <script>
-    
-    $("#sin_str").text(`敬陳`);
-    $("#dpm_str").text($("#inp_whostart").val());
-    $("#man_str").text($("#inp_whostart").val());
+    var i_whostart = $("#inp_whostart").val();
+    var s_executor = $("#sele_executor").val();
+    $("#span_sin_str").css("display", "none");
+    $("#dpm_str").text(i_whostart);
+    $("#man_str").text(i_whostart);
     $("#time_str").text($("#inp_starttime").val());
-    $("#com_str").text();
-    $("#dpm_ecu").text($("#sele_executor").val());
-    $("#man_ecu").text($("#sele_executor").val());
-    console.log(splitstf)
-    console.log($("#inp_whostart").val())
-    if ($("#inp_whostart").val() == splitstf){
-        console.log(`123`)
-        $("#sin_ecu").text($("#inp_executor_sin").val());
+    $("#com_str").text($("#inp_cont").val());
+    $("#dpm_ecu").text(s_executor);
+    $("#man_ecu").text(s_executor);
+    $("#sin_ecu").text($("#inp_executor_sin").val());
+    $("#inp_com_ecu").css("display", "none");
+    $("#span_sin_ecu").text($("#inp_executor_sin").val())
+    $("#list_stu_sin_ecu").css("display", "none");
+
+    if (i_whostart == splitstf) {
+        if ($("#inp_sta").val() == `執行 待簽`) {
+            $("#list_stu").css("display", "none");
+            $("#span_sin_str").css("display", "");
+        }
+        else if ($("#inp_sta").val() == `退回起單人`) {
+            $("#list_stu").css("display", "");
+            $("#list_stu").text("未啟動");
+            $("#span_sin_str").css("display", "none");
+        }
     }
-        
+
+    if (s_executor == splitstf) {
+        if ($("#inp_sta").val() != "完成") {
+            if ($("#inp_sta").val() == `執行 待簽`) {
+                $("#span_sin_ecu").css("display", "none");
+                $("#list_stu_sin_ecu").css("display", "");
+            }
+        }
+    }
+
 </script>
