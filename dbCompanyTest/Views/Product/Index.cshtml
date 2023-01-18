@@ -197,7 +197,7 @@
                @* @Html.Partial("_CreateProduct")*@
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn_Close_D">關閉</button>
             </div>
         </div>
     </div>
@@ -295,6 +295,11 @@
             
             window.location = `@Url.Content("~/product/Downloads")?filename=${filename}`;
         }
+
+        //明細新建_關閉重整
+        $("#Moda_D_C #btn_Close_D").on('click',function(){
+            change_table();
+        });
 
         //檔案上傳事件(先用sumit代替)
         $("#btn-Upload").on('click',function(){

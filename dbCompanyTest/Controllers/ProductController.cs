@@ -447,17 +447,44 @@ namespace dbCompanyTest.Controllers
             return Json(null);        
         }
 
+        #region   提取select 所需的資料   
+        
+        //提取商品分類
         public IActionResult GetTyteD()
         {
             IEnumerable<ProductsTypeDetail> data = db.ProductsTypeDetails.ToList();
             return Json(data);
         }
-
+        //提取鞋種
         public IActionResult GetShoe()
         {
             IEnumerable<商品鞋種> data = db.商品鞋種s.ToList(); 
             return Json(data);
         }
+
+        //提取商品名稱
+        public IActionResult GetProName()
+        {
+            IEnumerable<Back_GetProName> data = from p in db.Products.ToList()
+                                         select new Back_GetProName { 
+                                          商品編號id = p.商品編號id,
+                                          商品名稱 = p.商品名稱
+                                         };
+            return Json(data);
+        }
+        //提取顏色
+        public IActionResult GetColor()
+        {
+            IEnumerable<ProductsColorDetail> data = db.ProductsColorDetails.ToList();
+            return Json(data);
+        }
+        //提取尺寸
+        public IActionResult GetSize()
+        {
+            IEnumerable<ProductsSizeDetail> data = db.ProductsSizeDetails.ToList();
+            return Json(data);
+        }
+        #endregion
 
 
         [HttpGet]
@@ -488,10 +515,8 @@ namespace dbCompanyTest.Controllers
 
             if (!string.IsNullOrEmpty(key))
             {
-
                 data = data.Where(d =>  d.商品名稱.Contains(key) || d.商品鞋種.Contains(key) || d.商品介紹.Contains(key) || d.商品分類.Contains(key) || d.商品材質.Contains(key)).ToList();
             }
-          
             //存入輸出暫存          
             //List<Product> searchData = new List<Product>();   //初始化
             //foreach (var item in data)
@@ -504,7 +529,6 @@ namespace dbCompanyTest.Controllers
             //        }
             //    }
             //}
-
             //將得到的值存入Session
             if (data.Count() != 0)
             {
@@ -514,6 +538,58 @@ namespace dbCompanyTest.Controllers
 
             return Json(new { data });
         }
+        //新建商品細項
+        public void SavePhotoMethod(IFormFile p,string proname)
+        {
+            string photoName = $"{proname}.jpg";
+            string oldPath = _eviroment.WebRootPath + "/images/" + photoName;
+            //System.IO.File.Delete(oldPath);   //刪掉圖片
+            //string photoName = $"{Guid.NewGuid().ToString()}.jpg";                   
+
+            string path01 = _eviroment.WebRootPath + "/images/" + photoName;  //用環境變數取得 IIS路徑(wwwroot)
+            using (FileStream fs = new FileStream(path01, FileMode.Create))
+            {
+                p.CopyTo(fs);   //將圖片寫入指定路徑      
+            }
+        }
+
+        public IActionResult CreateProDetail(Back_ProducDetail Pro, IFormFile photo1, IFormFile photo2, IFormFile photo3)
+        {
+            if (Pro == null)
+                return Json("錯誤_沒有資料!");
+            //先建立圖片位置
+            string imgeName = $"{Pro.商品編號id}_1.jpg";
+            if (photo1 != null || photo2 != null || photo3 != null)
+            {
+                SavePhotoMethod(photo1,$"{Pro.商品編號id}_1" );
+                SavePhotoMethod(photo2,$"{Pro.商品編號id}_2");
+                SavePhotoMethod(photo3,$"{Pro.商品編號id}_3");
+
+                圖片位置 img = new 圖片位置();
+                img.商品圖片1 = $"{Pro.商品編號id}_1.jpg";
+                img.商品圖片2 = $"{Pro.商品編號id}_2.jpg";
+                img.商品圖片3 = $"{Pro.商品編號id}_3.jpg";
+
+                db.圖片位置s.Add(img);
+                db.SaveChanges();
+            }
+
+            圖片位置 pd = db.圖片位置s.FirstOrDefault(p=>p.商品圖片1 == imgeName);
+            ProductDetail data = new ProductDetail();
+            data.商品編號id = Convert.ToInt32(Pro.商品編號id) ;
+            data.商品尺寸id = Convert.ToInt32(Pro.明細尺寸);
+            data.商品顏色id = Convert.ToInt32(Pro.顏色);
+            data.商品數量 = Convert.ToInt32(Pro.數量);
+            data.商品編號 = Pro.商品編號id;
+            data.圖片位置id = pd.圖片位置id;
+            data.商品是否上架 = Pro.是否上架;
+            data.商品是否有貨 = Pro.是否有貨;
+            db.ProductDetails.Add(data);
+            db.SaveChanges();
+            return Json("商品明細建檔成功!");
+        }
+
+
 
         [HttpGet]
         public IActionResult showDetail(string id) 

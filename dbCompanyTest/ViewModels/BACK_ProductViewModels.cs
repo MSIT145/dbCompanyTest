@@ -20,18 +20,28 @@
         public string? fileName { get; set; }
     }
 
+    public class Back_GetProName
+    {
+        public int 商品編號id { get; set; }
+
+        public string? 商品名稱 { get; set; }
+    }
+
     public class Back_ProducDetail
     {
-        public string? 明細編號 { get; set; }        
+        public string? id { get; set; }
+        public string? 商品編號id { get; set; }
         public string? 明細尺寸 { get; set; }
         public string? 顏色 { get; set; }
-        public int? 數量 { get; set; } 
+        public int? 數量 { get; set; }
+        public string? 明細編號 { get; set; }
         public string? 商品圖片1 { get; set; }
         public string? 商品圖片2 { get; set; }
         public string? 商品圖片3 { get; set; }
+        public string? 圖片位置id { get; set; }
         public bool? 是否上架 { get; set; }
         public bool? 是否有貨 { get; set; }
-
+      
     }
 
     public class Product_CDictionary

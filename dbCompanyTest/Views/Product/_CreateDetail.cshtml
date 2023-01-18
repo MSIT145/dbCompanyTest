@@ -1,64 +1,197 @@
 ﻿@model dbCompanyTest.Models.ProductDetail
 
-<h4>ProductDetail</h4>
+
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="_CreateDetail">
+    <div class="col-md-6">
+        <form name="proInfo" id="Form_ProDe_C">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group" style="display: none;">
                 <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
+                <input asp-for="Id" class="form-control" name="id"/>
                 <span asp-validation-for="Id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="商品編號id" class="control-label"></label>
-                <input asp-for="商品編號id" class="form-control" />
+                <select id="_商品編號id"  class="form-select" aria-label="商品編號">
+                    <option selected>ajax_select商品編號+名稱</option>
+                </select>
+                <input asp-for="商品編號id" id="商品編號id" name="商品編號id"  class="form-control" type="" />
                 <span asp-validation-for="商品編號id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="商品尺寸id" class="control-label"></label>
-                <input asp-for="商品尺寸id" class="form-control" />
+                <select id="_商品尺寸id" class="form-select" aria-label="商品尺寸">
+                    <option selected>ajax_select尺寸id+尺寸種類</option>
+                </select>
+                <input asp-for="商品尺寸id" id="商品尺寸id" class="form-control" name="明細尺寸" type="" />
                 <span asp-validation-for="商品尺寸id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="商品顏色id" class="control-label"></label>
-                <input asp-for="商品顏色id" class="form-control" />
+                <select id="_商品顏色id" class="form-select" aria-label="商品顏色id">
+                    <option selected>ajax_select顏色id+顏色名稱</option>
+                </select>
+                <input asp-for="商品顏色id" id="商品顏色id" class="form-control" name="顏色" type="" />
                 <span asp-validation-for="商品顏色id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="商品數量" class="control-label"></label>
-                <input asp-for="商品數量" class="form-control" />
+                <input asp-for="商品數量" class="form-control" name="數量" />
                 <span asp-validation-for="商品數量" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none">
                 <label asp-for="商品編號" class="control-label"></label>
-                <input asp-for="商品編號" class="form-control" />
+                <input asp-for="商品編號" class="form-control" name="明細編號" />
                 <span asp-validation-for="商品編號" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div>
+                <label for="formFile" class="form-label">照片1</label>
+                <input class="form-control" type="file" id="formFile" name="photo1">
+            </div>
+            <div>
+                <label for="formFile" class="form-label">照片2</label>
+                <input class="form-control" type="file" id="formFile" name="photo2">
+            </div>
+            <div>
+                <label for="formFile" class="form-label">照片3</label>
+                <input class="form-control" type="file" id="formFile" name="photo3">
+            </div>
+            <div class="form-group" style="display:none">
                 <label asp-for="圖片位置id" class="control-label"></label>
-                <input asp-for="圖片位置id" class="form-control" />
-                <span asp-validation-for="圖片位置id" class="text-danger"></span>
+                <input asp-for="圖片位置id" class="form-control" name="圖片位置id" />
+                <span asp-validation-for="圖片位置id" id="圖片位置id" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="row">          
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="商品是否有貨" class="control-label"></label>
+                        <input type="checkbox" id="_有貨" >
+                        <input asp-for="商品是否有貨" id="商品是否有貨" class="form-control" name="是否有貨" type="" />
+                        <span asp-validation-for="商品是否有貨"  class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">         
+                    <div class="form-group">
+                        <label asp-for="商品是否上架" class="control-label"></label>
+                        <input type="checkbox" id="_上架" >
+                        <input asp-for="商品是否上架" id="商品是否上架" class="form-control" name="是否上架" type="" />
+                        <span asp-validation-for="商品是否上架"  class="text-danger"></span>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="商品是否有貨" class="control-label"></label>
-                <input asp-for="商品是否有貨" class="form-control" />
-                <span asp-validation-for="商品是否有貨" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="商品是否上架" class="control-label"></label>
-                <input asp-for="商品是否上架" class="form-control" />
-                <span asp-validation-for="商品是否上架" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <br>
+                <input type="submit" value="新建品項" class="btn btn-primary" id="btn_submit" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <script>      
+        //HTML載完才會執行
+     $(document).ready(function () {
+
+                                //綁定checkbox按鈕
+                                let form01 = $("#Form_ProDe_C");
+                                form01.find("#_有貨").on('change', function () {
+                            
+                                form01.find("#商品是否有貨").val($(this).prop("checked"));  
+                                })
+                                form01.find("#_上架").on('change', function () {
+
+                                form01.find("#商品是否上架").val($(this).prop("checked"));
+                                })
+
+                            //取得產品Id
+                            $.get("@Url.Content("~/Product/GetProName")", (datas) => {       
+                                
+                            //新增產品類別select
+                            var options = datas.map(data => {
+                            const { 商品編號id, 商品名稱 } = data;
+                            //console.log(商品編號id)
+                            return (`<option value="${商品編號id}" data-text="${商品名稱}">${商品編號id} ${商品名稱}</option>`);
+                            });
+                           
+                            $("#_商品編號id").html(options);            
+                            });
+
+                            //提取顏色
+                            $.get("@Url.Content("~/Product/GetColor")", (datas) => {                           
+                            //新增產品類別select
+                            var options = datas.map(data => {
+                            const { 商品顏色id, 商品顏色種類 } = data;
+                            //console.log(商品編號id)
+                            return (`<option value="${商品顏色id}" data-text="${商品顏色種類}">${商品顏色id} ${商品顏色種類}</option>`);
+                            });                           
+                            $("#_商品顏色id").html(options);
+                            });
+
+                            //提取尺寸
+                            $.get("@Url.Content("~/Product/GetSize")", (datas) => {
+                            //console.log(datas);
+                            //新增產品類別select
+                            var options = datas.map(data => {
+                            const { 商品尺寸id, 尺寸種類 } = data;
+                            //console.log(商品編號id)
+                            return (`<option value="${商品尺寸id}" data-text="${尺寸種類}">${尺寸種類}</option>`);
+                            });
+                          
+                            $("#_商品尺寸id").html(options);
+                            });
+
+
+
+
+
+                            //送出按鈕事件
+                            const btn = document.querySelector('#btn_submit');
+                            //console.log(btn);
+                            btn.addEventListener("click", (event) =>
+                            {
+                             event.preventDefault();//停止submit預設行為
+                             //將select 資料寫入對應的name欄位內
+                             formwrite();
+                             //前端檢測
+
+                             //ajax送出資料
+                            const xhr = new XMLHttpRequest();
+                            xhr.addEventListener("load", () => {
+                            if (xhr.status == 200) {
+                            console.log('新建成功');
+
+                            }
+                            else {
+                            console.log(xhr.staus);
+                            }
+                            });
+                            var formData = new FormData(document.proInfo); //from 的名稱
+                            xhr.open("POST", "@Url.Content("~/Product/CreateProDetail")");
+                            //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  //可省略
+                            xhr.send(formData);
+
+                            });
+     })
+
+     //資料送出前將select 資料寫入有name 欄位
+     let formwrite = () =>{
+        let form = $("#Form_ProDe_C");
+        form.find("#商品編號id").val(form.find("#_商品編號id").val());
+        form.find("#商品尺寸id").val(form.find("#_商品尺寸id").val());
+        form.find("#商品顏色id").val(form.find("#_商品顏色id").val());
+        form.find("#商品是否有貨").val($(this).prop("checked"));
+        form.find("#商品是否上架").val($(this).prop("checked"));
+    }
+
+      
+
+    </script>
+
+
+  
+
+
+
+
 
