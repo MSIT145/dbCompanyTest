@@ -250,6 +250,7 @@
         $.each(data[0].districts, function (j, j_value) { $("#town2").append(`<option>${j_value.name}</option>`) })
         function area2(a) {
             $("#town2").empty();
+            alert("123")
             $.each(data[a].districts, function (j, j_value) { $("#town2").append(`<option>${j_value.name}</option>`) })
         }
 
@@ -271,7 +272,9 @@
                 $('#RrceivePhoneText').val($('#OrderPhoneText').val())
                 $('#RrceiveEmailText').val($('#OrderEmailText').val())
                 $('#city2').val($('#city').val());
-                $('#town2').val($('#town').val())
+                //$('#town2').val($('#town').val())
+                //$('#town2[selected]').attr("selected", false);
+                //alert($('#town option:selected').val())
                 $('#RrceiveDitalText').val($('#OrderDitalText').val())
             }
         })
