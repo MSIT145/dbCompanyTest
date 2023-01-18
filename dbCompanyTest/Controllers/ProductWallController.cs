@@ -30,7 +30,7 @@ namespace dbCompanyTest.Controllers
                             select new ViewModels.ProductWallViewModel
                             {
                                 鞋種名稱 = b.鞋種,
-                                商品編號id = c.商品編號id,
+                                商品id = d.Id,
                                 商品分類id = (int)id,
                                 商品鞋種id = (int)c.商品鞋種id,
                                 商品名稱 = c.商品名稱,
@@ -59,7 +59,7 @@ namespace dbCompanyTest.Controllers
                             select new ViewModels.ProductWallViewModel
                             {
                                 鞋種名稱 = b.鞋種,
-                                商品編號id = c.商品編號id,
+                                商品id = d.Id,
                                 商品分類id = (int)tid,
                                 商品鞋種id = (int)c.商品鞋種id,
                                 商品名稱 = c.商品名稱,
