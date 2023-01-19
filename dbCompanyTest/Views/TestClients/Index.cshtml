@@ -94,7 +94,7 @@
     <script>
         $(`#printClientData`).on(`click`, async function () {
             let response = await fetch("@Url.Content("~/TestClients/print")")
-            let data = await response.text();
+            let data = await response.json();
             alert(data);
         });
 

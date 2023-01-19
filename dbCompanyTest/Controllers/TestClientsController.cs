@@ -7,13 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using System.ComponentModel;
+using System.Data;
+using System.Text.Json;
 
 namespace dbCompanyTest.Controllers
 {
     public class TestClientsController : Controller
     {
         private dbCompanyTestContext _context = new dbCompanyTestContext();
+        private IWebHostEnvironment _eviroment; //宣告取域 環境變數
+        private readonly ILogger<TestClientsController> _logger;  //設定成紀錄類型
 
+        public TestClientsController(IWebHostEnvironment eviroment, ILogger<TestClientsController> logger)  //建構子，將環境變數注入
+        {
+            _eviroment = eviroment;
+            _logger = logger; //注入，才能用session
+        }
         //public TestClientsController(dbCompanyTestContext context)
         //{
         //    _context = context;
@@ -176,7 +188,77 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult print()
         {
-            return RedirectToAction("Index");
+            //把 Session 到回ListData
+            List<TestClient> searchData = _context.TestClients.ToList();
+            //string json;
+            //if (HttpContext.Session.Keys.Contains(Product_CDictionary.SK_SEARCH_PRODUCTS_LIST)) //判斷Session 的key是否含有SK_PURCHASED_PRODUCTS_LIST
+            //{
+            //    json = HttpContext.Session.GetString(Product_CDictionary.SK_SEARCH_PRODUCTS_LIST);   //將Session 轉為字串
+            //    searchData = JsonSerializer.Deserialize<List<TestClient>>(json);
+            //}
+            //else
+            //    searchData = 
+
+
+            if (searchData.Count == 0)
+                return Json("沒有可輸出資料!!");
+
+            //取得欄位名稱
+            DataTable dt = ConvertToDataTable(searchData.ToArray());
+            DataTableToExcelFile(dt);
+
+            return Json("成功!!");
+        }
+
+        public DataTable ConvertToDataTable<T>(IList<T> data)
+        {
+            PropertyDescriptorCollection properties =
+               TypeDescriptor.GetProperties(typeof(T));
+            DataTable table = new DataTable();
+            foreach (PropertyDescriptor prop in properties)
+                table.Columns.Add(prop.Name);
+            foreach (T item in data)
+            {
+                DataRow row = table.NewRow();
+                foreach (PropertyDescriptor prop in properties)
+                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+
+        private string DataTableToExcelFile(DataTable dt)
+        {
+            //建立Excel 2003檔案
+            IWorkbook wb = new HSSFWorkbook();
+            ISheet ws= wb.CreateSheet("客戶資料");
+
+            ////建立Excel 2007檔案
+            //IWorkbook wb = new XSSFWorkbook();
+            //ISheet ws;
+
+
+            ws.CreateRow(0);//第一行為欄位名稱
+            for (int i = 0; i < dt.Columns.Count-3; i++)
+            {
+                ws.GetRow(0).CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
+            }
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ws.CreateRow(i + 1);
+                for (int j = 0; j < dt.Columns.Count-3; j++)
+                {
+                    ws.GetRow(i + 1).CreateCell(j).SetCellValue(dt.Rows[i][j].ToString());
+                }
+            }
+            string filename = "Client" + DateTime.Now.ToString("yyyyMMdd");
+            string path = _eviroment.WebRootPath + "/Datas/" + $"{filename}.xls";  //用環境變數取得 IIS路徑(wwwroot)
+            System.IO.File.Delete(path);   //刪掉原本的檔案           
+            FileStream file = new FileStream(path, FileMode.Create);//產生檔案
+            wb.Write(file);
+            file.Close();
+            return path;
         }
     }
 }
