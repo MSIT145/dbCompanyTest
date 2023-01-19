@@ -25,6 +25,15 @@ namespace dbCompanyTest.Controllers
             return View(await _context.TestClients.ToListAsync());
         }
 
+        public IActionResult Search(string keyPoint)
+        {
+            List<TestClient> clients = _context.TestClients.Where(x => x.客戶姓名.Contains(keyPoint)).ToList();
+            if (clients.Count() == 0)
+                return Json("沒有資料");
+            else
+                return Json(clients);
+        }
+
         // GET: TestClients/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -165,5 +174,9 @@ namespace dbCompanyTest.Controllers
             return Content(_context.TestClients.Any(e => e.Email == EIP || e.客戶電話 == EIP || e.身分證字號 == EIP).ToString());
         }
 
+        public IActionResult print()
+        {
+            return RedirectToAction("Index");
+        }
     }
 }
