@@ -38,6 +38,7 @@
                     </div>
                 </div>
             }
+            
         }
         <hr />
         <div class="favorites-btn favorites-buying">
@@ -76,30 +77,14 @@
         $(".modal-close").on('click', function () {
             $(`#error`).css("display", "none");
         });
+        
         $(".purchase").on('click', function () {
-            console.log($(`.g-item`).attr("id"));
             $.ajax({
-                url: "@Url.Content("~/MyLove/JoinCart")",
+                url: "@Url.Content("~/mylove/joincart")",
                 type: "get",
-                data: { id: $(`.g-item`).attr("id") },
+                data: { id: $(this).closest(`.g-item`).attr("id") },
                 datatype: "json"
             }).done(data => error(data));                                                                                                                                                                                                            
-            //var itemid = $(this).closest('form').attr("id");
-            //const proname = $(`.g-item`).find("p").text();
-            //const procolor = $(`.g-item`).find("span").eq(1).text();
-            //const prosize = $(`.g-item`).find("span").eq(3).text();
-            //console.log(proname);
-            //$.ajax({
-            //    url: "@Url.Content("~/MyLove/JoinCart")",
-            //    type :"get",
-            //    data : {
-            //        proname: $(`.g-item`).find("p").text(),
-            //        procolor: $(`.g-item`).find("span").eq(1).text(),
-            //        prosize: $(`.g-item`).find("span").eq(3).text(),
-            //    count: 1,
-            //    },
-            //    datatype:"json"
-            //}).done(data =>console.log(data))
         });
         async function del(id) {
             const data = await fetch(`@Url.Content("~/MyLove/Delete?id=${id}")`);

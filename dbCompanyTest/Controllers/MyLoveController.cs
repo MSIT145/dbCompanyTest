@@ -1,6 +1,7 @@
 ﻿using dbCompanyTest.Hubs;
 using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.Linq;
@@ -48,41 +49,45 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult Create(會員商品暫存 prod)
         {
-            //判斷是否登入
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
             {
+                //判斷是否登入
                 string userjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
                 var userinfo = JsonSerializer.Deserialize<TestClient>(userjson);
-                if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_MYLOVE_SESSION))
+
+                if (prod.購物車或我的最愛 == false)
                 {
-                    string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
-                    var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
-                    foreach (var item in datas) 
+                    //加入我的最愛
+                    if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_MYLOVE_SESSION))
                     {
-                        if (item.商品編號 == prod.商品編號 && item.商品顏色種類.Equals(prod.商品顏色種類) && item.尺寸種類.Equals(prod.尺寸種類))
+                        string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
+                        var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
+                        foreach (var item in datas)
                         {
-                            return Content("收藏清單已有相同商品");
+                            if (item.商品編號 == prod.商品編號 && item.商品顏色種類.Equals(prod.商品顏色種類) && item.尺寸種類.Equals(prod.尺寸種類))
+                            {
+                                return Content("收藏清單已有相同商品");
+                            }
                         }
+                        會員商品暫存 data = prod;
+                        data.客戶編號 = userinfo.客戶編號;
+                        data.訂單數量 = 1;
+                        data.購物車或我的最愛 = false;
+                        datas.Add(data);
+                        json = JsonSerializer.Serialize(datas);
+                        HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
+                        return Content("加入收藏成功");
                     }
-                    會員商品暫存 data = prod;
-                    data.客戶編號 = userinfo.客戶編號;
-                    data.訂單數量 = 1;
-                    data.購物車或我的最愛 = false;
-                    datas.Add(data);
-                    json = JsonSerializer.Serialize(datas);
-                    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
-                    return Content("加入收藏成功");
-                }
-                else 
-                {
-                    var list = _context.會員商品暫存s.Select(x => x).Where(y => y.購物車或我的最愛 == false && y.客戶編號.Contains(userinfo.客戶編號)).ToList();
-                    foreach (var item in list)
+                    else
                     {
-                        if (item.商品編號 == prod.商品編號 && item.商品顏色種類.Equals(prod.商品顏色種類) && item.尺寸種類.Equals(prod.尺寸種類))
+                        var list = _context.會員商品暫存s.Select(x => x).Where(y => y.購物車或我的最愛 == false && y.客戶編號.Contains(userinfo.客戶編號)).ToList();
+                        foreach (var item in list)
                         {
-                            return Content("收藏清單已有相同商品");
+                            if (item.商品編號 == prod.商品編號 && item.商品顏色種類.Equals(prod.商品顏色種類) && item.尺寸種類.Equals(prod.尺寸種類))
+                            {
+                                return Content("收藏清單已有相同商品");
+                            }
                         }
-                    }
                         List<會員商品暫存> datas = new List<會員商品暫存>();
                         會員商品暫存 data = prod;
                         data.客戶編號 = userinfo.客戶編號;
@@ -92,7 +97,99 @@ namespace dbCompanyTest.Controllers
                         datas.AddRange(list);
                         string json = JsonSerializer.Serialize(datas);
                         HttpContext.Session.SetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION, json);
-                    return Content("加入收藏成功");
+                        return Content("加入收藏成功");
+                    }
+
+                }
+
+                else
+                {
+                    //加入購物車
+                    if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
+                    {
+                        string cartjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+                        List<會員商品暫存> shoppingcart = new List<會員商品暫存>();
+                        shoppingcart.AddRange((JsonSerializer.Deserialize<List<會員商品暫存>>(cartjson)).ToArray());
+                        foreach (var item in shoppingcart)
+                        {
+                            if (item.商品編號 == prod.商品編號 && item.商品顏色種類.Equals(prod.商品顏色種類) && item.尺寸種類.Equals(prod.尺寸種類))
+                            {
+                                item.訂單數量 = item.訂單數量 + prod.訂單數量;
+                                cartjson = JsonSerializer.Serialize(shoppingcart);
+                                HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
+                                return Content("加入購物車成功");
+                            }
+                        }
+                        會員商品暫存 data = prod;
+                        data.客戶編號 = userinfo.客戶編號;
+                        data.訂單數量 = prod.訂單數量;
+                        shoppingcart.Add(data);
+                        cartjson = JsonSerializer.Serialize(shoppingcart);
+                        HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
+                        return Content("加入購物車成功");
+                    }
+                    else
+                    {
+                        string cartjson = "";
+                        List<會員商品暫存> shoppingcart = new List<會員商品暫存>();
+                        shoppingcart.AddRange((_context.會員商品暫存s.Select(x => x).Where(y => y.購物車或我的最愛 == true && y.客戶編號.Contains(userinfo.客戶編號))).ToArray());
+                        foreach (var item in shoppingcart)
+                        {
+                            if (item.商品編號 == prod.商品編號 && item.商品顏色種類.Equals(prod.商品顏色種類) && item.尺寸種類.Equals(prod.尺寸種類))
+                            {
+                                item.訂單數量 = item.訂單數量 + prod.訂單數量;
+                                cartjson = JsonSerializer.Serialize(shoppingcart);
+                                HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
+                                return Content("加入購物車成功");
+                            }
+                        }
+                        會員商品暫存 data = prod;
+                        data.客戶編號 = userinfo.客戶編號;
+                        data.訂單數量 = prod.訂單數量;
+                        shoppingcart.Add(data);
+                        cartjson = JsonSerializer.Serialize(shoppingcart);
+                        HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
+                        return Content("加入購物車成功");
+                    }
+                }
+            }
+            //未登入創建CartSession
+            else if (!(HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION)) && prod.購物車或我的最愛 == true)
+            {
+
+                //加入購物車
+                if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
+                {
+                    string cartjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+                    List<會員商品暫存> shoppingcart = new List<會員商品暫存>();
+                    shoppingcart.AddRange((JsonSerializer.Deserialize<List<會員商品暫存>>(cartjson)).ToArray());
+                    foreach (var item in shoppingcart)
+                    {
+                        if (item.商品編號 == prod.商品編號 && item.商品顏色種類.Equals(prod.商品顏色種類) && item.尺寸種類.Equals(prod.尺寸種類))
+                        {
+                            item.訂單數量 = item.訂單數量 + prod.訂單數量;
+                            cartjson = JsonSerializer.Serialize(shoppingcart);
+                            HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
+                            return Content("加入購物車成功");
+                        }
+                    }
+                    會員商品暫存 data = prod;
+                    data.訂單數量 = prod.訂單數量;
+                    shoppingcart.Add(data);
+                    cartjson = JsonSerializer.Serialize(shoppingcart);
+                    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
+                    return Content("加入購物車成功");
+                }
+                else
+                {
+                    string cartjson = "";
+                    List<會員商品暫存> shoppingcart = new List<會員商品暫存>();
+                    會員商品暫存 data = prod;
+                    data.訂單數量 = prod.訂單數量;
+                    shoppingcart.Add(data);
+                    cartjson = JsonSerializer.Serialize(shoppingcart);
+                    HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
+                    return Content("加入購物車成功");
                 }
             }
             else
@@ -124,13 +221,24 @@ namespace dbCompanyTest.Controllers
                 List<會員商品暫存> shoppingcart = new List<會員商品暫存>();
                 //讀出購物車session
                 string cartjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
-                shoppingcart = JsonSerializer.Deserialize<List<會員商品暫存>>(cartjson);
+                shoppingcart.AddRange((JsonSerializer.Deserialize<List<會員商品暫存>>(cartjson)).ToArray());
                 //讀出我的最愛session
                 string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
                 var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson);
                 會員商品暫存 data = null;
                 data = datas.FirstOrDefault(x => x.Id == id);
                 data.購物車或我的最愛 = true;
+
+                foreach (var item in shoppingcart)
+                {
+                    if (item.商品編號 == data.商品編號 && item.商品顏色種類.Equals(data.商品顏色種類) && item.尺寸種類.Equals(data.尺寸種類))
+                    {
+                        item.訂單數量++;
+                        cartjson = JsonSerializer.Serialize(shoppingcart);
+                        HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
+                        return Content("加入購物車成功");
+                    }
+                }
                 shoppingcart.Add(data);
                 cartjson = JsonSerializer.Serialize(shoppingcart);
                 HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
@@ -139,16 +247,45 @@ namespace dbCompanyTest.Controllers
             else
             {
                 List<會員商品暫存> shoppingcart = new List<會員商品暫存>();
+                string cartjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                var user = JsonSerializer.Deserialize<TestClient>(cartjson);
+                shoppingcart.AddRange(_context.會員商品暫存s.Select(x => x).Where(y => y.購物車或我的最愛 == true && y.客戶編號.Contains(user.客戶編號)).ToArray());
                 string lovejson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_MYLOVE_SESSION);
                 var datas = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson);
                 會員商品暫存 data = null;
                 data = datas.FirstOrDefault(x => x.Id == id);
                 data.購物車或我的最愛 = true;
+                foreach (var item in shoppingcart)
+                {
+                    if (item.商品編號 == data.商品編號 && item.商品顏色種類.Equals(data.商品顏色種類) && item.尺寸種類.Equals(data.尺寸種類))
+                    {
+                        item.訂單數量++;
+                        cartjson = JsonSerializer.Serialize(shoppingcart);
+                        HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
+                        return Content("加入購物車成功");
+                    }
+                }
                 shoppingcart.Add(data);
-                string cartjson = JsonSerializer.Serialize(shoppingcart);
+                cartjson = JsonSerializer.Serialize(shoppingcart);
                 HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, cartjson);
                 return Content("加入購物車成功");
             }
+        }
+        public IActionResult checkCount(int? id,int? count) 
+        {
+            var data = _context.ProductDetails.FirstOrDefault(x=>x.Id == id);
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
+            {
+                //代處理是否合併到create
+               string cartjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+                var shoppingcart = JsonSerializer.Deserialize<List<會員商品暫存>>(cartjson);
+            }
+            
+
+            if (data.商品數量 < count)
+                return Content("false");
+            else 
+                return Content("true");
         }
     }
 }

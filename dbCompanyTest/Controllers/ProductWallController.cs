@@ -152,6 +152,8 @@ namespace dbCompanyTest.Controllers
                     pdm.pro商品圖片2 = item.pro商品圖片2;
                     pdm.pro商品圖片3 = item.pro商品圖片3;
                 }
+
+                //取出商品的全部尺寸及顏色
                 var totallist = from item in _context.Products
                                 join prodetail in _context.ProductDetails on item.商品編號id equals prodetail.商品編號id
                                 join prosize in _context.ProductsSizeDetails on prodetail.商品尺寸id equals prosize.商品尺寸id

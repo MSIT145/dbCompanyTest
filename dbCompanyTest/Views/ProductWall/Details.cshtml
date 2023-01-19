@@ -57,11 +57,11 @@
                         {
                             if (Model.pro商品DetailIDlist[i] == Model.prodetailID)
                             {
-                                                                        <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                                <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
                             }
                             else
                             {
-                                                                        <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品DetailIDlist[i])" id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                                <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品DetailIDlist[i])" id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
                             }
 
                         }
@@ -74,7 +74,7 @@
                     @{
                         for (int i = 0; i < Model.pro商品DetailIDlist.Count; i++)
                         {
-                                                                    <div class="size-item">@Model.pro商品尺寸list[i]</div>
+                            <div class="size-item">@Model.pro商品尺寸list[i]</div>
                         }
                     }
                 </div>
@@ -96,7 +96,7 @@
                 <div class="p-num-box main-product">
                     <div class="reduce icon">-</div>
                     <div class="number-box">
-                        <input type="number" value="1" readonly="readonly"/>
+                        <input type="number" value="1" readonly="readonly" />
                     </div>
                     <div class="plus icon">+</div>
                 </div>
@@ -148,10 +148,11 @@
 @section Scripts{
     <script>
         let count = 1;
-        $(".plus").on("click",function(){
+        let sizecheck=null;
+        $(".plus").on("click", function () {
             ++count;
             if (count > 10) {
-                count=10;
+                count = 10;
                 $(this).siblings('.number-box').find('input').val(count);
             }
             else {
@@ -160,17 +161,15 @@
         });
         $(".reduce").on("click", function () {
             --count;
-            if(count >= 1 )
-            {
+            if (count >= 1) {
                 $(this).siblings('.number-box').find('input').val(count);
             }
-            else
-            {
+            else {
                 count = 1;
                 $(this).siblings('.number-box').find('input').val(count);
-                
+
             }
-            
+
         });
         $(".d-right-share-FB").on('click', function () {
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${location.href}`);
@@ -182,13 +181,17 @@
 
         $('.size-item').on('click', function () {
             $(this).addClass("active").siblings().removeClass("active");
+            $(".add_cart").text("加入購物車").on("click", function () {
+                sizecheck = $(".size-item.active").text();
+                checkCount();
+            });
         });
         $('.modal-close').on('click', function () {
             $('#share').css("display", "none");
             $('#error').css("display", "none");
         });
         $('.d-right-share-pic,.d-right-share-pic-Text').on(`click`, function () {
-            let sizecheck = $(".size-item.active").text();
+            sizecheck = $(".size-item.active").text();
             let idcheck = $(".d-right-color-item.active").find('a').attr("id");
             let Colorcheck = $(".Color").find('span').text();
             if (sizecheck === "") {
@@ -196,11 +199,11 @@
                 $('.modal-text').text("請選擇尺寸");
             }
             else {
-                AddtoMyLove(sizecheck);
+                AddtoMyLoveOrCart(sizecheck, false);
             }
         });
 
-        async function AddtoMyLove(sizecheck) {
+        async function AddtoMyLoveOrCart(sizecheck, bool) {
             const FD = new FormData();
             FD.append('商品名稱', "@Model.pro商品名稱")
             FD.append('商品編號', "@Model.pro商品編號")
@@ -208,16 +211,38 @@
             FD.append('商品價格', "@Model.pro商品金額")
             FD.append('尺寸種類', sizecheck)
             FD.append('圖片1檔名', "@Model.pro商品圖片1")
-            const data = await fetch("@Url.Content("~/MyLove/Create/")", {
+            FD.append('訂單數量', $('.number-box').find('input').val())
+            FD.append('購物車或我的最愛', bool)
+            const data = await fetch("@Url.Content("~/MyLove/Create")", {
                 method: "POST",
                 body: FD
             });
             const response = await data.text();
             $('#error').css("display", "block");
             $('.modal-text').text(`${response}`);
-
         }
 
+        async function checkCount() {
+            const FD = new FormData();
+            FD.append("id", "@Model.prodetailID")
+            FD.append("count", $('.number-box').find('input').val())
+            const data = await fetch("@Url.Content("~/MyLove/checkCount")",
+                {
+                    method: "POST",
+                    body:FD
+
+                });
+            const reponse = await data.text();
+            if(reponse === "true")
+            {
+                AddtoMyLoveOrCart(sizecheck, true);
+            }
+            else
+            {
+                $('#error').css("display", "block");
+                $('.modal-text').text("商品庫存不足");
+            }
+        }
 
     </script>
 }
