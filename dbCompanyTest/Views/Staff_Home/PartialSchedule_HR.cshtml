@@ -9,6 +9,7 @@
         </tr>
     </thead>
     <tbody>
+        @*起單*@
         <tr>
             <td id="dpm_str"></td>
             <td id="man_str"></td>
@@ -22,6 +23,54 @@
                 </select>
             </td>
         </tr>
+        @*部門主管*@
+        <tr>
+            <td id="dpm_spv"></td>
+            <td id="man_spv"></td>
+            <td id="time_spv"></td>
+            <td id="com_spv"><input class="form-control" id="inp_com_spv" /></td>
+            <td id="sin_spv">
+                <span id="span_sin_spv">敬陳</span>
+                <select class="form-control" id="list_stu_spv">
+                    <option>待簽</option>
+                    <option>敬陳</option>
+                    <option>退回上階段</option>
+                </select>
+            </td>
+        </tr>
+        @*協辦部門*@
+        <tr>
+            <td id="dpm_cod"></td>
+            <td id="man_cod"></td>
+            <td id="time_cod"></td>
+            <td id="com_cod"><input class="form-control" id="inp_com_cod" /></td>
+            <td id="sin_cod">
+                <span id="span_sin_cod">敬陳</span>
+                <select class="form-control" id="list_stu_cod">
+                    <option>待簽</option>
+                    <option>敬陳</option>
+                    <option>退回上階段</option>
+                    <option>退回起單人</option>
+                </select>
+            </td>
+        </tr>
+        @*老闆簽核*@
+        <tr>
+            <td id="dpm_bos"></td>
+            <td id="man_bos"></td>
+            <td id="time_bos"></td>
+            <td id="com_bos"><input class="form-control" id="inp_com_bos" /></td>
+            <td id="sin_bos">
+                <span id="span_sin_bos">敬陳</span>
+                <select class="form-control" id="list_stu_bos">
+                    <option>待簽</option>
+                    <option>敬陳</option>
+                    <option>退回上階段</option>
+                    <option>退回起單人</option>
+                </select>
+            </td>
+        </tr>
+        @*執行*@
         <tr>
             <td id="dpm_ecu"></td>
             <td id="man_ecu"></td>
