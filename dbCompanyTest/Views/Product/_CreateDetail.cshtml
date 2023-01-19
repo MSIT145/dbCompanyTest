@@ -16,7 +16,7 @@
                 <select id="_商品編號id"  class="form-select" aria-label="商品編號">
                     <option selected>ajax_select商品編號+名稱</option>
                 </select>
-                <input asp-for="商品編號id" id="商品編號id" name="商品編號id"  class="form-control" type="" />
+                <input asp-for="商品編號id" id="商品編號id" name="商品編號id"  class="form-control" type="hidden" />
                 <span asp-validation-for="商品編號id" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,7 +24,7 @@
                 <select id="_商品尺寸id" class="form-select" aria-label="商品尺寸">
                     <option selected>ajax_select尺寸id+尺寸種類</option>
                 </select>
-                <input asp-for="商品尺寸id" id="商品尺寸id" class="form-control" name="明細尺寸" type="" />
+                <input asp-for="商品尺寸id" id="商品尺寸id" class="form-control" name="明細尺寸" type="hidden" />
                 <span asp-validation-for="商品尺寸id" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -32,7 +32,7 @@
                 <select id="_商品顏色id" class="form-select" aria-label="商品顏色id">
                     <option selected>ajax_select顏色id+顏色名稱</option>
                 </select>
-                <input asp-for="商品顏色id" id="商品顏色id" class="form-control" name="顏色" type="" />
+                <input asp-for="商品顏色id" id="商品顏色id" class="form-control" name="顏色" type="hidden" />
                 <span asp-validation-for="商品顏色id" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -67,17 +67,17 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="商品是否有貨" class="control-label"></label>
-                        <input type="checkbox" id="_有貨" >
-                        <input asp-for="商品是否有貨" id="商品是否有貨" class="form-control" name="是否有貨" type="" />
-                        <span asp-validation-for="商品是否有貨"  class="text-danger"></span>
+                        <input type="checkbox" id="_有貨" checked>
+                        <input asp-for="商品是否有貨" id="商品是否有貨" class="form-control" name="商品是否有貨" type="hidden" />
+                        
                     </div>
                 </div>
                 <div class="col-md-6">         
                     <div class="form-group">
                         <label asp-for="商品是否上架" class="control-label"></label>
-                        <input type="checkbox" id="_上架" >
-                        <input asp-for="商品是否上架" id="商品是否上架" class="form-control" name="是否上架" type="" />
-                        <span asp-validation-for="商品是否上架"  class="text-danger"></span>
+                        <input type="checkbox" id="_上架" checked>
+                        <input asp-for="商品是否上架" id="商品是否上架" class="form-control" name="商品是否上架" type="hidden" />
+                        
                     </div>
                 </div>
             </div>
@@ -159,8 +159,9 @@
                             const xhr = new XMLHttpRequest();
                             xhr.addEventListener("load", () => {
                             if (xhr.status == 200) {
-                            console.log('新建成功');
-
+                            alert(xhr.responseText);    
+                            //console.log('新建成功');
+                            $("#Moda_D_C").modal('toggle');
                             }
                             else {
                             console.log(xhr.staus);
@@ -175,13 +176,13 @@
      })
 
      //資料送出前將select 資料寫入有name 欄位
-     let formwrite = () =>{
+    function formwrite(){
         let form = $("#Form_ProDe_C");
         form.find("#商品編號id").val(form.find("#_商品編號id").val());
         form.find("#商品尺寸id").val(form.find("#_商品尺寸id").val());
         form.find("#商品顏色id").val(form.find("#_商品顏色id").val());
-        form.find("#商品是否有貨").val($(this).prop("checked"));
-        form.find("#商品是否上架").val($(this).prop("checked"));
+        form.find("#商品是否有貨").val(form.find("#_有貨").prop("checked"));
+        form.find("#商品是否上架").val(form.find("#_上架").prop("checked"));
     }
 
       

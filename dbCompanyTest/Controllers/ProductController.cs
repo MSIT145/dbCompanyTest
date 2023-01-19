@@ -11,6 +11,7 @@ using System.Data;
 using System.Xml.Linq;
 using System.ComponentModel;
 using System.Text.Json;
+using System.Text;
 
 namespace dbCompanyTest.Controllers
 {
@@ -19,6 +20,7 @@ namespace dbCompanyTest.Controllers
         dbCompanyTestContext db = new dbCompanyTestContext();
         private IWebHostEnvironment _eviroment; //宣告取域 環境變數
         private readonly ILogger<ProductController> _logger;  //設定成紀錄類型
+        
         public ProductController(IWebHostEnvironment eviroment, ILogger<ProductController> logger)  //建構子，將環境變數注入
         {
             _eviroment = eviroment;
@@ -556,25 +558,30 @@ namespace dbCompanyTest.Controllers
         public IActionResult CreateProDetail(Back_ProducDetail Pro, IFormFile photo1, IFormFile photo2, IFormFile photo3)
         {
             if (Pro == null)
-                return Json("錯誤_沒有資料!");
+                return Content("錯誤_沒有資料!", "text/plain", Encoding.UTF8);
             //先建立圖片位置
-            string imgeName = $"{Pro.商品編號id}_1.jpg";
-            if (photo1 != null || photo2 != null || photo3 != null)
-            {
-                SavePhotoMethod(photo1,$"{Pro.商品編號id}_1" );
-                SavePhotoMethod(photo2,$"{Pro.商品編號id}_2");
-                SavePhotoMethod(photo3,$"{Pro.商品編號id}_3");
+            //建立8位數亂碼
+            string cold = (new Back_Product_library()).RandomString(8);
+            string imgeName = $"{Pro.商品編號id}_{cold}";
+            if (photo1 == null || photo2 == null || photo3 == null)
+            return Content("錯誤_請輸入圖片!", "text/plain", Encoding.UTF8);
+
+            //先建立圖片資料
+                SavePhotoMethod(photo1,$"{imgeName}_1" );
+                SavePhotoMethod(photo2,$"{imgeName}_2");
+                SavePhotoMethod(photo3,$"{imgeName}_3");
 
                 圖片位置 img = new 圖片位置();
-                img.商品圖片1 = $"{Pro.商品編號id}_1.jpg";
-                img.商品圖片2 = $"{Pro.商品編號id}_2.jpg";
-                img.商品圖片3 = $"{Pro.商品編號id}_3.jpg";
+                img.商品圖片1 = $"{imgeName}_1.jpg";
+                img.商品圖片2 = $"{imgeName}_2.jpg";
+                img.商品圖片3 = $"{imgeName}_3.jpg";
 
                 db.圖片位置s.Add(img);
                 db.SaveChanges();
-            }
+            
+            
 
-            圖片位置 pd = db.圖片位置s.FirstOrDefault(p=>p.商品圖片1 == imgeName);
+            var pd = db.圖片位置s.FirstOrDefault(p=>p.商品圖片1.Contains(imgeName));
             ProductDetail data = new ProductDetail();
             data.商品編號id = Convert.ToInt32(Pro.商品編號id) ;
             data.商品尺寸id = Convert.ToInt32(Pro.明細尺寸);
@@ -582,11 +589,11 @@ namespace dbCompanyTest.Controllers
             data.商品數量 = Convert.ToInt32(Pro.數量);
             data.商品編號 = Pro.商品編號id;
             data.圖片位置id = pd.圖片位置id;
-            data.商品是否上架 = Pro.是否上架;
-            data.商品是否有貨 = Pro.是否有貨;
+            data.商品是否上架 = bool.Parse(Pro.商品是否上架);
+            data.商品是否有貨 = bool.Parse(Pro.商品是否有貨);
             db.ProductDetails.Add(data);
             db.SaveChanges();
-            return Json("商品明細建檔成功!");
+            return Content("商品明細建檔成功!", "text/plain", Encoding.UTF8);
         }
 
 
@@ -607,12 +614,12 @@ namespace dbCompanyTest.Controllers
                                明細編號 = pd.Id.ToString(),
                                明細尺寸 = z.尺寸種類,
                                顏色 = c.商品顏色種類,
-                               數量 = pd.商品數量,
+                               數量 = (pd.商品數量).ToString(),
                                商品圖片1 = i.商品圖片1,
                                商品圖片2 = i.商品圖片2,
                                商品圖片3 = i.商品圖片3,
-                               是否上架 = pd.商品是否上架,
-                               是否有貨 = pd.商品是否有貨
+                               商品是否上架 = pd.商品是否上架.ToString(),
+                               商品是否有貨 = pd.商品是否有貨.ToString()
                            };
                 return Json(new { data });
             }
