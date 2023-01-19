@@ -32,13 +32,11 @@ namespace dbCompanyTest.Hubs
         {
             user id = userList.Where(p => p.connectionId == Context.ConnectionId).FirstOrDefault();
             if (id != null)
-            {
                 userList.Remove(id);
-            }
 
             Update();
-            if(id.waiter != null)
-            await Clients.Client(id.waiter).SendAsync("UpdSystem", "系統", id.userName + " 已離線");
+            if (id.waiter != null)
+                await Clients.Client(id.waiter).SendAsync("UpdSystem", "系統", id.userName + " 已離線");
 
             await base.OnDisconnectedAsync(ex);
         }
@@ -66,7 +64,9 @@ namespace dbCompanyTest.Hubs
             }
             else
             {
-                await Clients.Client(ClientID).SendAsync("UpdSystem",user.userName, message);
+                user clients = userList.FirstOrDefault(x => x.connectionId == ClientID);
+                clients.userWords.Add("S" + message);
+                await Clients.Client(ClientID).SendAsync("UpdSystem", user.userName, message);
                 await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
             }
         }
@@ -74,8 +74,6 @@ namespace dbCompanyTest.Hubs
         public async Task getName(string userName)
         {//設定使用者名稱
             userList.FirstOrDefault(c => c.connectionId == Context.ConnectionId).userName = userName;
-            //if (userName != "客服人員")
-            //    await Clients.Others.SendAsync("UpdSystem", "系統", "歡迎 " + userName);
             Update();
         }
 
@@ -85,7 +83,8 @@ namespace dbCompanyTest.Hubs
             if (olduser != null)
                 olduser.waiter = null;
             user user = userList.FirstOrDefault(x => x.connectionId == userId);
-            user.waiter = Context.ConnectionId;
+            if (user.waiter == null)
+                user.waiter = Context.ConnectionId;
             string userMsgJSON = JsonConvert.SerializeObject(user.userWords);
             user.newWords = 0;
             await Clients.Client(Context.ConnectionId).SendAsync("newClientMsg", userMsgJSON);
