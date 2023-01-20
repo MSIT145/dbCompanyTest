@@ -31,6 +31,6 @@ namespace dbCompanyTest.Models
         public string? 附件 { get; set; }
         public string? 附件path { get; set; }
 
-        public virtual TestStaff 員工編號Navigation { get; set; } = null!;
+        public virtual TestStaff? 員工編號Navigation { get; set; } 
     }
 }

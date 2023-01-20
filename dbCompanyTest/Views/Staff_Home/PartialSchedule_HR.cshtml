@@ -121,8 +121,6 @@
     $("#inp_com_str,#inp_com_spv,#inp_com_cod,#inp_com_bos,#inp_com_ecu").css("display", "none");
 
     $("#span_sin_str").css("display", "");
-    $("#inp_com_ecu").css("display", "none");
-    $("#list_stu_sin_ecu1").css("display", "none");
 
     $("#dpm_str").text(i_whostart);
     $("#time_str").text($("#inp_starttime").val());
@@ -134,8 +132,13 @@
     $("#span_sin_spv").text($("#inp_super_vs_sin").val());
     $("#span_sin_cod").text($("#inp_co_dep_sin").val());
     $("#span_sin_bos").text($("#inp_boss_sin").val());
-    $("#span_sin_ecu").text($("#inp_executor_sin").val());
+
     console.log($("#span_sin_spv").text())
+    //---回復
+    $("#inp_com_spv").text($("#inp_super_vs_opn").val());
+    $("#inp_com_cod").text($("#inp_co_dep_opn").val());
+    $("#inp_com_bos").text($("#inp_boss_opn").val());
+    $("#inp_com_ecu").text($("#inp_ans").val());
 
 
 
@@ -216,6 +219,7 @@
     if (i_spvs == splitstf) {//部門主管 待簽
         if (i_stu == `部門主管 待簽`) {
             $("#span_sin_spv").css("display", "none");
+            $("#span_com_spv").css("display", "none");
             $("#list_stu_spv").css("display", "");
             $("#inp_com_spv").css("display", "");
             $("#span_sin_str").text("敬陳");
@@ -255,7 +259,7 @@
         $("#inp_cont").val($("#inp_com_str").val())
     });
     $("#inp_com_spv").on('blur', function () {
-        $("#inp_super_vs_sin").val($("#inp_com_spv").val())
+        $("#inp_super_vs_opn").val($("#inp_com_spv").val())
     });
     $("#inp_com_cod").on('blur', function () {
         $("#inp_co_dep_opn").val($("#inp_com_cod").val())
@@ -285,6 +289,7 @@
                 $("#inp_sta").val("協辦部門 待簽");
             else if ($(`#list_stu_spv option:selected`).val() == "退回起單人")
                 $("#inp_sta").val("退回起單人");
+            $("#inp_super_vs_opn").val($("#inp_com_spv").val());
             $("#inp_super_vs_time").val(dt);
         }
         if (i_co == splitstf) {
@@ -296,6 +301,7 @@
                 $("#inp_sta").val("部門主管 待簽");
             else if ($(`#list_stu_cod option:selected`).val() == "退回起單人")
                 $("#inp_sta").val("退回起單人");
+            $("#inp_co_dep_opn").val($("#inp_com_cod").val());
             $("#inp_co_dep_time").val(dt);
         }
         if (i_boss == splitstf) {
@@ -307,6 +313,7 @@
                 $("#inp_sta").val("協辦部門 待簽");
             else if ($(`#list_stu_bos option:selected`).val() == "退回起單人")
                 $("#inp_sta").val("退回起單人");
+            $("#inp_boss_opn").val($("#inp_com_bos").val());
             $("#inp_boss_time").val(dt);
         }
         if (s_executor == splitstf) {
@@ -318,6 +325,7 @@
                 $("#inp_sta").val("執行長 待簽");
             else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "退回起單人")
                 $("#inp_sta").val("退回起單人");
+            $("#inp_ans").val($("#inp_com_ecu").val());
             $("#inp_execut_time").val(dt);
         }
     });

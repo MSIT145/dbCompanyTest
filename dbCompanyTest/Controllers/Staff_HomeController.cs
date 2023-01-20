@@ -2,6 +2,7 @@
 using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Policy;
 using System.Security.Principal;
@@ -88,6 +89,43 @@ namespace dbCompanyTest.Controllers
             var data = _context.ToDoLists.FirstOrDefault( c=> c.交辦事項id== listNum);
 
             return View(data);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DT_TDL(int id, [Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] ToDoList toDoList)
+        {
+            //if (id != toDoList.交辦事項id)
+            //{
+            //    return NotFound();
+            //}
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(toDoList);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ToDoListExists(toDoList.交辦事項id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            //ViewData["員工編號"] = new SelectList(_context.TestStaffs, "員工編號", "員工編號", toDoList.員工編號);
+            //return View(toDoList);
+            return RedirectToAction("Index_HR");
+        }
+        private bool ToDoListExists(int id)
+        {
+            return _context.ToDoLists.Any(e => e.交辦事項id == id);
         }
 
         public IActionResult PartialSchedule_HR()

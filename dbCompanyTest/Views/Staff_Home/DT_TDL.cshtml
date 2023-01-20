@@ -29,6 +29,7 @@
     <div class="col-md-4">
         <form asp-action="DT_TDL">
             <div asp-validation-summary="ModelOnly" class="text-danger no"></div>
+            <input asp-for="交辦事項id" />
             <div class="form-group no">
                 <label asp-for="表單類型" class="control-label no"></label>
                 <select asp-for="表單類型" class="form-control no" id="list_type">
@@ -39,7 +40,9 @@
             </div>
             <div class="form-group no">
                 <label asp-for="員工編號" class="control-label"></label>
-                <input asp-for="員工編號" class="form-control" value="@ViewBag.acc" type="hidden" id="stfId" />
+                @*<select asp-for="員工編號" class="form-control" asp-items="ViewBag.員工編號" id="stfId"></select>*@
+                <input asp-for="員工編號" class="form-control" id="stfId" />
+                <span asp-validation-for="員工編號" class="text-danger"></span>
             </div>
             <div class="form-group no" id="div_cont">
                 <label asp-for="表單內容" class="control-label"></label>
@@ -153,7 +156,7 @@
             </div>
             <div class="form-group">
 
-                <input type="submit" value="Create" class="btn btn-primary" id="inp_start" />
+                <input type="submit" value="Save" class="btn btn-primary" id="inp_start" />
             </div>
         </form>
     </div>
