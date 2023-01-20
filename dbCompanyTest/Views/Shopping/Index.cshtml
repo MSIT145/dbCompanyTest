@@ -115,24 +115,24 @@
         {
             totomony += (decimal)item.商品價格;
         }
-        <div class="hidaing">
-            <div>
-                <div>
-                    <span>總金額</span>
-                    <span>TWD $@totomony</span>
-                </div>
-                <div>
-                    <span>運費</span>
-                    <span id="TxtDeliverymony">TWD $0</span>
-                </div>
-                <hr />
-                <div>
-                    <span>結帳金額</span>
-                    <span id="paymony">TWD $0</span>
-                </div>
-            </div>
-            <hr />
-        </div>
+                                            <div class="hidaing">
+                                                <div>
+                                                    <div>
+                                                        <span>總金額</span>
+                                                        <span>TWD $@totomony</span>
+                                                    </div>
+                                                    <div>
+                                                        <span>運費</span>
+                                                        <span id="TxtDeliverymony">TWD $0</span>
+                                                    </div>
+                                                    <hr />
+                                                    <div>
+                                                        <span>結帳金額</span>
+                                                        <span id="paymony">TWD $0</span>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                            </div>
     }
     <br />
     <input id="btn_page1" type="button" value="結帳" disabled />
@@ -192,7 +192,7 @@
                     </select>
                     <input type="text" class="userAddress" id="RrceiveDitalText" />
                 </div>
-                <div class="setMargin">
+                <div class="setMargin" id="pickUp">
                     <label class="whoToGet">7-11取貨</label>
                     <input type="button" value="選擇門市" />
                     <input type="text" style="visibility: hidden" />
@@ -200,10 +200,21 @@
             </fieldset>
 
             <div class="setMargin">
-                <input type="button" value="確認購買" />
+                <input type="button" value="確認購買" id="btn_page2" />
             </div>
 
         </form>
+    </div>
+
+    <div id="finish" style="visibility: hidden;">
+        <h2 style="text-align:center;">訂購完成</h2>
+        <br />
+        <div>
+            <a href="@Url.Content("~/ProductWall/Index/2")">繼續購買</a>
+            <a href="@Url.Content("~/Home")">返回首頁</a>
+@*            <input type="button"value="繼續購買" id="btn_continue" />
+            <input type="button"value="返回首頁" id="btn_backToHome"/>*@
+        </div>
     </div>
 </div>
 
@@ -215,6 +226,7 @@
         const txtdeliverymony = document.querySelector('#TxtDeliverymony')
         const paymony = document.querySelector('#paymony')
         const btn1 = document.querySelector('#btn_page1')
+        const btn2 = document.querySelector('#btn_page2')
         const slectCar = document.querySelector('#btn_slectCar')
 
         const xhr = new XMLHttpRequest();
@@ -229,6 +241,8 @@
             xhr.open('GET', `/Shopping/GetDeliveryMony?OPvalue=${deliverymony.value}`);
             xhr.send();
         })
+
+        //----購物清單頁面上的結帳按鈕
         btn1.addEventListener('click', function () {
             $('#ChoosePay').hide();
             $('.hidaing').hide();
@@ -237,12 +251,32 @@
             $('.step2').addClass("active")
             $('#btn_slectCar').attr("style", "display:block;");
             $('#clientDital').attr("style", "display:block;");
+            if($('#delivery').select().val() == 100){
+                $('#pickUp').hide();
+            }
         })
+
+        //----填寫資料頁面上的訂單資料按鈕
         slectCar.addEventListener('click', function () {
             $('.hidaing').toggle();
         })
 
+        //----填寫資料頁面上的確認購買按鈕
 
+        btn2.addEventListener('click', function () {
+            $('.step2').removeClass("active")
+            $('.step3').addClass("active")
+            $('#btn_slectCar').attr("style", "display:none;");
+            $('#clientDital').attr("style", "display:none;");
+            $('#finish').attr("style","display:biock;");
+        })
+
+        //----訂購完成頁面上的繼續購買按鈕
+        //$('#btn_contiune').on('click',function(){
+
+        //})
+
+        //----讀取縣市區json-----------------------------------------------
         $.each(data, function (i, i_value) { $("#city2").append(`<option>${i_value.name}</option>`) });
         $("#city2").change(function () {
             let Myarea = $(`#city2 option:selected`).index();
@@ -264,8 +298,9 @@
             $("#town").empty();
             $.each(data[a].districts, function (j, j_value) { $("#town").append(`<option>${j_value.name}</option>`) })
         }
+        //----讀取縣市區json結束-----------------------------------------------
 
-
+        //----同訂購人按鈕
         $('#copyCkBox').change(function () {
             if (this.checked) {
                 $('#RrceiveNameText').val($('#OrderNameText').val())
@@ -274,12 +309,10 @@
                 $('#city2').val($('#city').val());
                 area2($(`#city2 option:selected`).index());
                 $('#town2').val($('#town').val())
-                //$('#town2[selected]').attr("selected", false);
-                //alert($('#town option:selected').val())
                 $('#RrceiveDitalText').val($('#OrderDitalText').val())
             }
         })
-
+  
     </script>
     @*    <script src="~/js/city_data.js"></script>*@
 }

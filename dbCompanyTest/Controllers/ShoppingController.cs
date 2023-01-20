@@ -57,6 +57,7 @@ namespace dbCompanyTest.Controllers
                     carSession = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
                 }
             }
+            else return RedirectToAction("Login", "Login");
             return View(carSession);
         }
         public IActionResult joinSQLToSession()
@@ -123,7 +124,6 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult DeleteCarSession(int? id)
         {
-            List<會員商品暫存>? carSession = null;
             if (id != null)
             {
                 var json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);

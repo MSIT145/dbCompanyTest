@@ -270,8 +270,8 @@
                 TOTAL_TWD = `TOTAL TWD $${countM}`
                 carjson.innerHTML = carOpts.join("")
                 TotoM.innerHTML = TOTAL_TWD
-                const TrashCan = document.querySelector('.purchase-icon-car');
-                TrashCan.addEventListener('click', () => {
+                //const TrashCan = document.querySelector('.purchase-icon-car');
+                $('.purchase-icon-car').on('click', () => {
                     console.log("123");
                     var a = $(event.currentTarget).find("input").val();
                     console.log(a);
