@@ -18,6 +18,9 @@ namespace dbCompanyTest.Models
         public string? 下單時間 { get; set; }
         public string? 訂單狀態 { get; set; }
         public string? 付款狀態 { get; set; }
+        public string? 收件人名稱 { get; set; }
+        public string? 收件人電話 { get; set; }
+        public string? 收件人email { get; set; }
 
         public virtual TestClient? 客戶編號Navigation { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
