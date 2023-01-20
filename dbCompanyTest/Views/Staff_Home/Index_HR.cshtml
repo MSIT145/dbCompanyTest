@@ -4,11 +4,12 @@
     ViewData["Title"] = "Index_HR";
 }
 @{
-    Layout = "_Back_Layout";
+    Layout = "_Back_Layout_Sneat";
 }
 
 <input type="hidden" id="TDLpath" value="@Url.Content("~/Staff_Home/LoadToDoList")" />
 <input type="hidden" id="path" value="@Url.Content("~/Staff_Home/LoadSheeplist")" />
+<input type="hidden" id="TDL_DTpath" value="@Url.Content("~/Staff_Home/DT_TDL")" />
 <h1>員工頁面(人事)</h1>
 
 <h2 id="stf_info">@ViewBag.HR</h2>

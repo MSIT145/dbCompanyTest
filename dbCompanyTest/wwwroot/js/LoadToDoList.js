@@ -2,6 +2,7 @@
 console.log(`PartialView`)
 var TDL_DTpath = $(`#TDL_DTpath`).val();
 var TID;
+console.log(stf)
 $.ajax({
     url: `${TDLpath}`,
     type: "GET",

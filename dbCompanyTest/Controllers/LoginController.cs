@@ -213,7 +213,7 @@ namespace dbCompanyTest.Controllers
             if (_context.TestClients.Any(c => c.Email == Email))
             {//zlazqafpmuwxkxvo
                 var mail = new MailMessage();
-                mail.To.Add("alan20100525@gmail.com");
+                mail.To.Add(Email);
                 mail.Subject = "SheoseGift忘記密碼變更";
                 mail.Body = $"<a href=`https://localhost:7100/Login/RePassword?Email={Email}`>點選這裡變更密碼</a>";
                 mail.IsBodyHtml = true;

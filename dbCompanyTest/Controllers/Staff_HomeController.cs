@@ -44,7 +44,7 @@ namespace dbCompanyTest.Controllers
                 {
                     if (!HttpContext.Session.Keys.Contains("Account"))
                         HttpContext.Session.SetString("Account", vm.txtAccount);
-                    if (x.部門 == "行政")
+                    if (x.部門 == "行政" || x.部門 == "執行長室")
                     {
                         return RedirectToAction("Index");
                     }
@@ -126,12 +126,24 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult LoadToDoList(string stf)
         {
+            if(stf == "ST2-0010170")
+            {
+                var datas = from c in _context.ToDoLists
+                            join o in _context.TestStaffs on c.員工編號 equals o.員工編號
+                            where c.員工編號 == stf || c.起單人 == stf || c.執行人 == stf || c.表單類型 == "人事表單"
+                            select c;
+                return Json(datas);
+            }
+            else
+            {
             var datas = from c in _context.ToDoLists
                         join o in _context.TestStaffs on c.員工編號 equals o.員工編號
-                        where c.員工編號 == stf/* || c.協辦部門簽核人員 ==stf || c.部門主管 ==stf ||c.起單人 ==stf ||c.執行人== stf*/
+                        where c.員工編號 == stf || c.協辦部門簽核人員 ==stf || c.部門主管 ==stf ||c.起單人 ==stf ||c.執行人== stf
                         select c;
+                return Json(datas);
+            }
 
-            return Json(datas);
+          
         }
         public IActionResult stf_info(string stf)
         {
