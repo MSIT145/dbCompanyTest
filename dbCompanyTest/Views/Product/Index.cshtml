@@ -325,7 +325,7 @@
         //查詢事件綁定
         $("#btn-Search").on('click', function () {
         //重新載入
-            console.log($("#keywork").val());
+            //console.log($("#keywork").val());
            change_table(); 
             
         });
@@ -339,12 +339,9 @@
         $("#Moda_P_C #P_Edit").on('click', () => {
             Pro_Create_Edit_Sumit(Pro_Edit_Post);
         });
-        //加入按鈕事件(新增明細_未完成)
-        $('#tableAll').on('click', 'button[name="DetailCreate"]', function () {
-            $("#Moda_D_C .modal-body").load("@Url.Content("~/Product/_CreateDetail")");
-        })
+        
 
-        //加入按鈕事件(產品修改) P_btnDel
+        //加入按鈕事件(產品刪除) P_btnDel
         $('#tableAll').on('click', 'button[name="P_btnDel"]', function () {
             const row = $(this).parents('tr');
             const id = row.find('td:eq(1)').text().trim();
@@ -374,13 +371,13 @@
             //_商品分類id
             //$("#Moda_P_C #_商品分類id option:selected").text(row.find('td:eq(9)').text().trim())
             const cel9 = row.find('td:eq(9)').text().trim();
-            console.log("cel9=" + cel9);
+            //console.log("cel9=" + cel9);
             //setTimeout(function () { $(`#Moda_P_C #_商品分類id option[data-text=${cel9}]`).prop("selected", true); }, 400);
             $(`#Moda_P_C #_商品分類id option[data-text=${cel9}]`).prop("selected", true);
             //_商品鞋種id
 
             const cel10 = row.find('td:eq(10)').text().trim();
-            console.log("cel10=" + cel10);
+            //console.log("cel10=" + cel10);
             //setTimeout(function () { $(`#Moda_P_C #_商品鞋種id option[data-text=${cel10}]`).prop("selected", true); }, 500);
             $(`#Moda_P_C #_商品鞋種id option[data-text=${cel10}]`).prop("selected", true);
             //$("#Moda_P_C #_商品鞋種id option:selected").text(row.find('td:eq(10)').text().trim())
@@ -392,10 +389,31 @@
             $("#Moda_P_C #P_Create ").hide();
             //id=P_Edit
             $("#Moda_P_C #P_Edit ").show();
-            console.log(row.find('td:eq(3)').text().trim());
+            //console.log(row.find('td:eq(3)').text().trim());
         })
 
+        //=============產品明細事件S=========================
 
+        //加入按鈕事件(新增明細_未完成)
+        $('#tableAll').on('click', 'button[name="DetailCreate"]', function () {
+            $("#Moda_D_C .modal-body").load("@Url.Content("~/Product/_CreateDetail")");
+        })
+
+        //加入按鈕事件(產品刪除) P_btnDel
+        $('#tableAll').on('click', 'button[name="PD_btnDelete"]', function () {
+            const row = $(this).parents("tr[name='tr_de']");
+            const id = row.find('td:eq(0)').text().trim();
+            //console.log($(this));
+            //console.log(row);
+            //console.log(id);
+
+            $.get("@Url.Content("~/product/DeleteProDetail")", { "id": `${id}` }, (datas) => { alert(datas); });
+            //重新載入
+            change_table();
+        });
+
+
+        //=============產品明細事件End=======================
 
 
         //新增產品 Form表單顯示按鈕事件
@@ -409,7 +427,7 @@
             $("#Moda_P_C #P_Edit ").hide();
             $.ajaxSettings.async = false;
             $.get("@Url.Content("~/Product/GetTyteD")", (datas) => {
-                console.log(datas);
+                //console.log(datas);
                 //新增產品類別select
                 var options = datas.map(data => {
                     const { 商品分類id, 商品分類名稱 } = data;
@@ -495,8 +513,8 @@
             let dUrl = '@Url.ActionLink("showDetail","Product")';
             let appH = "";
             let gg="";
-            console.log(dUrl);
-            console.log(CDataID)
+            //console.log(dUrl);
+            //console.log(CDataID)
             //用ajax抓Detail的資料
              $.ajax({
                 url: dUrl,
@@ -512,18 +530,18 @@
                                console.log(data);
                                  for(var item  of data.data)
                                  {
-                                        let temptr = `<tr>` +
-                                        `<td>${item.明細編號}</td>` +
+                                        let temptr = `<tr name="tr_de">` +
+                        `<td>${item.明細編號}</td>` +
                                         `<td>${item.明細尺寸}</td>` +
                                         `<td>${item.顏色}</td>` +
                                         `<td>${item.數量}</td>` +
                                         `<td><img src="@Url.Content("~/images")/${item.商品圖片1}" width="100" height="50" '/></td>`+
                                         `<td><img src="@Url.Content("~/images")/${item.商品圖片2}" width="100" height="50" '/></td>` +
                                         `<td><img src="@Url.Content("~/images")/${item.商品圖片3}" width="100" height="50" '/></td>` +
-                                        `<td>${item.是否上架}</td>` +
-                                        `<td>${item.是否有貨}</td>` +
-                                        `<td><button type="submit" class="btn btn-primary" id="E_${item.明細編號}" title="修改" ><i class="fas fa-edit">修改</i></button></td>` +
-                                        `<td><button type="submit" class="btn btn-primary" id="D_${item.明細編號}" title="刪除"><i class="fa fa-minus-square"> 刪除</i></button></td>` +
+                                        `<td>${item.商品是否上架}</td>` +
+                                        `<td>${item.商品是否有貨}</td>` +
+                                        `<td><button type="submit" class="btn btn-primary" id="E_${item.明細編號}"  name="PD_btnEdit" title="修改" ><i class="fas fa-edit">修改</i></button></td>` +
+                                        `<td><button type="submit" class="btn btn-primary" id="D_${item.明細編號}" name="PD_btnDelete" title="刪除"><i class="fa fa-minus-square"> 刪除</i></button></td>` +
                                         `</tr>`;
                     appH += temptr;
                                  }
@@ -531,7 +549,7 @@
                     }).fail(function () {
                         alert("失敗");                  
                     });
-            console.log(appH)
+            //console.log(appH)
             //cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;
             return '<table id="tableDetail" class="table table-borded tabale-info">' +
                 '<thead>' +
@@ -559,7 +577,7 @@
                 //return "<div><img style='width:200px;' src='" + "@Url.Action("ShowPhoto", "Products")/" + detailsRecord.ProductID + "' title='" + detailsRecord.ProductName + "' /></div>";
 
             } else {
-                return '<div><img style="display:block; margin:auto;"  src=' + "@Url.Content("~/img/404.png")></div>";
+                return '<div><img style="display:block; margin:auto;"  src=' + "@Url.Content("~/images/404.png")></div>";
             }
         }
 

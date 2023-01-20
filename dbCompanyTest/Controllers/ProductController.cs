@@ -555,6 +555,8 @@ namespace dbCompanyTest.Controllers
             }
         }
 
+
+        //新增ProductDetail
         public IActionResult CreateProDetail(Back_ProducDetail Pro, IFormFile photo1, IFormFile photo2, IFormFile photo3)
         {
             if (Pro == null)
@@ -596,8 +598,49 @@ namespace dbCompanyTest.Controllers
             return Content("商品明細建檔成功!", "text/plain", Encoding.UTF8);
         }
 
+        //刪除圖片位置資料表的相應圖片
+        public string DeleteImg(string imgName)
+        {
+            if (imgName == null)
+                return "錯誤_沒有此圖片資料!";
+                string oldPath1 = _eviroment.WebRootPath + "/images/" + imgName;
+                System.IO.File.Delete(oldPath1); //刪掉原本的圖片
+
+            return $"{imgName} 圖片刪除成功";
+
+        }
+
+        //刪除ProductDetail
+        public IActionResult DeleteProDetail(string id)
+        {
+            int _id = 0;
+            if (string.IsNullOrEmpty(id) || !(Int32.TryParse(id, out _id)))
+                return Json("錯誤_傳輸id資料異常");
+
+            //查詢圖檔位置     
+            var ProDdata = db.ProductDetails.FirstOrDefault(pd => pd.Id == _id);
+            if (ProDdata == null)
+                return Json("錯誤_沒有此項商品");
+            var imgData = db.圖片位置s.FirstOrDefault(i => i.圖片位置id == ProDdata.圖片位置id);
+            //刪除images內的相關圖片
+            if(imgData==null)
+                return Json("錯誤_沒有此筆圖片位置資料");
+            //刪除相應圖片
+            DeleteImg(imgData.商品圖片1);
+            DeleteImg(imgData.商品圖片2);
+            DeleteImg(imgData.商品圖片3);
+
+            //刪除圖片位置s內此筆資料
+            db.圖片位置s.Remove(imgData);
+
+            db.ProductDetails.Remove(ProDdata);
+            db.SaveChanges();
+
+            return Json($"商品明細刪除成功");
+        }
 
 
+        //顯示ProductDetail
         [HttpGet]
         public IActionResult showDetail(string id) 
         {
