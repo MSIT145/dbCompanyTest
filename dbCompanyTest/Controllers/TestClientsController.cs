@@ -199,15 +199,26 @@ namespace dbCompanyTest.Controllers
             return _context.TestClients.Any(e => e.客戶編號 == id);
         }
 
-        public IActionResult checkJoindata(string EIP)
+        public IActionResult checkJoindata(string EIP, string? ClientID)
         {
-            return Content(_context.TestClients.Any(e => e.Email == EIP || e.客戶電話 == EIP || e.身分證字號 == EIP).ToString());
+            TestClient? client = _context.TestClients.FirstOrDefault(x => x.客戶編號 == ClientID);
+            TestClient? testClien = _context.TestClients.FirstOrDefault(e => e.Email == EIP || e.客戶電話 == EIP || e.身分證字號 == EIP);
+            if (client == null)
+                if (testClien == null)
+                    return Content("False");
+                else
+                    return Content("True");
+            else
+                if (testClien != null)
+                    if (testClien.客戶編號 == client.客戶編號)
+                        return Content("False");
+            return Content("True");
         }
 
         public IActionResult print()
         {
             //把 Session 到回ListData
-            if(HttpContext.Session.GetString(CDittionary.SK_BACK_FOR_Clients_Search)==null)
+            if (HttpContext.Session.GetString(CDittionary.SK_BACK_FOR_Clients_Search) == null)
                 return Json("沒有可輸出資料!!");
             List<TestClient> searchData = JsonSerializer.Deserialize<List<TestClient>>(HttpContext.Session.GetString(CDittionary.SK_BACK_FOR_Clients_Search));
             //string json;
