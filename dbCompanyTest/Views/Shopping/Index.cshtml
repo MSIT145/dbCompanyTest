@@ -115,24 +115,24 @@
         {
             totomony += (decimal)item.商品價格;
         }
-        <div class="hidaing">
-            <div>
-                <div>
-                    <span>總金額</span>
-                    <span>TWD $@totomony</span>
+                <div class="hidaing">
+                    <div>
+                        <div>
+                            <span>總金額</span>
+                            <span>TWD $@totomony</span>
+                        </div>
+                        <div>
+                            <span>運費</span>
+                            <span id="TxtDeliverymony">TWD $0</span>
+                        </div>
+                        <hr />
+                        <div>
+                            <span>結帳金額</span>
+                            <span id="paymony">TWD $0</span>
+                        </div>
+                    </div>
+                    <hr />
                 </div>
-                <div>
-                    <span>運費</span>
-                    <span id="TxtDeliverymony">TWD $0</span>
-                </div>
-                <hr />
-                <div>
-                    <span>結帳金額</span>
-                    <span id="paymony">TWD $0</span>
-                </div>
-            </div>
-            <hr />
-        </div>
     }
     <br />
     <input id="btn_page1" type="button" value="結帳" disabled />
@@ -141,6 +141,7 @@
     <div id="clientDital" style="visibility: hidden">
 
         <form>
+            <input type="text" />
             <fieldset>
                 <legend>訂購資訊</legend>
                 <hr />
@@ -270,6 +271,8 @@
             $('#btn_slectCar').attr("style", "display:none;");
             $('#clientDital').attr("style", "display:none;");
             $('#finish').attr("style", "display:biock;");
+
+
         })
 
 
@@ -325,6 +328,26 @@
                 $('#town').val(data.區);
                 $('#OrderDitalText').val(data.地址);
             }
+        }
+        async function addToOrderSQL() {
+            const FD = new FormData();
+            var mydate = new Date();
+            var address = $('#city2').val() + $('#town2').val() + $('#RrceiveDitalText').val()
+            var orderDate = `${mydate.getFullYear}${mydate.getMonth}${mydate.getDate}${mydate.getHours}${mydate.getMinutes}${mydate.getSeconds}`
+            FD.append('訂單編號', mydate.getTime());
+            FD.append('客戶編號',"unuse")
+            FD.append('付款方式', $('#delivery').select().val())
+            FD.append('送貨地址',address)
+            FD.append('總金額', mony)
+            FD.append('下單時間', orderDate)
+            FD.append('訂單狀態',"未完成")
+            FD.append('付款狀態')
+            FD.append
+            FD.append
+            FD.append
+            FD.append
+            FD.append
+            FD.append
         }
 
     </script>
