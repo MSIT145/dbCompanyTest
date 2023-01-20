@@ -1,0 +1,95 @@
+﻿@model dbCompanyTest.Models.ProductDetail
+
+<h4>ProductDetail</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form name="proInfo" id="Form_ProDe_E">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品編號id" class="control-label"></label>
+                <input asp-for="商品編號id" class="form-control" />
+                <span asp-validation-for="商品編號id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品尺寸id" class="control-label"></label>
+                <input asp-for="商品尺寸id" class="form-control" />
+                <span asp-validation-for="商品尺寸id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品顏色id" class="control-label"></label>
+                <input asp-for="商品顏色id" class="form-control" />
+                <span asp-validation-for="商品顏色id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品數量" class="control-label"></label>
+                <input asp-for="商品數量" class="form-control" />
+                <span asp-validation-for="商品數量" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品編號" class="control-label"></label>
+                <input asp-for="商品編號" class="form-control" />
+                <span asp-validation-for="商品編號" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="圖片位置id" class="control-label"></label>
+                <input asp-for="圖片位置id" class="form-control" />
+                <span asp-validation-for="圖片位置id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品是否有貨" class="control-label"></label>
+                <input asp-for="商品是否有貨" class="form-control" />
+                <span asp-validation-for="商品是否有貨" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="商品是否上架" class="control-label"></label>
+                <input asp-for="商品是否上架" class="form-control" />
+                <span asp-validation-for="商品是否上架" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="送出" class="btn btn-primary" id="btn_submit" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    //HTML載完才會執行
+    $(document).ready(function () {
+        //送出按鈕事件
+        const btn = document.querySelector('#btn_submit');
+        //console.log(btn);
+        btn.addEventListener("click", (event) => {
+            event.preventDefault();//停止submit預設行為
+            //將select 資料寫入對應的name欄位內
+            
+            //前端檢測
+
+            //ajax送出資料
+            const xhr = new XMLHttpRequest();
+            xhr.addEventListener("load", () => {
+                if (xhr.status == 200) {
+                    alert(xhr.responseText);
+                    //console.log('新建成功');
+                    $("#Moda_D_C").modal('toggle');
+                }
+                else {
+                    console.log(xhr.staus);
+                }
+            });
+            var formData = new FormData(document.proInfo); //from 的名稱
+            xhr.open("POST", "@Url.Content("~/Product/_EditDetial")");
+            //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  //可省略
+            xhr.send(formData);
+
+        });
+    })
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

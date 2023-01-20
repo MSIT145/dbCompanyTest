@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using System.ComponentModel;
 using System.Text.Json;
 using System.Text;
+using NPOI.OpenXmlFormats.Dml;
 
 namespace dbCompanyTest.Controllers
 {
@@ -33,6 +34,8 @@ namespace dbCompanyTest.Controllers
         {
             return View();
         }
+
+        #region 下載與批次上傳所有事件
 
         [HttpPost]
         public IActionResult Upload(BACK_ProductViewModels vc)
@@ -338,15 +341,10 @@ namespace dbCompanyTest.Controllers
             return path;
         }
 
+        #endregion
 
 
-
-        public IActionResult _CreateDetail()
-        {
-
-            return PartialView();
-        }
-
+        #region Product所有事件
         public IActionResult DeleteProduct(string? id)
         {
             int _id = 0;
@@ -449,8 +447,62 @@ namespace dbCompanyTest.Controllers
             return Json(null);        
         }
 
+        [HttpGet]
+        public IActionResult showlist(string id)
+        {
+            string key = id;
+            IEnumerable<Product> tmepdata = null;
+
+            //結合相關表單產生有意義的資料
+            var data = from p in db.Products.ToList()
+                       join pt in db.ProductsTypeDetails on p.商品分類id equals pt.商品分類id
+                       join s in db.商品鞋種s on p.商品鞋種id equals s.商品鞋種id
+                       select new BACK_ProductViewModels
+                       {
+                           商品編號id = p.商品編號id,
+                           上架時間 = p.上架時間,
+                           商品名稱 = p.商品名稱,
+                           商品價格 = p.商品價格,
+                           商品介紹 = p.商品介紹,
+                           商品材質 = p.商品材質,
+                           商品重量 = p.商品重量,
+                           商品成本 = p.商品成本,
+                           商品是否有貨 = p.商品是否有貨,
+                           商品分類 = pt.商品分類名稱,
+                           商品鞋種 = s.鞋種,
+                           商品是否上架 = p.商品是否上架
+                       };
+
+            if (!string.IsNullOrEmpty(key))
+            {
+                data = data.Where(d => d.商品名稱.Contains(key) || d.商品鞋種.Contains(key) || d.商品介紹.Contains(key) || d.商品分類.Contains(key) || d.商品材質.Contains(key)).ToList();
+            }
+            //存入輸出暫存          
+            //List<Product> searchData = new List<Product>();   //初始化
+            //foreach (var item in data)
+            //{
+            //    foreach (var p in db.Products)
+            //    {
+            //        if (item.商品編號id == p.商品編號id)
+            //        {
+            //            searchData.Add(p);
+            //        }
+            //    }
+            //}
+            //將得到的值存入Session
+            if (data.Count() != 0)
+            {
+                string json = JsonSerializer.Serialize(data);
+                HttpContext.Session.SetString(Product_CDictionary.SK_SEARCH_PRODUCTS_LIST, json);
+            }
+
+            return Json(new { data });
+        }
+
+#endregion
+
         #region   提取select 所需的資料   
-        
+
         //提取商品分類
         public IActionResult GetTyteD()
         {
@@ -489,57 +541,45 @@ namespace dbCompanyTest.Controllers
         #endregion
 
 
-        [HttpGet]
-        public IActionResult showlist(string id)
+        #region ProductDetail所有事件
+        public IActionResult _CreateDetail()
         {
-            string key = id;
-            IEnumerable<Product> tmepdata = null;
-
-            //結合相關表單產生有意義的資料
-            var data =from  p in db.Products.ToList()
-                      join pt in db.ProductsTypeDetails on p.商品分類id equals pt.商品分類id
-                      join s in db.商品鞋種s on p.商品鞋種id equals s.商品鞋種id
-                      select new BACK_ProductViewModels 
-                      {
-                            商品編號id  = p.商品編號id,
-                            上架時間 =p.上架時間,
-                            商品名稱 = p.商品名稱,
-                            商品價格 = p.商品價格,
-                            商品介紹 = p.商品介紹,
-                            商品材質  = p.商品材質,
-                            商品重量  = p.商品重量,
-                            商品成本 = p.商品成本,
-                            商品是否有貨 = p.商品是否有貨,
-                            商品分類  = pt.商品分類名稱,
-                            商品鞋種 = s.鞋種,
-                            商品是否上架  = p.商品是否上架
-                       };
-
-            if (!string.IsNullOrEmpty(key))
-            {
-                data = data.Where(d =>  d.商品名稱.Contains(key) || d.商品鞋種.Contains(key) || d.商品介紹.Contains(key) || d.商品分類.Contains(key) || d.商品材質.Contains(key)).ToList();
-            }
-            //存入輸出暫存          
-            //List<Product> searchData = new List<Product>();   //初始化
-            //foreach (var item in data)
-            //{
-            //    foreach (var p in db.Products)
-            //    {
-            //        if (item.商品編號id == p.商品編號id)
-            //        {
-            //            searchData.Add(p);
-            //        }
-            //    }
-            //}
-            //將得到的值存入Session
-            if (data.Count() != 0)
-            {
-                string json = JsonSerializer.Serialize(data);
-                HttpContext.Session.SetString(Product_CDictionary.SK_SEARCH_PRODUCTS_LIST, json);
-            }
-
-            return Json(new { data });
+            return PartialView();
         }
+
+        public IActionResult _EditDetial(string id)
+        {
+            //因用javascript ajax傳輸 請用 Content("錯誤_請輸入圖片!", "text/plain", Encoding.UTF8);
+            string gg ="";
+            if (string.IsNullOrEmpty(id))
+                return Content("錯誤_資料傳輸錯誤", "text/plain", Encoding.UTF8);
+            int _id = Int32.TryParse(id, out int temp)?   temp : -1;
+            if(_id==-1)
+                return Content("錯誤_資料格式錯誤", "text/plain", Encoding.UTF8);
+            var data = db.ProductDetails.FirstOrDefault(pd => pd.Id == _id);
+            return PartialView(data);
+        }
+        [HttpPost]
+        public IActionResult _EditDetial(ProductDetail data)
+        {
+            var FL = db.ProductDetails.FirstOrDefault(pd => pd.Id == data.Id);
+            if(FL==null) return Content($"錯誤_沒有此筆資料", "text/plain", Encoding.UTF8);
+         
+            FL.Id = data.Id;
+            FL.商品編號id = data.商品編號id;
+            FL.商品尺寸id = data.商品尺寸id;
+            FL.商品顏色id = data.商品顏色id;
+            FL.商品數量 = data.商品數量;
+            FL.商品編號 = data.商品編號;
+            FL.圖片位置id = data.圖片位置id;
+            FL.商品是否有貨 = data.商品是否有貨;
+            FL.商品是否上架 = data.商品是否上架;
+            db.SaveChanges();
+           
+            return Content($"明細編號 {data.Id} 修改成功", "text/plain", Encoding.UTF8);
+        }
+
+        
         //新建商品細項
         public void SavePhotoMethod(IFormFile p,string proname)
         {
@@ -555,7 +595,7 @@ namespace dbCompanyTest.Controllers
             }
         }
 
-
+     
         //新增ProductDetail
         public IActionResult CreateProDetail(Back_ProducDetail Pro, IFormFile photo1, IFormFile photo2, IFormFile photo3)
         {
@@ -619,6 +659,11 @@ namespace dbCompanyTest.Controllers
 
             //查詢圖檔位置     
             var ProDdata = db.ProductDetails.FirstOrDefault(pd => pd.Id == _id);
+            
+            
+            
+            
+            
             if (ProDdata == null)
                 return Json("錯誤_沒有此項商品");
             var imgData = db.圖片位置s.FirstOrDefault(i => i.圖片位置id == ProDdata.圖片位置id);
@@ -668,5 +713,7 @@ namespace dbCompanyTest.Controllers
             }
             return View();
         }
+
+        #endregion ProductDetail所有事件
     }
 }
