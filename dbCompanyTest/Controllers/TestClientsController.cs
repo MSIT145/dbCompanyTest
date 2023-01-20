@@ -34,16 +34,34 @@ namespace dbCompanyTest.Controllers
         // GET: TestClients
         public async Task<IActionResult> Index()
         {
+            string json = JsonSerializer.Serialize(_context.TestClients);
+            HttpContext.Session.SetString(CDittionary.SK_BACK_FOR_Clients_Search, json);
             return View(await _context.TestClients.ToListAsync());
         }
 
         public IActionResult Search(string keyPoint)
         {
-            List<TestClient> clients = _context.TestClients.Where(x => x.客戶姓名.Contains(keyPoint)).ToList();
-            if (clients.Count() == 0)
-                return Json("沒有資料");
+            if (keyPoint == null)
+            {
+                string json = JsonSerializer.Serialize(_context.TestClients);
+                HttpContext.Session.SetString(CDittionary.SK_BACK_FOR_Clients_Search, json);
+                return Json(_context.TestClients);
+            }
             else
-                return Json(clients);
+            {
+                List<TestClient> clients = _context.TestClients.Where(x => x.客戶姓名.Contains(keyPoint)).ToList();
+                if (clients.Count() == 0)
+                {
+                    HttpContext.Session.Remove(CDittionary.SK_BACK_FOR_Clients_Search);
+                    return Json("沒有找到資料");
+                }
+                else
+                {
+                    string json = JsonSerializer.Serialize(clients);
+                    HttpContext.Session.SetString(CDittionary.SK_BACK_FOR_Clients_Search, json);
+                    return Json(clients);
+                }
+            }
         }
 
         // GET: TestClients/Details/5
@@ -189,7 +207,9 @@ namespace dbCompanyTest.Controllers
         public IActionResult print()
         {
             //把 Session 到回ListData
-            List<TestClient> searchData = _context.TestClients.ToList();
+            if(HttpContext.Session.GetString(CDittionary.SK_BACK_FOR_Clients_Search)==null)
+                return Json("沒有可輸出資料!!");
+            List<TestClient> searchData = JsonSerializer.Deserialize<List<TestClient>>(HttpContext.Session.GetString(CDittionary.SK_BACK_FOR_Clients_Search));
             //string json;
             //if (HttpContext.Session.Keys.Contains(Product_CDictionary.SK_SEARCH_PRODUCTS_LIST)) //判斷Session 的key是否含有SK_PURCHASED_PRODUCTS_LIST
             //{
@@ -198,10 +218,6 @@ namespace dbCompanyTest.Controllers
             //}
             //else
             //    searchData = 
-
-
-            if (searchData.Count == 0)
-                return Json("沒有可輸出資料!!");
 
             //取得欄位名稱
             DataTable dt = ConvertToDataTable(searchData.ToArray());
@@ -231,7 +247,7 @@ namespace dbCompanyTest.Controllers
         {
             //建立Excel 2003檔案
             IWorkbook wb = new HSSFWorkbook();
-            ISheet ws= wb.CreateSheet("客戶資料");
+            ISheet ws = wb.CreateSheet("客戶資料");
 
             ////建立Excel 2007檔案
             //IWorkbook wb = new XSSFWorkbook();
@@ -239,7 +255,7 @@ namespace dbCompanyTest.Controllers
 
 
             ws.CreateRow(0);//第一行為欄位名稱
-            for (int i = 0; i < dt.Columns.Count-3; i++)
+            for (int i = 0; i < dt.Columns.Count - 3; i++)
             {
                 ws.GetRow(0).CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
             }
@@ -247,7 +263,7 @@ namespace dbCompanyTest.Controllers
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 ws.CreateRow(i + 1);
-                for (int j = 0; j < dt.Columns.Count-3; j++)
+                for (int j = 0; j < dt.Columns.Count - 3; j++)
                 {
                     ws.GetRow(i + 1).CreateCell(j).SetCellValue(dt.Rows[i][j].ToString());
                 }

@@ -7,7 +7,7 @@
 
 <h1>客戶資料一覽表</h1>
 
-<p style="display:flex">
+<p style="display:flex" id="myaaaa">
     <a asp-action="Create" class="btn btn-success ms-1">新增客戶</a>
     <button class="btn btn-success ms-1" id="printClientData">匯出客戶資料</button>
     <button class="btn btn-success ms-1" id="search">搜尋</button>
@@ -95,60 +95,98 @@
         $(`#printClientData`).on(`click`, async function () {
             let response = await fetch("@Url.Content("~/TestClients/print")")
             let data = await response.json();
-            alert(data);
+            if (data == "沒有可輸出資料!!") {
+                $(`#myaaaa`).after(
+                `
+                                            <div class="alert alert-danger d-flex align-items-center" role="alert" style="transition:all 0.3s">
+
+                                  <div>
+                                            ${data}
+                                  </div>
+                                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>`);
+            }
+            else {
+                $(`#myaaaa`).after(
+                `
+                                                    <div class="alert alert-success  d-flex align-items-center" role="alert" style="transition:all 0.3s">
+
+                                  <div>
+                                            ${data}
+                                  </div>
+                                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>`);
+            };
+
+            setTimeout(function () {
+                $(`#myaaaa`).next(".alert").remove();
+            }, 3000);
         });
 
-        $(`#search`).on(`click`,async function(){
+        $(`#search`).on(`click`, async function () {
             let keyPoint = $(`#keyPoint`).val();
             console.log(keyPoint);
-            let user  =new FormData();
+            let user = new FormData();
             user.append("keyPoint", keyPoint);
             let response = await fetch("@Url.Content("~/TestClients/Search")", {
-                method:"POST",
+                method: "POST",
                 body: user
             });
             let data = await response.json();
-            if(data == "沒有資料"){
-                alert(data);
+            if (data == "沒有找到資料") {
+                $(`#myaaaa`).after(`
+                                            <div class="alert alert-danger  d-flex align-items-center" role="alert" style="transition:all 0.3s">
+
+                                  <div>
+                                            沒有找到資料
+                                  </div>
+                                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>`);
+
+                setTimeout(function () {
+                    $(`#myaaaa`).next(".alert").remove();
+
+                }, 3000);
             }
-            else{
+            else {
                 let newuserdata = data.map((value, index) => {
-                return (`<tr>
-                    <td>
-                        ${index+1}
-                    </td>
-                    <td>
-                        ${value.客戶姓名}
-                    </td>
-                    <td>
-                        ${value.客戶電話}
-                    </td>
-                    <td>
-                        ${value.身分證字號}
-                    </td>
-                    <td>
-                        ${value.縣市} ${value.區} ${value.地址}
-                    </td>
-                    <td>
-                        ${value.Email}
-                    </td>
-                    <td>
-                        ${value.密碼}
-                    </td>
-                    <td>
-                        ${value.性別}
-                    </td>
-                    <td>
-                        ${value.生日}
-                    </td>
-                    <td>
-                        <a href="/TestClients/Edit/${value.客戶編號}" class="btn btn-secondary">編輯</a>
-                        <a href = "/TestClients/Details/${value.客戶編號}" class="btn btn-warning" > 細節 </a>
-                        <a href = "/TestClients/Delete/${value.客戶編號}" class="btn btn-danger" > 刪除 </a>
-                    </td>
-                </tr>`);
-            });
-            $(`#clientTB`).html(newuserdata.join(""));
+                    return (`<tr>
+                                            <td>
+                                                ${index + 1}
+                                            </td>
+                                            <td>
+                                                ${value.客戶姓名}
+                                            </td>
+                                            <td>
+                                                ${value.客戶電話}
+                                            </td>
+                                            <td>
+                                                ${value.身分證字號}
+                                            </td>
+                                            <td>
+                                                ${value.縣市} ${value.區} ${value.地址}
+                                            </td>
+                                            <td>
+                                                ${value.Email}
+                                            </td>
+                                            <td>
+                                                ${value.密碼}
+                                            </td>
+                                            <td>
+                                                ${value.性別}
+                                            </td>
+                                            <td>
+                                                ${value.生日}
+                                            </td>
+                                            <td>
+                                                <a href="/TestClients/Edit/${value.客戶編號}" class="btn btn-secondary">編輯</a>
+                                                <a href = "/TestClients/Details/${value.客戶編號}" class="btn btn-warning" > 細節 </a>
+                                                <a href = "/TestClients/Delete/${value.客戶編號}" class="btn btn-danger" > 刪除 </a>
+                                            </td>
+                                        </tr>`);
+                });
+                $(`#clientTB`).html(newuserdata.join(""));
+                $(`#error`).text("");
             }
         });
     </script>

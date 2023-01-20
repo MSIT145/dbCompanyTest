@@ -43,31 +43,34 @@ namespace dbCompanyTest.Hubs
 
         public async Task SendMessage(string ClientID, string message/*, string sendToID*/)
         {//客戶傳訊息
-            user user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId);
-            if (user.userName != "客服人員")
+            if (message != "")
             {
-                if (user.userWords == null)
-                    user.userWords = new List<string>();
-                if (user.waiter == null)
-                    user.newWords++;
-                else
-                    user.newWords = 0;
+                user user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId);
+                if (user.userName != "客服人員")
+                {
+                    if (user.userWords == null)
+                        user.userWords = new List<string>();
+                    if (user.waiter == null)
+                        user.newWords++;
+                    else
+                        user.newWords = 0;
 
-                user.userWords.Add(message);
-                string userName = user.userName;
-                await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
-                if (user.waiter == null)
-                    await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "系統", "客服全在忙線中請稍後");
+                    user.userWords.Add(message);
+                    string userName = user.userName;
+                    await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
+                    if (user.waiter == null)
+                        await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "系統", "客服全在忙線中請稍後");
+                    else
+                        await Clients.Client(user.waiter).SendAsync("UpdSystem", userName, message);
+                    Update();
+                }
                 else
-                    await Clients.Client(user.waiter).SendAsync("UpdSystem", userName, message);
-                Update();
-            }
-            else
-            {
-                user clients = userList.FirstOrDefault(x => x.connectionId == ClientID);
-                clients.userWords.Add("S" + message);
-                await Clients.Client(ClientID).SendAsync("UpdSystem", user.userName, message);
-                await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
+                {
+                    user clients = userList.FirstOrDefault(x => x.connectionId == ClientID);
+                    clients.userWords.Add("S" + message);
+                    await Clients.Client(ClientID).SendAsync("UpdSystem", user.userName, message);
+                    await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
+                }
             }
         }
 
