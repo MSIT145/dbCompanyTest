@@ -140,7 +140,20 @@ namespace dbCompanyTest.Controllers
             }
         }
 
+        public IActionResult LoadClientDital()
+        {
+            var json = "";
+            TestClient? userSession = null;
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+            {
+                json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                userSession = JsonSerializer.Deserialize<TestClient>(json);
+            }
+            else
+                json = "NO";
 
+            return Json(userSession);
+        }
 
 
 

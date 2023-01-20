@@ -115,24 +115,24 @@
         {
             totomony += (decimal)item.商品價格;
         }
-                                            <div class="hidaing">
-                                                <div>
-                                                    <div>
-                                                        <span>總金額</span>
-                                                        <span>TWD $@totomony</span>
-                                                    </div>
-                                                    <div>
-                                                        <span>運費</span>
-                                                        <span id="TxtDeliverymony">TWD $0</span>
-                                                    </div>
-                                                    <hr />
-                                                    <div>
-                                                        <span>結帳金額</span>
-                                                        <span id="paymony">TWD $0</span>
-                                                    </div>
-                                                </div>
-                                                <hr />
-                                            </div>
+        <div class="hidaing">
+            <div>
+                <div>
+                    <span>總金額</span>
+                    <span>TWD $@totomony</span>
+                </div>
+                <div>
+                    <span>運費</span>
+                    <span id="TxtDeliverymony">TWD $0</span>
+                </div>
+                <hr />
+                <div>
+                    <span>結帳金額</span>
+                    <span id="paymony">TWD $0</span>
+                </div>
+            </div>
+            <hr />
+        </div>
     }
     <br />
     <input id="btn_page1" type="button" value="結帳" disabled />
@@ -212,8 +212,6 @@
         <div>
             <a href="@Url.Content("~/ProductWall/Index/2")">繼續購買</a>
             <a href="@Url.Content("~/Home")">返回首頁</a>
-@*            <input type="button"value="繼續購買" id="btn_continue" />
-            <input type="button"value="返回首頁" id="btn_backToHome"/>*@
         </div>
     </div>
 </div>
@@ -251,9 +249,12 @@
             $('.step2').addClass("active")
             $('#btn_slectCar').attr("style", "display:block;");
             $('#clientDital').attr("style", "display:block;");
-            if($('#delivery').select().val() == 100){
+            if ($('#delivery').select().val() == 100) {
                 $('#pickUp').hide();
             }
+            //這裡因該要寫載入會員資料的function
+            LoadClientDital();
+            //----------------------------------
         })
 
         //----填寫資料頁面上的訂單資料按鈕
@@ -268,13 +269,10 @@
             $('.step3').addClass("active")
             $('#btn_slectCar').attr("style", "display:none;");
             $('#clientDital').attr("style", "display:none;");
-            $('#finish').attr("style","display:biock;");
+            $('#finish').attr("style", "display:biock;");
         })
 
-        //----訂購完成頁面上的繼續購買按鈕
-        //$('#btn_contiune').on('click',function(){
 
-        //})
 
         //----讀取縣市區json-----------------------------------------------
         $.each(data, function (i, i_value) { $("#city2").append(`<option>${i_value.name}</option>`) });
@@ -312,7 +310,23 @@
                 $('#RrceiveDitalText').val($('#OrderDitalText').val())
             }
         })
-  
+
+        //----載入會員資料
+        async function LoadClientDital() {
+            const datas = await fetch(`@Url.Content("~/Shopping/LoadClientDital")`);
+            const data = await datas.json();
+            console.log(data)
+            if (data != null) {
+                $('#OrderNameText').val(data.客戶姓名)
+                $('#OrderPhoneText').val(data.客戶電話)
+                $('#OrderEmailText').val(data.email)
+                $('#city').val(data.縣市);
+                area($(`#city option:selected`).index());
+                $('#town').val(data.區);
+                $('#OrderDitalText').val(data.地址);
+            }
+        }
+
     </script>
     @*    <script src="~/js/city_data.js"></script>*@
-}
+    }
