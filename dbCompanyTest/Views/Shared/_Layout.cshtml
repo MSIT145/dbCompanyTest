@@ -122,7 +122,7 @@
         <div class="dot mouth"></div>
     </div>
     <div class="chatBody" style="z-index:10;">
-        <div class="chatHeader"><button id="connection" class="btn btn-dark">連線客服</button></div>
+        <div class="chatHeader"><button id="connection" class="btn btn-dark">連線客服</button><p id="errorstring" style="color:red"></p></div>
         <div class="chatBBody">
             <div class="chat">
                 <div class="myName">我</div>
@@ -164,6 +164,7 @@
 
         $(`#connection`).on(`click`, function () {
             connection.start().then(async function () {
+                $(`#errorstring`).text("");
                 const data = await fetch("@Url.Content("~/Login/getUser")");
                 const uesrName = await data.text();
                 let selfID = $('#SelfID').html();
@@ -210,8 +211,10 @@
             let selfID = $('#SelfID').html();
             let message = $('#message').val();
             //let sendToID = $('#sendToID').val();
-            connection.invoke("SendMessage", selfID, message/*, sendToID*/).catch(function (err) {
-                alert('傳送錯誤: ' + err.toString());
+            connection.invoke("SendMessage", selfID, message/*, sendToID*/).then(function(){
+                $(`#errorstring`).text("");
+            }).catch(function (err) {
+                $(`#errorstring`).text("請先連線");
             });
         });
 
