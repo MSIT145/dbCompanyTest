@@ -34,15 +34,21 @@ namespace dbCompanyTest.Controllers
         // GET: TestClients
         public async Task<IActionResult> Index()
         {
-            string json = JsonSerializer.Serialize(_context.TestClients);
+            List<TestClient> queryList = _context.TestClients.ToList();
+                queryList.ForEach(x=> {
+                if (x.密碼 != null)
+                    x.密碼 = "●●●●";
+            });
+
+            string json = JsonSerializer.Serialize(queryList);
             HttpContext.Session.SetString(CDittionary.SK_BACK_FOR_Clients_Search, json);
-            return View(await _context.TestClients.ToListAsync());
+            return View(queryList);
         }
 
         public IActionResult Search(string keyPoint)
         {
             List<TestClient> queryList = _context.TestClients.ToList();
-            foreach(TestClient item in queryList)
+            foreach (TestClient item in queryList)
             {
                 if (item.客戶電話 == null)
                     item.客戶電話 = "";
@@ -56,6 +62,8 @@ namespace dbCompanyTest.Controllers
                     item.地址 = "";
                 if (item.密碼 == null)
                     item.密碼 = "";
+                else
+                    item.密碼 = "●●●●";
                 if (item.性別 == null)
                     item.性別 = "";
                 if (item.生日 == null)
@@ -230,8 +238,8 @@ namespace dbCompanyTest.Controllers
                     return Content("True");
             else
                 if (testClien != null)
-                    if (testClien.客戶編號 == client.客戶編號)
-                        return Content("False");
+                if (testClien.客戶編號 == client.客戶編號)
+                    return Content("False");
             return Content("True");
         }
 

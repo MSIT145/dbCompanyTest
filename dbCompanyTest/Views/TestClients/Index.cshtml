@@ -4,8 +4,8 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Back_Layout_Sneat.cshtml";
 }
-
-<h1>客戶資料一覽表</h1>
+<div style="width:80%;margin:20px auto;">
+<h1 style="text-align:center">客戶資料一覽表</h1>
 
 <p style="display:flex" id="myaaaa">
     <a asp-action="Create" class="btn btn-success ms-1">新增客戶</a>
@@ -90,6 +90,7 @@
         }
     </tbody>
 </table>
+</divsty>
 @section Scripts{
     <script>
         $(`#printClientData`).on(`click`, async function () {
