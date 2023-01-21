@@ -74,7 +74,7 @@
                     @{
                         for (int i = 0; i < Model.pro商品尺寸list.Count; i++)
                         {
-                            <div class="size-item">@Model.pro商品尺寸list[i]</div>
+                            <div class="size-item" id="@Model.pro商品尺寸idlist[i]">@Model.pro商品尺寸list[i]</div>
                         }
                     }
                 </div>
@@ -224,13 +224,15 @@
 
         async function checkCount() {
             const FD = new FormData();
-            FD.append("id", "@Model.prodetailID")
+            console.log($(".size-item.active").attr("id"));
+            FD.append("productid", "@Model.pro商品編號")
+            FD.append("colorid", "@Model.商品顏色ID")
+            FD.append("sizeid", $(".size-item.active").attr("id"))
             FD.append("count", $('.number-box').find('input').val())
             const data = await fetch("@Url.Content("~/MyLove/checkCount")",
                 {
                     method: "POST",
                     body:FD
-
                 });
             const reponse = await data.text();
             if(reponse === "true")

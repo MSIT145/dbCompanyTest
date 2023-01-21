@@ -23,6 +23,7 @@ namespace dbCompanyTest.ViewModels
         public List<string>? pro商品尺寸list { get; set; }
         public List<int>? pro商品DetailIDlist { get; set; }
         public List<int>? pro商品顏色idlist { get; set; }
+        public List<int>? pro商品尺寸idlist { get; set; }
 
     }
 }

@@ -112,6 +112,7 @@ namespace dbCompanyTest.Controllers
             //透過productID找出全部的顏色圖片，商品尺寸，ProductDetail，商品顏色ID
             pdm.pro商品顏色圖片list = new List<string>();
             pdm.pro商品尺寸list = new List<string>();
+            pdm.pro商品尺寸idlist = new List<int>();
             //pdm.pro商品DetailIDlist = new List<int>();//可以拿掉
             pdm.pro商品顏色idlist = new List<int>();
             int Key = 0;
@@ -192,12 +193,15 @@ namespace dbCompanyTest.Controllers
                                where item.商品編號id == Key && procolor.商品顏色id == pdm.商品顏色ID
                                select new
                                {
-                                   pro商品尺寸list = prosize.尺寸種類
+                                   pro商品尺寸list = prosize.尺寸種類,
+                                   pro商品尺寸idlist = prosize.商品尺寸id
                                };
                 foreach (var SS in listsize)
                 {
                     pdm.pro商品尺寸list.Add(SS.pro商品尺寸list);
                     pdm.pro商品尺寸list = pdm.pro商品尺寸list.Distinct().ToList();
+                    pdm.pro商品尺寸idlist.Add(SS.pro商品尺寸idlist);
+                    pdm.pro商品尺寸idlist = pdm.pro商品尺寸idlist.Distinct().ToList();
                     //pdm.pro商品DetailIDlist.Add(CC.pro商品DetailIDlist);
 
                     //pdm.pro商品DetailIDlist = pdm.pro商品DetailIDlist.Distinct().ToList();

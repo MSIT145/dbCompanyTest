@@ -4,6 +4,7 @@ using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using NPOI.SS.Formula.Atp;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -47,6 +48,7 @@ namespace dbCompanyTest.Controllers
                 return RedirectToAction("Login", "Login");
             }
         }
+        //待新增功能加入購物車之前判斷商品總數量是否超過10樣
         public IActionResult Create(會員商品暫存 prod)
         {
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
@@ -271,20 +273,46 @@ namespace dbCompanyTest.Controllers
                 return Content("加入購物車成功");
             }
         }
-        public IActionResult checkCount(int? id,int? count) 
+        public IActionResult checkCount(int? productid, int? colorid, int? sizeid, int? count)
         {
-            var data = _context.ProductDetails.FirstOrDefault(x=>x.Id == id);
+            var data = _context.ProductDetails.FirstOrDefault(x => x.商品編號id == productid && x.商品顏色id == colorid && x.商品尺寸id == sizeid);
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
             {
                 //代處理是否合併到create
-               string cartjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+                string cartjson = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
                 var shoppingcart = JsonSerializer.Deserialize<List<會員商品暫存>>(cartjson);
-            }
-            
+                var list = from cc in _context.ProductDetails
+                           join procolor in _context.ProductsColorDetails on cc.商品顏色id equals procolor.商品顏色id
+                           join prosize in _context.ProductsSizeDetails on cc.商品尺寸id equals prosize.商品尺寸id
+                           where cc.Id == data.Id
+                           select new
+                           {
+                               productsize = prosize.尺寸種類,
+                               productcolor = procolor.商品顏色種類
+                           };
+                foreach (var item in shoppingcart)
+                {
+                    foreach (var item2 in list)
+                    {
+                        if (item.商品編號 == productid && item.商品顏色種類.Equals(item2.productcolor) && item.尺寸種類.Equals(item2.productsize))
+                        {
+                            if ((item.訂單數量 + count) > data.商品數量)
+                            {
+                                return Content("false");
+                            }
+                        }
 
+
+                    }
+
+
+                }
+                return Content("true");
+
+            }
             if (data.商品數量 < count)
                 return Content("false");
-            else 
+            else
                 return Content("true");
         }
     }
