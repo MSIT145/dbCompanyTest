@@ -123,8 +123,8 @@
     </div>
     <div class="chatBody" style="z-index:10;">
         <div class="chatHeader"><button id="connection" class="btn btn-dark">連線客服</button><p id="errorstring" style="color:red"></p></div>
+        <input id="userName" type="hidden">
         <div class="chatBBody">
-
         </div>
         <div class="chatFooter">
             <input type="text" id="message" />
@@ -145,7 +145,7 @@
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/mychat.js"></script>
     <script src="~/js/car.js"></script>
-
+    <script src="~/js/aibot.js"></script>
     <script>
 
 
@@ -161,11 +161,12 @@
                     alert('傳送錯誤: ' + err.toString());
                 });
                 $(`.chatBBody`).append(`<div class="chat">
-                                <div class="otherName">系統</div>
-                                <div class="otherChat">
-                                     親愛的${uesrName},我們很高興為您服務
-                                </div>
-                            </div>`);
+                                                        <div class="otherName">系統</div>
+                                                        <div class="otherChat">
+                                                             親愛的${uesrName},我們很高興為您服務
+                                                        </div>
+                                                    </div>`);
+                $(`#userName`).val(userName);
             }).catch(function (err) {
                 alert('連線錯誤: ' + err.toString());
             });
@@ -176,43 +177,75 @@
         });
 
         connection.on("UpdSystem", function (user, msg) {
-            $(`.chatBBody`).append(`<div class="chat">
-                        <div class="otherName">${user}</div>
-                        <div class="otherChat">
-                                    ${msg}
-                        </div>
-                    </div>`);
-            $('.chatBBody').animate({
-                scrollTop: $(".chatBBody").offset().top + $(".chat")[$(".chatBBody").find(".chat").length - 1].scrollHeight
-            }, 500);
+            UpdSystem(user, msg);
         });
 
 
         connection.on("UpdContent", function (msg) {
-                $(`.chatBBody`).append(`<div class="chat">
-                                               <div class="myName">我</div>
-                                            <div class="myChat">
-                                                 ${msg}
-                                          </div>
-                                     </div>`);
-                $(`#message`).val("");
+            UpdContent(msg);
+        });
+
+        $(`#send`).on(`click`, async function () {
+            console.log($(`#userName`).val());
+            let message = $('#message').val();
+            if (!$(`#userName`).val()) {
+                if (message != "") {
+                    UpdContent(message);
+                    AIBOT(message);
+                }
+            } else {
+                let selfID = $('#SelfID').html();
+                connection.invoke("SendMessage", selfID, message/*, sendToID*/).then(function () {
+                    $(`#errorstring`).text("");
+                }).catch(function (err) {
+                    $(`#errorstring`).text("請先連線");
+                });
+            }
+        });
+
+        function UpdSystem(user, msg) {
+            $(`.chatBBody`).append(`<div class="chat">
+                                                        <div class="otherName">${user}</div>
+                                                        <div class="otherChat">
+                                                                    ${msg}
+                                                        </div>
+                                                    </div>`);
+            $('.chatBBody').animate({
+                scrollTop: $(".chatBBody").offset().top + $(".chat")[$(".chatBBody").find(".chat").length - 1].scrollHeight
+            }, 500);
+        }
+        function AIBOT(msg) {
+            const querydata = Botdata.filter(x => x.key === msg)
+            console.log(filterValuePart(Botdata,msg));
+            if (querydata.length != 0) {
+                UpdSystem("系統", querydata[0].value);
+            }
+            else {
+                UpdSystem("系統", "我不知道這個問題，可以按上方按鈕與客服人員聯繫");
+            }
+        }
+
+        function filterValuePart(arr, part) {
+            return arr.filter(function (obj) {
+                return Object.keys(obj)
+                    .some(function (k) {
+                        return obj[k].indexOf(part) !== -1;
+                    });
+            });
+        };
+        function UpdContent(msg) {
+            $(`.chatBBody`).append(`<div class="chat">
+                                                                               <div class="myName">我</div>
+                                                                            <div class="myChat">
+                                                                                 ${msg}
+                                                                          </div>
+                                                                     </div>`);
+            $(`#message`).val("");
 
             $('.chatBBody').animate({
                 scrollTop: $(".chatBBody").offset().top + $(".chat")[$(".chatBBody").find(".chat").length - 1].scrollHeight
             }, 500);
-        });
-
-        $(`#send`).on(`click`, async function () {
-            let selfID = $('#SelfID').html();
-            let message = $('#message').val();
-            //let sendToID = $('#sendToID').val();
-            connection.invoke("SendMessage", selfID, message/*, sendToID*/).then(function(){
-                $(`#errorstring`).text("");
-            }).catch(function (err) {
-                $(`#errorstring`).text("請先連線");
-            });
-        });
-
+        }
         //-------購物車----
         const carjson = document.querySelector('#car_iten');
         const carHtml = document.querySelector('.car_click');
@@ -247,22 +280,22 @@
                     countM += x
                     return (
                         `<div class="row" id="${id}">
-                                    <div class="col-3">
-                                                        <img  src="@Url.Content("~/images/${a}")" width="70" />
-                                    </div>
-                                    <div class="col-8">
-                                                <div>品名:<a>${value.商品名稱}</a></div>
-                                                <div>尺寸:<a>${value.尺寸種類}</a></div>
-                                                <div>顏色:<a>${value.商品顏色種類}</a></div>
-                                                <div>數量:<a>${value.訂單數量}</a></div>
-                                                <div>價格:<a class="m">${value.商品價格}</a></div>
+                                                            <div class="col-3">
+                                                                                <img  src="@Url.Content("~/images/${a}")" width="70" />
+                                                            </div>
+                                                            <div class="col-8">
+                                                                        <div>品名:<a>${value.商品名稱}</a></div>
+                                                                        <div>尺寸:<a>${value.尺寸種類}</a></div>
+                                                                        <div>顏色:<a>${value.商品顏色種類}</a></div>
+                                                                        <div>數量:<a>${value.訂單數量}</a></div>
+                                                                        <div>價格:<a class="m">${value.商品價格}</a></div>
 
-                                    </div>
-                                            <div class="purchase-icon-car col-1">
-                                                                        <input type="hidden" value="${id}" />
-                                                     </div>
-                                            <br/>
-                                            </div>  `
+                                                            </div>
+                                                                    <div class="purchase-icon-car col-1">
+                                                                                                <input type="hidden" value="${id}" />
+                                                                             </div>
+                                                                    <br/>
+                                                                    </div>  `
                     );
                 })
                 TOTAL_TWD = `TOTAL TWD $${countM}`

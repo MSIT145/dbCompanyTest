@@ -87,11 +87,17 @@ namespace dbCompanyTest.Hubs
                 olduser.waiter = null;
             user user = userList.FirstOrDefault(x => x.connectionId == userId);
             if (user.waiter == null)
+            {
                 user.waiter = Context.ConnectionId;
-            string userMsgJSON = JsonConvert.SerializeObject(user.userWords);
-            user.newWords = 0;
-            await Clients.Client(Context.ConnectionId).SendAsync("newClientMsg", userMsgJSON);
-            Update();
+                string userMsgJSON = JsonConvert.SerializeObject(user.userWords);
+                user.newWords = 0;
+                await Clients.Client(Context.ConnectionId).SendAsync("newClientMsg", userMsgJSON);
+                Update();
+            }
+            else
+            {
+                await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem","系統" ,"此客戶已有人在回應");
+            }
         }
 
         public async void Update()
