@@ -53,15 +53,15 @@
                 <div name="商品顏色種類" class="d-right-detail-item Color">COLOR: <span>@Model.pro商品顏色</span></div>
                 <div class="d-right-color col-8">
                     @{
-                        for (int i = 0; i < Model.pro商品DetailIDlist.Count; i++)
+                        for (int i = 0; i < Model.pro商品顏色idlist.Count; i++)
                         {
-                            if (Model.pro商品DetailIDlist[i] == Model.prodetailID)
+                            if (Model.pro商品顏色idlist[i] == Model.商品顏色ID)
                             {
-                                <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                                <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
                             }
                             else
                             {
-                                <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品DetailIDlist[i])" id="@Model.pro商品DetailIDlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                                <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品編號+"&colorID="+Model.pro商品顏色idlist[i])" id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
                             }
 
                         }
@@ -72,7 +72,7 @@
                 <div class="d-right-detail-item">SIZE</div>
                 <div class="d-right-size col-8">
                     @{
-                        for (int i = 0; i < Model.pro商品DetailIDlist.Count; i++)
+                        for (int i = 0; i < Model.pro商品尺寸list.Count; i++)
                         {
                             <div class="size-item">@Model.pro商品尺寸list[i]</div>
                         }

@@ -98,36 +98,43 @@ namespace dbCompanyTest.Controllers
 
 
         //---------------------- Gary產品頁 ----------------------------
-        public IActionResult Details(int? id)
+        public IActionResult Details(int? id, int? colorID)
         {
             //測試用 productDetail ID
-            if (id == null) 
+            if (id == null)
             {
-                id = 4;
+                id = 1;
+                colorID = 1;
             }
             ProductDetailViewModels pdm = new ProductDetailViewModels();
-            
+
+
+            //透過productID找出全部的顏色圖片，商品尺寸，ProductDetail，商品顏色ID
             pdm.pro商品顏色圖片list = new List<string>();
             pdm.pro商品尺寸list = new List<string>();
-            pdm.pro商品DetailIDlist = new List<int>();
+            //pdm.pro商品DetailIDlist = new List<int>();//可以拿掉
+            pdm.pro商品顏色idlist = new List<int>();
             int Key = 0;
             if (id == null)
                 return NotFound();
             else
             {
-                var productdetail = from prodetail in _context.ProductDetails
-                                    join product in _context.Products on prodetail.商品編號id equals product.商品編號id
+                //productDetailID所找出的單一商品詳細資訊
+                var productdetail = from product in _context.Products
+                                    join prodetail in _context.ProductDetails on product.商品編號id equals prodetail.商品編號id
                                     join pro分類 in _context.ProductsTypeDetails on product.商品分類id equals pro分類.商品分類id
                                     join prophoto in _context.圖片位置s on prodetail.圖片位置id equals prophoto.圖片位置id
                                     join procolor in _context.ProductsColorDetails on prodetail.商品顏色id equals procolor.商品顏色id
-                                    where prodetail.Id == id
+                                    where product.商品編號id == id && prodetail.商品顏色id == colorID
                                     select new
                                     {
-                                        prodetailID = prodetail.Id,
-                                        pro商品編號 = prodetail.商品編號id,
+                                        //prodetailID = prodetail.Id,
+                                        pro商品編號 = id,
+                                        pro商品商品顏色ID = colorID,
+                                        //pro商品尺寸ID = prodetail.商品尺寸id,
                                         pro商品金額 = product.商品價格,
                                         pro商品顏色 = procolor.商品顏色種類,
-                                        pro商品顏色圖片 = procolor.商品顏色圖片,
+                                        //pro商品顏色圖片 = procolor.商品顏色圖片,
                                         pro商品分類 = pro分類.商品分類名稱,
                                         pro商品名稱 = product.商品名稱,
                                         pro商品介紹 = product.商品介紹,
@@ -136,14 +143,16 @@ namespace dbCompanyTest.Controllers
                                         pro商品圖片2 = prophoto.商品圖片2,
                                         pro商品圖片3 = prophoto.商品圖片3,
                                     };
-                foreach (var item in productdetail)
+                foreach (var item in productdetail.Distinct())
                 {
                     Key = (int)item.pro商品編號;
                     pdm.pro商品編號 = (int)item.pro商品編號;
-                    pdm.prodetailID = item.prodetailID;
+                    //pdm.商品尺寸ID =(int)item.pro商品尺寸ID;
+                    pdm.商品顏色ID = (int)item.pro商品商品顏色ID;
+                    //pdm.prodetailID = item.prodetailID;
                     pdm.pro商品顏色 = item.pro商品顏色;
                     pdm.pro商品金額 = item.pro商品金額.ToString();
-                    pdm.pro商品顏色圖片 = item.pro商品顏色圖片;
+                    //pdm.pro商品顏色圖片 = item.pro商品顏色圖片;
                     pdm.pro商品分類 = item.pro商品分類;
                     pdm.pro商品名稱 = item.pro商品名稱;
                     pdm.pro商品介紹 = item.pro商品介紹;
@@ -153,29 +162,53 @@ namespace dbCompanyTest.Controllers
                     pdm.pro商品圖片3 = item.pro商品圖片3;
                 }
 
-                //取出商品的全部尺寸及顏色
+                //取出商品的顏色及顏色圖片
                 var totallist = from item in _context.Products
                                 join prodetail in _context.ProductDetails on item.商品編號id equals prodetail.商品編號id
-                                join prosize in _context.ProductsSizeDetails on prodetail.商品尺寸id equals prosize.商品尺寸id
                                 join procolor in _context.ProductsColorDetails on prodetail.商品顏色id equals procolor.商品顏色id
                                 where item.商品編號id == Key
                                 select new
                                 {
                                     pro商品顏色圖片list = procolor.商品顏色圖片,
-                                    pro商品尺寸list = prosize.尺寸種類,
-                                    pro商品DetailIDlist = prodetail.Id
+                                    pro商品顏色idlist = prodetail.商品顏色id,
+                                    //pro商品DetailIDlist = prodetail.Id
                                 };
-                foreach (var CC in totallist) 
+                foreach (var CC in totallist)
                 {
-                    pdm.pro商品尺寸list.Add(CC.pro商品尺寸list);
+
                     pdm.pro商品顏色圖片list.Add(CC.pro商品顏色圖片list);
-                    pdm.pro商品DetailIDlist.Add(CC.pro商品DetailIDlist);
+                    //pdm.pro商品DetailIDlist.Add(CC.pro商品DetailIDlist);
+                    pdm.pro商品顏色idlist.Add((int)(CC.pro商品顏色idlist));
+                    //pdm.pro商品DetailIDlist = pdm.pro商品DetailIDlist.Distinct().ToList();
+                    pdm.pro商品顏色圖片list = pdm.pro商品顏色圖片list.Distinct().ToList();
+                    pdm.pro商品顏色idlist = pdm.pro商品顏色idlist.Distinct().ToList();
                 }
+
+                //取出此商品顏色有幾種size
+                var listsize = from item in _context.Products
+                               join prodetail in _context.ProductDetails on item.商品編號id equals prodetail.商品編號id
+                               join prosize in _context.ProductsSizeDetails on prodetail.商品尺寸id equals prosize.商品尺寸id
+                               join procolor in _context.ProductsColorDetails on prodetail.商品顏色id equals procolor.商品顏色id
+                               where item.商品編號id == Key && procolor.商品顏色id == pdm.商品顏色ID
+                               select new
+                               {
+                                   pro商品尺寸list = prosize.尺寸種類
+                               };
+                foreach (var SS in listsize)
+                {
+                    pdm.pro商品尺寸list.Add(SS.pro商品尺寸list);
+                    pdm.pro商品尺寸list = pdm.pro商品尺寸list.Distinct().ToList();
+                    //pdm.pro商品DetailIDlist.Add(CC.pro商品DetailIDlist);
+
+                    //pdm.pro商品DetailIDlist = pdm.pro商品DetailIDlist.Distinct().ToList();
+                }
+
+
                 return View(pdm);
 
             }
 
-
+        }
         }
     }
-}
+
