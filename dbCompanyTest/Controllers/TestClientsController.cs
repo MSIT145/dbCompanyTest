@@ -41,15 +41,35 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult Search(string keyPoint)
         {
+            List<TestClient> queryList = _context.TestClients.ToList();
+            foreach(TestClient item in queryList)
+            {
+                if (item.客戶電話 == null)
+                    item.客戶電話 = "";
+                if (item.身分證字號 == null)
+                    item.身分證字號 = "";
+                if (item.縣市 == null)
+                    item.縣市 = "";
+                if (item.區 == null)
+                    item.區 = "";
+                if (item.地址 == null)
+                    item.地址 = "";
+                if (item.密碼 == null)
+                    item.密碼 = "";
+                if (item.性別 == null)
+                    item.性別 = "";
+                if (item.生日 == null)
+                    item.生日 = "";
+            }
             if (keyPoint == null)
             {
-                string json = JsonSerializer.Serialize(_context.TestClients);
+                string json = JsonSerializer.Serialize(queryList);
                 HttpContext.Session.SetString(CDittionary.SK_BACK_FOR_Clients_Search, json);
-                return Json(_context.TestClients);
+                return Json(queryList);
             }
             else
             {
-                List<TestClient> clients = _context.TestClients.Where(x => x.客戶姓名.Contains(keyPoint)).ToList();
+                List<TestClient> clients = queryList.Where(x => x.客戶姓名.Contains(keyPoint)).ToList();
                 if (clients.Count() == 0)
                 {
                     HttpContext.Session.Remove(CDittionary.SK_BACK_FOR_Clients_Search);

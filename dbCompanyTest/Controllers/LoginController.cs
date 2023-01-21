@@ -55,7 +55,7 @@ namespace dbCompanyTest.Controllers
             else
             {
                 dbCompanyTestContext db = new dbCompanyTestContext();
-                TestClient loggingUser = db.TestClients.FirstOrDefault(c => c.Email == payload.Email);
+                TestClient? loggingUser = db.TestClients.FirstOrDefault(c => c.Email == payload.Email);
                 if (loggingUser == null)
                 {
                     TestClient newClient = new TestClient();
@@ -172,13 +172,13 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult getUser()
         {
-            string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+            string? json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
             string userName = "";
             if (json == null)
                 userName = "訪客";
             else
             {
-                TestClient x = JsonSerializer.Deserialize<TestClient>(json);
+                TestClient? x = JsonSerializer.Deserialize<TestClient>(json);
                 userName = x.客戶姓名;
             }
             return Content(userName);
@@ -243,7 +243,7 @@ namespace dbCompanyTest.Controllers
         public IActionResult ResetPassword(string Email, string Password)
         {
             dbCompanyTestContext _context = new dbCompanyTestContext();
-            TestClient client = _context.TestClients.FirstOrDefault(c => c.Email == Email);
+            TestClient? client = _context.TestClients.FirstOrDefault(c => c.Email == Email);
             client.密碼 = Password;
             _context.SaveChanges();
             return Content("");
