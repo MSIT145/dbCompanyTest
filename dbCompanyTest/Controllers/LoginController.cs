@@ -66,6 +66,8 @@ namespace dbCompanyTest.Controllers
                     db.SaveChanges();
                     useSession(newClient);
                 }
+                else
+                    useSession(loggingUser);
                 //驗證成功，取使用者資訊內容
                 //ViewData["Msg"] = "驗證 Google 授權成功" + "<br>";
                 //ViewData["Msg"] += "Email:" + payload.Email + "<br>";
