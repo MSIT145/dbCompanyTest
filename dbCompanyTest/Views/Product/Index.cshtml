@@ -295,13 +295,7 @@
             
             window.location = `@Url.Content("~/product/Downloads")?filename=${filename}`;
         }
-
         
-
-        //明細新建_關閉重整
-        $("#Moda_D_C #btn_Close_D").on('click',function(){
-            change_table();
-        });
 
         
 
@@ -354,6 +348,13 @@
             //重新載入
             change_table();
         });
+
+        //Modal關閉監聽 hide.bs.modal
+        $("#Moda_P_C").on('hide.bs.modal', function () {
+            change_table();
+        })
+
+
         //加入按鈕事件(產品編輯)
         $('#tableAll').on('click', 'button[name="P_btnEdit"]', function () {
             var row = $(this).parents('tr');
@@ -397,8 +398,18 @@
         })
 
         //=============產品明細事件S=========================
+        //明細新建_關閉重整
+        $("#Moda_D_C #btn_Close_D").on('click',function(){
+            change_table();
+        });
 
-        //加入按鈕事件(新增明細_未完成)
+         //Modal關閉監聽 hide.bs.modal
+        $("#Moda_D_C").on('hide.bs.modal',function(){
+            change_table();
+        })
+
+
+                //加入按鈕事件(新增明細_未完成)
         $('#tableAll').on('click', 'button[name="DetailCreate"]', function () {
             $("#Moda_D_C .modal-body").find("#myModal - label").val("新增細項商品")
             $("#Moda_D_C .modal-body").load("@Url.Content("~/Product/_CreateDetail")");

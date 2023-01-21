@@ -499,9 +499,21 @@ namespace dbCompanyTest.Controllers
             return Json(new { data });
         }
 
-#endregion
+        #endregion
 
-        #region   提取select 所需的資料   
+        #region   提取select 所需的資料  
+
+        //提取圖片位置s的jpg圖檔名稱
+        public IActionResult GetImg(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return Json("錯誤_資料傳輸錯誤");
+            int _id = 0;
+            if(!Int32.TryParse(id, out  _id))
+                return Json("錯誤_數值有誤");
+            var data = db.圖片位置s.FirstOrDefault(im => im.圖片位置id == _id);
+            return Json(data);
+        }
 
         //提取商品分類
         public IActionResult GetTyteD()
@@ -560,11 +572,49 @@ namespace dbCompanyTest.Controllers
             return PartialView(data);
         }
         [HttpPost]
-        public IActionResult _EditDetial(ProductDetail data)
+        public IActionResult _EditDetial(ProductDetail data,IFormFile photo1, IFormFile photo2, IFormFile photo3)
         {
+            
             var FL = db.ProductDetails.FirstOrDefault(pd => pd.Id == data.Id);
             if(FL==null) return Content($"錯誤_沒有此筆資料", "text/plain", Encoding.UTF8);
+
+            //先更改圖片位置
+            //建立8位數亂碼
+            string cold = (new Back_Product_library()).RandomString(8);
+            string imgeName = $"{data.商品編號id}_{cold}";
+           
+
+            var imgdata = db.圖片位置s.FirstOrDefault(im => im.圖片位置id ==  data.圖片位置id);
+            if(imgdata==null)
+                return Content("錯誤_圖片位置錯誤!", "text/plain", Encoding.UTF8);
+            //先建立圖片資料
+            if (photo1 != null)
+            {
+                SavePhotoMethod(photo1, $"{imgeName}_1", imgdata.商品圖片1);
+                imgdata.商品圖片1 = $"{imgeName}_1.jpg";
+            }
+
+            if (photo2 != null)
+            {
+                SavePhotoMethod(photo2, $"{imgeName}_2", imgdata.商品圖片2);
+                imgdata.商品圖片2 = $"{imgeName}_2.jpg";
+            }
+                
+            if (photo3 != null)
+            {
+                SavePhotoMethod(photo3, $"{imgeName}_3", imgdata.商品圖片3);
+                imgdata.商品圖片3 = $"{imgeName}_3.jpg";
+            }
+              
+
+
          
+           
+          
+            db.SaveChanges();
+
+
+
             FL.Id = data.Id;
             FL.商品編號id = data.商品編號id;
             FL.商品尺寸id = data.商品尺寸id;
@@ -581,11 +631,12 @@ namespace dbCompanyTest.Controllers
 
         
         //新建商品細項
-        public void SavePhotoMethod(IFormFile p,string proname)
+        public void SavePhotoMethod(IFormFile p,string proname,string oldname)
         {
             string photoName = $"{proname}.jpg";
-            string oldPath = _eviroment.WebRootPath + "/images/" + photoName;
-            //System.IO.File.Delete(oldPath);   //刪掉圖片
+            string oldPath = _eviroment.WebRootPath + "/images/" + oldname;
+            if (oldname !="")           
+            System.IO.File.Delete(oldPath);   //刪掉圖片
             //string photoName = $"{Guid.NewGuid().ToString()}.jpg";                   
 
             string path01 = _eviroment.WebRootPath + "/images/" + photoName;  //用環境變數取得 IIS路徑(wwwroot)
@@ -609,9 +660,9 @@ namespace dbCompanyTest.Controllers
             return Content("錯誤_請輸入圖片!", "text/plain", Encoding.UTF8);
 
             //先建立圖片資料
-                SavePhotoMethod(photo1,$"{imgeName}_1" );
-                SavePhotoMethod(photo2,$"{imgeName}_2");
-                SavePhotoMethod(photo3,$"{imgeName}_3");
+                SavePhotoMethod(photo1,$"{imgeName}_1","" );
+                SavePhotoMethod(photo2,$"{imgeName}_2","");
+                SavePhotoMethod(photo3,$"{imgeName}_3","");
 
                 圖片位置 img = new 圖片位置();
                 img.商品圖片1 = $"{imgeName}_1.jpg";
