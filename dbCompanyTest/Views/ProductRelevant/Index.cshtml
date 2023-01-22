@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Back_Layout_Sneat.cshtml";
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> 產品相關類別</h4>
+        <div class="row">
+        <p>
+            <button class="btn btn-primary " type="button" data-bs-toggle="collapse" data-bs-target="#collapsecolor" aria-expanded="false" aria-controls="collapsecolor" id="btn_ColorControl">
+              顏色
+            </button>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsesize" aria-expanded="false" aria-controls="collapsesize">
+                尺寸
+            </button>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsetype" aria-expanded="false" aria-controls="collapsetype">
+                分類
+            </button>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseshoe" aria-expanded="false" aria-controls="collapseshoe">
+                鞋種
+            </button>
+        </p>
+        <div class="collapse" id="collapsecolor">           
+            <div class="card card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_ColorForm"> 新增</button>
+                    </div>
+                </div>
+                <table id="tableAll">
+                    <thead>
+                        <tr>
+                            <th>商品顏色ID</th>
+                            <th>商品顏色種類</th>
+                            <th>色碼</th>
+                            <th>商品顏色圖片</th>
+                            <th>修改</th>
+                            <th>刪除</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="collapse" id="collapsesize">
+            <div class="card card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_SizeForm"> 新增</button>
+                    </div>
+                </div>
+                <table id="tableSize">
+                    <thead>
+                        <tr>
+                            <th>商品尺寸ID</th>
+                            <th>尺寸種類</th>
+                            <th>修改</th>
+                            <th>刪除</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="collapse" id="collapsetype">
+            <div class="card card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_ProForm"> 新增</button>
+                    </div>
+                </div>
+                 <table id="tableType">
+                    <thead>
+                        <tr>
+                            <th>商品分類ID</th>
+                            <th>商品分類名稱</th>
+                            <th>修改</th>
+                            <th>刪除</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="collapse" id="collapseshoe">
+            <div class="card card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_shoeForm"> 新增</button>
+                    </div>
+                </div>
+                <table id="tableType">
+                    <thead>
+                        <tr>
+                            <th>商品鞋種ID</th>
+                            <th>鞋種</th>
+                            <th>修改</th>
+                            <th>刪除</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+</div>
+
+@*Modal_新增與修改_明細*@
+<div class="modal fade" id="Moda" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModal-label">新增</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn_Close_D">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>
+
+        <script>
+            //載入時觸發
+        $(document).ready(function () {
+            //先開啟顏色面板
+            $("#btn_ColorControl").click();
+        });
+       </script>
+
+}
