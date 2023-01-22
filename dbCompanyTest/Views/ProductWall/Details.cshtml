@@ -1,113 +1,128 @@
 ﻿@model dbCompanyTest.ViewModels.ProductDetailViewModels
 
 <link href="~/css/productdetail.css" rel="stylesheet" />
-<form method="post" name="productform">
-    <input type="hidden" name="Id" />
-    <div class="content d-flex flex-row justify-content-center">
-        <div class="detail-center">
-            @*麵包*@
-            <div class="d-position">
-                <a asp-controller="Home" asp-action="Index">首頁</a>
-                <span>></span>
-                <a>@Model.pro商品分類</a>
-                <span>></span>
-                <span>@Model.pro商品名稱 @Model.pro商品顏色</span>
+<input type="hidden" name="Id" />
+<div class="content d-flex flex-row justify-content-center">
+    <div class="detail-center">
+        @*麵包*@
+        <div class="d-position">
+            <a asp-controller="Home" asp-action="Index">首頁</a>
+            <span>></span>
+            <a>@Model.pro商品分類</a>
+            <span>></span>
+            <span>@Model.pro商品名稱 @Model.pro商品顏色</span>
+        </div>
+        @*輪播*@
+        <div id="carouselExampleDark" class="carousel carousel-dark slide d-carouse">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
-            @*輪播*@
-            <div id="carouselExampleDark" class="carousel carousel-dark slide d-carouse">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <div class="carousel-inner">
+                <div class="carousel-item active d-carouse-pic" data-bs-interval="2000">
+                    <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" class="d-block " alt="...">
                 </div>
-                <div class="carousel-inner">
-                    <div class="carousel-item active d-carouse-pic" data-bs-interval="2000">
-                        <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" class="d-block " alt="...">
-                    </div>
-                    <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
-                        <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" class="d-block " alt="...">
-                    </div>
-                    <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
-                        <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" class="d-block " alt="...">
-                    </div>
+                <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
+                    <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" class="d-block " alt="...">
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
+                    <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" class="d-block " alt="...">
+                </div>
             </div>
-            <div class="d-carouse">
-                <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" />
-                <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" />
-                <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" />
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div class="d-carouse">
+            <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" />
+            <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" />
+            <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" />
+        </div>
+    </div>
+    <div class="d-right-detail">
+        <div class="d-right-detail-item">@Model.pro商品名稱 @Model.pro商品顏色</div>
+        <div class="d-right-detail-item">金額: @Convert.ToDouble(Model.pro商品金額).ToString("#")</div>
+        <div class="d-right-detail-item">
+            <div name="商品顏色種類" class="d-right-detail-item Color">COLOR: <span>@Model.pro商品顏色</span></div>
+            <div class="d-right-color col-8">
+                @{
+                    for (int i = 0; i < Model.pro商品顏色idlist.Count; i++)
+                    {
+                        if (Model.pro商品顏色idlist[i] == Model.商品顏色ID)
+                        {
+                            <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                        }
+                        else
+                        {
+                            <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品編號+"&colorID="+Model.pro商品顏色idlist[i])" id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                        }
+
+                    }
+                }
             </div>
         </div>
-        <div class="d-right-detail">
-            <div class="d-right-detail-item">@Model.pro商品名稱 @Model.pro商品顏色</div>
-            <div class="d-right-detail-item">金額: @Convert.ToDouble(Model.pro商品金額).ToString("#")</div>
-            <div class="d-right-detail-item">
-                <div name="商品顏色種類" class="d-right-detail-item Color">COLOR: <span>@Model.pro商品顏色</span></div>
-                <div class="d-right-color col-8">
-                    @{
-                        for (int i = 0; i < Model.pro商品顏色idlist.Count; i++)
-                        {
-                            if (Model.pro商品顏色idlist[i] == Model.商品顏色ID)
-                            {
-                                <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
-                            }
-                            else
-                            {
-                                <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品編號+"&colorID="+Model.pro商品顏色idlist[i])" id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
-                            }
-
-                        }
+        <div class="d-choose-size">
+            <div class="d-right-detail-item">SIZE</div>
+            <div class="d-right-size col-8">
+                @{
+                    for (int i = 0; i < Model.pro商品尺寸list.Count; i++)
+                    {
+                        <div class="size-item" id="@Model.pro商品尺寸idlist[i]">@Model.pro商品尺寸list[i]</div>
                     }
+                }
+            </div>
+        </div>
+        <div class="d-right-detail-item">
+            <div>尺寸對照表</div>
+            <div class="d-right-share">
+                <div class="d-right-share-Add">
+                    <span class="d-right-share-pic"></span>
+                    <span class="d-right-share-pic-Text">ADD TO FAVORITE</span>
+                </div>
+                <div class="d-right-share-share">
+                    <span class="d-right-share-FB"></span>
+                    <span class="d-right-share-LINE"></span>
                 </div>
             </div>
-            <div class="d-choose-size">
-                <div class="d-right-detail-item">SIZE</div>
-                <div class="d-right-size col-8">
-                    @{
-                        for (int i = 0; i < Model.pro商品尺寸list.Count; i++)
-                        {
-                            <div class="size-item" id="@Model.pro商品尺寸idlist[i]">@Model.pro商品尺寸list[i]</div>
-                        }
-                    }
+        </div>
+        <div class="d-right-detail-item">
+            <div class="p-num-box main-product">
+                <div class="reduce icon">-</div>
+                <div class="number-box">
+                    <input type="number" value="1" readonly="readonly" />
+                </div>
+                <div class="plus icon">+</div>
+            </div>
+        </div>
+        <div class="user-choose-size add_cart">請選擇尺寸</div>
+        <div class="p-details">
+            <div class="p-tab">
+                <div class="tab-item ac" data-item="1">
+                    <span class="name">商品介紹</span><span class="m-2">|</span>
+                </div>
+                <div class="tab-item" data-item="2">
+                    <span class="name">商品規格</span><span class="m-2"></span>
                 </div>
             </div>
-            <div class="d-right-detail-item">
-                <div>尺寸對照表</div>
-                <div class="d-right-share">
-                    <div class="d-right-share-Add">
-                        <span class="d-right-share-pic"></span>
-                        <span class="d-right-share-pic-Text">ADD TO FAVORITE</span>
-                    </div>
-                    <div class="d-right-share-share">
-                        <span class="d-right-share-FB"></span>
-                        <span class="d-right-share-LINE"></span>
-                    </div>
+            <div class="detail-content">
+                <div class="detail-item  detail-item-show" data-detail="1">
+                    <p> </p>
+                    <p>@Model.pro商品介紹</p>
                 </div>
-            </div>
-            <div class="d-right-detail-item">
-                <div class="p-num-box main-product">
-                    <div class="reduce icon">-</div>
-                    <div class="number-box">
-                        <input type="number" value="1" readonly="readonly" />
-                    </div>
-                    <div class="plus icon">+</div>
+                <div class="detail-item" data-detail="2">
+                    <p> </p>
+                    <p>@Model.pro商品材質</p>
                 </div>
-            </div>
-            <div class="user-choose-size add_cart">請選擇尺寸</div>
-
-            <div>
             </div>
         </div>
     </div>
-</form>
+</div>
 
 
 
@@ -148,7 +163,13 @@
 @section Scripts{
     <script>
         let count = 1;
-        let sizecheck=null;
+        let sizecheck = null;
+        $(".tab-item").on('click', function () {
+            $(this).addClass("ac").siblings().removeClass("ac");
+           let item =  $(this).data('item');
+            $(`div[data-detail=${item}]`).addClass("detail-item-show").siblings().removeClass("detail-item-show");
+                      
+        });
         $(".plus").on("click", function () {
             ++count;
             if (count > 10) {
@@ -186,10 +207,12 @@
                 checkCount();
             });
         });
+
         $('.modal-close').on('click', function () {
             $('#share').css("display", "none");
             $('#error').css("display", "none");
         });
+
         $('.d-right-share-pic,.d-right-share-pic-Text').on(`click`, function () {
             sizecheck = $(".size-item.active").text();
             let idcheck = $(".d-right-color-item.active").find('a').attr("id");
@@ -202,7 +225,7 @@
                 AddtoMyLoveOrCart(sizecheck, false);
             }
         });
-
+        //加入我的最愛或購物車
         async function AddtoMyLoveOrCart(sizecheck, bool) {
             const FD = new FormData();
             FD.append('商品名稱', "@Model.pro商品名稱")
@@ -221,7 +244,7 @@
             $('#error').css("display", "block");
             $('.modal-text').text(`${response}`);
         }
-
+        //確認商品數量
         async function checkCount() {
             const FD = new FormData();
             console.log($(".size-item.active").attr("id"));
@@ -232,15 +255,13 @@
             const data = await fetch("@Url.Content("~/MyLove/checkCount")",
                 {
                     method: "POST",
-                    body:FD
+                    body: FD
                 });
             const reponse = await data.text();
-            if(reponse === "true")
-            {
+            if (reponse === "true") {
                 AddtoMyLoveOrCart(sizecheck, true);
             }
-            else
-            {
+            else {
                 $('#error').css("display", "block");
                 $('.modal-text').text("商品庫存不足");
             }

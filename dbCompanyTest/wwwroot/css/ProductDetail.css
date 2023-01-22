@@ -361,3 +361,32 @@ img:hover{transform:scale(1.2,1.2);}
     width: 300px; /*在注意變更*/
     cursor: pointer;
 }
+.p-details {
+    margin-top:5px;
+    margin-bottom:5px;
+}
+.name {
+    font-size: 15px;
+    color:dimgray;
+    font-weight: bold;
+}
+.p-tab {
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.tab-item {
+    border-block-color:gray;
+}
+.detail-item {
+    display:none;
+}
+.detail-item-show {
+    display:block;
+}
+.detail-content {
+
+}
+.ac span {
+    color: #2b2b2b;
+}
