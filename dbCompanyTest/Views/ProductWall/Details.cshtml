@@ -2,7 +2,7 @@
 
 <link href="~/css/productdetail.css" rel="stylesheet" />
 <input type="hidden" name="Id" />
-<div class="content d-flex flex-row justify-content-center">
+<div class="content">
     <div class="detail-center">
         @*麵包*@
         <div class="d-position">
@@ -49,7 +49,7 @@
         <div class="d-right-detail-item">@Model.pro商品名稱 @Model.pro商品顏色</div>
         <div class="d-right-detail-item">金額: @Convert.ToDouble(Model.pro商品金額).ToString("#")</div>
         <div class="d-right-detail-item">
-            <div name="商品顏色種類" class="d-right-detail-item Color">COLOR: <span>@Model.pro商品顏色</span></div>
+            <div name="商品顏色種類" class="Color">COLOR: <span>@Model.pro商品顏色</span></div>
             <div class="d-right-color col-8">
                 @{
                     for (int i = 0; i < Model.pro商品顏色idlist.Count; i++)
@@ -68,7 +68,7 @@
             </div>
         </div>
         <div class="d-choose-size">
-            <div class="d-right-detail-item">SIZE</div>
+            <div class="">SIZE</div>
             <div class="d-right-size col-8">
                 @{
                     for (int i = 0; i < Model.pro商品尺寸list.Count; i++)
@@ -167,9 +167,9 @@
         $(".tab-item").on('click', function () {
             $(this).addClass("ac").siblings().removeClass("ac");
            let item =  $(this).data('item');
-            $(`div[data-detail=${item}]`).addClass("detail-item-show").siblings().removeClass("detail-item-show");
-                      
+            $(`div[data-detail=${item}]`).addClass("detail-item-show").siblings().removeClass("detail-item-show");     
         });
+
         $(".plus").on("click", function () {
             ++count;
             if (count > 10) {
@@ -247,7 +247,6 @@
         //確認商品數量
         async function checkCount() {
             const FD = new FormData();
-            console.log($(".size-item.active").attr("id"));
             FD.append("productid", "@Model.pro商品編號")
             FD.append("colorid", "@Model.商品顏色ID")
             FD.append("sizeid", $(".size-item.active").attr("id"))
