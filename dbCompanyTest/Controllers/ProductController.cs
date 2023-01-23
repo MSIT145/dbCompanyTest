@@ -562,7 +562,7 @@ namespace dbCompanyTest.Controllers
         public IActionResult _EditDetial(string id)
         {
             //因用javascript ajax傳輸 請用 Content("錯誤_請輸入圖片!", "text/plain", Encoding.UTF8);
-            string gg ="";
+          
             if (string.IsNullOrEmpty(id))
                 return Content("錯誤_資料傳輸錯誤", "text/plain", Encoding.UTF8);
             int _id = Int32.TryParse(id, out int temp)?   temp : -1;
@@ -630,7 +630,7 @@ namespace dbCompanyTest.Controllers
         }
 
         
-        //新建商品細項
+        //新建圖片方法
         public void SavePhotoMethod(IFormFile p,string proname,string oldname)
         {
             string photoName = $"{proname}.jpg";

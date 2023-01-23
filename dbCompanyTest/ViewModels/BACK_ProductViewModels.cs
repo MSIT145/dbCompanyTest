@@ -51,6 +51,25 @@
 
     public class Back_Product_library
     {
+
+        //圖片存入方法
+        public void SavePhotoMethod(IFormFile p, string proname, string oldname ,string Path)
+        {
+            string photoName = $"{proname}.jpg";
+            string oldPath = Path  + oldname;
+            if (oldname != "")
+                System.IO.File.Delete(oldPath);   //刪掉圖片
+            //string photoName = $"{Guid.NewGuid().ToString()}.jpg";                   
+
+            string path01 = Path  + photoName;  //用環境變數取得 IIS路徑(wwwroot)
+            using (FileStream fs = new FileStream(path01, FileMode.Create))
+            {
+                p.CopyTo(fs);   //將圖片寫入指定路徑      
+            }
+        }
+
+        //亂數產生器
+
         public  String RandomString(int length)
         {
             //少了英文的IO和數字10，要避免使用者判斷問題時會使用到
