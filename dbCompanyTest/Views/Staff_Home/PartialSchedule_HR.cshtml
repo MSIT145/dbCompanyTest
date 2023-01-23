@@ -116,16 +116,13 @@
     var i_spvs = $("#inp_super_vs").val();
     var i_co = $("#inp_co_dep_who").val();
     var i_boss = "ST2-0010170";
-    $(".no").css("display", "none");
     $("#list_stu_sin_ecu1,#list_stu_bos,#list_stu_cod,#list_stu,#list_stu_spv").css("display", "none");
-    //$("#span_sin_str,#span_sin_spv,#span_sin_cod,#span_sin_bos,#span_sin_ecu").css("display", "none");
     $("#inp_com_str,#inp_com_spv,#inp_com_cod,#inp_com_bos,#inp_com_ecu").css("display", "none");
     $("#span_sin_str").css("display", "");
 
     $("#dpm_str").text(i_whostart);
     $("#time_str").text($("#inp_starttime").val());
     $("#com_str").text($("#inp_cont").val());
-    $("#dpm_ecu").text(s_executor);
     //---簽核狀態
     $("#span_sin_ecu").text($("#inp_executor_sin").val());
     $("#span_sin_spv").text($("#inp_super_vs_sin").val());
@@ -147,58 +144,24 @@
     $("#time_bos").text($("#inp_boss_time").val());
     $("#time_ecu").text($("#inp_execut_time").val());
 
+    $.ajax({
+        url: `@Url.Content("~/Staff_Home/stf_info1")`,
+        type: "GET",
+        data: { "i_whostart": i_whostart, "s_executor": s_executor, "i_spvs": i_spvs, "i_co": i_co, "i_boss": i_boss },
+        dataType: "json"
+    })
+        .done(data => {
+            $("#dpm_str").text(data[0].部門); $("#dpm_spv").text(data[1].部門);
+            $("#dpm_cod").text(data[2].部門); $("#dpm_bos").text(data[3].部門);
+            $("#dpm_ecu").text(data[4].部門);
+            $("#man_str").text(`${data[0].員工編號} ${data[0].員工姓名}`);
+            $("#man_spv").text(`${data[1].員工編號} ${data[1].員工姓名}`);
+            $("#man_cod").text(`${data[2].員工編號} ${data[2].員工姓名}`);
+            $("#man_bos").text(`${data[3].員工編號} ${data[3].員工姓名}`);
+            $("#man_ecu").text(`${data[4].員工編號} ${data[4].員工姓名}`);
+        });
 
 
-    $.ajax({
-        url: `@Url.Content("~/Staff_Home/stf_info")`,
-        type: "GET",
-        data: { "stf": i_whostart },
-        dataType: "json"
-    })
-        .done(data => {
-            $("#dpm_str").text(data.部門)
-            $("#man_str").text(`${data.員工編號} ${data.員工姓名}`);
-        });
-    $.ajax({
-        url: `@Url.Content("~/Staff_Home/stf_info")`,
-        type: "GET",
-        data: { "stf": s_executor },
-        dataType: "json"
-    })
-        .done(data => {
-            $("#dpm_ecu").text(data.部門);
-            $("#man_ecu").text(`${data.員工編號} ${data.員工姓名}`);
-        });
-    $.ajax({
-        url: `@Url.Content("~/Staff_Home/stf_info")`,
-        type: "GET",
-        data: { "stf": $("#inp_super_vs").val() },
-        dataType: "json"
-    })
-        .done(data => {
-            $("#dpm_spv").text(data.部門);
-            $("#man_spv").text(`${data.員工編號} ${data.員工姓名}`);
-        });
-    $.ajax({
-        url: `@Url.Content("~/Staff_Home/stf_info")`,
-        type: "GET",
-        data: { "stf": $("#inp_co_dep_who").val() },
-        dataType: "json"
-    })
-        .done(data => {
-            $("#dpm_cod").text(data.部門);
-            $("#man_cod").text(`${data.員工編號} ${data.員工姓名}`);
-        });
-    $.ajax({
-        url: `@Url.Content("~/Staff_Home/stf_info")`,
-        type: "GET",
-        data: { "stf": i_boss },
-        dataType: "json"
-    })
-        .done(data => {
-            $("#dpm_bos").text(data.部門);
-            $("#man_bos").text(`${data.員工編號} ${data.員工姓名}`);
-        });
 
     if (i_stu != `未啟動` || i_stu != `退回起單人` || i_stu == `完成`) {
         $("#span_sin_str").text("敬陳")
@@ -207,7 +170,6 @@
 
     if (i_whostart == splitstf) {//起單
         if (i_stu == `未啟動` || i_stu == `退回起單人`) {
-            //$("#list_stu_sin_ecu1,#list_stu_bos,#list_stu_cod,#list_stu_spv,").text("display", "none");
             $("#list_stu").css("display", "");
             $("#inp_com_str").css("display", "");
             $("#inp_com_str").text($("#inp_cont").val());
@@ -215,7 +177,6 @@
             $("#span_sin_str").css("display", "none");
         }
         else {
-            //$("#span_sin_spv").css("display", "none");
             $("#span_sin_str").css("display", "");
             $("#span_sin_str").text("敬陳")
         }
@@ -239,8 +200,6 @@
             $("#inp_com_cod").css("display", "");
             $("#span_sin_str").text("敬陳")
         }
-
-
     }
 
     if (i_boss == splitstf) {
@@ -250,8 +209,6 @@
             $("#inp_com_bos").css("display", "");
             $("#span_sin_str").text("敬陳")
         }
-
-
     }
 
     if (s_executor == splitstf) {
@@ -261,8 +218,6 @@
             $("#span_sin_ecu").css("display", "none");
             $("#span_sin_str").text("敬陳")
         }
-
-
     }
 
 
@@ -289,17 +244,21 @@
         if (i_whostart == splitstf) {
             if ($(`#list_stu option:selected`).val() == "未啟動")
                 $("#inp_sta").val("未啟動");
-            else
+            else {
                 $("#inp_sta").val("部門主管 待簽");
+                $("#inp_super_vs_sin").val("待簽");
+            }
 
             $("#inp_starttime").val(dt);
         }
         if (i_spvs == splitstf) {
             if ($(`#list_stu_spv option:selected`).val() == "待簽")
                 $("#inp_sta").val("部門主管 待簽");
-            else if ($(`#list_stu_spv option:selected`).val() == "敬陳")
+            else if ($(`#list_stu_spv option:selected`).val() == "敬陳") {
                 $("#inp_sta").val("協辦部門 待簽");
-            else if ($(`#list_stu_spv option:selected`).val() == "退回起單人")
+                $("#inp_co_dep_sin").val("待簽");
+            }
+            else if ($(`#list_stu_spv option:selected`).val() == "退回起單人")//todo other
                 $("#inp_sta").val("退回起單人");
             $("#inp_super_vs_opn").val($("#inp_com_spv").val());
             $("#inp_super_vs_sin").val($(`#list_stu_spv option:selected`).val());
@@ -308,10 +267,14 @@
         if (i_co == splitstf) {
             if ($(`#list_stu_cod option:selected`).val() == "待簽")
                 $("#inp_sta").val("協辦部門 待簽");
-            else if ($(`#list_stu_cod option:selected`).val() == "敬陳")
+            else if ($(`#list_stu_cod option:selected`).val() == "敬陳") {
                 $("#inp_sta").val("執行長 待簽");
-            else if ($(`#list_stu_cod option:selected`).val() == "退回上階段")
+                $("#inp_boss_sin").val("待簽");
+            }
+            else if ($(`#list_stu_cod option:selected`).val() == "退回上階段"){
                 $("#inp_sta").val("部門主管 待簽");
+                $("#inp_super_vs_sin").val("待簽");
+            }
             else if ($(`#list_stu_cod option:selected`).val() == "退回起單人")
                 $("#inp_sta").val("退回起單人");
             $("#inp_co_dep_opn").val($("#inp_com_cod").val());
@@ -321,10 +284,14 @@
         if (i_boss == splitstf) {
             if ($(`#list_stu_bos option:selected`).val() == "待簽")
                 $("#inp_sta").val("執行長 待簽");
-            else if ($(`#list_stu_bos option:selected`).val() == "敬陳")
+            else if ($(`#list_stu_bos option:selected`).val() == "敬陳") {
                 $("#inp_sta").val("執行 待簽");
-            else if ($(`#list_stu_bos option:selected`).val() == "退回上階段")
+                $("#inp_executor_sin").val("待簽");
+            }
+            else if ($(`#list_stu_bos option:selected`).val() == "退回上階段"){
                 $("#inp_sta").val("協辦部門 待簽");
+                $("#inp_co_dep_sin").val("待簽");
+            }
             else if ($(`#list_stu_bos option:selected`).val() == "退回起單人")
                 $("#inp_sta").val("退回起單人");
             $("#inp_boss_opn").val($("#inp_com_bos").val());
@@ -336,8 +303,10 @@
                 $("#inp_sta").val("執行 待簽");
             else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "完成")
                 $("#inp_sta").val("完成");
-            else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "退回上階段")
+            else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "退回上階段"){
                 $("#inp_sta").val("執行長 待簽");
+                $("#inp_boss_sin").val("待簽");
+            }
             else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "退回起單人")
                 $("#inp_sta").val("退回起單人");
             $("#inp_ans").val($("#inp_com_ecu").val());
@@ -345,11 +314,5 @@
             $("#inp_execut_time").val(dt);
         }
     });
-
-
-
-
-
-
 
 </script>

@@ -49,7 +49,7 @@ namespace dbCompanyTest.Controllers
                     {
                         return RedirectToAction("Index");
                     }
-                    else if(x.部門 == "人事")
+                    else if (x.部門 == "人事")
                     {
                         return RedirectToAction("Index_HR");
                     }
@@ -86,7 +86,7 @@ namespace dbCompanyTest.Controllers
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
 
-            var data = _context.ToDoLists.FirstOrDefault( c=> c.交辦事項id== listNum);
+            var data = _context.ToDoLists.FirstOrDefault(c => c.交辦事項id == listNum);
 
             return View(data);
         }
@@ -94,7 +94,7 @@ namespace dbCompanyTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DT_TDL(int id, [Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] ToDoList toDoList)
         {
-            
+
 
             if (ModelState.IsValid)
             {
@@ -159,7 +159,7 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult LoadToDoList(string stf)
         {
-            if(stf == "ST2-0010170")
+            if (stf == "ST2-0010170")
             {
                 var datas = from c in _context.ToDoLists
                             join o in _context.TestStaffs on c.員工編號 equals o.員工編號
@@ -169,14 +169,14 @@ namespace dbCompanyTest.Controllers
             }
             else
             {
-            var datas = from c in _context.ToDoLists
-                        join o in _context.TestStaffs on c.員工編號 equals o.員工編號
-                        where c.員工編號 == stf || c.協辦部門簽核人員 ==stf || c.部門主管 ==stf ||c.起單人 ==stf ||c.執行人== stf
-                        select c;
+                var datas = from c in _context.ToDoLists
+                            join o in _context.TestStaffs on c.員工編號 equals o.員工編號
+                            where c.員工編號 == stf || c.協辦部門簽核人員 == stf || c.部門主管 == stf || c.起單人 == stf || c.執行人 == stf
+                            select c;
                 return Json(datas);
             }
 
-          
+
         }
         public IActionResult stf_info(string stf)
         {
@@ -190,12 +190,28 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult stf_info_dep(string dep)
         {
-            var datas = from c in _context.TestStaffs 
-                        where c.部門 == dep 
+            var datas = from c in _context.TestStaffs
+                        where c.部門 == dep
                         select c;
             var data = (from t in datas
-                       orderby Guid.NewGuid()
-                       select t).Take(2);
+                        orderby Guid.NewGuid()
+                        select t).Take(2);
+            return Json(data);
+        }
+
+        public IActionResult stf_info1(string i_whostart, string s_executor, string i_spvs, string i_co, string i_boss)
+        {
+            List<TestStaff> data = new List<TestStaff>();
+            var datas = from c in _context.TestStaffs select c;
+            var data1 = from t in datas where t.員工編號 == i_whostart select t;
+            var data2 = from b in datas where b.員工編號 == i_spvs select b;
+            var data3 = from d in datas where d.員工編號 == i_co select d;
+            var data4 = from f in datas where f.員工編號 == i_boss select f;
+            var data5 = from a in datas where a.員工編號 == s_executor select a;
+            data.AddRange(data1); data.AddRange(data2); data.AddRange(data3);
+            data.AddRange(data4); data.AddRange(data5);
+           
+
             return Json(data);
         }
     }

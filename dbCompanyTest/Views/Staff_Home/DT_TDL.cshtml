@@ -173,7 +173,7 @@
         var split1 = $(`#inp_whostart`).val().split(' ');
         var splitstf1 = split1[1];
         var list_type = $("#list_type").val();
-        //$(".no").css("display", "none");
+        $(".no").css("display", "none");
         $("#inp_start").css("display", "");
 
         $("#span_whostart").text($("#inp_whostart").val());
@@ -191,16 +191,10 @@
 
         function LoadPartialSchedule_HR() {
             $('#schedule').load("@Url.Content("~/Staff_Home/PartialSchedule_HR")")
-           //$.getScript("@Url.Content("~/js/LoadPartialSchedule_HR.js")");
-           
         }
 
         function LoadPartialSchedule_RG() {
             $('#schedule').load("@Url.Content("~/Staff_Home/PartialSchedule_RG")")
-            //$.getScript(`@Url.Content("~/js/LoadPartialSchedule_RG.js")`);
-
-        //    var table = document.getElementById(`dpm_str`);
-        //    table.innerHTML = document.getElementById(`inp_sta`).value;
         }
     </script>
 
