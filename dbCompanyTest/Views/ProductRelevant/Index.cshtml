@@ -11,13 +11,13 @@
             <button class="btn btn-primary " type="button" data-bs-toggle="collapse" data-bs-target="#collapsecolor" aria-expanded="false" aria-controls="collapsecolor" id="btn_ColorControl">
               顏色
             </button>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsesize" aria-expanded="false" aria-controls="collapsesize">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsesize" aria-expanded="false" aria-controls="collapsesize" id="btn_SizeControl">
                 尺寸
             </button>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsetype" aria-expanded="false" aria-controls="collapsetype">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsetype" aria-expanded="false" aria-controls="collapsetype" id="btn_TypeControl">
                 分類
             </button>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseshoe" aria-expanded="false" aria-controls="collapseshoe">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseshoe" aria-expanded="false" aria-controls="collapseshoe" id="btn_ShoesControl">
                 鞋種
             </button>
         </p>
@@ -25,10 +25,11 @@
             <div class="card card-body">
                 <div class="row">
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_ColorForm"> 新增</button>
-                    </div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_ColorForm"> 新增</button>                        
+                    </div>                    
                 </div>
-                <table id="tableAll">
+                <hr style='background-color:white; height:1px; border:none;'>
+                <table id="tableColor">
                     <thead>
                         <tr>
                             <th>商品顏色ID</th>
@@ -51,6 +52,7 @@
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_SizeForm"> 新增</button>
                     </div>
                 </div>
+                <hr style='background-color:white; height:1px; border:none;'>
                 <table id="tableSize">
                     <thead>
                         <tr>
@@ -72,6 +74,7 @@
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_ProForm"> 新增</button>
                     </div>
                 </div>
+                <hr style='background-color:white; height:1px; border:none;'>
                  <table id="tableType">
                     <thead>
                         <tr>
@@ -93,7 +96,8 @@
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_shoeForm"> 新增</button>
                     </div>
                 </div>
-                <table id="tableType">
+                <hr style='background-color:white; height:1px; border:none;'>
+                <table id="tableShoes">
                     <thead>
                         <tr>
                             <th>商品鞋種ID</th>
@@ -132,11 +136,240 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>
 
         <script>
+            //用TBcolor 代表整個Color表單
+            //TBcolor Load Start===============
+            let TBcolor = null;
+            
+            const ColorLoad = () =>{
+            TBcolor = $('#tableColor').DataTable(
+               {
+                   "searching":false,
+                    "ajax": `@Url.Content("~/ProductRelevant/ColorList")`,
+                    "type":'get',
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                    "columns":
+                    [
+                            { "data": "商品顏色id", width: '10%' },
+                            { "data": "商品顏色種類"},
+                            { "data": "色碼" },
+                            {
+                                data: null,
+                                className: 'img',
+                                render: function (data, type, row) {
+                                    return `<img src="@Url.Content("~/images/colorimg")/${data.商品顏色圖片}" width="50" height="50" '/>`
+
+                                },
+                                orderable: false,
+                                width:'10%'
+                            },
+                            {
+                                data: null,
+                                className: 'edit',
+                                render: function (data, type, row) {
+                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="C_btnEdit" title="修改" ><i class="fas fa-edit"></i>修改</button>';
+
+                                },
+                                orderable: false,
+                                width: '7%'
+                            },
+                            {
+                                data: null,
+                                className: 'del',
+                                render: function (data, type, row) {
+                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="C_btnDel"  title="刪除"><i class="fa fa-minus-square"></i>刪除</button>';
+                                },
+                                orderable: false,
+                                width: '7%'
+                            }
+                    ]
+               });     
+            }
+         //TBColor End===================
+
+        //用TBsize 代表整個Size表單
+        //TBsize Load Start===============
+        let TBsize = null;
+
+        const SizeLoad = () => {
+            TBsize = $('#tableSize').DataTable(
+                {
+                    "searching": false,
+                    "ajax": `@Url.Content("~/ProductRelevant/SizeList")`,
+                    "type": 'get',
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                    "columns":
+                        [
+                            { "data": "商品尺寸id", width: '10%' },
+                            { "data": "尺寸種類" },                         
+                            {
+                                data: null,
+                                className: 'edit',
+                                render: function (data, type, row) {
+                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="S_btnEdit" title="修改" ><i class="fas fa-edit"></i>修改</button>';
+
+                                },
+                                orderable: false,
+                                width: '7%'
+                            },
+                            {
+                                data: null,
+                                className: 'del',
+                                render: function (data, type, row) {
+                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="S_btnDel"  title="刪除"><i class="fa fa-minus-square"></i>刪除</button>';
+                                },
+                                orderable: false,
+                                width: '7%'
+                            }
+                        ]
+                });
+        }
+        //TBColor End===================
+
+        //用TBtype 代表整個Type表單
+        //TBtype Load Start===============
+        let TBtype = null;
+
+        const TypeLoad = () => {
+            TBtype = $('#tableType').DataTable(
+                {
+                    "searching": false,
+                    "ajax": `@Url.Content("~/ProductRelevant/TypeList")`,
+                    "type": 'get',
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                    "columns":
+                        [
+                            { "data": "商品分類id", width: '10%' },
+                            { "data": "商品分類名稱" },
+                            {
+                                data: null,
+                                className: 'edit',
+                                render: function (data, type, row) {
+                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="T_btnEdit" title="修改" ><i class="fas fa-edit"></i>修改</button>';
+
+                                },
+                                orderable: false,
+                                width: '7%'
+                            },
+                            {
+                                data: null,
+                                className: 'del',
+                                render: function (data, type, row) {
+                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="T_btnDel"  title="刪除"><i class="fa fa-minus-square"></i>刪除</button>';
+                                },
+                                orderable: false,
+                                width: '7%'
+                            }
+                        ]
+                });
+        }
+        //TBColor End===================
+
+        //用TBshoes 代表整個Shoes表單
+        //TBshoes Load Start===============
+        let TBshoes = null;
+
+        const ShoesLoad = () => {
+            TBshoes = $('#tableShoes').DataTable(
+                {
+                    "searching": false,
+                    "ajax": `@Url.Content("~/ProductRelevant/ShoesList")`,
+                    "type": 'get',
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                    "columns":
+                        [
+                            { "data": "商品鞋種id", width: '10%' },
+                            { "data": "鞋種" },
+                            {
+                                data: null,
+                                className: 'edit',
+                                render: function (data, type, row) {
+                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="SH_btnEdit" title="修改" ><i class="fas fa-edit"></i>修改</button>';
+
+                                },
+                                orderable: false,
+                                width: '7%'
+                            },
+                            {
+                                data: null,
+                                className: 'del',
+                                render: function (data, type, row) {
+                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="SH_btnDel"  title="刪除"><i class="fa fa-minus-square"></i>刪除</button>';
+                                },
+                                orderable: false,
+                                width: '7%'
+                            }
+                        ]
+                });
+        }
+        //TBColor End===================
+
             //載入時觸發
         $(document).ready(function () {
             //先開啟顏色面板
             $("#btn_ColorControl").click();
+            ColorLoad();
         });
+
+        //表單按鈕事件開始===================
+        //顏色表單按鈕事件
+        $("#btn_ColorControl").on('click',function(){           
+           if($(this).attr("aria-expanded")=="true")
+           {
+                change_Colortable();
+           }           
+        })
+        //重新加載顏色
+        function change_Colortable() {
+            if (($("#tableColor tbody tr").length)>0)
+            {
+                TBcolor.destroy();
+            }
+            ColorLoad();
+        }
+        //===
+        //尺寸表單按鈕事件
+        $("#btn_SizeControl").on('click', function () {
+            if ($(this).attr("aria-expanded") == "true") {
+                change_Sizetable();
+            }
+        })
+        //重新加載尺寸
+        function change_Sizetable() {
+            if (($("#tableSize tbody tr").length) > 0) {
+                TBsize.destroy();
+            }
+            SizeLoad();
+        }
+        //===
+        //類別表單按鈕事件
+        $("#btn_TypeControl").on('click', function () {
+            if ($(this).attr("aria-expanded") == "true") {
+                change_Typetable();
+            }
+        })
+        //重新加載類別
+        function change_Typetable() {
+            if (($("#tableType tbody tr").length) > 0) {
+                TBtype.destroy();
+            }
+            TypeLoad();
+        }
+        //===
+        //鞋種表單按鈕事件
+        $("#btn_ShoesControl").on('click', function () {
+            if ($(this).attr("aria-expanded") == "true") {
+                change_Shoestable();
+            }
+        })
+        //重新加載類別
+        function change_Shoestable() {
+            if (($("#tableShoes tbody tr").length) > 0) {
+                TBshoes.destroy();
+            }
+            ShoesLoad();
+        }
+        //表單按鈕事件結束===================
+
        </script>
 
 }

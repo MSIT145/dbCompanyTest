@@ -29,7 +29,7 @@ namespace dbCompanyTest.Controllers
         public IActionResult ColorList()
         {
             var data = db.ProductsColorDetails.ToList();
-            return Json(data);
+            return Json(new { data });
         }
 
         public IActionResult ColorDelete(string id)
@@ -114,7 +114,7 @@ namespace dbCompanyTest.Controllers
         public IActionResult SizeList()
         {
             var data = db.ProductsSizeDetails.ToList();
-            return Json(data);
+            return Json(new { data });
         }
 
         public IActionResult SizeDelete(string id)
@@ -173,7 +173,7 @@ namespace dbCompanyTest.Controllers
         public IActionResult TypeList()
         {
             var data = db.ProductsTypeDetails.ToList();
-            return Json(data);
+            return Json(new { data });
         }
 
         public IActionResult TypeDelete(string id)
@@ -235,7 +235,7 @@ namespace dbCompanyTest.Controllers
         public IActionResult ShoesList()
         {
             var data = db.商品鞋種s.ToList();
-            return Json(data);
+            return Json(new { data });
         }
 
         public IActionResult _ShoesCreate(商品鞋種 data)
