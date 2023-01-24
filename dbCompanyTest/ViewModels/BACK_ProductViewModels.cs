@@ -51,6 +51,17 @@
 
     public class Back_Product_library
     {
+        //刪除相應圖片
+        //刪除圖片位置資料表的相應圖片
+        public string DeleteImg(string Path)
+        {
+           
+            string oldPath1 = Path;
+            System.IO.File.Delete(oldPath1); //刪掉原本的圖片
+
+            return $"圖片刪除成功";
+
+        }
 
         //圖片存入方法
         public void SavePhotoMethod(IFormFile p, string proname, string oldname ,string Path)
@@ -69,7 +80,6 @@
         }
 
         //亂數產生器
-
         public  String RandomString(int length)
         {
             //少了英文的IO和數字10，要避免使用者判斷問題時會使用到

@@ -71,7 +71,7 @@
             <div class="card card-body">
                 <div class="row">
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_ProForm"> 新增</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_TypeForm"> 新增</button>
                     </div>
                 </div>
                 <hr style='background-color:white; height:1px; border:none;'>
@@ -93,7 +93,7 @@
             <div class="card card-body">
                 <div class="row">
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_shoeForm"> 新增</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_shoesForm"> 新增</button>
                     </div>
                 </div>
                 <hr style='background-color:white; height:1px; border:none;'>
@@ -123,6 +123,7 @@
 
             </div>
             <div class="modal-body">
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn_Close_D">關閉</button>
@@ -155,7 +156,10 @@
                             {
                                 data: null,
                                 className: 'img',
-                                render: function (data, type, row) {
+                                render: function (data, type, row) {                                    
+                                    if (data.商品顏色圖片==null)
+                                    return `<img src="@Url.Content("~/images")/404.jpg" width="50" height="50" '/>`
+                                    else
                                     return `<img src="@Url.Content("~/images/colorimg")/${data.商品顏色圖片}" width="50" height="50" '/>`
 
                                 },
@@ -166,7 +170,7 @@
                                 data: null,
                                 className: 'edit',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="C_btnEdit" title="修改" ><i class="fas fa-edit"></i>修改</button>';
+                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="C_btnEdit" title="修改"   data-bs-toggle="modal" data-bs-target="#Moda"><i class="fas fa-edit"></i>修改</button>';
 
                                 },
                                 orderable: false,
@@ -317,7 +321,33 @@
            {
                 change_Colortable();
            }           
-        })
+        });
+
+        //新增按鈕綁定(Color)
+        $("#btn_ColorForm").on('click', function () {
+
+            $("#Moda .modal-body").find("#myModal-label").val("新增顏色")
+            $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_ColorCreate")");
+        });     
+
+        //加入按鈕事件(顏色修改) C_btnEdit
+        $('#tableColor').on('click', 'button[name="C_btnEdit"]', function () {
+            const row = $(this).parents('tr');
+            const id = row.find('td:eq(0)').text().trim();
+            $("#Moda .modal-body").find("#myModal-label").val("修改顏色")
+            $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_ColorEdit")"+`/?id=${id}`);
+                      
+        });
+        //加入按鈕事件(顏色刪除) C_btnDel
+        $('#tableColor').on('click', 'button[name="C_btnDel"]', function () {
+            const row = $(this).parents('tr');
+            const id = row.find('td:eq(0)').text().trim();
+
+            $.get("@Url.Content("~/ProductRelevant/ColorDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
+            //重新載入
+            change_Colortable()
+        });
+
         //重新加載顏色
         function change_Colortable() {
             if (($("#tableColor tbody tr").length)>0)
@@ -369,7 +399,20 @@
             ShoesLoad();
         }
         //表單按鈕事件結束===================
+   
+             
+        //檢查錯誤圖檔
+        document.addEventListener("error", function (e) {
+            var elem = e.target;
+            if (elem.tagName.toLowerCase() == 'img') {
+                elem.src = '@Url.Content("~/images/404.jpg")';
+            }
+        }, true);
 
+       //Modal關閉監聽 hide.bs.modal
+        $("#Moda").on('hide.bs.modal', function () {
+            change_Colortable();
+        })
        </script>
 
 }

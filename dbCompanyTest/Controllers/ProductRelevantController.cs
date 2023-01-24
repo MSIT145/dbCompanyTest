@@ -1,6 +1,8 @@
 ﻿using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using NPOI.HSSF.EventUserModel.DummyRecord;
+using NPOI.SS.UserModel;
 using System.Text;
 
 namespace dbCompanyTest.Controllers
@@ -41,51 +43,35 @@ namespace dbCompanyTest.Controllers
                 return Content("錯誤_資料格式錯誤", "text/plain", Encoding.UTF8);            
             var data = db.ProductsColorDetails.FirstOrDefault(pd => pd.商品顏色id == _id);
             if (data == null) return Content($"錯誤_沒有此筆資料", "text/plain", Encoding.UTF8);
+            //刪除圖片
+            if (data.商品顏色圖片 == null)return Content($"錯誤_沒有此圖片資料!", "text/plain", Encoding.UTF8);
+
+            string Path = _eviroment.WebRootPath + "/images/colorimg/" + data.商品顏色圖片;
+            (new Back_Product_library()).DeleteImg(Path);
+
             db.ProductsColorDetails.Remove(data);
             db.SaveChanges();
             return Content($"編號 {data.商品顏色id} 刪除成功", "text/plain", Encoding.UTF8);
         }
 
-        public IActionResult ColorEdit(string id)
-        {
-            //因用javascript ajax傳輸 請用 Content("錯誤_請輸入圖片!", "text/plain", Encoding.UTF8);
 
+
+        public IActionResult _ColorEdit(string id)
+        {
+            //因用javascript ajax傳輸 請用 Content("錯誤_請輸入圖片!", "text/plain", Encoding.UTF8);          
             if (string.IsNullOrEmpty(id))
-                return Content("錯誤_資料傳輸錯誤", "text/plain", Encoding.UTF8);
+                return Content("錯誤_資料傳輸錯誤", "text/plain", Encoding.UTF8);                 
             int _id = Int32.TryParse(id, out int temp) ? temp : -1;
             if (_id == -1)
-                return Content("錯誤_資料格式錯誤", "text/plain", Encoding.UTF8);
-            var data = db.ProductsColorDetails.FirstOrDefault(pd => pd.商品顏色id == _id);
+                return Content("錯誤_資料格式錯誤", "text/plain", Encoding.UTF8);          
+            var data = db.ProductsColorDetails.FirstOrDefault(pd => pd.商品顏色id == Int32.Parse(id));
             return PartialView(data);
         }
-
-        public IActionResult _ColorCreate(ProductsColorDetail data, IFormFile 商品顏色圖片)
-        {
-            //先更改圖片位置
-            //建立8位數亂碼
-            string cold = (new Back_Product_library()).RandomString(8);
-            string imgeName = $"{data.商品顏色id}_{cold}";
-            ProductsColorDetail CC = new ProductsColorDetail();
-            //先建立圖片資料
-            if (商品顏色圖片 != null)
-            {
-                BP.SavePhotoMethod(商品顏色圖片, $"{imgeName}", "", _eviroment.WebRootPath + "/images/colorimg/");
-                CC.商品顏色圖片 = $"{imgeName}.jpg";
-            }
-            CC.商品顏色id = data.商品顏色id;
-            CC.商品顏色種類 = data.商品顏色種類;
-            CC.色碼 = data.色碼;
-            db.ProductsColorDetails.Add(CC);
-            db.SaveChanges();
-
-            return Content($"新增成功", "text/plain", Encoding.UTF8);
-        }
-
-
-        public IActionResult _ColorEdit(ProductsColorDetail data, IFormFile 商品顏色圖片)
+        [HttpPost]
+        public IActionResult ColorEdit(ProductsColorDetail data, IFormFile 商品顏色圖片)
         {
 
-            var PC = db.ProductsColorDetails.FirstOrDefault(pd => pd.商品顏色id == data.商品顏色id);
+              var PC = db.ProductsColorDetails.FirstOrDefault(pd => pd.商品顏色id == data.商品顏色id);
             if (PC == null) return Content($"錯誤_沒有此筆資料", "text/plain", Encoding.UTF8);
 
             //先更改圖片位置
@@ -98,7 +84,7 @@ namespace dbCompanyTest.Controllers
             {
                 BP.SavePhotoMethod(商品顏色圖片, $"{imgeName}", PC.商品顏色圖片, _eviroment.WebRootPath + "/images/colorimg/");
                 PC.商品顏色圖片 = $"{imgeName}.jpg";
-            }            
+            }
             PC.商品顏色種類 = data.商品顏色種類;
             PC.色碼 = data.色碼;
             db.SaveChanges();
@@ -106,7 +92,36 @@ namespace dbCompanyTest.Controllers
             return Content($"編號 {data.商品顏色id} 修改成功", "text/plain", Encoding.UTF8);
         }
 
+        public IActionResult _ColorCreate()
+        {
+            return PartialView();
+        }
 
+        public IActionResult ColorCreate(ProductsColorDetail data, IFormFile 商品顏色圖片)
+        {
+            //先更改圖片位置
+            //建立8位數亂碼           
+            string cold = (new Back_Product_library()).RandomString(8);
+            int num = db.ProductsColorDetails.Count();
+            var N_id = db.ProductsColorDetails.Take(num).Skip(num - 1).FirstOrDefault().商品顏色id;     
+            if(N_id==null)
+                return Content($"資料讀取錯誤", "text/plain", Encoding.UTF8);
+            string imgeName = $"{N_id+1}_{cold}";
+            ProductsColorDetail CC = new ProductsColorDetail();
+            //先建立圖片資料
+            if (商品顏色圖片 != null)
+            {
+                BP.SavePhotoMethod(商品顏色圖片, $"{imgeName}", "", _eviroment.WebRootPath + "/images/colorimg/");
+                CC.商品顏色圖片 = $"{imgeName}.jpg";
+            }
+            CC.商品顏色id = data.商品顏色id;
+            CC.商品顏色種類 = data.商品顏色種類;
+            CC.色碼 = data.色碼;
+            db.ProductsColorDetails.Add(CC);
+            db.SaveChanges();
+            // return PartialView();
+            return Content($"新增成功", "text/plain", Encoding.UTF8);
+        }
         #endregion
 
         //尺寸
