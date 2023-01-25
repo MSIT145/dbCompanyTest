@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NPOI.OpenXmlFormats.Wordprocessing;
+using System.Net.Mail;
 using System.Security.Policy;
 using System.Security.Principal;
 using static NuGet.Packaging.PackagingConstants;
@@ -32,30 +34,43 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult login()
         {
-            HttpContext.Session.Remove("Account");
+            //HttpContext.Session.Remove("Account");
+            string stfNum = HttpContext.Session.GetString("Account");
+            if (HttpContext.Session.Keys.Contains("Account"))
+            {
+                TestStaff x = _context.TestStaffs.FirstOrDefault(T => T.員工編號 == stfNum);
+                if (x.部門 == "行政" || x.部門 == "執行長室")
+                {
+                    return RedirectToAction("Index");
+                }
+                else if (x.部門 == "人事")
+                {
+                    return RedirectToAction("Index_HR");
+                }
+            }
             return View();
         }
         [HttpPost]
-        public IActionResult login(CLoginViewModels vm)
+        public IActionResult login(/*CLoginViewModels vm, */string account, string password)
         {
-            TestStaff x = _context.TestStaffs.FirstOrDefault(T => T.員工編號.Equals(vm.txtAccount) && T.密碼.Equals(vm.txtPassword));
+            TestStaff x = _context.TestStaffs.FirstOrDefault(T => T.員工編號.Equals(account) && T.密碼.Equals(password));
             if (x != null)
             {
-                if (x.密碼.Equals(vm.txtPassword) && x.員工編號.Equals(vm.txtAccount))
+                if (x.密碼.Equals(password) && x.員工編號.Equals(account))
                 {
                     if (!HttpContext.Session.Keys.Contains("Account"))
-                        HttpContext.Session.SetString("Account", vm.txtAccount);
-                    if (x.部門 == "行政" || x.部門 == "執行長室")
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else if (x.部門 == "人事")
-                    {
-                        return RedirectToAction("Index_HR");
-                    }
+                        HttpContext.Session.SetString("Account", account);
+                    return Content("success");
                 }
-
             }
+                else
+                {
+                    if (account == null || password == null)
+                    {
+                        return Content("CantNull");
+                    }
+                    return Content("false");
+                }
             return View();
         }
         public IActionResult logout()
@@ -210,9 +225,57 @@ namespace dbCompanyTest.Controllers
             var data5 = from a in datas where a.員工編號 == s_executor select a;
             data.AddRange(data1); data.AddRange(data2); data.AddRange(data3);
             data.AddRange(data4); data.AddRange(data5);
-           
+
 
             return Json(data);
+        }
+        public IActionResult forgetPassword(string account)
+        {
+            //var x = from t in _context.TestStaffs where t.員工編號 == account select t; 
+            TestStaff x = _context.TestStaffs.FirstOrDefault(T => T.員工編號 == account);
+            if (x != null)
+            {
+                System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
+                msg.To.Add(x.Email);
+                msg.Subject = "員工忘記密碼";
+                msg.SubjectEncoding = System.Text.Encoding.UTF8;//主旨編碼
+                msg.Body = $"<h5 id=\"stf_info\">{x.員工編號} {x.員工姓名} 您好!</h5>";
+                msg.Body += $"<a href=`https://localhost:7100/Login/RePassword?account={account}`>點選此連結變更密碼</a>";
+                msg.BodyEncoding = System.Text.Encoding.UTF8;//內文編碼
+                msg.IsBodyHtml = true; //!!!
+
+                SmtpClient smtp = new SmtpClient();
+                smtp.Credentials = new System.Net.NetworkCredential("msit145finalpj@gmail.com", "zlazqafpmuwxkxvo");
+                smtp.Host= "smtp.gmail.com";
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+                smtp.Send(msg);
+                msg.Dispose();
+
+                return Json("請至信箱接收密碼更改信件");
+            }
+            else
+                return Json("沒有這個帳號");
+        }
+        public IActionResult ResetPassword(string account)
+        {
+            ViewBag.account = account;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult ResetPassword(string stf_info, string Password_F)
+        {
+            TestStaff datas = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stf_info);
+            if (datas.密碼 == Password_F) 
+            {
+                return Content("repeat");
+            }
+            else
+            {
+                datas.密碼 = Password_F;
+                _context.SaveChanges();
+                return Content("success");
+            }
         }
     }
 }
