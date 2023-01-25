@@ -39,7 +39,7 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <div class="d-carouse">
+        <div class="d-carouse aaa">
             <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" />
             <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" />
             <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" />
@@ -167,6 +167,20 @@
     <script>
         let count = 1;
         let sizecheck = null;
+        $(window).on("resize", function(e){
+            console.log( $(this).width()); 
+            if($(window).width()<500)
+            {
+                //$(".d-right-detail").css("display","none");
+                $("#carouselExampleDark").append($(".d-right-detail"));
+            }
+            else
+            {
+                $(".content").append($(".d-right-detail"));
+            }
+        });
+
+
         $(".web-top").on('click',function(e){
             e.preventDefault();
             $("html").animate(
@@ -177,7 +191,6 @@
             );
         });
         $(window).scroll(function(){
-            console.log($(window).scrollTop());
             if ($(window).scrollTop()>1000){
                 $(".web-top").css("display","block");
             }
@@ -185,9 +198,6 @@
                 $(".web-top").css("display", "none");
             }
         });
-
-
-
         $(".tab-item").on('click', function () {
             $(this).addClass("ac").siblings().removeClass("ac");
            let item =  $(this).data('item');
