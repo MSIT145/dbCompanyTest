@@ -19,6 +19,12 @@ time, mark, audio, video {
     vertical-align: baseline;
 }
 
+
+
+
+
+
+
 html, body {
     width: 100%;
     font-family: sans-serif, "Arial", "Microsoft YaHei", "黑體", "宋體", "微軟雅黑";
@@ -36,42 +42,44 @@ a {
 
 .content {
     display: flex;
-    justify-content: center;
-    flex-direction: row
+    justify-content:center;
+    flex-direction: row;
+    
 }
 
 @media screen and (max-width:500px) {
     .content {
-        
         display: flex;
-        float:none;
-        position:center;
-        flex-direction: column !important;
+        flex-direction:column;
+        position:relative;
     }
 }
-    .detail-center {
-        float: left;
-        max-width: 100%;
-    }
+
+
+
+.detail-center {
+    float: left;
+    max-width: 100%;
+}
 
 
 @media screen and (max-width:500px) {
     .detail-center {
-        float: none;
         max-width: 100%;
+        position:absolute;
     }
 }
 
 
-    .d-position {
-        min-width: 400px;
-        max-width: 1090px;
-        color: #636363;
-        margin-top: 14px;
-        margin-bottom: 14px;
-        font-size: 15px;
-        float:none;
-    }
+.d-position {
+    min-width: 400px;
+    max-width: 1090px;
+    color: #636363;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    font-size: 15px;
+    float: none;
+}
 
 
 @media screen and (max-width:500px) {
@@ -116,8 +124,8 @@ a {
         height: inherit;
         transform: scale(1,1);
         transition: all 1s ease-out;
-        z-index: 1;
         float: none;
+
     }
 
 .d-carouse-pic {
@@ -126,14 +134,6 @@ a {
     float: none;
 }
 
-@media screen and (max-width:500px) {
-    .d-right-detail {
-        float: none !important;
-        max-width: 500px;
-        z-index: 999;
-        float: none;
-    }
-}
 
 
 
@@ -142,6 +142,13 @@ a {
     max-width: 100%;
     width: 15%;
 }
+@media screen and (max-width:500px) {
+    .d-right-detail {
+        max-width: 500px;
+        position: absolute;
+    }
+}
+
 
 
 .d-right-detail-item {
@@ -545,4 +552,22 @@ img:hover{transform:scale(1.2,1.2);}
 
 .ac span {
     color: #2b2b2b;
+}
+.web-top {
+    position: fixed;
+    width: 42px;
+    height: 84px;
+    bottom: 300px;
+    right: 60px;
+    display: none;
+}
+    .web-top .icon {
+        cursor: pointer;
+        width: 42px;
+        height: 42px;
+        background-size: contain;
+        text-align: center;
+    }
+.back-top {
+    background-image:url(/images/top.jpg);
 }

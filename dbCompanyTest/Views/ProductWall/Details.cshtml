@@ -125,7 +125,10 @@
 </div>
 
 
-
+@*返回頂部*@
+<div class="web-top">
+    <div class="icon back-top"></div>
+</div>
 @*錯誤訊息*@
 <div class="modal" id="error" style="display:none;">
     <div class="modal-box">
@@ -164,6 +167,27 @@
     <script>
         let count = 1;
         let sizecheck = null;
+        $(".web-top").on('click',function(e){
+            e.preventDefault();
+            $("html").animate(
+            {
+                scrollTop:0,
+            },
+            600
+            );
+        });
+        $(window).scroll(function(){
+            console.log($(window).scrollTop());
+            if ($(window).scrollTop()>1000){
+                $(".web-top").css("display","block");
+            }
+            else{
+                $(".web-top").css("display", "none");
+            }
+        });
+
+
+
         $(".tab-item").on('click', function () {
             $(this).addClass("ac").siblings().removeClass("ac");
            let item =  $(this).data('item');
