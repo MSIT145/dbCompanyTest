@@ -209,7 +209,7 @@
                                 data: null,
                                 className: 'edit',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="S_btnEdit" title="修改" ><i class="fas fa-edit"></i>修改</button>';
+                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="S_btnEdit" title="修改" data-bs-toggle="modal" data-bs-target="#Moda"><i class="fas fa-edit"></i>修改</button>';
 
                                 },
                                 orderable: false,
@@ -248,7 +248,7 @@
                                 data: null,
                                 className: 'edit',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="T_btnEdit" title="修改" ><i class="fas fa-edit"></i>修改</button>';
+                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="T_btnEdit" title="修改" data-bs-toggle="modal" data-bs-target="#Moda"><i class="fas fa-edit"></i>修改</button>';
 
                                 },
                                 orderable: false,
@@ -287,7 +287,7 @@
                                 data: null,
                                 className: 'edit',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="SH_btnEdit" title="修改" ><i class="fas fa-edit"></i>修改</button>';
+                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="SH_btnEdit" title="修改" data-bs-toggle="modal" data-bs-target="#Moda"><i class="fas fa-edit"></i>修改</button>';
 
                                 },
                                 orderable: false,
@@ -325,8 +325,7 @@
 
         //新增按鈕綁定(Color)
         $("#btn_ColorForm").on('click', function () {
-
-            $("#Moda .modal-body").find("#myModal-label").val("新增顏色")
+            $("#Moda .modal-header").find("#myModal-label").text("新增顏色")
             $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_ColorCreate")");
         });     
 
@@ -334,18 +333,19 @@
         $('#tableColor').on('click', 'button[name="C_btnEdit"]', function () {
             const row = $(this).parents('tr');
             const id = row.find('td:eq(0)').text().trim();
-            $("#Moda .modal-body").find("#myModal-label").val("修改顏色")
+            $("#Moda .modal-header").find("#myModal-label").text("修改顏色")
             $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_ColorEdit")"+`/?id=${id}`);
                       
         });
         //加入按鈕事件(顏色刪除) C_btnDel
         $('#tableColor').on('click', 'button[name="C_btnDel"]', function () {
+            $.ajaxSettings.async = false;   //關閉非同步
             const row = $(this).parents('tr');
             const id = row.find('td:eq(0)').text().trim();
-
             $.get("@Url.Content("~/ProductRelevant/ColorDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
             //重新載入
             change_Colortable()
+            $.ajaxSettings.async = true;   //開啟非同步
         });
 
         //重新加載顏色
@@ -363,6 +363,21 @@
                 change_Sizetable();
             }
         })
+
+        //新增按鈕綁定(Size)
+        $("#btn_SizeForm").on('click', function () {
+            $("#Moda .modal-header").find("#myModal-label").text("新增尺寸")
+            $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_SizeCreate")");
+        });
+
+        //加入按鈕事件(尺寸修改) C_btnEdit
+        $('#tableSize').on('click', 'button[name="S_btnEdit"]', function () {
+            const row = $(this).parents('tr');
+            const id = row.find('td:eq(0)').text().trim();
+            $("#Moda .modal-header").find("#myModal-label").text("修改尺寸")
+            $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_SizeEdit")" + `/?id=${id}`);
+        });
+
         //重新加載尺寸
         function change_Sizetable() {
             if (($("#tableSize tbody tr").length) > 0) {
@@ -370,6 +385,17 @@
             }
             SizeLoad();
         }
+
+        //加入按鈕事件(尺寸刪除) C_btnDel
+        $('#tableSize').on('click', 'button[name="S_btnDel"]', function () {
+            $.ajaxSettings.async = false;   //關閉非同步
+            const row = $(this).parents('tr');
+            const id = row.find('td:eq(0)').text().trim();
+            $.get("@Url.Content("~/ProductRelevant/SizeDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
+            //重新載入
+            change_Sizetable();
+            $.ajaxSettings.async = true;   //開啟非同步
+        });
         //===
         //類別表單按鈕事件
         $("#btn_TypeControl").on('click', function () {
@@ -384,6 +410,31 @@
             }
             TypeLoad();
         }
+
+        //新增按鈕綁定(Size) btn_TypeForm
+        $("#btn_TypeForm").on('click', function () {
+            $("#Moda .modal-header").find(".modal-title").text("新增類別")
+            $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_TypeCreate")");
+        });
+
+        //加入按鈕事件(類別修改) T_btnEdit
+        $('#tableType').on('click', 'button[name="T_btnEdit"]', function () {
+            const row = $(this).parents('tr');
+            const id = row.find('td:eq(0)').text().trim();
+            $("#Moda .modal-header").find(".modal-title").text("修改類別")
+            $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_TypeEdit")" + `/?id=${id}`);
+        });
+
+        //加入按鈕事件(類別刪除) T_btnDel
+        $('#tableType').on('click', 'button[name="T_btnDel"]', function () {
+            $.ajaxSettings.async = false;   //關閉非同步
+            const row = $(this).parents('tr');
+            const id = row.find('td:eq(0)').text().trim();
+            $.get("@Url.Content("~/ProductRelevant/TypeDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
+            //重新載入
+            change_Typetable();
+            $.ajaxSettings.async = true;  //開啟非同步
+        });
         //===
         //鞋種表單按鈕事件
         $("#btn_ShoesControl").on('click', function () {
@@ -391,6 +442,33 @@
                 change_Shoestable();
             }
         })
+
+       // 新增按鈕綁定(Size) btn_TypeForm
+        $("#btn_shoesForm").on('click', function () {
+            $("#Moda .modal-header").find(".modal-title").text("新增鞋種")
+            $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_ShoesCreate")");
+        });
+
+        //加入按鈕事件(鞋種修改) SH_btnEdit
+        $('#tableShoes').on('click', 'button[name="SH_btnEdit"]', function () {
+            const row = $(this).parents('tr');
+            const id = row.find('td:eq(0)').text().trim();
+            $("#Moda .modal-header").find(".modal-title").text("修改鞋種")
+            $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_ShoesEdit")" + `/?id=${id}`);
+        });
+
+        //加入按鈕事件(鞋種刪除) SH_btnDel
+        $('#tableShoes').on('click', 'button[name="SH_btnDel"]', function () {
+            $.ajaxSettings.async = false;   //關閉非同步
+            const row = $(this).parents('tr');
+            const id = row.find('td:eq(0)').text().trim();
+            $.get("@Url.Content("~/ProductRelevant/ShoesDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
+            //重新載入
+            change_Shoestable();
+            $.ajaxSettings.async = true;  //開啟非同步
+        });
+
+
         //重新加載類別
         function change_Shoestable() {
             if (($("#tableShoes tbody tr").length) > 0) {
@@ -412,6 +490,9 @@
        //Modal關閉監聽 hide.bs.modal
         $("#Moda").on('hide.bs.modal', function () {
             change_Colortable();
+            change_Sizetable();
+            change_Typetable();
+            change_Shoestable();
         })
        </script>
 

@@ -43,6 +43,8 @@ namespace dbCompanyTest.Controllers
                 return Content("錯誤_資料格式錯誤", "text/plain", Encoding.UTF8);            
             var data = db.ProductsColorDetails.FirstOrDefault(pd => pd.商品顏色id == _id);
             if (data == null) return Content($"錯誤_沒有此筆資料", "text/plain", Encoding.UTF8);
+            var ProData = db.ProductDetails.Where(p => p.商品顏色id == _id);
+            if(ProData.Count()>0)return Content($"錯誤_還有ProductDetail使用此顏色，不能刪除", "text/plain", Encoding.UTF8);
             //刪除圖片
             if (data.商品顏色圖片 == null)return Content($"錯誤_沒有此圖片資料!", "text/plain", Encoding.UTF8);
 
@@ -141,27 +143,28 @@ namespace dbCompanyTest.Controllers
                 return Content("錯誤_資料格式錯誤", "text/plain", Encoding.UTF8);
             var data = db.ProductsSizeDetails.FirstOrDefault(pd => pd.商品尺寸id == _id);
             if (data == null) return Content($"錯誤_沒有此筆資料", "text/plain", Encoding.UTF8);
+            var PDdata = db.ProductDetails.Where(p => p.商品尺寸id == _id);
+            if(PDdata.Count()>0) return Content($"錯誤_還有ProductDetail使用此尺寸，不能刪除", "text/plain", Encoding.UTF8);
             db.ProductsSizeDetails.Remove(data);
             db.SaveChanges();
             return Content($"編號 {data.商品尺寸id} 刪除成功", "text/plain", Encoding.UTF8);
         }
 
-        public IActionResult SizeEdit(string id)
+       
+        public IActionResult _SizeEdit(string id)
         {
-            
-
+            //因用javascript ajax傳輸 請用 Content("錯誤_請輸入圖片!", "text/plain", Encoding.UTF8);          
             if (string.IsNullOrEmpty(id))
                 return Content("錯誤_資料傳輸錯誤", "text/plain", Encoding.UTF8);
             int _id = Int32.TryParse(id, out int temp) ? temp : -1;
             if (_id == -1)
                 return Content("錯誤_資料格式錯誤", "text/plain", Encoding.UTF8);
-            var data = db.ProductsSizeDetails.FirstOrDefault(pd => pd.商品尺寸id == _id);
+            var data = db.ProductsSizeDetails.FirstOrDefault(pd => pd.商品尺寸id == Int32.Parse(id));
             return PartialView(data);
         }
-
-        public IActionResult _SizeEdit(ProductsSizeDetail data)
+        public IActionResult SizeEdit(ProductsSizeDetail data)
         {
-
+            
             var SE = db.ProductsSizeDetails.FirstOrDefault(pd => pd.商品尺寸id == data.商品尺寸id);
             if (SE == null) return Content($"錯誤_沒有此筆資料", "text/plain", Encoding.UTF8);
 
@@ -172,10 +175,16 @@ namespace dbCompanyTest.Controllers
             return Content($"編號 {data.商品尺寸id} 修改成功", "text/plain", Encoding.UTF8);
         }
 
-        public IActionResult _SizeCreate(ProductsSizeDetail data)
+        public IActionResult _SizeCreate()
+        {
+            return PartialView();
+        }
+
+        public IActionResult SizeCreate(ProductsSizeDetail data)
         {
             ProductsSizeDetail SE = new ProductsSizeDetail();            
             SE.尺寸種類 = data.尺寸種類;
+            db.ProductsSizeDetails.Add(SE);
             db.SaveChanges();
 
             return Content($"新建成功", "text/plain", Encoding.UTF8);
@@ -200,15 +209,15 @@ namespace dbCompanyTest.Controllers
                 return Content("錯誤_資料格式錯誤", "text/plain", Encoding.UTF8);
             var data = db.ProductsTypeDetails.FirstOrDefault(pd => pd.商品分類id == _id);
             if (data == null) return Content($"錯誤_沒有此筆資料", "text/plain", Encoding.UTF8);
+            var Tdata = db.Products.Where(p => p.商品分類id == _id);
+            if (Tdata.Count() > 0) return Content($"錯誤_還有Product使用此分類，不能刪除", "text/plain", Encoding.UTF8);
             db.ProductsTypeDetails.Remove(data);
             db.SaveChanges();
             return Content($"編號 {data.商品分類id} 刪除成功", "text/plain", Encoding.UTF8);
         }
 
-        public IActionResult TypeEdit(string id)
+        public IActionResult _TypeEdit(string id)
         {
-           
-
             if (string.IsNullOrEmpty(id))
                 return Content("錯誤_資料傳輸錯誤", "text/plain", Encoding.UTF8);
             int _id = Int32.TryParse(id, out int temp) ? temp : -1;
@@ -218,20 +227,25 @@ namespace dbCompanyTest.Controllers
             return PartialView(data);
         }
 
-        public IActionResult _TypeEdit(ProductsTypeDetail data)
+        public IActionResult TypeEdit(ProductsTypeDetail data)
         {
 
             var PT = db.ProductsTypeDetails.FirstOrDefault(pd => pd.商品分類id == data.商品分類id);
             if (PT == null) return Content($"錯誤_沒有此筆資料", "text/plain", Encoding.UTF8);
 
-            PT.商品分類id = data.商品分類id;
+            //PT.商品分類id = data.商品分類id;
             PT.商品分類名稱 = data.商品分類名稱;
             db.SaveChanges();
 
             return Content($"編號 {data.商品分類id} 修改成功", "text/plain", Encoding.UTF8);
         }
 
-        public IActionResult _TypeCreate(ProductsTypeDetail data)
+        public IActionResult _TypeCreate()
+        {
+            return PartialView();
+        }
+
+        public IActionResult TypeCreate(ProductsTypeDetail data)
         {
 
             ProductsTypeDetail PT = new ProductsTypeDetail();
@@ -253,12 +267,17 @@ namespace dbCompanyTest.Controllers
             return Json(new { data });
         }
 
-        public IActionResult _ShoesCreate(商品鞋種 data)
+        public IActionResult _ShoesCreate()
+        {
+            return PartialView();
+        }
+
+        public IActionResult ShoesCreate(商品鞋種 data)
         {
 
             商品鞋種 SD= new 商品鞋種();
 
-            SD.商品鞋種id = data.商品鞋種id;
+            //SD.商品鞋種id = data.商品鞋種id;
             SD.鞋種 = data.鞋種;
             db.商品鞋種s.Add(SD);
             db.SaveChanges();
@@ -266,13 +285,25 @@ namespace dbCompanyTest.Controllers
             return Content($"新建成功", "text/plain", Encoding.UTF8);
         }
 
-        public IActionResult _ShoesEdit(商品鞋種 data)
+
+        public IActionResult _ShoesEdit(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return Content("錯誤_資料傳輸錯誤", "text/plain", Encoding.UTF8);
+            int _id = Int32.TryParse(id, out int temp) ? temp : -1;
+            if (_id == -1)
+                return Content("錯誤_資料格式錯誤", "text/plain", Encoding.UTF8);
+            var data = db.商品鞋種s.FirstOrDefault(pd => pd.商品鞋種id == _id);
+            return PartialView(data);
+        }
+
+        public IActionResult ShoesEdit(商品鞋種 data)
         {
 
             var SD = db.商品鞋種s.FirstOrDefault(pd => pd.商品鞋種id == data.商品鞋種id);
             if (SD == null) return Content($"錯誤_沒有此筆資料", "text/plain", Encoding.UTF8);
 
-            SD.商品鞋種id = data.商品鞋種id;
+            //SD.商品鞋種id = data.商品鞋種id;
             SD.鞋種 = data.鞋種;
             db.SaveChanges();
 
@@ -288,6 +319,8 @@ namespace dbCompanyTest.Controllers
                 return Content("錯誤_資料格式錯誤", "text/plain", Encoding.UTF8);
             var data = db.商品鞋種s.FirstOrDefault(pd => pd.商品鞋種id == _id);
             if (data == null) return Content($"錯誤_沒有此筆資料", "text/plain", Encoding.UTF8);
+            var SHdata = db.Products.Where(p => p.商品鞋種id == _id);
+            if (SHdata.Count() > 0) return Content($"錯誤_還有Product使用此鞋種，不能刪除", "text/plain", Encoding.UTF8);
             db.商品鞋種s.Remove(data);
             db.SaveChanges();
             return Content($"編號 {data.商品鞋種id} 刪除成功", "text/plain", Encoding.UTF8);
