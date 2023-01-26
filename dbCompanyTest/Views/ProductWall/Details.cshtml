@@ -167,11 +167,16 @@
     <script>
         let count = 1;
         let sizecheck = null;
+
+        $(window).ready(function () {
+            if ($(window).width() < 500) 
+            {
+                $("#carouselExampleDark").append($(".d-right-detail"));
+            }
+        });
         $(window).on("resize", function(e){
-            console.log( $(this).width()); 
             if($(window).width()<500)
             {
-                //$(".d-right-detail").css("display","none");
                 $("#carouselExampleDark").append($(".d-right-detail"));
             }
             else
