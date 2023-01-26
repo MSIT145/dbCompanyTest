@@ -83,13 +83,13 @@
         <dd class="col-sm-10">
 
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"value="信用卡">
                 <label class="form-check-label" for="flexRadioDefault1">
                     信用卡
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"value="ATM" checked>
                 <label class="form-check-label" for="flexRadioDefault2">
                     ATM
                 </label>
@@ -140,8 +140,10 @@
 
     <div id="clientDital" style="visibility: hidden">
 
-        <form>
-            <input type="text" />
+        <form name="userInfo">
+            <input type="text" id="pay" name="總金額"/>
+            <input type="text" id="userID"name="客戶編號"/>
+            <input type="text" id="howToPay"name="付款方式" value="ATM"/>
             <fieldset>
                 <legend>訂購資訊</legend>
                 <hr />
@@ -175,15 +177,15 @@
                 </div>
                 <div class="setMargin">
                     <label>姓名</label>
-                    <input type="text" class="userName" id="RrceiveNameText" />
+                    <input type="text"name="收件人名稱" class="userName" id="RrceiveNameText" />
                 </div>
                 <div class="setMargin">
                     <label>手機號碼</label>
-                    <input type="text" class="userPhone" id="RrceivePhoneText" />
+                    <input type="text"name="收件人電話" class="userPhone" id="RrceivePhoneText" />
                 </div>
                 <div class="setMargin">
                     <label>電子郵件</label>
-                    <input type="text" class="userEmail" id="RrceiveEmailText" />
+                    <input type="text"name="收件人email" class="userEmail" id="RrceiveEmailText" />
                 </div>
                 <div class="setMargin">
                     <label>地址</label>
@@ -192,6 +194,7 @@
                     <select class="userAddress" id="town2">
                     </select>
                     <input type="text" class="userAddress" id="RrceiveDitalText" />
+                    <input type="text" id="Address"name="送貨地址" />
                 </div>
                 <div class="setMargin" id="pickUp">
                     <label class="whoToGet">7-11取貨</label>
@@ -227,6 +230,9 @@
         const btn1 = document.querySelector('#btn_page1')
         const btn2 = document.querySelector('#btn_page2')
         const slectCar = document.querySelector('#btn_slectCar')
+        
+        var ordertime="";
+        var orderId="";
 
         const xhr = new XMLHttpRequest();
         xhr.addEventListener(`load`, () => {
@@ -234,6 +240,7 @@
             txtdeliverymony.innerHTML = `TWD $${data}`;
             const mony = parseInt(data) + @totomony;
             paymony.innerHTML = `TWD $${mony}`;
+            $('#pay').val(mony)
             $('#btn_page1').attr('disabled', false);
         })
         deliverymony.addEventListener(`change`, () => {
@@ -271,8 +278,12 @@
             $('#btn_slectCar').attr("style", "display:none;");
             $('#clientDital').attr("style", "display:none;");
             $('#finish').attr("style", "display:biock;");
-
-
+           var mydate = new Date();
+            ordertime=mydate.toLocaleString( );
+            orderId=mydate.getTime();
+            console.log(orderId)
+            addToOrderSQL();
+            addToOrderDitalSQL()
         })
 
 
@@ -282,6 +293,10 @@
         $("#city2").change(function () {
             let Myarea = $(`#city2 option:selected`).index();
             area2(Myarea);
+            $('#Address').val($("#city2").val()+$("#town2").val()+$("#RrceiveDitalText").val());
+        })
+        $("#town2").change(function () {
+            $('#Address').val($("#city2").val()+$("#town2").val()+$("#RrceiveDitalText").val());
         })
         $.each(data[0].districts, function (j, j_value) { $("#town2").append(`<option>${j_value.name}</option>`) })
         function area2(a) {
@@ -311,8 +326,14 @@
                 area2($(`#city2 option:selected`).index());
                 $('#town2').val($('#town').val())
                 $('#RrceiveDitalText').val($('#OrderDitalText').val())
+                $('#Address').val($("#city2").val()+$("#town2").val()+$("#RrceiveDitalText").val());
             }
         })
+        
+        //----傳遞付款方式data到form中
+            $('input[type=radio]').change(function(){
+                $('#howToPay').val($(this).val());
+    });
 
         //----載入會員資料
         async function LoadClientDital() {
@@ -320,6 +341,7 @@
             const data = await datas.json();
             console.log(data)
             if (data != null) {
+                $('#userID').val(data.客戶編號);
                 $('#OrderNameText').val(data.客戶姓名)
                 $('#OrderPhoneText').val(data.客戶電話)
                 $('#OrderEmailText').val(data.email)
@@ -330,26 +352,26 @@
             }
         }
         async function addToOrderSQL() {
-            const FD = new FormData();
-            var mydate = new Date();
-            var address = $('#city2').val() + $('#town2').val() + $('#RrceiveDitalText').val()
-            var orderDate = `${mydate.getFullYear}${mydate.getMonth}${mydate.getDate}${mydate.getHours}${mydate.getMinutes}${mydate.getSeconds}`
-            FD.append('訂單編號', mydate.getTime());
-            FD.append('客戶編號',"unuse")
-            FD.append('付款方式', $('#delivery').select().val())
-            FD.append('送貨地址',address)
-            FD.append('總金額', mony)
-            FD.append('下單時間', orderDate)
-            FD.append('訂單狀態',"未完成")
-            FD.append('付款狀態')
-            FD.append
-            FD.append
-            FD.append
-            FD.append
-            FD.append
-            FD.append
+                const FD = new FormData(document.userInfo)
+                FD.append('下單時間', ordertime)
+                FD.append('訂單編號', orderId)
+                const data = await fetch("@Url.Content("~/Shopping/CreateOrder")", {
+                    method: "POST",
+                    body: FD
+                });
+                const response = await data.text();
+                console.log(response)
         }
-
+        async function addToOrderDitalSQL() {
+                const FD = new FormData()
+                FD.append('訂單編號', orderId)
+                const data = await fetch("@Url.Content("~/Shopping/CreateOrderDital")", {
+                    method: "POST",
+                    body: FD
+                });
+                const response = await data.text();
+                console.log(response)
+        }
     </script>
     @*    <script src="~/js/city_data.js"></script>*@
     }

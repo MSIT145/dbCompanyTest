@@ -176,29 +176,64 @@ namespace dbCompanyTest.Controllers
             return View(會員商品暫存);
         }
 
-        // GET: Shopping/Create
-        //public IActionResult Create()
-        //{
-        //    ViewData["客戶編號"] = new SelectList(_context.TestClients, "客戶編號", "客戶編號");
-        //    return View();
-        //}
+        public IActionResult CreateOrder(Order order)
+        {
+            dbCompanyTestContext _context = new dbCompanyTestContext();
+            Order data = order;
+            _context.Orders.AddRange(data);
+            _context.SaveChanges();
+            return Content("成功");
+        }
+        public IActionResult CreateOrderDital(OrderDetail order)
+        {
+            List<會員商品暫存>? carSession = null;
+            string json = "";
+            dbCompanyTestContext _context = new dbCompanyTestContext();
+            OrderDetail data = order;
+            carSession = new List<會員商品暫存>();
+            json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+            carSession = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
+            foreach (會員商品暫存 x in carSession)
+            {
+                data.總金額 = x.商品價格;
+                data.商品數量 = x.訂單數量;
+                //----因為是垃圾資料所以先用4
+                //data.Id= x.商品編號;
+                data.Id=4;
+                //----
+                data.商品價格=x.商品價格;
+                data.無用id=0;
+                _context.OrderDetails.AddRange(data);
+            _context.SaveChanges();
+            }
+            
+            return Content("成功");
+        }
 
-        // POST: Shopping/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,客戶編號,商品編號,商品名稱,尺寸種類,商品顏色種類,訂單數量,商品價格,購物車或我的最愛")] 會員商品暫存 會員商品暫存)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(會員商品暫存);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["客戶編號"] = new SelectList(_context.TestClients, "客戶編號", "客戶編號", 會員商品暫存.客戶編號);
-        //    return View(會員商品暫存);
-        //}
+        //GET: Shopping/Create
+        public IActionResult Create()
+        {
+            ViewData["客戶編號"] = new SelectList(_context.TestClients, "客戶編號", "客戶編號");
+            return View();
+        }
+
+        //POST: Shopping/Create
+        //To protect from overposting attacks, enable the specific properties you want to bind to.
+        //For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+       [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,客戶編號,商品編號,商品名稱,尺寸種類,商品顏色種類,訂單數量,商品價格,購物車或我的最愛")] 會員商品暫存 會員商品暫存)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(會員商品暫存);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["客戶編號"] = new SelectList(_context.TestClients, "客戶編號", "客戶編號", 會員商品暫存.客戶編號);
+            return View(會員商品暫存);
+        }
 
         // GET: Shopping/Edit/5
         public async Task<IActionResult> Edit(int? id)
