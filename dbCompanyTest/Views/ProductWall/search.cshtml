@@ -79,7 +79,7 @@
                 @foreach (var item in Model)
                 {
                     <div class="col-md-3 p-2 ">
-                        <a asp-action="Details" asp-route-id="@item.商品id">
+                        <a asp-action="Details" asp-route-id="@item.商品id" asp-route-colorID="@item.商品顏色id">
                             <div class="card mb-4 product-wap rounded-0">
                                 <div class="card rounded-0">
                                     <div>
@@ -95,7 +95,7 @@
                                         }
                                     </div>
                                     <div class="card-body">
-                                        <a asp-action="Details" asp-route-id="@item.商品id">@item.商品名稱</a>
+                                        <a asp-action="Details" asp-route-id="@item.商品id" asp-route-colorID="@item.商品顏色id">@item.商品名稱</a>
                                         <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
                                             <li>@Html.DisplayFor(modelItem => item.商品價格)</li>
                                         </ul>

@@ -30,14 +30,14 @@ namespace dbCompanyTest.Controllers
                             select new ViewModels.ProductWallViewModel
                             {
                                 鞋種名稱 = b.鞋種,
-                                商品id = d.Id,
+                                商品id = (int)d.商品編號id,
                                 商品分類id = (int)id,
                                 商品鞋種id = (int)c.商品鞋種id,
                                 商品名稱 = c.商品名稱,
                                 商品價格 = (decimal)c.商品價格,
                                 產品圖片1 = f.商品圖片1,
-                                商品分類名稱 = e.商品分類名稱
-
+                                商品分類名稱 = e.商品分類名稱,
+                                商品顏色id=(int)d.商品顏色id
                             };
 
                 return View(datas.ToPagedList(page,5));
@@ -59,13 +59,14 @@ namespace dbCompanyTest.Controllers
                             select new ViewModels.ProductWallViewModel
                             {
                                 鞋種名稱 = b.鞋種,
-                                商品id = d.Id,
+                                商品id = (int)d.商品編號id,
                                 商品分類id = (int)tid,
                                 商品鞋種id = (int)c.商品鞋種id,
                                 商品名稱 = c.商品名稱,
                                 商品價格 = (decimal)c.商品價格,
                                 產品圖片1 = f.商品圖片1,
-                                商品分類名稱 = type
+                                商品分類名稱 = type,
+                                商品顏色id = (int)d.商品顏色id
                             };
                 
                 return View(datas.ToPagedList(page, 5));
@@ -83,12 +84,13 @@ namespace dbCompanyTest.Controllers
                         where c.商品名稱.Contains(keyword)
                         select new ViewModels.ProductWallViewModel
                         {
-                            商品id = d.Id,
+                            商品id = (int)d.商品編號id,
                             商品鞋種id = (int)c.商品鞋種id,
                             商品名稱 = c.商品名稱,
                             商品價格 = (decimal)c.商品價格,
                             產品圖片1 = f.商品圖片1,
-                            keyword = keyword
+                            keyword = keyword,
+                            商品顏色id = (int)d.商品顏色id
                         };
 
             return View(datas.ToPagedList(page, 5));
