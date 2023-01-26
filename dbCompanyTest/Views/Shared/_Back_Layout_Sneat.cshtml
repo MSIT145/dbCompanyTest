@@ -12,14 +12,12 @@
 =========================================================
  -->
 <!-- beautify ignore:start -->
-<html
-    lang="en"
-    class="light-style layout-menu-fixed"
-    dir="ltr"
-    data-theme="theme-default"
-    data-assets-path="@Url.Content("~/assets/")"
-    data-template="vertical-menu-template-free"
->
+<html lang="en"
+      class="light-style layout-menu-fixed"
+      dir="ltr"
+      data-theme="theme-default"
+      data-assets-path="@Url.Content("~/assets/")"
+      data-template="vertical-menu-template-free">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport"
@@ -607,8 +605,25 @@
     <!-- Page JS -->
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <a href="~/js/signalr/dist/browser/signalr.js.map">~/js/signalr/dist/browser/signalr.js.map</a>
+    <a href="~/js/signalr/dist/browser/signalr.min.js.map">~/js/signalr/dist/browser/signalr.min.js.map</a>
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+        connection.start().then(async function () {
+            const data = await fetch("@Url.Content("~/Staff_Home/StaffNum")");
+            const StaffNum = await data.text();
+            if (StaffNum == "fales")
+                alert("連線逾時請重新登入");
+            else
+                connection.invoke("getStaffNum", StaffNum).catch(function (err) {
+                    alert('傳送錯誤: ' + err.toString());
+                });
+        });
+        //------------------------------------------------------------------------------------------------------
         $("li .menu-item").children("a").on("click", function () {
             consoel.log($(this));
             $(this).parent().addClass("active");

@@ -63,14 +63,14 @@ namespace dbCompanyTest.Controllers
                     return Content("success");
                 }
             }
-                else
+            else
+            {
+                if (account == null || password == null)
                 {
-                    if (account == null || password == null)
-                    {
-                        return Content("CantNull");
-                    }
-                    return Content("false");
+                    return Content("CantNull");
                 }
+                return Content("false");
+            }
             return View();
         }
         public IActionResult logout()
@@ -229,6 +229,7 @@ namespace dbCompanyTest.Controllers
 
             return Json(data);
         }
+        [HttpPost]
         public IActionResult forgetPassword(string account)
         {
             //var x = from t in _context.TestStaffs where t.員工編號 == account select t; 
@@ -237,6 +238,7 @@ namespace dbCompanyTest.Controllers
             {
                 System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
                 msg.To.Add(x.Email);
+                msg.From = new MailAddress("msit145finalpj@gmail.com", "Shoespace", System.Text.Encoding.UTF8);
                 msg.Subject = "員工忘記密碼";
                 msg.SubjectEncoding = System.Text.Encoding.UTF8;//主旨編碼
                 msg.Body = $"<h5 id=\"stf_info\">{x.員工編號} {x.員工姓名} 您好!</h5>";
@@ -246,7 +248,7 @@ namespace dbCompanyTest.Controllers
 
                 SmtpClient smtp = new SmtpClient();
                 smtp.Credentials = new System.Net.NetworkCredential("msit145finalpj@gmail.com", "zlazqafpmuwxkxvo");
-                smtp.Host= "smtp.gmail.com";
+                smtp.Host = "smtp.gmail.com";
                 smtp.Port = 587;
                 smtp.EnableSsl = true;
                 smtp.Send(msg);
@@ -266,7 +268,7 @@ namespace dbCompanyTest.Controllers
         public IActionResult ResetPassword(string stf_info, string Password_F)
         {
             TestStaff datas = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stf_info);
-            if (datas.密碼 == Password_F) 
+            if (datas.密碼 == Password_F)
             {
                 return Content("repeat");
             }
@@ -277,5 +279,16 @@ namespace dbCompanyTest.Controllers
                 return Content("success");
             }
         }
+
+
+        public IActionResult StaffNum()
+        {
+            string stfNum = "";
+            stfNum = HttpContext.Session.GetString("Account");
+            if (stfNum == "")
+                stfNum = "fales";
+            return Content(stfNum);
+        }
+
     }
 }

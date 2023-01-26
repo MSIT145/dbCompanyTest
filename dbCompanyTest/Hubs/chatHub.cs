@@ -108,5 +108,13 @@ namespace dbCompanyTest.Hubs
             foreach (string item in waiter)
                 await Clients.Client(item).SendAsync("userList", jsonString);
         }
+
+        public async Task getStaffNum(string StaffNum)
+        {
+            userList.FirstOrDefault(c => c.connectionId == Context.ConnectionId).userName = StaffNum;
+        }
+
     }
+
+
 }
