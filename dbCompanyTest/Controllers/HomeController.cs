@@ -2,6 +2,7 @@
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace dbCompanyTest.Controllers
 {
@@ -34,10 +35,20 @@ namespace dbCompanyTest.Controllers
         }
 
 
-        public IActionResult logout()
+        public IActionResult checkmem()
         {
-            HttpContext.Session.Remove("login");
-            return RedirectToAction("Index");
+            var json = "";
+            //判斷是否登入
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+            {
+                //取得Login Session
+                string login = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                var user = JsonSerializer.Deserialize<TestClient>(login);
+                json = user.客戶編號;
+                return Json(json);
+            }
+            json = null;
+            return Json(json);
         }
 
         public IActionResult Privacy()

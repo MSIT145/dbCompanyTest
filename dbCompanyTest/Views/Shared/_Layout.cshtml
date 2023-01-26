@@ -35,7 +35,7 @@
                         <a id="web-search-btn" href=""><img src="~/homeImg/search_header_pc.png"></a>
                     </div>
                     <div class="tool-p shortcut flex-fill" style="font-family:'Microsoft YaHei';">
-                        <a class="tool-item" asp-controller="MemberCenter" asp-action="Index">
+                        <a class="tool-item memclick" >
                             <img src="~/homeImg/sign_pc.png">
                         </a>
                         <div class="shortcut-box" style="display: blcok;">
@@ -47,7 +47,7 @@
                                 <a asp-controller="MemberCenter" asp-action="orderinfo"  class="us">MY ORDERS</a>
                                 <a asp-controller="MemberCenter" asp-action="orderinfo"  class="cn">訂單查詢</a>
                             </div>
-                            <div class="shortcut-i" style="display: blcok;" id="log">
+                            <div class="shortcut-i" style="display: flex;" id="log">
                                 <a asp-controller="Login" asp-action="Login" class="us" >LOGIN</a>
                                 <a asp-controller="Login" asp-action="Login" class="cn">登入</a>
                             </div>
@@ -350,6 +350,25 @@
                 $('.shortcut-box').hide();
             }
         })
+
+        //判斷登入狀態
+        const memHtml = document.querySelector('.memclick');
+        memHtml.addEventListener('click', () => {
+            checklog();
+        })
+        async function checklog() {
+            const reb = await fetch(`@Url.Content("~/Home/checkmem")`)
+            const data = await reb.json();
+            if (data != null) {
+                $("#log").css("display","none");
+                $("#log2").css("display","flex");
+            }
+            else{
+                $("#log").css("display", "flex");
+                $("#log2").css("display", "none");
+            }
+        }
+
 
         // 搜索框顯示
         $('body').delegate('#web-search-btn', 'click', function () {
