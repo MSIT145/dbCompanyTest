@@ -33,7 +33,13 @@ namespace dbCompanyTest.Controllers
             return PartialView(datas);
         }
 
-   
+
+        public IActionResult logout()
+        {
+            HttpContext.Session.Remove("login");
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();

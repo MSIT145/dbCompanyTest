@@ -2,6 +2,7 @@
 using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using System.Text.Json;
 
 namespace dbCompanyTest.Controllers
 {
@@ -10,8 +11,20 @@ namespace dbCompanyTest.Controllers
         dbCompanyTestContext _context = new dbCompanyTestContext();
         public IActionResult Index()
         {
+            //判斷是否登入
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+            {
+                //取得Login Session
+                string login = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                var user = JsonSerializer.Deserialize<TestClient>(login);
+                ViewBag.user= user.客戶編號;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
             
-            return View();
         }
 
         public IActionResult memberInfo(string id)
@@ -25,6 +38,7 @@ namespace dbCompanyTest.Controllers
             ViewBag.city = client.縣市;
                 ViewBag.area = client.區;
                 ViewBag.sex = client.性別;
+            ViewBag.id = id;
                 return View(client);
         }
         [HttpPost]
@@ -46,7 +60,7 @@ namespace dbCompanyTest.Controllers
                 client.生日 = vm.生日;
                 
                 _context.SaveChanges();
-                
+
             
             return RedirectToAction("memberInfo");
         }
@@ -69,10 +83,27 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult orderInfo(string id)
         {
-            var data = from c in _context.Orders
-                       where c.客戶編號 ==id
-                       select c;
-            return View(data);
+            //判斷是否登入
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+            {
+                //取得Login Session
+                string login = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                var user = JsonSerializer.Deserialize<TestClient>(login);
+                if (id == null)
+                {
+                    id= user.客戶編號;
+                }
+                var data = from c in _context.Orders
+                           where c.客戶編號 == id
+                           select c;
+                ViewBag.id = id;
+                return View(data);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
+            
         }
 
         public IActionResult orderInfoDetail(string id)
@@ -97,9 +128,13 @@ namespace dbCompanyTest.Controllers
                            送貨地址=c.送貨地址,
                            總金額=c.總金額
                        };
-                        
+
+            string login = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+            var user = JsonSerializer.Deserialize<TestClient>(login);
+            ViewBag.id = user.客戶編號;
             return View(data.ToList());
         }
+
 
     }
 }
