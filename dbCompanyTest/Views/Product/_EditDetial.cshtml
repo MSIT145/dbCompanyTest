@@ -1,6 +1,4 @@
 ﻿@model dbCompanyTest.Models.ProductDetail
-
-
 <hr />
 <div class="row">
     <div class="col-md-6">
@@ -38,7 +36,9 @@
             <div class="form-group">
                 <label asp-for="商品數量" class="control-label"></label>
                 <input asp-for="商品數量" class="form-control" />
-                <span asp-validation-for="商品數量" class="text-danger"></span>
+                <div class="invalid-feedback">
+                    <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
+                </div>
             </div>
             <div class="form-group" style="display:none">
                 <label asp-for="商品編號" class="control-label"></label>
@@ -91,7 +91,7 @@
         </form>
     </div>
 </div>
-
+<script src="~/js/product_index.js"></script>
 <script>
     //HTML載完才會執行
     //資料送出前將select 資料寫入有name 欄位
@@ -200,23 +200,27 @@
             //將select 資料寫入對應的name欄位內
             formwrite();
             //前端檢測
-
-            //ajax送出資料
-            const xhr = new XMLHttpRequest();
-            xhr.addEventListener("load", () => {
-                if (xhr.status == 200) {
-                    alert(xhr.responseText);
-                    //console.log('新建成功');
-                    $("#Moda_D_C").modal('toggle');
-                }
-                else {
-                    console.log(xhr.staus);
-                }
-            });
-            var formData = new FormData(document.proInfo); //from 的名稱
-            xhr.open("POST", "@Url.Content("~/Product/_EditDetial")");
-            //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  //可省略
-            xhr.send(formData);
+            let error = check_ProDetail_Edit();
+            if(error.length==0)
+            {
+                //ajax送出資料
+                const xhr = new XMLHttpRequest();
+                xhr.addEventListener("load", () => {
+                    if (xhr.status == 200) {
+                        alert(xhr.responseText);
+                        //console.log('新建成功');
+                        $("#Moda_D_C").modal('toggle');
+                    }
+                    else {
+                        console.log(xhr.staus);
+                    }
+                });
+                var formData = new FormData(document.proInfo); //from 的名稱
+                xhr.open("POST", "@Url.Content("~/Product/_EditDetial")");
+                //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');  //可省略
+                xhr.send(formData);
+            }
+           
 
         });
     })

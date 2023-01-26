@@ -23,6 +23,10 @@
     <None Include="wwwroot\assets\js\dashboards-analytics.js" />
     <None Include="wwwroot\assets\js\extended-ui-perfect-scrollbar.js" />
     <None Include="wwwroot\assets\js\form-basic-inputs.js" />
+    <None Include="wwwroot\assets\js\icon_js\app.js" />
+    <None Include="wwwroot\assets\js\icon_js\app.js.map" />
+    <None Include="wwwroot\assets\js\icon_js\js\app.js" />
+    <None Include="wwwroot\assets\js\icon_js\js\app.js.map" />
     <None Include="wwwroot\assets\js\main.js" />
     <None Include="wwwroot\assets\js\pages-account-settings-account.js" />
     <None Include="wwwroot\assets\js\ui-modals.js" />

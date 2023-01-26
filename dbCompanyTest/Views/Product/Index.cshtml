@@ -10,6 +10,8 @@
      */
 
 }
+
+<script src="~/assets/js/icon_js/app.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
 
@@ -96,8 +98,8 @@
                             <div class="row align-items-center">
                             <div class="col-md-2 "></div>
                             <div class="col-md-8 ">
-                            <form name="ProC_Form" id="form01">                                
-                                <div class="form-group">
+                        <form name="ProC_Form" id="form01" novalidate>
+                            <div class="form-group">
 
                                 <div class="form-group" style="display: none;">
                                         <label  class="control-label">商品編號id</label>
@@ -107,35 +109,54 @@
                                 </div>
                                 <div class="form-group">
                                     <label  class="control-label">上架時間</label>
-                                <input name="time" class="form-control" type="datetime-local" />
+                                   <input name="time" class="form-control" type="datetime-local" />
+                                <div class="invalid-feedback">
+                                    <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
+                                </div>
                             </div>
                                     <div class="form-group">
                                     <label class="control-label">商品名稱</label>
                                     <input name="name" class="form-control" />
-               
+                                    <div class="invalid-feedback">
+                                    <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">商品價格</label>
                                     <input name="price" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" />
+                                <div class="invalid-feedback">
+                                    <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
+                                </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="control-label">商品介紹</label>
                                    <textarea class="form-control" placeholder="撰寫產品介紹" id="_introduce" style="height: 100px"></textarea>
+                                <div class="invalid-feedback">
+                                    <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
+                                </div>
                                     <input name="introduce" class="form-control"  type="hidden"/>
                                 </div>
                                 <div class="form-group">
                                     <label  class="control-label">商品材質</label>
                                 <input name="material" class="form-control" />
-              
+                                  <div class="invalid-feedback">
+                                    <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
+                                </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">商品重量</label>
                                 <input name="weight" type="number" class="form-control" />
+                                     <div class="invalid-feedback">
+                                        <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
+                                    </div>
                 
                                 </div>
                                 <div class="form-group">
                                     <label  class="control-label">商品成本</label>
-                                    <input name="cost" type="number" class="form-control" />                
+                                    <input name="cost" type="number" class="form-control" />  
+                                    <div class="invalid-feedback">
+                                    <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
+                                    </div>
                                 </div>
             
                                 <div class="form-group">
@@ -177,8 +198,8 @@
                 @*Product Create_END*@
             </div>
             <div class="modal-footer">
-                <button type="button" id="P_Create" class="btn btn-success" >新增</button>
-                <button type="button" id="P_Edit" class="btn btn-primary"  style="display: none;">修改</button>
+                <button type="button" id="P_Create" class="btn btn-success" name="btn_P">新增</button>
+                <button type="button" id="P_Edit" class="btn btn-primary" name="btn_P" style="display: none;">修改</button>
                 <button type="button"  id="P_Close" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
             </div>
         </div>
@@ -208,7 +229,7 @@
 @section Scripts{
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>
-
+    <script src="~/js/product_index.js"></script>
         <script>
 
         let url01 = '@Url.ActionLink("showlist","Product")';
@@ -330,11 +351,15 @@
 
         //新增產品表單送出按鈕
         $("#Moda_P_C #P_Create").on('click', () => {
+            let error = check_ProC_Form();
+            if (error.length==0)
             Pro_Create_Edit_Sumit(Pro_Create_Post);
         });
 
         //修改產品表單送出按鈕
         $("#Moda_P_C #P_Edit").on('click', () => {
+             let error = check_ProC_Form();
+             if (error.length==0)
             Pro_Create_Edit_Sumit(Pro_Edit_Post);
         });
         
@@ -443,6 +468,7 @@
 
         //新增產品 Form表單顯示按鈕事件
         $("#btn_ProForm").on('click', () => {
+
             ClearPro_Edit_Creater_form(); //清空欄位
             //顯示新增按鈕
             $("#Moda_P_C #P_Create ").show();
@@ -477,7 +503,10 @@
         //清空Product 新增與修改Form表單的欄位
         let ClearPro_Edit_Creater_form = () => {
         $("form[name='ProC_Form'] input").val("");
+        $("form[name='ProC_Form'] input").prop("class", "form-control");
         $("form[name='ProC_Form'] textarea").val("");
+        $("form[name='ProC_Form'] textarea").prop("class", "form-control");
+        $("form[name='ProC_Form'] span" ).html("");
         }
 
         //Modal表單 Sumit事件
