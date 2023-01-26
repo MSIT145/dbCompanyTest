@@ -5,6 +5,12 @@
 .logo {
     padding: 0px 0px 0px 43%
 }
+
+.R-Top-tool {
+    /*position: absolute;
+    right: 40px;
+    top: 25px;*/
+}
 .tool-box {
     margin: 0px 0px;
     margin-right: 3em;
@@ -51,3 +57,53 @@
     color: #d5baa5;
 }
 
+
+.R-Top-tool .search-box {
+    width: 160px;
+/*    position: absolute;*/
+    left: 0;
+    top: 0;
+    transition: left 0.3s;
+    overflow: hidden;
+    opacity: 0;
+    height: 30px;
+}
+
+    .R-Top-tool .search-box.show {
+        width: 150px;
+        opacity: 1;
+        left: calc(-100% + 10px);
+    }
+
+    .R-Top-tool .search-box input {
+        border: none;
+        border-bottom: 1px solid #d4cdc8;
+        outline: none;
+        padding: 2px 5px;
+        width: 150px;
+        /*margin-top: 2px;*/
+    }
+
+.web-top {
+    position: fixed;
+    width: 42px;
+    height: 84px;
+    bottom: 300px;
+    right: 64px;
+    display: none;
+    z-index: 2;
+}
+    .web-top .icon {
+        cursor: pointer;
+        width: 42px;
+        height: 42px;
+        background-size: contain;
+        text-align: center;
+        z-index:2;
+    }
+    .web-top .back-top {
+        display: block !important;
+    }
+    .web-top .back-top {
+        background-image: url('../homeimg/back-top.png');
+    }

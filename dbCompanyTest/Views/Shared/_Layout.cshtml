@@ -14,7 +14,7 @@
     <link href="~/css/car.css" rel="stylesheet" />
     @await RenderSectionAsync("Style", required: false)
 </head>
-<body>
+<body class="pc-model">
     <header>
         <div class=" d-flex justify-content-between" style="padding: 1em 0%">
             @*============== LOGO =================*@
@@ -22,9 +22,10 @@
                 <a class="" asp-controller="Home" asp-action="Index"><img src="~/homeImg/Shoespace1.png" /></a>
             </div>
             @*============== 搜尋,我的最愛,會員中心,購物車 =================*@
-            <div class="d-flex justify-content-end">
+            
+            <div class="d-flex justify-content-end R-Top-tool">
                 <div class="tool-box d-flex">
-                    <div class="search-box flex-fill">
+                    <div class="search-box ">
                         <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box">
                     </div>
                     <div class="tool-p flex-fill">
@@ -75,6 +76,12 @@
             </div>
 
         </div>
+
+        @*TOP*@
+        <div class="web-top" style="display: block;">
+            <div class="icon back-top"></div>
+        </div>
+
 
         @*================= nav ===================*@
 
@@ -336,6 +343,57 @@
                 $('.shortcut-box').hide();
             }
         })
+
+        // 搜索框顯示
+        $('body').delegate('#web-search-btn', 'click', function () {
+            let _this = $(this);
+            let searchBox = _this.closest('.R-Top-tool').find('.search-box');
+            if (searchBox.hasClass('show')) {
+                searchBox.removeClass('show')
+            } else {
+                searchBox.addClass('show').find('input').focus();
+            }
+            return false;
+        })
+
+        // 搜索
+        $('body').delegate('.search-btn-r', 'click', function () {
+            let _this = $(this);
+            if (!_this.hasClass('clicked')) {
+                _this.addClass('clicked');
+                $('.search-box.mobile').animate({
+                    left: '0.2rem', right: "1.5rem",
+                }, 100);
+            } else {
+                _this.removeClass('clicked');
+                $('.search-box.mobile').animate({
+                    left: '7.5rem', right: '7.5rem',
+                }, 100);
+            }
+            return false;
+        })
+
+        $('body').on('keyup', '.search_keyword', function (e) {
+            if (13 == e.keyCode) {
+                let value = $(this).val().trim();
+                if ('' == value) {
+                    return;
+                }
+
+                location.href = '/products/search?q=' + encodeURIComponent(value);
+            }
+        });
+
+        //TOP
+        $(".web-top .back-top").click(function () {
+            if ($('body').hasClass('pc-model')) {
+                $("html,body").animate({ scrollTop: '0px' }, 300); //回到顶部
+            } else {
+                $(".shop-content").animate({ scrollTop: '0px' }, 300); //回到顶部
+            }
+            return false;
+        });
+
 
     </script>
     @await RenderSectionAsync("Scripts", required: false)
