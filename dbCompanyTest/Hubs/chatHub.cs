@@ -110,7 +110,5 @@ namespace dbCompanyTest.Hubs
             foreach (string item in waiter)
                 await Clients.Client(item).SendAsync("userList", jsonString);
         }
-
-
     }
 }

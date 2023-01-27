@@ -6,7 +6,10 @@ namespace dbCompanyTest.Controllers
     {
         public IActionResult Service()
         {
-            return View();
+            if (HttpContext.Session.Keys.Contains("Account"))
+                return View();
+            else
+                return RedirectToAction("login", "Staff_Home");
         }
     }
 }

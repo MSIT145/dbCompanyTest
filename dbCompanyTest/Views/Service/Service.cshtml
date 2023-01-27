@@ -103,8 +103,14 @@
         $(`#serverSend`).on('click', function () {
             let msg = $(`#msg`).val();
             let clientID = $(`#connectionUserID`).val();
+
+            if (clientID){
             connection.invoke("SendMessage", clientID, msg);
             $(`#msg`).val("");
+            }
+            else{
+                alert("請選擇要服務的客戶");
+            }
         });
 
         connection.on("UpdContent", function (msg) {
