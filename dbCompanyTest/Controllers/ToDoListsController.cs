@@ -63,7 +63,6 @@ namespace dbCompanyTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] ToDoList toDoList)
         {
-            //todo
             if (/*ModelState.IsValid*/true)
             {
                 

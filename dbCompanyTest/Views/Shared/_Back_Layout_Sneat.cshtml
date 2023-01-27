@@ -466,7 +466,7 @@
                                 <input type="text"
                                        class="form-control border-0 shadow-none"
                                        placeholder="Search..."
-                                       aria-label="Search..." />
+                                       aria-label="Search..." id="Search_layout" />
                             </div>
                         </div>
                         <!-- /Search -->
@@ -544,7 +544,6 @@
                         </ul>
                     </div>
                 </nav>
-
                 <!-- / Navbar -->
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
@@ -605,10 +604,14 @@
     <!-- Page JS -->
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <a href="~/js/signalr/dist/browser/signalr.js.map">~/js/signalr/dist/browser/signalr.js.map</a>
-    <a href="~/js/signalr/dist/browser/signalr.min.js.map">~/js/signalr/dist/browser/signalr.min.js.map</a>
-    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
-    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    
+
+
+
+    
+
+
+
     
     <script>
         //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
@@ -619,7 +622,7 @@
         //    if (StaffNum == "fales")
         //        alert("連線逾時請重新登入");
         //    else
-        //        connection.invoke("getStaffNum", StaffNum).catch(function (err) {
+        //        connection.invoke("getName", StaffNum).catch(function (err) {
         //            alert('傳送錯誤: ' + err.toString());
         //        });
         //});

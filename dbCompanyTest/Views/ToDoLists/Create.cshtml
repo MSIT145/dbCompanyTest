@@ -7,8 +7,8 @@
     Layout = "_Back_Layout_Sneat";
 }
 
+<input type="hidden" id="StaffNumpath" value="@Url.Content("~/Staff_Home/StaffNum")" />
 <h1>建立表單</h1>
-
 <h4 id="stf_info">@ViewBag.acc</h4>
 <hr />
 <div class="row">
@@ -29,7 +29,7 @@
             </div>
             <div class="form-group" id="div_cont">
                 <label asp-for="表單內容" class="control-label"></label>
-                <input asp-for="表單內容" class="form-control" id="inp_cont"/>
+                <input asp-for="表單內容" class="form-control" id="inp_cont" />
                 <span asp-validation-for="表單內容" class="text-danger"></span>
             </div>
             <div class="form-group" id="div_ans">
@@ -59,7 +59,7 @@
             </div>
             <div class="form-group" id="div_super_vs_sin">
                 <label asp-for="部門主管簽核" class="control-label"></label>
-                <input asp-for="部門主管簽核" class="form-control" id="inp_super_vs_sin"/>
+                <input asp-for="部門主管簽核" class="form-control" id="inp_super_vs_sin" />
                 <span asp-validation-for="部門主管簽核" class="text-danger"></span>
             </div>
             <div class="form-group" id="div_super_vs_opn">
@@ -69,7 +69,7 @@
             </div>
             <div class="form-group" id="div_super_vs_time">
                 <label asp-for="部門主管簽核時間" class="control-label"></label>
-                <input asp-for="部門主管簽核時間" class="form-control" id="inp_super_vs_time"/>
+                <input asp-for="部門主管簽核時間" class="form-control" id="inp_super_vs_time" />
                 <span asp-validation-for="部門主管簽核時間" class="text-danger"></span>
             </div>
             <div class="form-group" id="div_co_dep">
@@ -89,7 +89,7 @@
             </div>
             <div class="form-group" id="div_co_dep_opn">
                 <label asp-for="協辦部門簽核意見" class="control-label"></label>
-                <input asp-for="協辦部門簽核意見" class="form-control" id="inp_co_dep_opn"/>
+                <input asp-for="協辦部門簽核意見" class="form-control" id="inp_co_dep_opn" />
                 <span asp-validation-for="協辦部門簽核意見" class="text-danger"></span>
             </div>
             <div class="form-group" id="div_co_dep_time">
@@ -130,7 +130,7 @@
             </div>
             <div class="form-group" id="div_Attached">
                 <label asp-for="附件" class="control-label"></label>
-                <input asp-for="附件" class="form-control" id="inp_Attached"/>
+                <input asp-for="附件" class="form-control" id="inp_Attached" />
                 <span asp-validation-for="附件" class="text-danger"></span>
             </div>
             <div class="form-group" id="div_Attached_path">
@@ -143,6 +143,7 @@
                 <input type="submit" value="Create" class="btn btn-primary" id="inp_start" />
             </div>
         </form>
+        @*<input type="button" value="Create_test" class="btn btn-primary" id="inp_start1" />*@
     </div>
 </div>
 
@@ -167,7 +168,7 @@
             .done(data => {
                 $("#inp_whostart").val(data.員工編號);
                 $("#inp_super_vs").val(data.主管);
-               
+
             })
 
         $.ajax({
@@ -178,14 +179,17 @@
             .done(data => {
                 let docFrag = $(document.createDocumentFragment());
                 $.each(data, function (i, i_val) {
-                    const sele = $(`<option></option>`).append(`${i_val.部門} ${i_val.員工編號} ${i_val.員工姓名 }`);
+                    const sele = $(`<option></option>`).append(`${i_val.部門} ${i_val.員工編號} ${i_val.員工姓名}`);
                     docFrag.append(sele);
                 });
                 $("#sele_executor").html(docFrag);
+                $("#sele_executor").val(``);
             })
 
-
-
+        $("#sele_executor").on('change', function () {
+            var split1 = $(`#sele_executor`).val().split(' ');
+            $("#inp_executor").val(split1[1]);
+        });
 
 
         $("#list_type").on('change', function () {
@@ -216,7 +220,7 @@
                     dataType: "json"
                 })
                     .done(data => {
-                        $("#sele_executor").val(data[0].員工編號)
+                        $("#inp_executor").val(data[0].員工編號)
                         $("#inp_co_dep_who").val(data[1].員工編號);
                     })
             }
@@ -224,39 +228,17 @@
 
         $("#inp_start").on('click', function () {
             let dt = new Date();
-            var seleindex = $(`#sele_executor option:selected`).index()
-            var split = $(`#sele_executor`).val().split(' ');
-            var splitstf = split[1]
-            $("#inp_starttime").val(dt)
-            $("#inp_executor").val(splitstf)
+            $("#inp_starttime").val(dt);
         })
 
-         
-
-
-
         function ragular() {
-            $("#div_ans").css("display", 'none');
-            $("#div_sta").css("display", 'none');
-            $("#div_starttime").css("display", 'none');
-            $("#div_super_vs").css("display", 'none');
-            $("#div_super_vs_sin").css("display", 'none');
-            $("#div_super_vs_opn").css("display", 'none');
-            $("#div_super_vs_time").css("display", 'none');
-            $("#div_co_dep").css("display", 'none');
-            $("#div_co_dep_sin").css("display", 'none');
-            $("#div_co_dep_who").css("display", 'none');
-            $("#div_co_dep_opn").css("display", 'none');
-            $("#div_co_dep_time").css("display", 'none');
-            $("#div_boss_time").css("display", 'none');
-            $("#div_boss_sin").css("display", 'none');
-            $("#div_boss_opn").css("display", 'none');
-            $("#div_execut_time").css("display", 'none');
-            $("#div_executor_sin").css("display", 'none');
+            $("#div_ans,#div_sta,#div_starttime,#div_super_vs,#div_super_vs_sin,#div_super_vs_opn,#div_super_vs_time,#div_co_dep,#div_co_dep_sin,#div_co_dep_who,#div_co_dep_opn,#div_co_dep_time,#div_boss_time,#div_boss_sin,#div_boss_opn,#div_execut_time,#div_executor_sin").css("display", 'none');
         }
 
     </script>
-
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/staffconnect.js"></script>
 
 
     @{

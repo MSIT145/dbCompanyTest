@@ -48,7 +48,7 @@ namespace dbCompanyTest.Hubs
             if (message != "")
             {
                 user user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId);
-                if (user.userName.Substring(0,2) != "ST")
+                if (user.userName.Substring(0, 2) != "ST")
                 {
                     if (user.userWords == null)
                         user.userWords = new List<string>();
@@ -98,7 +98,7 @@ namespace dbCompanyTest.Hubs
             }
             else
             {
-                await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem","系統" ,"此客戶已有人在回應");
+                await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "系統", "此客戶已有人在回應");
             }
         }
 
@@ -110,5 +110,17 @@ namespace dbCompanyTest.Hubs
             foreach (string item in waiter)
                 await Clients.Client(item).SendAsync("userList", jsonString);
         }
+
+        public async Task SendNotice(string come_from_num, string Send_To_num, string msg)
+        {
+            string Send_To_ID ="";
+            string come_from_ID = userList.FirstOrDefault(x => x.userName == come_from_num).connectionId;
+            if(userList.Where(x => x.userName == Send_To_num).FirstOrDefault() != null)  //todo如果被通知人不在線上，就把通知存資料庫，登入再來讀
+            {
+                Send_To_ID = userList.FirstOrDefault(x => x.userName == Send_To_num).connectionId;
+                await Clients.Client(Send_To_ID).SendAsync("receive", msg);
+            }
+        }
+
     }
 }
