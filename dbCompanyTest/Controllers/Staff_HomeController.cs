@@ -284,8 +284,9 @@ namespace dbCompanyTest.Controllers
         public IActionResult StaffNum()
         {
             string stfNum = "";
-            stfNum = HttpContext.Session.GetString("Account");
-            if (stfNum == "")
+            if (HttpContext.Session.Keys.Contains("Account"))
+                stfNum = HttpContext.Session.GetString("Account");
+            else
                 stfNum = "fales";
             return Content(stfNum);
         }
