@@ -6,46 +6,7 @@
 
 @section Style{
     <link href="~/css/ProductWall.css" rel="stylesheet">
-    <style>
-        .PagedList-skipToNext{
-            padding: 0.375rem 0.75rem ;
-            position: relative;
-            display: block;
-            color: #0d6efd;
-            text-decoration: none;
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-            border-top-right-radius: 0.25rem;
-            border-bottom-right-radius: 0.25rem;
-        }
 
-        .PagedList-skipToPrevious{
-            padding: 0.375rem 0.75rem ;
-            position: relative;
-            display: block;
-            color: #0d6efd;
-            text-decoration: none;
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-            border-top-right-radius: 0.25rem;
-            border-bottom-right-radius: 0.25rem;
-        }
-
-        .pagination li  {
-            padding: 0.375rem 0.75rem ;
-            position: relative;
-            display: block;
-            color: #0d6efd;
-            text-decoration: none;
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-            border-top-right-radius: 0.25rem;
-            border-bottom-right-radius: 0.25rem;
-        }
-    </style>
 }
 
     <div class="container py-5" style="font-family:'Microsoft YaHei';">
@@ -71,10 +32,11 @@
                 <div class="col-md-2 row ">
                 <div class="col-md-6">
                     <ul class="list-inline shop-top-menu pb-3 pt-1" id="sclass">
+                        
                         @foreach (var item in Model)
                         {
                             <li class="list-inline-item">
-                                <a class="h5 text-dark text-decoration-none" asp-action="type" asp-route-id="@item.商品鞋種id" asp-route-tid="@item.商品分類id" asp-route-type="@item.商品分類名稱">@Html.DisplayFor(modelItem => item.鞋種名稱)</a>
+                                <a class="h5 text-dark text-decoration-none" asp-action="type" asp-route-id="@item.商品鞋種id" asp-route-tid="@item.商品分類id" asp-route-type="@item.商品分類名稱">@item.鞋種名稱</a>
                             </li>
                         }
                     </ul>
@@ -100,9 +62,13 @@
                                             }
                                         </div>
                                         <div class="card-body">
-                                        <a asp-action="Details" asp-route-id="@item.商品id" asp-route-colorID="@item.商品顏色id">@item.商品名稱</a>
-                                            <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
-                                                <li>@Html.DisplayFor(modelItem => item.商品價格)</li>
+                                            <a class="g-item" asp-action="Details" asp-route-id="@item.商品id" asp-route-colorID="@item.商品顏色id">@item.商品名稱  @item.顏色名稱</a>
+                                        
+                                            <ul class="w-100 list-unstyled d-flex justify-content-between mb-0 price-box">
+                                            @{
+                                                decimal 價格 = item.商品價格;
+                                                <li>@價格.ToString("###,###,##0")$</li>
+                                                }
                                             </ul>
                                         </div>
                                     </div>

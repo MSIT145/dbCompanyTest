@@ -15,8 +15,6 @@ namespace dbCompanyTest.Controllers
         public IActionResult Index(int? id, int page = 1)
         {
 
-    
-
             if (id == null)
                 return NotFound();
             else
@@ -26,6 +24,7 @@ namespace dbCompanyTest.Controllers
                             join e in _context.ProductsTypeDetails on c.商品分類id equals e.商品分類id
                             join f in _context.圖片位置s on d.圖片位置id equals f.圖片位置id
                             join b in _context.商品鞋種s on c.商品鞋種id equals b.商品鞋種id
+                            join g in _context.ProductsColorDetails on d.商品顏色id equals g.商品顏色id
                             where c.商品分類id == id
                             select new ViewModels.ProductWallViewModel
                             {
@@ -37,7 +36,8 @@ namespace dbCompanyTest.Controllers
                                 商品價格 = (decimal)c.商品價格,
                                 產品圖片1 = f.商品圖片1,
                                 商品分類名稱 = e.商品分類名稱,
-                                商品顏色id=(int)d.商品顏色id
+                                商品顏色id=(int)d.商品顏色id,
+                                顏色名稱=g.商品顏色種類
                             };
 
                 return View(datas.ToPagedList(page,5));
@@ -55,6 +55,7 @@ namespace dbCompanyTest.Controllers
                             join e in _context.ProductsTypeDetails on c.商品分類id equals e.商品分類id
                             join f in _context.圖片位置s on d.圖片位置id equals f.圖片位置id
                             join b in _context.商品鞋種s on c.商品鞋種id equals b.商品鞋種id
+                            join g in _context.ProductsColorDetails on d.商品顏色id equals g.商品顏色id
                             where c.商品鞋種id == id
                             select new ViewModels.ProductWallViewModel
                             {
@@ -66,7 +67,8 @@ namespace dbCompanyTest.Controllers
                                 商品價格 = (decimal)c.商品價格,
                                 產品圖片1 = f.商品圖片1,
                                 商品分類名稱 = type,
-                                商品顏色id = (int)d.商品顏色id
+                                商品顏色id = (int)d.商品顏色id,
+                                顏色名稱 = g.商品顏色種類
                             };
                 
                 return View(datas.ToPagedList(page, 5));
@@ -81,6 +83,7 @@ namespace dbCompanyTest.Controllers
                         join e in _context.ProductsTypeDetails on c.商品分類id equals e.商品分類id
                         join f in _context.圖片位置s on d.圖片位置id equals f.圖片位置id
                         join b in _context.商品鞋種s on c.商品鞋種id equals b.商品鞋種id
+                        join g in _context.ProductsColorDetails on d.商品顏色id equals g.商品顏色id
                         where c.商品名稱.Contains(keyword)
                         select new ViewModels.ProductWallViewModel
                         {
@@ -90,7 +93,8 @@ namespace dbCompanyTest.Controllers
                             商品價格 = (decimal)c.商品價格,
                             產品圖片1 = f.商品圖片1,
                             keyword = keyword,
-                            商品顏色id = (int)d.商品顏色id
+                            商品顏色id = (int)d.商品顏色id,
+                            顏色名稱 = g.商品顏色種類
                         };
 
             return View(datas.ToPagedList(page, 5));
