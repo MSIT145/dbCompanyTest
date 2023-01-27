@@ -33,7 +33,9 @@ namespace dbCompanyTest.Hubs
             user id = userList.Where(p => p.connectionId == Context.ConnectionId).FirstOrDefault();
             if (id != null)
                 userList.Remove(id);
-
+            user olduser = userList.FirstOrDefault(x => x.waiter == Context.ConnectionId);
+            if (olduser != null)
+                olduser.waiter = null;
             Update();
             if (id.waiter != null)
                 await Clients.Client(id.waiter).SendAsync("UpdSystem", "系統", id.userName + " 已離線");
@@ -46,7 +48,7 @@ namespace dbCompanyTest.Hubs
             if (message != "")
             {
                 user user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId);
-                if (user.userName != "客服人員")
+                if (user.userName.Substring(0,2) != "ST")
                 {
                     if (user.userWords == null)
                         user.userWords = new List<string>();
@@ -82,10 +84,10 @@ namespace dbCompanyTest.Hubs
 
         public async Task bindWaiterUser(string userId)
         {
-            user olduser = userList.FirstOrDefault(x => x.waiter == Context.ConnectionId);
+            user? olduser = userList.FirstOrDefault(x => x.waiter == Context.ConnectionId);
             if (olduser != null)
                 olduser.waiter = null;
-            user user = userList.FirstOrDefault(x => x.connectionId == userId);
+            user? user = userList.FirstOrDefault(x => x.connectionId == userId);
             if (user.waiter == null)
             {
                 user.waiter = Context.ConnectionId;
@@ -102,9 +104,9 @@ namespace dbCompanyTest.Hubs
 
         public async void Update()
         {
-            List<user> client = userList.Where(x => x.userName != "客服人員").ToList();
+            List<user> client = userList.Where(x => x.userName.Substring(0, 2) != "ST").ToList();
             string jsonString = JsonConvert.SerializeObject(client);
-            List<string> waiter = userList.Where(x => x.userName == "客服人員").Select(x => x.connectionId).ToList();
+            List<string> waiter = userList.Where(x => x.userName.Substring(0, 2) == "ST").Select(x => x.connectionId).ToList();
             foreach (string item in waiter)
                 await Clients.Client(item).SendAsync("userList", jsonString);
         }
@@ -115,6 +117,4 @@ namespace dbCompanyTest.Hubs
         }
 
     }
-
-
 }
