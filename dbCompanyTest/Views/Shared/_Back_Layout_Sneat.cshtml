@@ -609,7 +609,7 @@
     <a href="~/js/signalr/dist/browser/signalr.min.js.map">~/js/signalr/dist/browser/signalr.min.js.map</a>
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    
     <script>
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
@@ -630,5 +630,6 @@
             $(this).parent().siblings.removeClass("active");
         });
     </script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

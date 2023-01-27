@@ -11,8 +11,9 @@
         <input asp-for="Email" type="text" name="Email" class="Linput" placeholder="Email" /><br />
         <input type="text" name="密碼" class="Linput" placeholder="密碼" /> <br />
         <select name="性別" id="sex" class="Linput"><option>男</option><option>女</option></select><br />
-        <input type="text" name="生日" class="Linput" placeholder="生日" /><br />
+        <input type="date" name="生日" class="Linput" placeholder="生日" /><br />
         <input type="submit" value="註冊" id="checkcreate" />
+        <p id="createAlert" style="color:red;"></p>
     </form>
 </div>
 <script src="~/datas/taiwan_districts.js"></script>
@@ -71,7 +72,6 @@
         event.preventDefault();
         let canAdd = 0;
         $.each(check, function (index, value) {
-            console.log(value);
             if (value) {
                 canAdd++;
             }
@@ -88,7 +88,7 @@
             }
         }
         else {
-            alert("請輸入完整資料");
+            $(`#createAlert`).text(`請輸入完整資料`);
         }
     });
 
@@ -114,6 +114,18 @@
                 check[4] = Bool;
                 break;
             }
+        }
+        let checkstate = 0;
+        $.each(check,function(index,value){
+            if(value){
+                checkstate++;
+            }
+        })
+        if (checkstate < 5) {
+             $(`#createAlert`).text(`請輸入完整資料`);
+        }
+        else{
+            $(`#createAlert`).text(``);
         }
     }
 

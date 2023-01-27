@@ -5,9 +5,9 @@ $("#city").change(function () {
     area(Myarea);
 })
 $(`#city`).val($(`#q1`).val());
-console.log($(`#q1`).val());
+//console.log($(`#q1`).val());
 if ($(`#q1`).val()) {
-    console.log($(`#city option:selected`).index());
+    //console.log($(`#city option:selected`).index());
     area($(`#city option:selected`).index());
 }
 if ($(`#sexvalue`).val()) {
@@ -19,6 +19,6 @@ function area(a) {
     $.each(data[a].districts, function (j, j_value) { $("#town").append(`<option>${j_value.name}</option>`) })
     if ($(`#q2`).val()) {
         $(`#town`).val($(`#q2`).val().trim());
-        console.log($(`#q2`).val());
+        //console.log($(`#q2`).val());
     }
 }

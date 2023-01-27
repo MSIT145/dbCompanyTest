@@ -80,7 +80,7 @@
         xhr.addEventListener(`load`, () => {
             var result = xhr.responseText;
             if (result == `成功`) {
-                history.back();
+                window.location.assign("https://localhost:7100/Home/Index");
                 joinCarSession();
             } else {
                 if (result == "Nopassword")

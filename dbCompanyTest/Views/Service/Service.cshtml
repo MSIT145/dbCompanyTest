@@ -32,12 +32,12 @@
     <script src="~/js/aibot.js"></script>
     <script>
         //console.log(Botdata.key[0].你好);
-        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-        connection.start().then(function () {
-            connection.invoke(`getName`, "客服人員");
-            console.log("連線成功");
-        });
+        //connection.start().then(function () {
+        //    connection.invoke(`getName`, "客服人員");
+        //    console.log("連線成功");
+        //});
 
         connection.on(`userList`, function (data) {
             const userList = JSON.parse(data);

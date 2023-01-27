@@ -46,7 +46,7 @@ namespace dbCompanyTest.Hubs
             if (message != "")
             {
                 user user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId);
-                if (user.userName != "客服人員")
+                if (user.userName.Substring(0,2) != "ST")
                 {
                     if (user.userWords == null)
                         user.userWords = new List<string>();
@@ -68,7 +68,7 @@ namespace dbCompanyTest.Hubs
                 {
                     user clients = userList.FirstOrDefault(x => x.connectionId == ClientID);
                     clients.userWords.Add("S" + message);
-                    await Clients.Client(ClientID).SendAsync("UpdSystem", user.userName, message);
+                    await Clients.Client(ClientID).SendAsync("UpdSystem", "客服人員", message);
                     await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
                 }
             }
@@ -102,9 +102,9 @@ namespace dbCompanyTest.Hubs
 
         public async void Update()
         {
-            List<user> client = userList.Where(x => x.userName != "客服人員").ToList();
+            List<user> client = userList.Where(x => x.userName.Substring(0,2) != "ST").ToList();
             string jsonString = JsonConvert.SerializeObject(client);
-            List<string> waiter = userList.Where(x => x.userName == "客服人員").Select(x => x.connectionId).ToList();
+            List<string> waiter = userList.Where(x => x.userName.Substring(0, 2) == "ST").Select(x => x.connectionId).ToList();
             foreach (string item in waiter)
                 await Clients.Client(item).SendAsync("userList", jsonString);
         }
