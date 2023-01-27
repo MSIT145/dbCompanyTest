@@ -236,9 +236,9 @@
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li>
                     <!-- Cards -->
                     <li class="menu-item">
-                        <a href="cards-basic.html" class="menu-link">
+                        <a href="@Url.Content("~/Service/Service")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-collection"></i>
-                            <div data-i18n="Basic">Cards</div>
+                            <div data-i18n="Basic">Service</div>
                         </a>
                     </li>
                     <!-- User interface -->
@@ -611,18 +611,18 @@
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     
     <script>
-        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-        connection.start().then(async function () {
-            const data = await fetch("@Url.Content("~/Staff_Home/StaffNum")");
-            const StaffNum = await data.text();
-            if (StaffNum == "fales")
-                alert("連線逾時請重新登入");
-            else
-                connection.invoke("getStaffNum", StaffNum).catch(function (err) {
-                    alert('傳送錯誤: ' + err.toString());
-                });
-        });
+        //connection.start().then(async function () {
+        //    const data = await fetch("@Url.Content("~/Staff_Home/StaffNum")");
+        //    const StaffNum = await data.text();
+        //    if (StaffNum == "fales")
+        //        alert("連線逾時請重新登入");
+        //    else
+        //        connection.invoke("getStaffNum", StaffNum).catch(function (err) {
+        //            alert('傳送錯誤: ' + err.toString());
+        //        });
+        //});
         //------------------------------------------------------------------------------------------------------
         $("li .menu-item").children("a").on("click", function () {
             consoel.log($(this));
