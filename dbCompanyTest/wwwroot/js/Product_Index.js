@@ -72,6 +72,7 @@ function check_ProColor_C() {
 
 
 //=======Product==============================================
+
 //產品明細
 function check_ProDetail_Edit() {
     let form = $("#Form_ProDe_E");

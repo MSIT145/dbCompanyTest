@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Text.Json;
 using System.Text;
 using NPOI.OpenXmlFormats.Dml;
+using static NPOI.HSSF.UserModel.HeaderFooter;
 
 namespace dbCompanyTest.Controllers
 {
@@ -21,7 +22,7 @@ namespace dbCompanyTest.Controllers
         dbCompanyTestContext db = new dbCompanyTestContext();
         private IWebHostEnvironment _eviroment; //宣告取域 環境變數
         private readonly ILogger<ProductController> _logger;  //設定成紀錄類型
-        
+
         public ProductController(IWebHostEnvironment eviroment, ILogger<ProductController> logger)  //建構子，將環境變數注入
         {
             _eviroment = eviroment;
@@ -29,6 +30,95 @@ namespace dbCompanyTest.Controllers
         }
         //存放Product的資料，搜尋請改用Session
         //static List<Product> searchData = new List<Product>();
+
+
+        #region 圖表相關
+        //圖表使用
+        //前五產品 Pie 圖
+        public class data
+        {
+            public string name { get; set; }
+            public decimal y { get; set; }
+        }
+
+        public class Pie_sellData
+        {
+            public List<data> PieData { get; set; }
+            public decimal allSell { get; set; }
+        }
+
+        public IActionResult Pei_ProSell()
+        {
+            List<data> AllData = new List<data>();
+            //計算總收益     
+            decimal totalAll = db.OrderDetails.Sum(od => od.總金額).Value;
+            //Left Join Product
+            var tempD = from p in db.Products
+                        join o in db.OrderDetails on p.商品編號id equals o.Id
+                       into EmployeeAddressGroup
+                        from address in EmployeeAddressGroup.DefaultIfEmpty()
+                        group address by new { p.商品編號id, p.商品名稱 } into g
+                        select new data
+                        {
+                            name = g.Key.商品名稱.ToString(),
+                            y = g.Sum(o => o.總金額).Value
+                        };
+            AllData = tempD.ToList();
+            //取得前5筆加總資料
+
+            var ALLsellTop5 = AllData.OrderByDescending(o => o.y).Take(5).ToList();
+
+            //將前五名減去-得到其他收益
+            decimal total = ALLsellTop5.Sum(a => a.y);
+            decimal othersell = totalAll - total;
+
+            //將data 的y轉為 百分比
+            //var top5 = ALLsellTop5.Select(a => new data { name = a.name, y =(a.y)  }).ToList();
+            var top5 = ALLsellTop5.Select(a => new data { name = a.name, y = Math.Round(((a.y) / totalAll) * 100, 0) }).ToList();
+
+            //將其他加入TOP5的資料
+            //top5.Add(new data { name = "其他", y = othersell  });
+            top5.Add(new data { name = "其他", y = Math.Round((othersell / totalAll) * 100, 0) });
+            Pie_sellData Pie_D = new Pie_sellData()
+            {
+                PieData = top5,
+                allSell = totalAll
+            };
+            return Json(Pie_D);
+        }
+        //立體柱狀圖 前10名商品
+        public class column_sellData
+        {
+            public List<string> categories { get; set; }
+            public List<decimal> datas { get; set; }
+            public decimal allSell { get; set; }
+        }
+        public IActionResult Top10ProSellCol()
+        {
+              var tempD = from p in db.Products
+                        join o in db.OrderDetails on p.商品編號id equals o.Id
+                       into EmployeeAddressGroup
+                        from address in EmployeeAddressGroup.DefaultIfEmpty()
+                        group address by new { p.商品編號id, p.商品名稱 } into g
+                        select new 
+                        {
+                            name = g.Key.商品名稱.ToString(),
+                            sell = g.Sum(o => o.總金額).Value
+                        };
+            var ALLsellTop10 = tempD.OrderByDescending(o => o.sell).Take(10).ToList();
+            List<string> _categories = ALLsellTop10.Select(t => t.name.ToString()).ToList();
+            List<decimal> _datas = ALLsellTop10.Select(t => t.sell).ToList();
+            column_sellData colData = new column_sellData()
+            {
+                categories = _categories,
+                datas = _datas,
+                allSell = db.OrderDetails.Sum(od => od.總金額).Value
+            };
+            return Json(colData);
+        }
+
+
+        #endregion 圖表相關
 
         public IActionResult Index()
         {

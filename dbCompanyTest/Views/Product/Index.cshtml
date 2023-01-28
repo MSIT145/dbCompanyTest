@@ -14,37 +14,68 @@
 <script src="~/assets/js/icon_js/app.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
+@*//圖表所需的JS*@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+
 
 
 <div class="container-xxl flex-grow-1 container-p-y">
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> 商品與明細</h4>
-     <div class="row">
-        <div class="col-md-2">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda_P_C" id="btn_ProForm"> 新增商品</button>
-        </div>
-        <div class="col-md-7">
-            @using (Html.BeginForm("Upload", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                <div class="input-group ">
-                    <input type="file" class="form-control" aria-describedby="btn-Upload" id="excel" name="excel" accept=".xlsx,.xls">
-                    <button class="btn btn-outline-secondary" type="submit" id="btn-Upload" >Excel批次匯入商品建檔</button>
+
+  <div class="container-fluid px-4">  
+    <div class="row">
+        <div class="col"@* style="display:flex"*@>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda_P_C" id="btn_ProForm" style="margin-right:2em">新增商品</button>
+                <button class="btn btn-primary " type="button" id="btn_HighchartsControl">商品圖表  </button>
+            </div>        
+        <div class="col-md-5">       </div>
+        <div class="col-md-3">      </div>
+    </div>
+        <div class="collapse" id="collapseHighcharts" >
+            <div class="card card-body">
+                <div class="row">                    
+                    <div class="col-md-6">
+                        <h2><i class="align-middle me-2" data-feather="bar-chart"></i>column圖</h2>
+                        <div id="container_col"></div>                        
+                    </div>
+                    <div class="col-md-6">
+                        <h2><i class="align-middle me-2" data-feather="pie-chart"></i>Pie圖</h2>
+                        <div id="container_pie"></div>
+                    </div>
                 </div>
-            }
-            
+            </div>
         </div>
-        <div class="col-md-3">
-            <div class="input-group ">
-            <input type="text" class="form-control" placeholder="關鍵字" aria-label="關鍵字" aria-describedby="btn-Search" id="keywork" name="keywork">
-            <button class="btn btn-outline-secondary" type="button" id="btn-Search">查詢</button>
-           </div>
-        </div>
-    </div>
-<div class="container-fluid px-4">  
-    </div>
-    <div class="card mb-4">
-        <div class="card-header">           
-            商品一覽
-        </div>
+        <!--分隔-->       
+    <div class="card mb-4">          
+             @* <div class="card-header">     
+                 商品一覽
+            </div>*@
+            <div class="row">
+                <div class="col-md-3">
+                   
+                </div>
+                <div class="col-md-6">
+                        @using (Html.BeginForm("Upload", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                        <div class="input-group ">
+                        <input type="file" class="form-control" aria-describedby="btn-Upload" id="excel" name="excel" accept=".xlsx,.xls">
+                        <button class="btn btn-outline-secondary" type="submit" id="btn-Upload">Excel批次匯入商品建檔</button>
+                        </div>
+                        }
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group ">
+                        <input type="text" class="form-control" placeholder="關鍵字" aria-label="關鍵字" aria-describedby="btn-Search" id="keywork" name="keywork">
+                        <button class="btn btn-outline-secondary" type="button" id="btn-Search">查詢</button>
+                    </div>
+                </div>
+            </div>        
         <div class="card-body">
             <table id="tableAll">
                 <thead>
@@ -82,6 +113,7 @@
             </div>
         </div>
     </div>
+   </div>
 </div>
 @*Modal_新增與修改_產品*@
 <div class="modal fade" id="Moda_P_C" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -318,8 +350,126 @@
         }
         
 
+        //圖表事件
+        //圖表開啟按鈕事件
+        var flag = true;
+        $("#btn_HighchartsControl").on('click',function(){
+        $('#collapseHighcharts').slideToggle(500);
+        const obj = $("#container_col");
+        const objPei = $("#container_pie");
+        Column_Chart(obj, '@Url.Content("~/product/Top10ProSellCol")');
+            Pie_Chart(objPei, '@Url.Content("~/product/Pei_ProSell")');
+        })
+        //Pie圖事件
+        function Pie_Chart(obj,url)
+        {
+             $.getJSON(`${url}`, function (data) {
+                 
+                Highcharts.chart('container_pie', {
+                    chart: {
+                        type: 'pie',
+                        options3d: {
+                            enabled: true,
+                            alpha: 45,
+                            beta: 0
+                        }
+                    },
+                    title: {
+                        text: 'Top5 銷售比例',
+                        align: 'left'
+                    },
+                    subtitle: {
+                        text: '總銷售額: ' + `${data.allSell} 元整` ,
+                        align: 'left'
+                    },
+                    accessibility: {
+                        point: {
+                            valueSuffix: '%'
+                        }
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            depth: 35,
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name}'
+                            }
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: '銷售佔比',
+                        data: data.pieData
+                    }]
+                });
+            });
         
+        }
 
+        //條狀圖事件
+        function Column_Chart(obj,url)
+        {
+        $.getJSON(`${url}`, function (data) {
+        let perName = data.categories;
+        let datas =data.datas;
+        let allSell = data.allSell;
+
+        // Set up the chart
+        const chart = new Highcharts.Chart({
+        chart: {
+        renderTo: 'container_col',
+        type: 'column',
+        options3d: {
+        enabled: true,
+        alpha: 15,
+        beta: 15,
+        depth: 50,
+        viewDistance: 25
+        }
+        },
+        xAxis: {
+        categories: perName
+        },
+        yAxis: {
+        title: {
+        enabled: false
+        }
+        },
+        tooltip: {
+        headerFormat: '<b>{point.key}</b><br>',
+        pointFormat: '商品銷售額: {point.y} 元整'
+        },
+        title: {
+        text: 'TOP10 商品銷售統計',
+        align: 'left'
+        },
+        subtitle: {
+        text: '銷售總額: ' +
+        `新台幣 ${allSell} 元整`,
+        align: 'left'
+        },
+        legend: {
+        enabled: false
+        },
+        plotOptions: {
+        column: {
+        depth: 25
+        }
+        },
+        series: [{
+        data: datas,
+        colorByPoint: true
+        }]
+        });
+               
+        });
+
+        }
         //檔案上傳事件(先用sumit代替)
         $("#btn-Upload").on('click',function(){
         
@@ -662,7 +812,7 @@
 
         $(document).ready(function () {
                     funcLoad();
-        
+                  
 
                 });
     </script>
