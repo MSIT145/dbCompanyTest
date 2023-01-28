@@ -13,9 +13,12 @@ connection.start().then(async function () {
 });
 
 $("#inp_start").on("click", function () {
+    var split_name_num = $(`#stf_info`).text().split(' ');
+    var name_num = `${split_name_num[0]}${split_name_num[1]}`
+
     let come_from_num = stf;
     let Send_To_num = $("#inp_super_vs").val();
-    let msg = `您有新表單待簽`;
+    let msg = `您有來自${name_num}的新表單待簽`;
     connection.invoke("SendNotice", come_from_num, Send_To_num, msg).catch(function (err) {
         alert('傳送錯誤: ' + err.toString());
     });
@@ -26,5 +29,4 @@ $("#inp_start").on("click", function () {
 
 connection.on("receive", function (msg) {
     $(`#Search_layout`).val(msg);
-
 });
