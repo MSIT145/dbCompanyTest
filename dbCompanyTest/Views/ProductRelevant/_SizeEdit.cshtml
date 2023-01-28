@@ -13,7 +13,9 @@
             <div class="form-group">
                 <label asp-for="尺寸種類" class="control-label"></label>
                 <input asp-for="尺寸種類" class="form-control"  type="number"/>
-                <span asp-validation-for="尺寸種類" class="text-danger"></span>
+                <div class="invalid-feedback">
+                    <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
+                </div>
             </div>
             <br>
             <div class="form-group">
@@ -31,20 +33,25 @@
         btn.addEventListener("click", (event) => {
             event.preventDefault(); //停止submit預設行為
 
-            //ajax送出資料
-            const xhr = new XMLHttpRequest();
-            xhr.addEventListener("load", () => {
-                if(xhr.status==200){
-                    alert(xhr.responseText);
-                    $("#Moda").modal('toggle');                
-                }
-                else{
-                    console.log(xhr.staus);
-                }
-            });
-            var formData = new FormData(document.proInfo);
-            xhr.open("POST", "@Url.Content("~/ProductRelevant/SizeEdit")");
-            xhr.send(formData);
+
+            let error = check_ProSize();
+            if (error.length == 0) {
+                //ajax送出資料
+                const xhr = new XMLHttpRequest();
+                xhr.addEventListener("load", () => {
+                    if (xhr.status == 200) {
+                        alert(xhr.responseText);
+                        $("#Moda").modal('toggle');
+                    }
+                    else {
+                        console.log(xhr.staus);
+                    }
+                });
+                var formData = new FormData(document.proInfo);
+                xhr.open("POST", "@Url.Content("~/ProductRelevant/SizeEdit")");
+                xhr.send(formData);
+            }
+           
          });
     });
 </script>

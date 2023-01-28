@@ -4,7 +4,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form name="proInfo">
+        <form name="proInfo" id="Form_ProType_C">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" style="display:none">
                 <label asp-for="商品分類id" class="control-label"></label>
@@ -14,7 +14,9 @@
             <div class="form-group">
                 <label asp-for="商品分類名稱" class="control-label"></label>
                 <input asp-for="商品分類名稱" class="form-control" />
-                <span asp-validation-for="商品分類名稱" class="text-danger"></span>
+                <div class="invalid-feedback">
+                    <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
+                </div>
             </div>
             <br>
             <div class="form-group">
@@ -33,8 +35,11 @@
         btn.addEventListener("click", (event) => {
             event.preventDefault();//停止submit預設行為
             //前端檢測
+            let error = check_ProType_C();
+            if (error.length == 0) {
             var formData = new FormData(document.proInfo); //from 的名稱
             SaveData(formData);
+            }
         });
     });
 

@@ -1,4 +1,78 @@
-﻿//產品明細
+﻿//=======ProductRelevant========================================
+//商品分類
+function check_ProType_Edit() {
+    let form = $("#Form_ProType_E");
+    let errorstr = "";
+    //商品分類名稱
+    let 商品分類名稱 = form.find("input[name='商品分類名稱']");
+    errorstr += check_null_lenth(商品分類名稱, "商品分類名稱")
+    return errorstr;
+}
+function check_ProType_C() {
+    let form = $("#Form_ProType_C");
+    let errorstr = "";
+    //商品分類名稱
+    let 商品分類名稱 = form.find("input[name='商品分類名稱']");
+    errorstr += check_null_lenth(商品分類名稱, "商品分類名稱")
+    return errorstr;
+}
+
+//商品尺寸
+function check_ProSize() {
+    let form = $("form[name='proInfo']");
+    let errorstr = "";
+    //尺寸種類
+    let 尺寸種類 = form.find("input[name='尺寸種類']");
+    errorstr += check_null_lenth(尺寸種類, "尺寸種類")
+    return errorstr;
+}
+
+//商品鞋種
+function check_Shoes() {
+    let form = $("form[name='proInfo']");
+    let errorstr = "";
+    //鞋種
+    let 鞋種 = form.find("input[name='鞋種']");
+    errorstr += check_null_lenth(鞋種, "鞋種")
+    return errorstr;
+}
+
+//商品顏色
+function check_ProColor_E() { 
+    let form = $("form[name='proInfo']");
+    let errorstr = "";
+    //商品分類名稱
+    let 商品顏色種類 = form.find("input[name='商品顏色種類']");
+    errorstr += check_null_lenth(商品顏色種類, "商品顏色種類");
+    //色碼
+    let 色碼 = form.find("input[name='色碼']");
+    errorstr += check_null_lenth(色碼, "色碼")
+   
+    return errorstr;
+}
+
+//商品顏色
+function check_ProColor_C() {
+    /*$.ajaxSettings.async = false;*/
+    let form = $("form[name='proInfo']");
+    let errorstr = "";
+    //商品分類名稱
+    let 商品顏色種類 = form.find("input[name='商品顏色種類']");
+    errorstr += check_null_lenth(商品顏色種類, "商品顏色種類");
+    //色碼
+    let 色碼 = form.find("input[name='色碼']");
+    errorstr += check_null_lenth(色碼, "色碼")
+    //商品顏色圖片
+    let 商品顏色圖片 = form.find("input[name='商品顏色圖片']");
+    errorstr += check_file_null(商品顏色圖片, "商品顏色圖片")
+    /*$.ajaxSettings.async = true;*/
+    return errorstr;
+}
+
+
+
+//=======Product==============================================
+//產品明細
 function check_ProDetail_Edit() {
     let form = $("#Form_ProDe_E");
     let errorstr = "";
@@ -17,7 +91,7 @@ function check_ProDetail_Create() {
     errorstr += check_null(商品數量, "商品數量")
     //photo1
     let photo1 = form.find("input[name='photo1']");
-    console.log(photo1);
+  /*  console.log(photo1);*/
     errorstr += check_file_null(photo1, "照片1")
     //photo2
     let photo2 = form.find("input[name='photo2']");

@@ -14,7 +14,9 @@
             <div class="form-group">
                 <label asp-for="尺寸種類" class="control-label"></label>
                 <input asp-for="尺寸種類" class="form-control"  type="number"/>
-                <span asp-validation-for="尺寸種類" class="text-danger"></span>
+                <div class="invalid-feedback">
+                    <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
+                </div>
             </div>
             <br>
             <div class="form-group">
@@ -32,8 +34,11 @@
         btn.addEventListener("click", (event) => {
             event.preventDefault();//停止submit預設行為
             //前端檢測
+            let error = check_ProSize();
+            if (error.length == 0) {
             var formData = new FormData(document.proInfo); //from 的名稱
             SaveData(formData);
+            }
         });
     });
 
