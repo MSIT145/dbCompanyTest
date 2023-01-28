@@ -1,6 +1,7 @@
 ﻿using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Cryptography.Xml;
 using X.PagedList;
@@ -12,7 +13,7 @@ namespace dbCompanyTest.Controllers
     {
         dbCompanyTestContext _context = new dbCompanyTestContext();
 
-        public IActionResult Index(int? id, int page = 1)
+        public IActionResult Index(int? id, int page = 1) 
         {
 
             if (id == null)
@@ -25,6 +26,7 @@ namespace dbCompanyTest.Controllers
                             join f in _context.圖片位置s on d.圖片位置id equals f.圖片位置id
                             join b in _context.商品鞋種s on c.商品鞋種id equals b.商品鞋種id
                             join g in _context.ProductsColorDetails on d.商品顏色id equals g.商品顏色id
+                            join h in _context.ProductsSizeDetails on d.商品尺寸id equals h.商品尺寸id
                             where c.商品分類id == id
                             select new ViewModels.ProductWallViewModel
                             {
@@ -37,10 +39,12 @@ namespace dbCompanyTest.Controllers
                                 產品圖片1 = f.商品圖片1,
                                 商品分類名稱 = e.商品分類名稱,
                                 商品顏色id=(int)d.商品顏色id,
-                                顏色名稱=g.商品顏色種類
+                                顏色名稱=g.商品顏色種類,
+                                尺寸名稱=h.尺寸種類,
+                                材質名稱=c.商品材質
                             };
 
-                return View(datas.ToPagedList(page,5));
+                return View(datas.ToPagedList(page,8));
             }
         }
 
@@ -56,6 +60,7 @@ namespace dbCompanyTest.Controllers
                             join f in _context.圖片位置s on d.圖片位置id equals f.圖片位置id
                             join b in _context.商品鞋種s on c.商品鞋種id equals b.商品鞋種id
                             join g in _context.ProductsColorDetails on d.商品顏色id equals g.商品顏色id
+                            join h in _context.ProductsSizeDetails on d.商品尺寸id equals h.商品尺寸id
                             where c.商品鞋種id == id
                             select new ViewModels.ProductWallViewModel
                             {
@@ -68,7 +73,9 @@ namespace dbCompanyTest.Controllers
                                 產品圖片1 = f.商品圖片1,
                                 商品分類名稱 = type,
                                 商品顏色id = (int)d.商品顏色id,
-                                顏色名稱 = g.商品顏色種類
+                                顏色名稱 = g.商品顏色種類,
+                                尺寸名稱 = h.尺寸種類,
+                                材質名稱 = c.商品材質
                             };
                 
                 return View(datas.ToPagedList(page, 5));
@@ -100,6 +107,31 @@ namespace dbCompanyTest.Controllers
             return View(datas.ToPagedList(page, 5));
             
         }
+
+        public IActionResult selectview()
+        {
+            ProductWallViewModel pwv = new ProductWallViewModel();
+            var datas = (from c in _context.Products
+                         join d in _context.ProductDetails on c.商品編號id equals d.商品編號id
+                         join g in _context.ProductsColorDetails on d.商品顏色id equals g.商品顏色id
+                         join h in _context.ProductsSizeDetails on d.商品尺寸id equals h.商品尺寸id
+                         select new ViewModels.ProductWallViewModel
+                         {
+                             顏色名稱 = g.商品顏色種類,
+                             尺寸名稱 = h.尺寸種類,
+                             材質名稱 = c.商品材質
+                         }).Distinct();
+
+            foreach (var item in datas.Distinct())
+            {
+                pwv.顏色名稱 = item.顏色名稱;
+                pwv.尺寸名稱 = item.尺寸名稱;
+                pwv.材質名稱 = item.材質名稱;
+            }
+
+                return PartialView(datas);
+        }
+
 
 
         //---------------------- Gary產品頁 ----------------------------
