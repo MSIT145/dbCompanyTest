@@ -16,7 +16,7 @@
         <div class="w-title">尺寸</div>
         <ul>
             @foreach (var item in Model){
-                <li class="dpnone"><a href=""> @item.尺寸名稱 </a> <img src="/homeimg/checked.png" /></li>
+                <li class="dpnone"id="sel"><a href=""> @item.尺寸名稱 </a> <img src="/homeimg/checked.png" /></li>
             }
         </ul>
         <a href="" class="watch-more">+ 查看更多</a>
@@ -26,7 +26,7 @@
         <ul>
             @foreach (var item in Model)
             {
-                <li class="dpnone"><a href=""> @item.顏色名稱 </a> <img src="/homeimg/checked.png" /></li>
+                <li class="dpnone" id="sel"><a href=""> @item.顏色名稱 </a> <img src="/homeimg/checked.png" /></li>
             }
         </ul>
         <a href="" class="watch-more">+ 查看更多</a>
@@ -36,7 +36,7 @@
         <ul>
             @foreach (var item in Model)
             {
-                <li class="dpnone"><a href=""> @item.材質名稱 </a> <img src="/homeimg/checked.png" /></li>
+                <li class="dpnone" id="sel"><a href=""> @item.材質名稱 </a> <img src="/homeimg/checked.png" /></li>
             }
         </ul>
         <a href="" class="watch-more">+ 查看更多</a>

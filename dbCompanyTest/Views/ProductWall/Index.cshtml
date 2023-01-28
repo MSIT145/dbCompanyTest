@@ -21,7 +21,7 @@
                         foreach (var item in Model){
                             type = item.商品分類名稱;
                         }
-                                        <li class="breadcrumb-item active" aria-current="page">@type</li>
+                                                                <li class="breadcrumb-item active" aria-current="page">@type</li>
                         }
                     </ol>
                 </nav>
@@ -46,7 +46,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="row col-md-10">
+            <div class="row col-md-10" id="f-content">
                     @foreach (var item in Model)
                     {
                         <div class="col-md-3 p-2 ">
@@ -57,11 +57,11 @@
                                             @{
                                                 if (@item.產品圖片1 != null)
                                                 {
-                                                                           <img class="card-img rounded-0 img-fluid" src="~/images/@item.產品圖片1" width="236" height="324" />
+                                                                                                   <img class="card-img rounded-0 img-fluid" src="~/images/@item.產品圖片1" width="236" height="324" />
                                                 }
                                                 else
                                                 {
-                                                                           <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" width="236" height="324" />
+                                                                                                   <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" width="236" height="324" />
                                                 }
                                             }
                                         </div>
@@ -71,7 +71,7 @@
                                             <ul class="w-100 list-unstyled d-flex justify-content-between mb-0 price-box">
                                             @{
                                                 decimal 價格 = item.商品價格;
-                                                                <li>@價格.ToString("###,###,##0")$</li>
+                                                                                        <li>@價格.ToString("###,###,##0")$</li>
                                                 }
                                             </ul>
                                         </div>
@@ -80,6 +80,25 @@
                             </a>
                         </div>
                     }
+                <nav>
+                    <ul class="pagination justify-content-center ">
+                        @*        <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        </a>
+                        </li>
+                        *@        @Html.PagedListPager((IPagedList)Model, page=>Url.Action("Index",new {page}))
+                        @*        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>*@
+                        @*        <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        </a>
+                        </li>
+                        *@
+                    </ul>
+                </nav>
                 </div>
         </div>
         <div class="col-lg-2 sidebar-words sidebar-words-pc" style="right: 0px;" id="select">
@@ -91,24 +110,7 @@
 
 
 
-<nav>
-    <ul class="pagination justify-content-center ">
-@*        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-*@        @Html.PagedListPager((IPagedList)Model, page=>Url.Action("Index",new {page}))
-@*        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>*@
-@*        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-*@    </ul>
-</nav>
+
 <br />
 
 
@@ -116,6 +118,7 @@
 @section Scripts{
     <script>$("#select").load("@Url.Content("~/ProductWall/selectview")")</script>
     <script>
+
 
         /*
         注入右側篩選欄
@@ -182,6 +185,10 @@
          	let _this = $(this);
          	if( ! _this.hasClass('checked') ){
          		_this.addClass('checked') ;
+             //選了關鍵詞
+                document.querySelector('#f-content').innerHTML=" ";//清空舊的
+                
+                Search()
          	}else{
          		_this.removeClass('checked') ;
          	}
@@ -193,6 +200,64 @@
          	$('.sidebar-words').find('li.checked').removeClass('checked') ;
          	return false ;
          })
+
+         //ajax
+
+        function Search() {
+            // 若 hash 沒資料，預設取第 1 頁
+            // hash = #，瀏覽器解讀為位置識別符號
+            // # 是用來指導瀏覽器動作的，對伺服器端完全無用。所以，HTTP請求中不包括 #
+            var page = window.location.hash
+                ? window.location.hash.slice(1) : 1;
+
+            // 取資料
+            fetchPage(page);
+        }
+        
+        var fetchPage = function (page) {
+            // 準備搜尋條件資料
+            var filter = {
+                word: $('.checked').text(),
+                page: page,
+                
+            }
+            console.log($('.checked').text());
+            // Ajax 呼叫
+            $.ajax({
+                url: '@Url.Action( "pro","ProductWall")',
+                data: filter,
+                type: 'Post',
+                success: function (resultHtml) {
+                    console.log(resultHtml);
+                    // 取得資料後將目前 hash 重設
+                    window.location.hash = page;
+                    // 將 PartialView 資料寫入 div id="f-content" 的區塊
+                    $('#f-content').html(resultHtml);
+                    // 重設頁碼按鈕
+                    $('#f - content.pagination li a').each(function (i, item) {
+                        // 若是有超連結的頁碼
+                        var hyperLinkUrl = $(item).attr('href');
+                        if (typeof hyperLinkUrl !== 'undefined' && hyperLinkUrl !== false) {
+                            // 取得當前按鈕(<a>)的對應頁碼
+                            var pageNumber = $(item).attr('href');
+                            // 將頁碼按鈕的 href 去除
+                            $(item).attr('href', '#');
+                            // 設定按下頁碼事件
+                            $(item).click(function (event) {
+                                // 停止事件的默認動作，例如有時候我們會利用連結的 <a> 來當作按鈕，
+                                // 他本身 DOM 就擁有連結的功能，但是有時候我們會為他新增 onclick 的事件，
+                                // 而只要在該 <a> 觸發的事件中加入event.preventDefault()，
+                                // 就不會在執行他默認的動作，也就是不會再執行「連結到某個網址」這個動作。
+                                event.preventDefault();
+                                // 取得按下的頁碼的資料
+                                fetchPage(pageNumber);
+                            });
+                        }
+                    });
+                }
+            });
+        };
+
 
         // 收起側邊欄
         $("html").delegate(".showSidebar", "click", function (e) {
