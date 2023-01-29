@@ -88,6 +88,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-4" >
                     <input type="hidden" asp-for="客戶編號" class="form-control" />
+                    <input type="hidden" asp-for="密碼" class="form-control" id="old"/>
                     <div class="form-group">
                         <label class="control-label">舊密碼</label>
                         <input class="form-control" id="oldpassword" />
@@ -97,8 +98,9 @@
                         <label asp-for="密碼" class="control-label"></label>
                         <input asp-for="密碼" class="form-control" value="" id="password" />
                         <span  class="text-danger" id="validMessage1"></span>
-                        
-                        <label  class="control-label">確認密碼</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">確認密碼</label>
                         <input class="form-control" id="repassword" />
                         <span class="text-danger" id="validMessage2"></span>
                     </div>
@@ -132,7 +134,7 @@
                 const id= $("#UserID");
                 const btn=document.querySelector("#updateBtn")
                 var passwd = $("#password").val();
-
+                let special = /[!#$%^&*]/;
 
             if ($("#oldpassword").val() == "" || $("#password").val() == '' || $("#repassword").val() == '') {
                 btn.setAttribute("disabled", "disabled");
@@ -146,7 +148,9 @@
                 //alert("blur");
                 if ($("#oldpassword").val() == "") {
                     $("#validMessage").html('請輸入舊密碼').show();
-                    
+                    if ($('#old').val() !== $("#oldpassword").val()){
+                        $("#validMessage").html('舊密碼輸入錯誤').show();
+                    }
                    // $("#oldpassword").focus();
                     return false;
                 }
@@ -157,23 +161,25 @@
 
             $("#password").on("blur", function () {
                 if ($("#password").val() == '') {
-                    $("#validMessage1").html('請輸入密碼').show();
+                    $("#validMessage1").html('請輸入密碼').show();//如果密碼為空值
                     //$("#password").focus();
                     return false;
                 }
                 $("#validMessage1").html('').show();
 
-                //if (passwd.length < 6 || passwd.length > 20) {
-                //    $("#validMessage1").html('密碼長度6-20位').show();
-                //    return false;
-                //}
-                //$("#validMessage1").html('').show();
+                if ($("#password").val().length < 6) {
+                    $("#validMessage1").html('密碼長度需大於6').show();
+                    console.log($("#password").val().length)
+                    return false;
+                    
+                }
+                $("#validMessage1").html('').show();
 
-                //if (!((passwd.match(/[a-z]/) != null || passwd.match(/[A-Z]/) != null) && passwd.match(/\d/) != null)) {
-                //    $("#validMessage1").html('密碼格式錯誤，密碼長度6-20位，字母加數字或符號的混合').show();
-                //    return false;
-                //}
-                //$("#validMessage1").html('').show();
+                if (!(($("#password").val().match(/[a-z]/) != null || $("#password").val().match(/[A-Z]/) != null) && $("#password").val().match(/[!#$%^&*]/) != null)) {
+                    $("#validMessage1").html('密碼格式錯誤，密碼長度需大於6，字母加數字或符號的混合').show();
+                    return false;
+                }
+                $("#validMessage1").html('').show();
             })
 
             $("#repassword").on("blur", function () {
