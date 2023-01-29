@@ -45,23 +45,42 @@ namespace dbCompanyTest.Controllers
         {
             public List<data> PieData { get; set; }
             public decimal allSell { get; set; }
+            public string year { get; set; }
         }
 
         public IActionResult Pei_ProSell()
         {
             List<data> AllData = new List<data>();
+          
+            //當前的日期
+            DateTime thisDay = DateTime.Today;
+            //當前年份
+            string thisyear = thisDay.Year.ToString();
+            // oder 與 orderDetail  先join 可取得時間過濾後的訂單資料
+            var _tempOD = db.OrderDetails.Join(db.Orders, od => od.訂單編號, o => o.訂單編號, (od, o) => new
+            {
+                無用id = od.無用id,
+                訂單編號 = od.訂單編號,
+                Id = od.Id,
+                商品價格 = od.商品價格,
+                商品數量 = od.商品數量,
+                總金額 = od.總金額,
+                下單時間 = o.下單時間
+            });
+            //沒有2023資料,只能先用2022
+            var tempOD = _tempOD.Where(t => t.下單時間.Substring(0, 4).Contains("2022"));
             //計算總收益     
-            decimal totalAll = db.OrderDetails.Sum(od => od.總金額).Value;
+            decimal totalAll = tempOD.Sum(od => od.總金額).Value;
             //Left Join Product
-            var tempD = from p in db.Products
-                        join o in db.OrderDetails on p.商品編號id equals o.Id
+            var tempD = from p in db.Products                       
+                        join od in tempOD on p.商品編號id equals od.Id
                        into EmployeeAddressGroup
                         from address in EmployeeAddressGroup.DefaultIfEmpty()
                         group address by new { p.商品編號id, p.商品名稱 } into g
                         select new data
                         {
                             name = g.Key.商品名稱.ToString(),
-                            y = g.Sum(o => o.總金額).Value
+                            y = g.Sum(od => od.總金額).Value
                         };
             AllData = tempD.ToList();
             //取得前5筆加總資料
@@ -75,15 +94,24 @@ namespace dbCompanyTest.Controllers
             //將data 的y轉為 百分比
             //var top5 = ALLsellTop5.Select(a => new data { name = a.name, y =(a.y)  }).ToList();
             var top5 = ALLsellTop5.Select(a => new data { name = a.name, y = Math.Round(((a.y) / totalAll) * 100, 0) }).ToList();
-
+            //因Pei 的比例 一定要=100,故須做預防處裡,用最大的值減去誤差
+            if (top5.Sum(d => d.y) > 100)
+            {
+                decimal max = top5.Max(t => t.y);
+                var model = top5.Where(t => t.y == max).FirstOrDefault();
+                if(model!=null)
+                model.y = model.y - (top5.Sum(d => d.y) - 100);
+            }
             //將其他加入TOP5的資料
             //top5.Add(new data { name = "其他", y = othersell  });
             top5.Add(new data { name = "其他", y = Math.Round((othersell / totalAll) * 100, 0) });
             Pie_sellData Pie_D = new Pie_sellData()
             {
                 PieData = top5,
-                allSell = totalAll
+                allSell = totalAll,
+                year = "2022"
             };
+          
             return Json(Pie_D);
         }
         //立體柱狀圖 前10名商品
@@ -92,11 +120,24 @@ namespace dbCompanyTest.Controllers
             public List<string> categories { get; set; }
             public List<decimal> datas { get; set; }
             public decimal allSell { get; set; }
+            public string year { get; set; }
         }
         public IActionResult Top10ProSellCol()
         {
-              var tempD = from p in db.Products
-                        join o in db.OrderDetails on p.商品編號id equals o.Id
+            //先取得訂單時間 2022年資料
+            var _tempOD = db.OrderDetails.Join(db.Orders, od => od.訂單編號, o => o.訂單編號, (od, o) => new
+            {
+                無用id = od.無用id,
+                訂單編號 = od.訂單編號,
+                Id = od.Id,
+                商品價格 = od.商品價格,
+                商品數量 = od.商品數量,
+                總金額 = od.總金額,
+                下單時間 = o.下單時間
+            }).Where(t => t.下單時間.Substring(0, 4).Contains("2022"));
+
+            var tempD = from p in db.Products
+                        join o in _tempOD on p.商品編號id equals o.Id
                        into EmployeeAddressGroup
                         from address in EmployeeAddressGroup.DefaultIfEmpty()
                         group address by new { p.商品編號id, p.商品名稱 } into g
@@ -112,8 +153,9 @@ namespace dbCompanyTest.Controllers
             {
                 categories = _categories,
                 datas = _datas,
-                allSell = db.OrderDetails.Sum(od => od.總金額).Value
-            };
+                allSell = _tempOD.Sum(od => od.總金額).Value,
+                year = "2022"
+            };       
             return Json(colData);
         }
 
