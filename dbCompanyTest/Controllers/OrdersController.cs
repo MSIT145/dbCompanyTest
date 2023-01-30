@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
+using dbCompanyTest.Hubs;
 
 namespace dbCompanyTest.Controllers
 {
@@ -33,10 +34,10 @@ namespace dbCompanyTest.Controllers
             {
                 return NotFound();
             }
-
-            var order = await _context.Orders
-                .Include(o => o.客戶編號Navigation)
-                .FirstOrDefaultAsync(m => m.訂單編號 == id);
+            var order = _context.OrderDetails.Select(x => x).Where(c => c.訂單編號 == id ).ToList();
+            //var order = await _context.OrderDetails
+            //    //.Include(o => o.客戶編號Navigation)
+            //    .FirstOrDefaultAsync(m => m.訂單編號 == id);
             if (order == null)
             {
                 return NotFound();

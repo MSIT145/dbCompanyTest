@@ -1,26 +1,92 @@
-﻿@model dbCompanyTest.Models.Order
+﻿@model IEnumerable<dbCompanyTest.Models.OrderDetail>
 
 @{
     ViewData["Title"] = "Details";
 }
-
+@{
+    Layout = "_Back_Layout_Sneat";
+}
 <h1>Details</h1>
 
 <div>
     <h4>Order</h4>
     <hr />
-    <dl class="row">
+
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                    @Html.DisplayNameFor(model => model.訂單編號)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.商品價格)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.商品數量)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.總金額)
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                        @Html.DisplayFor(modelItem => item.訂單編號)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.商品價格)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.商品數量)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.總金額)
+                </td>
+              
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.無用id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.無用id">Delete</a>
+                </td>
+            </tr>
+            }
+    </tbody>
+</table>
+
+   @* <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.付款方式)
+            @Html.DisplayNameFor(model => model.訂單編號)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.付款方式)
+            @Html.DisplayFor(model => model.訂單編號)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.送貨地址)
+            @Html.DisplayNameFor(model => model.Id)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.送貨地址)
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.商品價格)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.商品價格)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.商品數量)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.商品數量)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.總金額)
@@ -28,51 +94,10 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.總金額)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.下單時間)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.下單時間)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.訂單狀態)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.訂單狀態)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.付款狀態)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.付款狀態)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.收件人名稱)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.收件人名稱)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.收件人電話)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.收件人電話)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.收件人email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.收件人email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.客戶編號Navigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.客戶編號Navigation.客戶編號)
-        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.訂單編號">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.無用id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+*@
