@@ -24,7 +24,7 @@
                 <span asp-validation-for="表單類型" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="員工編號" class="control-label"></label>
+                <label asp-for="員工編號" class="control-label" id="lab_stfId"></label>
                 <input asp-for="員工編號" class="form-control" value="@ViewBag.acc" type="hidden" id="stfId" />
             </div>
             <div class="form-group" id="div_cont">
@@ -48,8 +48,8 @@
                 <span asp-validation-for="起單時間" class="text-danger"></span>
             </div>
             <div class="form-group" id="div_whostart">
-                <label asp-for="起單人" class="control-label"></label>
-                <input asp-for="起單人" class="form-control" id="inp_whostart" />
+                <label asp-for="起單人" class="control-label" id="lab_whostart"></label>
+                <input asp-for="起單人" class="form-control" id="inp_whostart" type="hidden"/>
                 <span asp-validation-for="起單人" class="text-danger"></span>
             </div>
             <div class="form-group" id="div_super_vs">
@@ -134,8 +134,8 @@
                 <span asp-validation-for="附件" class="text-danger"></span>
             </div>
             <div class="form-group" id="div_Attached_path">
-                <label asp-for="附件path" class="control-label"></label>
-                <input asp-for="附件path" class="form-control" id="inp_Attached_path" />
+                <label asp-for="附件path" class="control-label" id="lab_Attached_path"></label>
+                <input asp-for="附件path" class="form-control" id="inp_Attached_path" type="hidden"/>
                 <span asp-validation-for="附件path" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -155,6 +155,8 @@
     <script>
         var split = $(`#stf_info`).text().indexOf(' ');
         var stf = $(`#stf_info`).text().substr(0, split);
+        //var Send_To_num = $("#inp_super_vs").val();
+        $("#lab_stfId,#lab_whostart,#lab_Attached_path").css("display", 'none');
         $("#stfId").val(stf);
         ragular();
         $("#list_type").val(``)
@@ -169,7 +171,7 @@
             .done(data => {
                 $("#inp_whostart").val(data.員工編號);
                 $("#inp_super_vs").val(data.主管);
-
+                Send_To_num = data.主管;//連線收件
             })
 
         $.ajax({

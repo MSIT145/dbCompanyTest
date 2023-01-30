@@ -39,7 +39,7 @@
                 <span asp-validation-for="表單類型" class="text-danger no"></span>
             </div>
             <div class="form-group no">
-                <label asp-for="員工編號" class="control-label"></label>
+                <label asp-for="員工編號" class="control-label" id="lab_stfId"></label>
                 @*<select asp-for="員工編號" class="form-control" asp-items="ViewBag.員工編號" id="stfId"></select>*@
                 <input asp-for="員工編號" class="form-control" id="stfId" />
                 <span asp-validation-for="員工編號" class="text-danger"></span>
@@ -174,6 +174,8 @@
         var split1 = $(`#inp_whostart`).val().split(' ');
         var splitstf1 = split1[1];
         var list_type = $("#list_type").val();
+        var splitmain = $(`#stf_info`).text().indexOf(' ');
+        var stf = $(`#stf_info`).text().substr(0, split);
         $(".no").css("display", "none");
         $("#inp_start").css("display", "");
 
