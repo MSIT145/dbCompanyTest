@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NPOI.OpenXmlFormats.Wordprocessing;
 using System.Net.Mail;
 using System.Security.Policy;
@@ -290,6 +291,14 @@ namespace dbCompanyTest.Controllers
                 stfNum = "fales";
             return Content(stfNum);
         }
+
+        public IActionResult TDLCount()
+        {
+            var datas = (from c in _context.ToDoLists select c).OrderByDescending(d=>d.交辦事項id).FirstOrDefault().交辦事項id;
+            var count = Convert.ToInt32(datas) + 1;
+            return Content(count.ToString());
+        }
+
 
     }
 }

@@ -52,7 +52,7 @@ namespace dbCompanyTest.Controllers
             string stfNum = HttpContext.Session.GetString("Account");
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
-            ViewBag.acc = $"{stfNum} {stf.員工姓名} {stf.部門}";
+            ViewBag.acc = $"{stf.員工姓名} {stfNum} {stf.部門}";
             return View();
         }
 

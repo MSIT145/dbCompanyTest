@@ -28,7 +28,7 @@
     <script>
         var split = $(`#stf_info`).text().indexOf(' ');
         var stf = $(`#stf_info`).text().substr(0, split)
-       
+
         console.log(`view`)
         LoadSheeplist();
         LoadToDoList();
@@ -43,8 +43,10 @@
             $.getScript("@Url.Content("~/js/LoadToDoList.js")");
         }
 
+
+       
     </script>
-  
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

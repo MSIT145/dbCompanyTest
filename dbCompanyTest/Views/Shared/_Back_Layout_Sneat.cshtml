@@ -131,13 +131,13 @@
 
                     <!-- Layouts -->
                     <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle" id="test">
                             <i class="menu-icon tf-icons bx bx-layout"></i>
                             <div data-i18n="Layouts">通知</div>
                         </a>
-
-                        <ul class="menu-sub">
-                            <li class="menu-item">
+                        <input type="hidden" id="TDL_DTpath1" value="@Url.Content("~/Staff_Home/DT_TDL")" />
+                        <ul class="menu-sub" id="note_List">
+                            @*<li class="menu-item">
                                 <a href="layouts-without-menu.html" class="menu-link">
                                     <div data-i18n="Without menu">Without menu</div>
                                 </a>
@@ -161,7 +161,7 @@
                                 <a href="layouts-blank.html" class="menu-link">
                                     <div data-i18n="Blank">Blank</div>
                                 </a>
-                            </li>
+                            </li>*@
                         </ul>
                     </li>
 
@@ -604,10 +604,10 @@
     <!-- Page JS -->
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    
 
 
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" integrity="sha512-NXUhxhkDgZYOMjaIgd89zF2w51Mub53Ru3zCNp5LTlEzMbNNAjTjDbpURYGS5Mop2cU4b7re1nOIucsVlrx9fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.js" integrity="sha512-mgZL3SZ/vIooDg2mU2amX6NysMlthFl/jDbscSRgF/k3zmICLe6muAs7YbITZ+61FeUoo1plofYAocoR5Sa1rQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
 
 
@@ -633,6 +633,21 @@
             $(this).parent().siblings.removeClass("active");
         });
         
+        $("#test").on("click", ()=>{
+             test();
+        })
+
+        function test() {
+            console.log(`531`)
+            new Noty({
+                //alert,success,warning,error,info
+                type: 'success',
+                text: '資料更新完成',
+                timeout: 3000,
+                closeWith: ['click', 'button']
+            }).show();
+        }
+
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

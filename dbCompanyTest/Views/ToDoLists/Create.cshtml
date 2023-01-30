@@ -13,6 +13,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+        <input  class="no" id="listnumber" type="hidden"/>
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -49,7 +50,7 @@
             </div>
             <div class="form-group" id="div_whostart">
                 <label asp-for="起單人" class="control-label" id="lab_whostart"></label>
-                <input asp-for="起單人" class="form-control" id="inp_whostart" type="hidden"/>
+                <input asp-for="起單人" class="form-control" id="inp_whostart" type="hidden" />
                 <span asp-validation-for="起單人" class="text-danger"></span>
             </div>
             <div class="form-group" id="div_super_vs">
@@ -135,7 +136,7 @@
             </div>
             <div class="form-group" id="div_Attached_path">
                 <label asp-for="附件path" class="control-label" id="lab_Attached_path"></label>
-                <input asp-for="附件path" class="form-control" id="inp_Attached_path" type="hidden"/>
+                <input asp-for="附件path" class="form-control" id="inp_Attached_path" type="hidden" />
                 <span asp-validation-for="附件path" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -153,15 +154,22 @@
 
 @section Scripts {
     <script>
-        var split = $(`#stf_info`).text().indexOf(' ');
-        var stf = $(`#stf_info`).text().substr(0, split);
+        var split = $(`#stf_info`).text().split(' ');
+        var stf = split[1];
         //var Send_To_num = $("#inp_super_vs").val();
         $("#lab_stfId,#lab_whostart,#lab_Attached_path").css("display", 'none');
         $("#stfId").val(stf);
         ragular();
         $("#list_type").val(``)
+        TDLC();
+        async function TDLC() {
+            const data = await fetch(`@Url.Content("~/Staff_Home/TDLCount")`);
+            const TDLCount = await data.text();
+            console.log(TDLCount)
+            $("#listnumber").val(TDLCount);
+        }
 
-        
+
         $.ajax({
             url: `@Url.Content("~/Staff_Home/stf_info")`,
             type: "POST",
