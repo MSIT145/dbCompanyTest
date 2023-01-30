@@ -111,7 +111,7 @@
                                     //clear_check(form);
                                     //圖片預覽
                                     $("input[type='file']").on('change', function (event) {
-                                        const img = $(this).next("img");
+            const img = $(this).parent().find("img");
                                         var input = event.target; //取得上傳檔案
                                         var reader = new FileReader(); //建立FileReader物件
                                         reader.readAsDataURL(input.files[0]); //以.readAsDataURL將上傳檔案轉換為base64字串
@@ -190,7 +190,7 @@
                                         if (xhr.status == 200) {
                                             alert(xhr.responseText);
                                             //console.log('新建成功');
-                                            $("#Moda_D_C").modal('toggle');
+                        $("#Moda_D_C").find("#btn_Close_D").click();
                                         }
                                         else {
                                             console.log(xhr.staus);

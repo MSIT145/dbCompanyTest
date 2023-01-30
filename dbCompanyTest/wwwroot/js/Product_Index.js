@@ -126,7 +126,7 @@ function check_file_null(obj, mess) {
         obj.prop("class", "form-control is-valid");
         obj.next(".invalid-feedback").html("");
     }
-
+    return error;
 }
 
 //產品新增與修改

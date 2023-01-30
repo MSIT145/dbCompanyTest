@@ -108,7 +108,7 @@
     $(document).ready(function () {
         //圖片預覽
         $("input[type='file']").on('change', function (event) {
-                const img = $(this).next("img");
+            const img = $(this).parent().find("img");
                 var input = event.target; //取得上傳檔案
                 var reader = new FileReader(); //建立FileReader物件
                 reader.readAsDataURL(input.files[0]); //以.readAsDataURL將上傳檔案轉換為base64字串
@@ -181,12 +181,12 @@
 
         //checkbox 連動
         let 是否上架 =   $("#Form_ProDe_E").find("input[name='商品是否上架']").val()
-        if (是否上架 == "true" || 是否上架 == "false")
+        if (是否上架 == "True" || 是否上架 == "False")
             $("#_商品是否上架").prop("checked", Boolean(是否上架));
         $("#Form_ProDe_E").find("input[name='商品是否上架']").hide();
 
         let 是否有貨 = $("#Form_ProDe_E").find("input[name='商品是否有貨']").val()
-        if (是否有貨 == "true" || 是否有貨 == "false")
+        if (是否有貨 == "True" || 是否有貨 == "False")
        $("#_商品是否有貨").prop("checked", Boolean(是否有貨));
         $("#Form_ProDe_E").find("input[name='商品是否有貨']").hide();
         //開啟非同步=================
@@ -209,7 +209,7 @@
                     if (xhr.status == 200) {
                         alert(xhr.responseText);
                         //console.log('新建成功');
-                        $("#Moda_D_C").modal('toggle');
+                        $("#Moda_D_C").find("#btn_Close_D").click();
                     }
                     else {
                         console.log(xhr.staus);
