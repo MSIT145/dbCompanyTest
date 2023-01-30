@@ -77,6 +77,19 @@ namespace dbCompanyTest.Controllers
                 return PartialView(datas.ToPagedList(page, 5));
             
         }
+        public IActionResult typeNav(int? id,string? type)
+        {
+            var datas = from c in _context.商品鞋種s
+                        select new ViewModels.ProductWallViewModel
+                        {
+                            鞋種名稱 = c.鞋種,
+                            商品鞋種id = c.商品鞋種id,
+                            商品分類id=(int)id,
+                            商品分類名稱=type,
+                        };
+
+            return PartialView(datas);
+        }
 
         public IActionResult type(int? id,int? tid,string? type, int page = 1)
         {
@@ -107,7 +120,8 @@ namespace dbCompanyTest.Controllers
                                 尺寸名稱 = h.尺寸種類,
                                 材質名稱 = c.商品材質
                             };
-                
+                        ViewBag.tid = tid;
+                        ViewBag.type=type;
                 return View(datas.ToPagedList(page, 5));
             }
         }
@@ -133,7 +147,7 @@ namespace dbCompanyTest.Controllers
                             商品顏色id = (int)d.商品顏色id,
                             顏色名稱 = g.商品顏色種類
                         };
-
+                        ViewBag.keyword=keyword;
             return View(datas.ToPagedList(page, 5));
             
         }

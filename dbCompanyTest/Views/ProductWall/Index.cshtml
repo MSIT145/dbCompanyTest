@@ -18,10 +18,13 @@
                         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">首頁</a></li>
                         @{
                         string type= "";
+                        int typeid = 0;
                         foreach (var item in Model){
                             type = item.商品分類名稱;
+                            typeid = item.商品分類id;
                         }
-                                                                <li class="breadcrumb-item active" aria-current="page">@type</li>
+                                                                            <li class="breadcrumb-item active" aria-current="page" id="type">@type</li>
+                                                                            <input type="hidden" id="typeid" value="@typeid" />
                         }
                     </ol>
                 </nav>
@@ -37,12 +40,12 @@
                 <div class="col-md-6">
                     <ul class="list-inline shop-top-menu pb-3 pt-1" id="sclass">
                         
-                        @foreach (var item in Model)
+                        @*@foreach (var item in Model)
                         {
                             <li class="list-inline-item">
                                 <a class="h5 text-dark text-decoration-none" asp-action="type" asp-route-id="@item.商品鞋種id" asp-route-tid="@item.商品分類id" asp-route-type="@item.商品分類名稱">@item.鞋種名稱</a>
                             </li>
-                        }
+                        }*@
                     </ul>
                 </div>
             </div>
@@ -57,11 +60,11 @@
                                             @{
                                                 if (@item.產品圖片1 != null)
                                                 {
-                                                                                                   <img class="card-img rounded-0 img-fluid" src="~/images/@item.產品圖片1" width="236" height="324" />
+                                                                                                               <img class="card-img rounded-0 img-fluid" src="~/images/@item.產品圖片1" width="236" height="324" />
                                                 }
                                                 else
                                                 {
-                                                                                                   <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" width="236" height="324" />
+                                                                                                               <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" width="236" height="324" />
                                                 }
                                             }
                                         </div>
@@ -71,7 +74,7 @@
                                             <ul class="w-100 list-unstyled d-flex justify-content-between mb-0 price-box">
                                             @{
                                                 decimal 價格 = item.商品價格;
-                                                                                        <li>@價格.ToString("###,###,##0")$</li>
+                                                                                                    <li>@價格.ToString("###,###,##0")$</li>
                                                 }
                                             </ul>
                                         </div>
@@ -117,6 +120,10 @@
 
 @section Scripts{
     <script>$("#select").load("@Url.Content("~/ProductWall/selectview")")</script>
+    <script>
+        $("#sclass").load("@Url.Content("~/ProductWall/typeNav?id=")" + $("#typeid").val() + "&type=" + $("#type").text());
+     </script>
+        
     <script>
 
 

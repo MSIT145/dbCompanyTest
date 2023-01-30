@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<dbCompanyTest.Models.ProductsTypeDetail>
 
+<li class="nav-item" style="font-family:'Microsoft YaHei';margin-right: 28px;">
+        <a class="nav-link " asp-area="" asp-controller="Staff_Home" asp-action="login">員工登入</a>
+    </li>
     @foreach (var item in Model) {
-    <li class="nav-item" style="font-family:'Microsoft YaHei';">
-            <a class="nav-link text-dark" asp-controller="ProductWall" asp-action="Index" asp-route-id="@item.商品分類id">@item.商品分類名稱</a>
+    <li class="nav-item" style="font-family:'Microsoft YaHei';margin-right: 28px;">
+            <a class="nav-link " asp-controller="ProductWall" asp-action="Index" asp-route-id="@item.商品分類id">@item.商品分類名稱</a>
         </li>
     }

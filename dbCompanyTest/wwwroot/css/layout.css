@@ -107,3 +107,15 @@
     .web-top .back-top {
         background-image: url('../homeimg/back-top.png');
     }
+
+
+.navtext {
+    font-weight: 600;
+    line-height: 32px;
+    letter-spacing: 2px;
+    color: #636363;
+}
+    .navtext li {
+        margin-right: 28px;
+        font-size: 16px;
+    }
