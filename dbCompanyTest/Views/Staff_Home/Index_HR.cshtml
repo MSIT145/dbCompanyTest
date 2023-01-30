@@ -10,13 +10,14 @@
 <input type="hidden" id="TDLpath" value="@Url.Content("~/Staff_Home/LoadToDoList")" />
 <input type="hidden" id="path" value="@Url.Content("~/Staff_Home/LoadSheeplist")" />
 <input type="hidden" id="TDL_DTpath" value="@Url.Content("~/Staff_Home/DT_TDL")" />
+<input type="hidden" id="StaffNumpath" value="@Url.Content("~/Staff_Home/StaffNum")" />
 <h1>員工頁面(人事)</h1>
 
 <h2 id="stf_info">@ViewBag.HR</h2>
 
 
 <div id="ToDoList_div"></div>
-
+<a asp-action="Create" asp-controller="TestStaffs">建立新員工資料</a>
 <table class="table table-striped-columns">
     <thead>
         <tr>
