@@ -61,7 +61,10 @@ namespace dbCompanyTest.Hubs
                     string userName = user.userName;
                     await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
                     if (user.waiter == null)
-                        await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "系統", "客服全在忙線中請稍後");
+                    {
+                        if (user.userWords.Count == 1)
+                            await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "系統", "客服全在忙線中請稍後");
+                    }
                     else
                         await Clients.Client(user.waiter).SendAsync("UpdSystem", userName, message);
                     Update();
@@ -113,14 +116,14 @@ namespace dbCompanyTest.Hubs
 
         public async Task SendNotice(string come_from_num, string Send_To_num, string msg)
         {
-            string Send_To_ID ="";
+            string Send_To_ID = "";
             string come_from_ID = userList.FirstOrDefault(x => x.userName == come_from_num).connectionId;
-            if(userList.Where(x => x.userName == Send_To_num).FirstOrDefault() != null)  //todo 如果被通知人不在線上，就把通知存資料庫，登入再來讀
+            if (userList.Where(x => x.userName == Send_To_num).FirstOrDefault() != null)  //todo 如果被通知人不在線上，就把通知存資料庫，登入再來讀
             {
                 Send_To_ID = userList.FirstOrDefault(x => x.userName == Send_To_num).connectionId;
                 await Clients.Client(Send_To_ID).SendAsync("receive", msg);
             }
-           
+
         }
 
     }
