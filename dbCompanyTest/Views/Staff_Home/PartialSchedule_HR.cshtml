@@ -116,7 +116,9 @@
     var i_spvs = $("#inp_super_vs").val();
     var i_co = $("#inp_co_dep_who").val();
     var i_boss = "ST2-0010170";
-    $("#list_stu_sin_ecu1,#list_stu_bos,#list_stu_cod,#list_stu,#list_stu_spv").css("display", "none");
+    var Send_To_num;
+    console.log(`get in ${Send_To_num}`);
+    $("#list_stu_sin_ecu1,#list_stu_bos,#list_stu_cod,#list_stu,#list_stu_spv,#lab_stfId").css("display", "none");
     $("#inp_com_str,#inp_com_spv,#inp_com_cod,#inp_com_bos,#inp_com_ecu").css("display", "none");
     $("#span_sin_str").css("display", "");
 
@@ -175,6 +177,7 @@
             $("#inp_com_str").text($("#inp_cont").val());
             $("#list_stu").text("未啟動");
             $("#span_sin_str").css("display", "none");
+
         }
         else {
             $("#span_sin_str").css("display", "");
@@ -183,7 +186,7 @@
     }
 
 
-    if (i_spvs == splitstf) {//部門主管 待簽
+    if (i_spvs == splitstf) {
         if (i_stu == `部門主管 待簽`) {
             $("#span_sin_spv").css("display", "none");
             $("#span_com_spv").css("display", "none");
@@ -220,8 +223,8 @@
         }
     }
 
-
-    //---事件
+    $("#list_stu,#list_stu_spv,#list_stu_cod,#list_stu_bos,#list_stu_sin_ecu1").val(``);
+    //---回復
     $("#inp_com_str").on('blur', function () {
         $("#inp_cont").val($("#inp_com_str").val())
     });
@@ -237,80 +240,126 @@
     $("#inp_com_ecu").on('blur', function () {
         $("#inp_ans").val($("#inp_com_ecu").val())
     });
-
-
-    $("#inp_start").on('click', function () {
-        let dt = new Date();
-        if (i_whostart == splitstf) {
+    //簽核
+    $("#list_stu").on("change", function () {
+         if (i_whostart == splitstf) {
             if ($(`#list_stu option:selected`).val() == "未啟動")
                 $("#inp_sta").val("未啟動");
             else {
                 $("#inp_sta").val("部門主管 待簽");
                 $("#inp_super_vs_sin").val("待簽");
+                Send_To_num = $("#inp_super_vs").val();//連線收件spv
             }
-
-            $("#inp_starttime").val(dt);
+          
         }
-        if (i_spvs == splitstf) {
+    });
+
+    $("#list_stu_spv").on("change", function () {
+         if (i_spvs == splitstf) {
             if ($(`#list_stu_spv option:selected`).val() == "待簽")
                 $("#inp_sta").val("部門主管 待簽");
             else if ($(`#list_stu_spv option:selected`).val() == "敬陳") {
                 $("#inp_sta").val("協辦部門 待簽");
                 $("#inp_co_dep_sin").val("待簽");
+                Send_To_num = $("#inp_co_dep_who").val();//連線收件co_dep
+                console.log(`star ${Send_To_num}`);
             }
-            else if ($(`#list_stu_spv option:selected`).val() == "退回起單人")//todo other
+            else if ($(`#list_stu_spv option:selected`).val() == "退回起單人") { //todo other
                 $("#inp_sta").val("退回起單人");
+                Send_To_num = $("#inp_whostart").val();//連線收件str
+            }
             $("#inp_super_vs_opn").val($("#inp_com_spv").val());
             $("#inp_super_vs_sin").val($(`#list_stu_spv option:selected`).val());
-            $("#inp_super_vs_time").val(dt);
         }
+    });
+
+    $("#list_stu_cod").on("change", function () {
         if (i_co == splitstf) {
             if ($(`#list_stu_cod option:selected`).val() == "待簽")
                 $("#inp_sta").val("協辦部門 待簽");
             else if ($(`#list_stu_cod option:selected`).val() == "敬陳") {
                 $("#inp_sta").val("執行長 待簽");
                 $("#inp_boss_sin").val("待簽");
+                Send_To_num = i_boss;
             }
-            else if ($(`#list_stu_cod option:selected`).val() == "退回上階段"){
+            else if ($(`#list_stu_cod option:selected`).val() == "退回上階段") {
                 $("#inp_sta").val("部門主管 待簽");
                 $("#inp_super_vs_sin").val("待簽");
+                Send_To_num = $("#inp_super_vs").val();//連線收件spv
             }
-            else if ($(`#list_stu_cod option:selected`).val() == "退回起單人")
+            else if ($(`#list_stu_cod option:selected`).val() == "退回起單人") {
                 $("#inp_sta").val("退回起單人");
-            $("#inp_co_dep_opn").val($("#inp_com_cod").val());
+                Send_To_num = $("#inp_whostart").val();//連線收件str
+            }
             $("#inp_co_dep_sin").val($(`#list_stu_cod option:selected`).val());
-            $("#inp_co_dep_time").val(dt);
         }
+    });
+
+    $("#list_stu_bos").on("change", function () {
         if (i_boss == splitstf) {
             if ($(`#list_stu_bos option:selected`).val() == "待簽")
                 $("#inp_sta").val("執行長 待簽");
             else if ($(`#list_stu_bos option:selected`).val() == "敬陳") {
                 $("#inp_sta").val("執行 待簽");
                 $("#inp_executor_sin").val("待簽");
+                Send_To_num = $("#sele_executor").val();//連線收件exc
             }
-            else if ($(`#list_stu_bos option:selected`).val() == "退回上階段"){
+            else if ($(`#list_stu_bos option:selected`).val() == "退回上階段") {
                 $("#inp_sta").val("協辦部門 待簽");
                 $("#inp_co_dep_sin").val("待簽");
+                Send_To_num = $("#inp_co_dep_who").val();//連線收件co_dep
+
             }
-            else if ($(`#list_stu_bos option:selected`).val() == "退回起單人")
+            else if ($(`#list_stu_bos option:selected`).val() == "退回起單人") {
                 $("#inp_sta").val("退回起單人");
-            $("#inp_boss_opn").val($("#inp_com_bos").val());
+                Send_To_num = $("#inp_whostart").val();//連線收件str
+            }
             $("#inp_boss_sin").val($(`#list_stu_bos option:selected`).val());
-            $("#inp_boss_time").val(dt);
         }
+    });
+
+    $("#list_stu_sin_ecu1").on("change", function () {
         if (s_executor == splitstf) {
             if ($(`#list_stu_sin_ecu1 option:selected`).val() == "待簽")
                 $("#inp_sta").val("執行 待簽");
-            else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "完成")
+            else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "完成") {
                 $("#inp_sta").val("完成");
-            else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "退回上階段"){
+                Send_To_num = $("#inp_whostart").val();//連線收件str
+            }
+            else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "退回上階段") {
                 $("#inp_sta").val("執行長 待簽");
                 $("#inp_boss_sin").val("待簽");
+                Send_To_num = i_boss;
             }
-            else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "退回起單人")
+            else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "退回起單人") {
                 $("#inp_sta").val("退回起單人");
-            $("#inp_ans").val($("#inp_com_ecu").val());
+                Send_To_num = $("#inp_whostart").val();//連線收件str
+            }
             $("#inp_executor_sin").val($(`#list_stu_sin_ecu1 option:selected`).val());
+        }
+    });
+
+
+
+    $("#inp_start").on('click', function () {
+        let dt = new Date();
+         if (i_whostart == splitstf) {
+            $("#inp_starttime").val(dt);   
+         }
+        else if (i_spvs == splitstf) {
+            $("#inp_super_vs_time").val(dt);
+            $("#inp_super_vs_opn").val($("#inp_com_spv").val());
+        }
+        else if (i_co == splitstf) {           
+            $("#inp_co_dep_opn").val($("#inp_com_cod").val());
+            $("#inp_co_dep_time").val(dt);
+        }
+        else if (i_boss == splitstf) {          
+            $("#inp_boss_opn").val($("#inp_com_bos").val());
+            $("#inp_boss_time").val(dt);
+        }
+        else if (s_executor == splitstf) {
+            $("#inp_ans").val($("#inp_com_ecu").val());
             $("#inp_execut_time").val(dt);
         }
     });

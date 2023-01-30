@@ -118,7 +118,7 @@ namespace dbCompanyTest.Hubs
         {
             string Send_To_ID = "";
             string come_from_ID = userList.FirstOrDefault(x => x.userName == come_from_num).connectionId;
-            if (userList.Where(x => x.userName == Send_To_num).FirstOrDefault() != null)  //todo 如果被通知人不在線上，就把通知存資料庫，登入再來讀
+            if(userList.Where(x => x.userName == Send_To_num).FirstOrDefault() != null)  //todo 如果被通知人不在線上，就把通知存資料庫，登入再來讀
             {
                 Send_To_ID = userList.FirstOrDefault(x => x.userName == Send_To_num).connectionId;
                 await Clients.Client(Send_To_ID).SendAsync("receive", msg);
