@@ -28,13 +28,17 @@
                 <botton class="Back" id="Login"><a asp-action="Index" asp-controller="Home">返回</a></botton>
             </div>
             <div class="two">
-                <botton id="forget" class="submit">忘記密碼?</botton>
+                <botton id="forget" class="submit1">忘記密碼?</botton>
+                <p id="response"></p>
             </div>
         </div>
     </div>
-            <p id="response"></p>
 </form>
-
+<botton class="submit1" id="spv_ad">spv_ad</botton>
+<botton class="submit1" id="spv_hr">spv_hr ST1-00668</botton>
+<botton class="submit1" id="hr1">hr ST1-00628</botton>
+<botton class="submit1" id="hr2">hr ST1-00597</botton>
+<botton class="submit1" id="bos">bo ST2-0010170</botton>
 
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -81,4 +85,12 @@
             $(`#response`).text(`帳號?`);
         }
     });
+
+
+    $(`#spv_ad`).on(`click`, function () { $("#Username").val(`ST1-00596`); });
+    $(`#spv_hr`).on(`click`, function () { $("#Username").val(`ST1-00668`); });
+    $(`#hr1`).on(`click`, function () { $("#Username").val(`ST1-00628`); });
+    $(`#hr2`).on(`click`, function () { $("#Username").val(`ST1-00597`); });
+    $(`#bos`).on(`click`, function () { $("#Username").val(`ST2-0010170`); });
+
 </script>

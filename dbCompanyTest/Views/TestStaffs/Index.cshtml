@@ -4,9 +4,9 @@
     ViewData["Title"] = "Index";
 }
 @{
-    Layout = "_Back_Layout";
+    Layout = "_Back_Layout_Sneat";
 }
-<h1>Index</h1>
+<h1>員工列表</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -68,7 +68,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.在職)
             </th>
-            <th></th>
+            @*<th></th>*@
         </tr>
     </thead>
     <tbody>
@@ -128,11 +128,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.在職)
             </td>
-            <td>
+            @*<td>
                 <a asp-action="Edit" asp-route-id="@item.員工編號">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.員工編號">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.員工編號">Delete</a>
-            </td>
+            </td>*@
         </tr>
 }
     </tbody>
