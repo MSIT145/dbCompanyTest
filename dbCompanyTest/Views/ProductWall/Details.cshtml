@@ -13,7 +13,7 @@
             <span>@Model.pro商品名稱 @Model.pro商品顏色</span>
         </div>
         @*輪播*@
-        <div id="carouselExampleDark" class="carousel carousel-dark slide d-carouse">
+        <div id="carouselExampleDark" class="carousel carousel-dark slide d-carouse carousel-fade">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -172,37 +172,40 @@
             if ($(window).width() < 500) 
             {
                 $("#carouselExampleDark").append($(".d-right-detail"));
+
             }
         });
         $(window).on("resize", function(e){
             if($(window).width()<500)
             {
                 $("#carouselExampleDark").append($(".d-right-detail"));
+
             }
             else
             {
                 $(".content").append($(".d-right-detail"));
+
             }
         });
 
 
-        $(".web-top").on('click',function(e){
-            e.preventDefault();
-            $("html").animate(
-            {
-                scrollTop:0,
-            },
-            600
-            );
-        });
-        $(window).scroll(function(){
-            if ($(window).scrollTop()>1000){
-                $(".web-top").css("display","block");
-            }
-            else{
-                $(".web-top").css("display", "none");
-            }
-        });
+        //$(".web-top").on('click',function(e){
+        //    e.preventDefault();
+        //    $("html").animate(
+        //    {
+        //        scrollTop:0,
+        //    },
+        //    600
+        //    );
+        //});
+        //$(window).scroll(function(){
+        //    if ($(window).scrollTop()>1000){
+        //        $(".web-top").css("display","block");
+        //    }
+        //    else{
+        //        $(".web-top").css("display", "none");
+        //    }
+        //});
         $(".tab-item").on('click', function () {
             $(this).addClass("ac").siblings().removeClass("ac");
            let item =  $(this).data('item');
