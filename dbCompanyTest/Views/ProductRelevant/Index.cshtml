@@ -132,6 +132,32 @@
     </div>
 </div>
 
+@*Modal_刪除*@
+<div class="modal fade" id="Moda_D_D" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="DeleteModal-label">警告</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="display: none;">
+                    <label class="control-label">url</label>
+                    <input name="url" class="form-control" readonly />
+                </div>
+                <div class="form-group" style="display: none;">
+                    <label class="control-label">id</label>
+                    <input name="id" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="D_D_Delete" class="btn btn-primary" name="btn_D_D">刪除</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn_Close_D">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>
@@ -180,7 +206,7 @@
                                 data: null,
                                 className: 'del',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="C_btnDel"  title="刪除"><i class="fa fa-minus-square"></i>刪除</button>';
+                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="C_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>';
                                 },
                                 orderable: false,
                                 width: '7%'
@@ -219,7 +245,7 @@
                                 data: null,
                                 className: 'del',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="S_btnDel"  title="刪除"><i class="fa fa-minus-square"></i>刪除</button>';
+                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="S_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>';
                                 },
                                 orderable: false,
                                 width: '7%'
@@ -258,7 +284,7 @@
                                 data: null,
                                 className: 'del',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="T_btnDel"  title="刪除"><i class="fa fa-minus-square"></i>刪除</button>';
+                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="T_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>';
                                 },
                                 orderable: false,
                                 width: '7%'
@@ -297,7 +323,7 @@
                                 data: null,
                                 className: 'del',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="SH_btnDel"  title="刪除"><i class="fa fa-minus-square"></i>刪除</button>';
+                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="SH_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>';
                                 },
                                 orderable: false,
                                 width: '7%'
@@ -342,9 +368,10 @@
             $.ajaxSettings.async = false;   //關閉非同步
             const row = $(this).parents('tr');
             const id = row.find('td:eq(0)').text().trim();
-            $.get("@Url.Content("~/ProductRelevant/ColorDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
-            //重新載入
-            change_Colortable()
+            Send_DatatoDel_Moda("@Url.Content("~/ProductRelevant/ColorDelete")", id)
+            //$.get("@Url.Content("~/ProductRelevant/ColorDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
+            ////重新載入
+            //change_Colortable()
             $.ajaxSettings.async = true;   //開啟非同步
         });
 
@@ -391,9 +418,10 @@
             $.ajaxSettings.async = false;   //關閉非同步
             const row = $(this).parents('tr');
             const id = row.find('td:eq(0)').text().trim();
-            $.get("@Url.Content("~/ProductRelevant/SizeDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
-            //重新載入
-            change_Sizetable();
+            Send_DatatoDel_Moda("@Url.Content("~/ProductRelevant/SizeDelete")", id)
+            //$.get("@Url.Content("~/ProductRelevant/SizeDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
+            ////重新載入
+            //change_Sizetable();
             $.ajaxSettings.async = true;   //開啟非同步
         });
         //===
@@ -430,10 +458,32 @@
             $.ajaxSettings.async = false;   //關閉非同步
             const row = $(this).parents('tr');
             const id = row.find('td:eq(0)').text().trim();
-            $.get("@Url.Content("~/ProductRelevant/TypeDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
-            //重新載入
-            change_Typetable();
+            Send_DatatoDel_Moda("@Url.Content("~/ProductRelevant/TypeDelete")", id)
+            //$.get("@Url.Content("~/ProductRelevant/TypeDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
+            ////重新載入
+            //change_Typetable();
             $.ajaxSettings.async = true;  //開啟非同步
+        });
+
+        //刪除資料送入刪除Moda
+        function Send_DatatoDel_Moda(url, id) {
+            let moda = $("#Moda_D_D");
+            moda.find("input[name='id']").val(id);
+            moda.find("input[name='url']").val(url);
+            moda.find("#DeleteModal-label").text("警告!請問是否要刪除此筆資料?")
+        }
+        //確認刪除事件
+        $("#Moda_D_D").find("#D_D_Delete").on('click', function () {
+            let moda = $("#Moda_D_D");
+            let id = moda.find("input[name='id']").val();
+            let url = moda.find("input[name='url']").val();
+            moda.find("#btn_Close_D").click();
+            $.get(url, { "id": `${id}` }, (datas) => { alert(datas); });
+            //重新載入
+             change_Colortable();
+            change_Sizetable();
+            change_Typetable();
+            change_Shoestable();
         });
         //===
         //鞋種表單按鈕事件
@@ -462,9 +512,10 @@
             $.ajaxSettings.async = false;   //關閉非同步
             const row = $(this).parents('tr');
             const id = row.find('td:eq(0)').text().trim();
-            $.get("@Url.Content("~/ProductRelevant/ShoesDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
-            //重新載入
-            change_Shoestable();
+            Send_DatatoDel_Moda("@Url.Content("~/ProductRelevant/ShoesDelete")", id)
+            //$.get("@Url.Content("~/ProductRelevant/ShoesDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
+            ////重新載入
+            //change_Shoestable();
             $.ajaxSettings.async = true;  //開啟非同步
         });
 

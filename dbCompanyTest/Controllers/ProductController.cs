@@ -895,7 +895,6 @@ namespace dbCompanyTest.Controllers
 
             //刪除圖片位置s內此筆資料
             db.圖片位置s.Remove(imgData);
-
             db.ProductDetails.Remove(ProDdata);
             db.SaveChanges();
 
