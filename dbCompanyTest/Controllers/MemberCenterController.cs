@@ -39,6 +39,7 @@ namespace dbCompanyTest.Controllers
                 ViewBag.area = client.區;
                 ViewBag.sex = client.性別;
             ViewBag.id = id;
+            ViewBag.pass = client.密碼;
                 return View(client);
         }
         [HttpPost]

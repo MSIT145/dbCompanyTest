@@ -44,7 +44,7 @@ namespace dbCompanyTest.Controllers
                                 材質名稱=c.商品材質
                             };
 
-                return View(datas.ToPagedList(page, 5));
+                return View(datas.ToPagedList(page, 8));
             }
         }
         [HttpPost]
@@ -74,7 +74,7 @@ namespace dbCompanyTest.Controllers
                                 材質名稱 = c.商品材質
                             };
 
-                return PartialView(datas.ToPagedList(page, 5));
+                return PartialView(datas.ToPagedList(page, 8));
             
         }
         public IActionResult typeNav(int? id,string? type)
@@ -122,7 +122,7 @@ namespace dbCompanyTest.Controllers
                             };
                         ViewBag.tid = tid;
                         ViewBag.type=type;
-                return View(datas.ToPagedList(page, 5));
+                return View(datas.ToPagedList(page, 8));
             }
         }
 
@@ -148,7 +148,7 @@ namespace dbCompanyTest.Controllers
                             顏色名稱 = g.商品顏色種類
                         };
                         ViewBag.keyword=keyword;
-            return View(datas.ToPagedList(page, 5));
+            return View(datas.ToPagedList(page, 8));
             
         }
 

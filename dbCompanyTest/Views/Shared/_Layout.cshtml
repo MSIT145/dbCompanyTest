@@ -85,7 +85,7 @@
         </div>
 
         @*TOP*@
-        <div class="web-top" style="display: block;">
+        <div class="web-top" style="display: none;">
             <div class="icon back-top"></div>
         </div>
 
@@ -421,6 +421,14 @@
             return false;
         });
 
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 800) {
+                $(".web-top").css("display", "block");
+            }
+            else {
+                $(".web-top").css("display", "none");
+            }
+        });
 
     </script>
     @await RenderSectionAsync("Scripts", required: false)
