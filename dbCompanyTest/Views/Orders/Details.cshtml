@@ -6,9 +6,10 @@
 @{
     Layout = "_Back_Layout_Sneat";
 }
+<div>
 <h1>Details</h1>
 
-<div>
+
     <h4>Order</h4>
     <hr />
 
@@ -55,14 +56,14 @@
                 </td>
               
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.無用id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.無用id">Delete</a>
+                    <a asp-action="EditOrderDetail" asp-route-id="@item.無用id">Edit</a> |
+                    <a asp-action="DeleteOrderDetail" asp-route-id="@item.無用id">Delete</a>
                 </td>
             </tr>
             }
     </tbody>
 </table>
-
+</div>
    @* <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.訂單編號)
