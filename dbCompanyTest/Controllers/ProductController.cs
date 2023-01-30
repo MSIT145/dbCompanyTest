@@ -14,6 +14,7 @@ using System.Text.Json;
 using System.Text;
 using NPOI.OpenXmlFormats.Dml;
 using static NPOI.HSSF.UserModel.HeaderFooter;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace dbCompanyTest.Controllers
 {
@@ -44,6 +45,7 @@ namespace dbCompanyTest.Controllers
         public class Pie_sellData
         {
             public List<data> PieData { get; set; }
+            public List<decimal> T5Sell { get; set; }
             public decimal allSell { get; set; }
             public string year { get; set; }
         }
@@ -67,13 +69,27 @@ namespace dbCompanyTest.Controllers
                 總金額 = od.總金額,
                 下單時間 = o.下單時間
             });
+            //加入商品編號id
+            var _tempOD2 = _tempOD.Join(db.ProductDetails, od => od.Id, p => p.Id, (od, p) => new
+            {
+                無用id = od.無用id,
+                訂單編號 = od.訂單編號,
+                Id = od.Id,
+                商品價格 = od.商品價格,
+                商品數量 = od.商品數量,
+                總金額 = od.總金額,
+                下單時間 = od.下單時間,
+                商品編號id = p.商品編號id
+            });
+
+
             //沒有2023資料,只能先用2022
             var tempOD = _tempOD.Where(t => t.下單時間.Substring(0, 4).Contains("2022"));
             //計算總收益     
-            decimal totalAll = tempOD.Sum(od => od.總金額).Value;
-            //Left Join Product
+            decimal totalAll = _tempOD2.Sum(od => od.總金額).Value;
+            //Left Join 要改成ProductDetail 的 ID 
             var tempD = from p in db.Products                       
-                        join od in tempOD on p.商品編號id equals od.Id
+                        join od in _tempOD2 on p.商品編號id equals od.商品編號id
                        into EmployeeAddressGroup
                         from address in EmployeeAddressGroup.DefaultIfEmpty()
                         group address by new { p.商品編號id, p.商品名稱 } into g
@@ -87,6 +103,7 @@ namespace dbCompanyTest.Controllers
 
             var ALLsellTop5 = AllData.OrderByDescending(o => o.y).Take(5).ToList();
 
+            List<decimal> _T5Sell = ALLsellTop5.Select(a =>  a.y ).ToList();
             //將前五名減去-得到其他收益
             decimal total = ALLsellTop5.Sum(a => a.y);
             decimal othersell = totalAll - total;
@@ -108,6 +125,7 @@ namespace dbCompanyTest.Controllers
             Pie_sellData Pie_D = new Pie_sellData()
             {
                 PieData = top5,
+                T5Sell = _T5Sell,
                 allSell = totalAll,
                 year = "2022"
             };
@@ -135,16 +153,33 @@ namespace dbCompanyTest.Controllers
                 總金額 = od.總金額,
                 下單時間 = o.下單時間
             }).Where(t => t.下單時間.Substring(0, 4).Contains("2022"));
-
-            var tempD = from p in db.Products
-                        join o in _tempOD on p.商品編號id equals o.Id
-                       into EmployeeAddressGroup
+            //將PrductDetail 轉為文字
+            var data = from pd in db.ProductDetails.ToList()
+                       join p in db.Products on pd.商品編號id equals p.商品編號id
+                       join z in db.ProductsSizeDetails on pd.商品尺寸id equals z.商品尺寸id
+                       join c in db.ProductsColorDetails on pd.商品顏色id equals c.商品顏色id
+                       select new
+                       {
+                           Id = pd.Id,
+                           明細商品名 = $"{p.商品名稱}_{z.尺寸種類}_{c.商品顏色種類}"
+                       };
+            var tempD = from p in data
+                        join o in _tempOD on p.Id equals o.Id
+                        into EmployeeAddressGroup
                         from address in EmployeeAddressGroup.DefaultIfEmpty()
-                        group address by new { p.商品編號id, p.商品名稱 } into g
+                        group address by new { p.Id, p.明細商品名 } into g
                         select new 
                         {
-                            name = g.Key.商品名稱.ToString(),
-                            sell = g.Sum(o => o.總金額).Value
+                            name = g.Key.明細商品名,
+                            sell = g.Sum(o =>
+                            {
+                                if (o is null)
+                                {
+                                    return 0;
+                                }
+
+                                return o.總金額;
+                            }).Value 
                         };
             var ALLsellTop10 = tempD.OrderByDescending(o => o.sell).Take(10).ToList();
             List<string> _categories = ALLsellTop10.Select(t => t.name.ToString()).ToList();

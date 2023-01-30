@@ -379,7 +379,7 @@
                         align: 'left'
                     },
                     subtitle: {
-                        text: '總銷售額: ' + `${data.allSell} 元整` ,
+                        text: '總銷售額: ' + `${data.allSell} 元整` +`<br>1. ${data.t5Sell[0]}元<br>2. ${data.t5Sell[1]}元<br>3. ${data.t5Sell[2]}元<br>4. ${data.t5Sell[3]}元<br>5. ${data.t5Sell[4]}元`,
                         align: 'left'
                     },
                     accessibility: {
@@ -445,7 +445,7 @@
         pointFormat: '商品銷售額: {point.y} 元整'
         },
         title: {
-        text: `${data.year}年 TOP10 商品銷售統計`,
+        text: `${data.year}年 TOP10 商品細項銷售統計`,
         align: 'left'
         },
         subtitle: {
