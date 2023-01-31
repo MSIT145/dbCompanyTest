@@ -13,13 +13,15 @@
 <input type="hidden" id="path" value="@Url.Content("~/Staff_Home/LoadSheeplist")" />
 <input type="hidden" id="TDL_DTpath" value="@Url.Content("~/Staff_Home/DT_TDL")" />
 <input type="hidden" id="StaffNumpath" value="@Url.Content("~/Staff_Home/StaffNum")" />
-<h1>員工頁面(行政)</h1>
+<div style="width:80%;margin:20px auto;">
 
+@*<h1>員工頁面(行政)</h1>*@
 
 <h2 id="stf_info">@ViewBag.acc</h2>
 
 <div id="Sheeplist_div"></div>
 <div id="ToDoList_div"></div>
+</div>
 
 @section Scripts {
     <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
@@ -44,7 +46,7 @@
         }
 
 
-       
+
     </script>
 
     @{

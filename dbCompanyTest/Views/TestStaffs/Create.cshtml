@@ -6,122 +6,122 @@
 @{
     Layout = "_Back_Layout_Sneat_HR";
 }
+<div style="width:80%;margin:20px auto;">
 
-<h1>建立新資料</h1>
+    <h1>建立新資料</h1>
 
-
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                @* <label asp-for="員工編號" class="control-label"></label>*@
-                <input type="hidden" asp-for="員工編號" class="form-control" value="1" />
-                <span asp-validation-for="員工編號" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="員工姓名" class="control-label"></label>
-                <input asp-for="員工姓名" class="form-control" id="i_stfName" />
-                <span asp-validation-for="員工姓名" class="text-danger" id="span_stfName"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="員工電話" class="control-label"></label>
-                <input asp-for="員工電話" class="form-control" id="i_stfPhone" />
-                <span asp-validation-for="員工電話" class="text-danger" id="span_stfPhone"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="身分證字號" class="control-label"></label>
-                <input asp-for="身分證字號" class="form-control" id="i_stfPasonalID" />
-                <span asp-validation-for="身分證字號" class="text-danger" id="span_stfPasonalID"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="縣市" class="control-label"></label>
-                <select asp-for="縣市" class="form-control" id="city"></select>
-                <span asp-validation-for="縣市" class="text-danger" id="span_city"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="區" class="control-label"></label>
-                <select asp-for="區" class="form-control" id="town"></select>
-                <span asp-validation-for="區" class="text-danger" id="span_town"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="地址" class="control-label"></label>
-                <input asp-for="地址" class="form-control" id="i_stfAddress" />
-                <span asp-validation-for="地址" class="text-danger" id="span_stfAddress"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" id="i_stfEmail" />
-                <span asp-validation-for="Email" class="text-danger" id="span_stfEmail"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="緊急聯絡人" class="control-label"></label>
-                <input asp-for="緊急聯絡人" class="form-control" id="i_stfFamily" />
-                <span asp-validation-for="緊急聯絡人" class="text-danger" id="span_stfFamily"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="聯絡人關係" class="control-label"></label>
-                <input asp-for="聯絡人關係" class="form-control" id="i_stfFamilyRe" />
-                <span asp-validation-for="聯絡人關係" class="text-danger" id="span_stfFamilyRe"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="聯絡人電話" class="control-label"></label>
-                <input asp-for="聯絡人電話" class="form-control" id="i_stfFamilyNum" />
-                <span asp-validation-for="聯絡人電話" class="text-danger" id="span_FamilyNum"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="部門" class="control-label"></label>
-                <select asp-for="部門" class="form-control" id="sele_stfDep">
-                    <option>人事</option>
-                    <option>行政</option>
-                    <option>執行長室</option>
-                </select>
-                <span asp-validation-for="部門" class="text-danger" id="span_stfDep"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="主管" class="control-label"></label>
-                <input asp-for="主管" class="form-control" id="i_stfspv" />
-                <span asp-validation-for="主管" class="text-danger" id="span_stfspv"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="職稱" class="control-label"></label>
-                <select asp-for="職稱" class="form-control" id="sele_stfPosition">
-                    <option>專員</option>
-                    <option>經理</option>
-                </select>
-                <span asp-validation-for="職稱" class="text-danger" id="span_stfPosition"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="密碼" class="control-label"></label>
-                <input asp-for="密碼" class="form-control" id="i_password" />
-                <span asp-validation-for="密碼" class="text-danger" id="span_password"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="薪資" class="control-label"></label>
-                <input asp-for="薪資" class="form-control" id="i_sell" />
-                <span asp-validation-for="薪資" class="text-danger" id="span_sell"></span>
-            </div>
-            @*<div class="form-group">
-            <label asp-for="權限" class="control-label"></label>
-            <input asp-for="權限" class="form-control" />
-            <span asp-validation-for="權限" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="在職" class="control-label"></label>
-                @*<input asp-for="在職" class="form-control" />*@
-                <select asp-for="在職" class="form-control" id="still"><option>在職</option><option>離職</option></select>
-                <span asp-validation-for="在職" class="text-danger" id="span_still"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" disabled="disabled" id="submit" />
-            </div>
-        </form>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    @* <label asp-for="員工編號" class="control-label"></label>*@
+                    <input type="hidden" asp-for="員工編號" class="form-control" value="1" />
+                    <span asp-validation-for="員工編號" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="員工姓名" class="control-label"></label>
+                    <input asp-for="員工姓名" class="form-control" id="i_stfName" />
+                    <span asp-validation-for="員工姓名" class="text-danger" id="span_stfName"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="員工電話" class="control-label"></label>
+                    <input asp-for="員工電話" class="form-control" id="i_stfPhone" />
+                    <span asp-validation-for="員工電話" class="text-danger" id="span_stfPhone"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="身分證字號" class="control-label"></label>
+                    <input asp-for="身分證字號" class="form-control" id="i_stfPasonalID" />
+                    <span asp-validation-for="身分證字號" class="text-danger" id="span_stfPasonalID"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="縣市" class="control-label"></label>
+                    <select asp-for="縣市" class="form-control" id="city"></select>
+                    <span asp-validation-for="縣市" class="text-danger" id="span_city"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="區" class="control-label"></label>
+                    <select asp-for="區" class="form-control" id="town"></select>
+                    <span asp-validation-for="區" class="text-danger" id="span_town"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="地址" class="control-label"></label>
+                    <input asp-for="地址" class="form-control" id="i_stfAddress" />
+                    <span asp-validation-for="地址" class="text-danger" id="span_stfAddress"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" id="i_stfEmail" />
+                    <span asp-validation-for="Email" class="text-danger" id="span_stfEmail"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="緊急聯絡人" class="control-label"></label>
+                    <input asp-for="緊急聯絡人" class="form-control" id="i_stfFamily" />
+                    <span asp-validation-for="緊急聯絡人" class="text-danger" id="span_stfFamily"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="聯絡人關係" class="control-label"></label>
+                    <input asp-for="聯絡人關係" class="form-control" id="i_stfFamilyRe" />
+                    <span asp-validation-for="聯絡人關係" class="text-danger" id="span_stfFamilyRe"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="聯絡人電話" class="control-label"></label>
+                    <input asp-for="聯絡人電話" class="form-control" id="i_stfFamilyNum" />
+                    <span asp-validation-for="聯絡人電話" class="text-danger" id="span_FamilyNum"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="部門" class="control-label"></label>
+                    <select asp-for="部門" class="form-control" id="sele_stfDep">
+                        <option>人事</option>
+                        <option>行政</option>
+                        <option>執行長室</option>
+                    </select>
+                    <span asp-validation-for="部門" class="text-danger" id="span_stfDep"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="主管" class="control-label"></label>
+                    <input asp-for="主管" class="form-control" id="i_stfspv" />
+                    <span asp-validation-for="主管" class="text-danger" id="span_stfspv"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="職稱" class="control-label"></label>
+                    <select asp-for="職稱" class="form-control" id="sele_stfPosition">
+                        <option>專員</option>
+                        <option>經理</option>
+                    </select>
+                    <span asp-validation-for="職稱" class="text-danger" id="span_stfPosition"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="密碼" class="control-label"></label>
+                    <input asp-for="密碼" class="form-control" id="i_password" />
+                    <span asp-validation-for="密碼" class="text-danger" id="span_password"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="薪資" class="control-label"></label>
+                    <input asp-for="薪資" class="form-control" id="i_sell" />
+                    <span asp-validation-for="薪資" class="text-danger" id="span_sell"></span>
+                </div>
+                @*<div class="form-group">
+                <label asp-for="權限" class="control-label"></label>
+                <input asp-for="權限" class="form-control" />
+                <span asp-validation-for="權限" class="text-danger"></span>
+                </div>*@
+                <div class="form-group">
+                    <label asp-for="在職" class="control-label"></label>
+                    @*<input asp-for="在職" class="form-control" />*@
+                    <select asp-for="在職" class="form-control" id="still"><option>在職</option><option>離職</option></select>
+                    <span asp-validation-for="在職" class="text-danger" id="span_still"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -325,16 +325,16 @@
             allowsubmit();
         });
 
-                        //check($("#city"), $("#span_city"), city);
-                        //check($("#town"), $("#span_town"), town);
-                        //check($("#i_stfAddress"), $("#span_stfAddress"), Address);
-                        //check($("#sele_stfDep"), $("#span_stfDep"), Dep);
-                        //check($("#i_stfspv"), $("#span_stfspv"), spv);
-                        //check($("#sele_stfPosition"), $("#span_stfPosition"), Position);
-                        //check($("#i_password"), $("#span_password"), password);
-                        //check($("#i_sell"), $("#span_sell"), sell);
-                        //check($("#still"), $("#span_still"), still);
-                        //var name, phone, ID, email, city, town, Address, Dep, spv, Position, password, sell, still;
+                                //check($("#city"), $("#span_city"), city);
+                                //check($("#town"), $("#span_town"), town);
+                                //check($("#i_stfAddress"), $("#span_stfAddress"), Address);
+                                //check($("#sele_stfDep"), $("#span_stfDep"), Dep);
+                                //check($("#i_stfspv"), $("#span_stfspv"), spv);
+                                //check($("#sele_stfPosition"), $("#span_stfPosition"), Position);
+                                //check($("#i_password"), $("#span_password"), password);
+                                //check($("#i_sell"), $("#span_sell"), sell);
+                                //check($("#still"), $("#span_still"), still);
+                                //var name, phone, ID, email, city, town, Address, Dep, spv, Position, password, sell, still;
     </script>
 
 
