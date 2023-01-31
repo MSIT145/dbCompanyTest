@@ -16,7 +16,7 @@
                 <select id="_商品編號id"  class="form-select" aria-label="商品編號">
                     <option selected>ajax_select商品編號+名稱</option>
                 </select>
-                <input asp-for="商品編號id" id="商品編號id" name="商品編號id"  class="form-control" type="hidden" />
+                <input asp-for="商品編號id" id="商品編號id" name="商品編號id"  value="@ViewBag.id"  class="form-control" type="hidden" />
                 <span asp-validation-for="商品編號id" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -145,7 +145,8 @@
                             return (`<option value="${商品編號id}" data-text="${商品名稱}">${商品編號id} ${商品名稱}</option>`);
                             });
                            
-                            $("#_商品編號id").html(options);            
+                            $("#_商品編號id").html(options);
+                           $("#_商品編號id").val($("#商品編號id").val());
                             });
 
                             //提取顏色
@@ -157,6 +158,7 @@
                             return (`<option value="${商品顏色id}" data-text="${商品顏色種類}">${商品顏色id} ${商品顏色種類}</option>`);
                             });                           
                             $("#_商品顏色id").html(options);
+
                             });
 
                             //提取尺寸

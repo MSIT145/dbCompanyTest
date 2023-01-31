@@ -721,8 +721,9 @@ namespace dbCompanyTest.Controllers
 
 
         #region ProductDetail所有事件
-        public IActionResult _CreateDetail()
+        public IActionResult _CreateDetail(string id)
         {
+            ViewBag.id = id;
             return PartialView();
         }
 

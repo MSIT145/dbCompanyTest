@@ -23,7 +23,7 @@ function check_ProSize() {
     let errorstr = "";
     //尺寸種類
     let 尺寸種類 = form.find("input[name='尺寸種類']");
-    errorstr += check_null_lenth(尺寸種類, "尺寸種類")
+    errorstr += check_null_number(尺寸種類, "尺寸種類")
     return errorstr;
 }
 
@@ -79,7 +79,7 @@ function check_ProDetail_Edit() {
     let errorstr = "";
     //商品數量
     let 商品數量 = form.find("input[name='商品數量']");
-    errorstr += check_null(商品數量, "商品數量")
+    errorstr += check_null_number(商品數量, "商品數量")
     return errorstr;
 }
 
@@ -89,7 +89,7 @@ function check_ProDetail_Create() {
     let errorstr = "";
     //商品數量
     let 商品數量 = form.find("input[name='數量']");
-    errorstr += check_null(商品數量, "商品數量")
+    errorstr += check_null_number(商品數量, "商品數量")
     //photo1
     let photo1 = form.find("input[name='photo1']");
   /*  console.log(photo1);*/
@@ -143,7 +143,7 @@ function check_ProC_Form() {
 
     //商品價格
     let price = form01.find("input[name='price']");
-    errorstr += check_null(price, "價格")
+    errorstr += check_null_number(price, "價格")
     
     //商品介紹
     let introduce = form01.find("#_introduce");
@@ -155,11 +155,11 @@ function check_ProC_Form() {
 
     //商品重量
     let weight = form01.find("input[name='weight']");
-    errorstr += check_null(weight, "重量")
+    errorstr += check_null_number(weight, "重量")
 
     //商品成本
     let cost = form01.find("input[name='cost']");
-    errorstr += check_null(cost, "成本")
+    errorstr += check_null_number(cost, "成本")
 
     return errorstr;
 }
@@ -175,6 +175,35 @@ function check_null(obj, mess) {
     else {
         obj.prop("class", "form-control is-valid");
         obj.next(".invalid-feedback").html("");
+    }
+    return error;
+}
+
+function check_null_number(obj, mess) {
+    let error = "";
+    if (obj.val() == "") {
+        error += `請輸入${mess}`;
+        obj.prop("class", "form-control is-invalid")
+        obj.next(".invalid-feedback ").find("span").html(`請輸入${mess}`);
+    }
+    
+    if (!isNaN(parseInt(obj.val()))) { 
+        if (parseInt(obj.val()) < 0) {
+            error += `不能為負數`;
+            obj.prop("class", "form-control is-invalid")
+            obj.next(".invalid-feedback ").find("span").html(`不能為負數`);
+        }
+
+    } else {
+        error += `請輸入數字`;
+        obj.prop("class", "form-control is-invalid")
+        obj.next(".invalid-feedback ").find("span").html(`請輸入數字`);
+    }
+
+
+    if (error.length == 0) {
+        obj.prop("class", "form-control is-valid");
+        obj.next(".invalid-feedback").find("span").html("");
     }
     return error;
 }

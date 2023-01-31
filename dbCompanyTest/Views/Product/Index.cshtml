@@ -624,8 +624,11 @@
 
       //加入按鈕事件(新增明細)
         $('#tableAll').on('click', 'button[name="DetailCreate"]', function () {
+            const row =$(this).parents('tr');            
+            const id = row.find('td:eq(1)').text().trim();
+            console.log(row.find('td:eq(1)'));            
             $("#Moda_D_C .modal-body").find("#myModal - label").val("新增細項商品")
-            $("#Moda_D_C .modal-body").load("@Url.Content("~/Product/_CreateDetail")");
+            $("#Moda_D_C .modal-body").load(`@Url.Content("~/Product/_CreateDetail")/?id=${id}`);
         })
 
         //加入按鈕事件(明細刪除) P_btnDel
