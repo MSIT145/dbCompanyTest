@@ -11,6 +11,8 @@
         public string 付款方式 { get; set; }
         public string 送貨地址 { get; set; }
         public decimal? 總金額 { get; set; }
+        public int 商品id { get; set; }
+        public int 商品顏色id { get; set; }
 
     }
 }

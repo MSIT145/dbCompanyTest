@@ -14,5 +14,6 @@
         public string? 性別 { get; set; }
         public string? 生日 { get; set; }
 
+
     }
 }

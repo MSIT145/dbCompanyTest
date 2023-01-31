@@ -60,17 +60,21 @@
                                         @Html.DisplayFor(modelItem => item.訂單編號)
                                     </td>
                                     <td>
+                                    <a asp-controller="ProductWall" asp-action="Details" asp-route-id="@item.商品id" asp-route-colorID="@item.商品顏色id">
+                                    <div>
                                         @{
-                                        if (@item.圖片 != null)
-                                        {
-                                                    <img class="card-img rounded-0 img-fluid" src="~/images/@item.圖片" style="width:118px;height:162px" />
-                                        }
-                                        else
-                                        {
-                                                    <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" style="width:118px;height:162px" />
-                                        }
+                                            if (@item.圖片 != null)
+                                            {
+                                                <img class="card-img rounded-0 img-fluid" src="~/images/@item.圖片" style="width:118px;height:162px" />
+                                            }
+                                            else
+                                            {
+                                                <img class="card-img rounded-0 img-fluid" src="~/images/404.jpg" style="width:118px;height:162px" />
+                                            }
                                         }
                                         @Html.DisplayFor(modelItem => item.商品名)
+                                    </div>
+                                    </a>
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.規格)

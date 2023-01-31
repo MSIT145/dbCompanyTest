@@ -18,6 +18,5 @@ namespace dbCompanyTest.ViewModels
         public string 產品圖片1 { get; set; }
         public string keyword { get; set; }
 
-        
     }
 }

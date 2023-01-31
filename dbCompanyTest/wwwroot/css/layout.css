@@ -3,13 +3,15 @@
     color:black;
 }
 .logo {
-    padding: 0px 0px 0px 43%
+    width: 230px;
+    padding: 27px 0 32px;
+    margin: 0 auto;
 }
 
 .R-Top-tool {
-    /*position: absolute;
-    right: 40px;
-    top: 25px;*/
+    position: absolute;
+    right: 10px;
+    top: 56px;
 }
 .tool-box {
     margin: 0px 0px;
@@ -17,7 +19,7 @@
     align-items:center;
 }
 .tool-p{
-    margin-left:10px;
+    margin-left:20px;
 }
 .g-nums {
     margin-left: -15px;
@@ -36,8 +38,8 @@
     border: 1px solid #d3d3d5;
     background-color: #fff;
     color: #d5baa5;
-    top:4em;
-    right: 2%;
+    top:2em;
+    right: 12%;
     z-index: 2;
     animation: dropdown-menu-fade-in 0.3s ease 1, dropdown-menu-move-down 0.3s ease-out 1;
     margin-top: 0px;

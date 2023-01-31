@@ -127,7 +127,9 @@ namespace dbCompanyTest.Controllers
                            價格=d.商品價格,
                            付款方式=c.付款方式,
                            送貨地址=c.送貨地址,
-                           總金額=c.總金額
+                           總金額=c.總金額,
+                           商品id=(int)e.商品編號id,
+                           商品顏色id=(int)e.商品顏色id
                        };
 
             string login = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
