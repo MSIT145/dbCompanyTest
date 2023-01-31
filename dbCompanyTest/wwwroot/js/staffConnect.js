@@ -32,9 +32,18 @@ $("#inp_start").on("click", function () {
 connection.on("receive", function (msg, listtype, listnum) {
     note_newlist(msg);
     let TDL_DTpath = $(`#TDL_DTpath1`).val();
-    $("#note_List").append(`  <li class="menu-item">
-                                        <a href="${TDL_DTpath}/?listNum=${listnum}" class="menu-link">
-                                            <div data-i18n="Blank">${listtype}${listnum}</div>
+    $("#online").addClass("avatar-online");
+    //$("#layout_note_List").append(`  <li class="menu-item">
+    //                                    <a href="${TDL_DTpath}/?listNum=${listnum}" class="menu-link">
+    //                                        <div data-i18n="Blank">${listtype}${listnum}</div>
+    //                                    </a>
+    //                                </li>`)
+    $("#layout_note_List").append(`<li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="${TDL_DTpath}/?listNum=${listnum}">
+                                            <span class="align-middle">${listtype}${listnum}</span>
                                         </a>
                                     </li>`)
 });
