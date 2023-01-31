@@ -112,7 +112,7 @@ a {
 @media screen and (max-width:500px) {
     .d-carouse {
         max-width: 480px;
-        max-height: 600px;
+        /*max-height: 600px;*/
     }
 
         .d-carouse img {
@@ -130,7 +130,7 @@ a {
 
 .d-carouse {
     width: 600px;
-    height: 800px;
+    /*height: 800px;*/
     float: none;
 }
 
