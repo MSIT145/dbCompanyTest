@@ -14,12 +14,17 @@
 		<canvas class="webgl"></canvas>
 
 	</div>
-
 @section Scripts{
 	<script src="https://unpkg.com/three@0.146.0/build/three.min.js"></script>
 	<script src="https://unpkg.com/three@0.146.0/examples/js/loaders/GLTFLoader.js"></script>
 	@*gsap*@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+
+	<script >
+
+
+	</script>
+
 
 	<script>
 		//Base
@@ -35,7 +40,7 @@
 		let shiba=null;
 		const gltfLoader = new THREE.GLTFLoader()
 		gltfLoader.load(
-			"@Url.Content("~/3d/shiba/scene.gltf")",
+			"@Url.Content("~/3d/shiba/cheesecake.glb")",
 			(gltf)=>{
 				console.log(gltf);
 				shiba=gltf.scene;
