@@ -51,6 +51,11 @@ namespace dbCompanyTest.Controllers
             return Json(json);
         }
 
+        public IActionResult threeview() {
+
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

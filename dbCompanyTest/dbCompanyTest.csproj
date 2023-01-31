@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\3d\shiba\scene.bin" />
+    <None Include="wwwroot\3d\shiba\scene.gltf" />
     <None Include="wwwroot\assets\js\config.js" />
     <None Include="wwwroot\assets\js\dashboards-analytics.js" />
     <None Include="wwwroot\assets\js\extended-ui-perfect-scrollbar.js" />
