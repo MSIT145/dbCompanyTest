@@ -4,7 +4,10 @@
     ViewData["Title"] = "Create";
 }
 @{
-    Layout = "_Back_Layout_Sneat";
+    if (ViewBag.dep == "行政" || ViewBag.dep == "執行長室")
+        Layout = "_Back_Layout_Sneat";
+    else if (ViewBag.dep == "人事")
+        Layout = "_Back_Layout_Sneat_HR";
 }
 
 <input type="hidden" id="StaffNumpath" value="@Url.Content("~/Staff_Home/StaffNum")" />

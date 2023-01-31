@@ -4,7 +4,10 @@
     ViewData["Title"] = "DT_TDL";
 }
 @{
-    Layout = "_Back_Layout_Sneat";
+    if (ViewBag.dep == "行政" || ViewBag.dep == "執行長室")
+        Layout = "_Back_Layout_Sneat";
+    else if (ViewBag.dep == "人事")
+        Layout = "_Back_Layout_Sneat_HR";
 }
 
 <h1>表單</h1>
@@ -29,7 +32,7 @@
     <div class="col-md-4">
         <form asp-action="DT_TDL">
             <div asp-validation-summary="ModelOnly" class="text-danger no"></div>
-            <input asp-for="交辦事項id" class="no" id="listnumber"/>
+            <input asp-for="交辦事項id" class="no" id="listnumber" />
             <div class="form-group no">
                 <label asp-for="表單類型" class="control-label no"></label>
                 <select asp-for="表單類型" class="form-control no" id="list_type">
