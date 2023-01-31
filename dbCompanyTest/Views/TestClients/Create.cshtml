@@ -18,17 +18,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="客戶姓名" class="control-label"></label>
-                <input asp-for="客戶姓名" class="form-control" />
+                <input asp-for="客戶姓名" class="form-control" id="客戶姓名"/>
                 <span asp-validation-for="客戶姓名" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="客戶電話" class="control-label"></label>
-                <input asp-for="客戶電話" class="form-control"/>
+                    <input asp-for="客戶電話" class="form-control" id="客戶電話" />
                 <span asp-validation-for="客戶電話" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="身分證字號" class="control-label"></label>
-                <input asp-for="身分證字號" class="form-control" />
+                    <input asp-for="身分證字號" class="form-control" id="身分證字號" />
                 <span asp-validation-for="身分證字號" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -43,17 +43,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="地址" class="control-label"></label>
-                <input asp-for="地址" class="form-control" />
+                    <input asp-for="地址" class="form-control" id="地址" />
                 <span asp-validation-for="地址" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                    <input asp-for="Email" class="form-control" id="Email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="密碼" class="control-label"></label>
-                <input asp-for="密碼" class="form-control" />
+                    <input asp-for="密碼" class="form-control" id="密碼" type="password"/>
                 <span asp-validation-for="密碼" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -75,7 +75,7 @@
 </div>
 
 <div>
-    
+    <button id="demo"></button>
 </div>
 </div>
 @section Scripts {
@@ -84,6 +84,15 @@
     <script src="~/js/city_data.js"></script>
     <script src="~/js/client.js"></script>
     <script>
+        $(`#demo`).on(`click`,function(){
+            $(`#客戶姓名`).val("GAAYRY");
+            $(`#客戶電話`).val("0945614548");
+            $(`#身分證字號`).val("F123654874");
+            $(`#地址`).val("南京東路");
+            $(`#Email`).val("aland821206@@gmail.com");
+            $(`#密碼`).val("qwe123456!");
+            $(`#checkcreate`).attr('disabled', false);
+        })
         var check = [false, false, false, false, false];
         $(`input[name=Email],input[name=客戶電話],input[name=身分證字號],input[name=密碼],input[name=客戶姓名]`).on(`blur`, function () {
             const checkInput = $(this);

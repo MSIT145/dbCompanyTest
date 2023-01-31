@@ -217,7 +217,8 @@ namespace dbCompanyTest.Controllers
                 var mail = new MailMessage();
                 mail.To.Add(Email);
                 mail.Subject = "SheoseGift忘記密碼變更";
-                mail.Body = $"<a href=`https://localhost:7100/Login/RePassword?Email={Email}`>點選這裡變更密碼</a>";
+                mail.Body = $"<h1>ShoeSpace密碼變更</h1><a href=`https://localhost:7100/Login/RePassword?Email={Email}`><h2>點選這裡變更密碼</h2></a><hr/><h6>此訊息為系統自動寄出請勿直接回覆</h6>";
+                //mail.Body = $"<form action = 'https://localhost:7100/Login/ResetPassword'><input type='hidden' value='{Email}' id='account' name='Email' /><input type='text' id='newPassword' name='Password'/><br/><input type='text' id='dblnewPassword' /><br/><input type='submit' value='確認'/></form>";
                 mail.IsBodyHtml = true;
                 mail.Priority = MailPriority.Normal;
                 mail.From = new MailAddress("msit145finalpj@gmail.com", "SheoseGift");
