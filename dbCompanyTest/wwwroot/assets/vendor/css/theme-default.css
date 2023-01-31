@@ -649,8 +649,8 @@ a:hover {
 }
 
 .bg-menu-theme {
-  background-color: #fff !important;
-  color: #697a8d;
+    background-color: #BAA99B !important;
+    color: #697a8d;
 }
 .bg-menu-theme .menu-link,
 .bg-menu-theme .menu-horizontal-prev,
