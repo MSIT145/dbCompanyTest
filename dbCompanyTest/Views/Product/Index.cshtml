@@ -8,9 +8,8 @@
      * 1.產品表單驗證 新增與修改 欄位驗證
      * 2.細項商品CRUD
      */
-
 }
-
+@*//內部模板的icon 與bootstrap5 CDN*@
 <script src="~/assets/js/icon_js/app.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
@@ -20,10 +19,6 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-
-
-
-
 
 <div class="container-xxl flex-grow-1 container-p-y">
 <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> 商品與明細</h4>
@@ -229,7 +224,8 @@
                 @*Product Create_END*@
             </div>
             <div class="modal-footer">
-                <button type="button" id="P_Create" class="btn btn-success" name="btn_P">新增</button>
+                <button type="button" id="P_Create_Demo" class="btn btn-warning" name="btn_P">新增Demo</button>
+                <button type="button" id="P_Create" class="btn btn-success" name="btn_P">新增</button>                
                 <button type="button" id="P_Edit" class="btn btn-primary" name="btn_P" style="display: none;">修改</button>
                 <button type="button"  id="P_Close" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
             </div>
@@ -588,25 +584,21 @@
             $("#Moda_P_C input[name='cost']").val(row.find('td:eq(8)').text().trim())
             //_商品分類id
             //$("#Moda_P_C #_商品分類id option:selected").text(row.find('td:eq(9)').text().trim())
-            const cel9 = row.find('td:eq(9)').text().trim();
-            //console.log("cel9=" + cel9);
+            const cel9 = row.find('td:eq(9)').text().trim();           
             //setTimeout(function () { $(`#Moda_P_C #_商品分類id option[data-text=${cel9}]`).prop("selected", true); }, 400);
             $(`#Moda_P_C #_商品分類id option[data-text=${cel9}]`).prop("selected", true);
             //_商品鞋種id
-
-            const cel10 = row.find('td:eq(10)').text().trim();
-            //console.log("cel10=" + cel10);
+            const cel10 = row.find('td:eq(10)').text().trim();           
             //setTimeout(function () { $(`#Moda_P_C #_商品鞋種id option[data-text=${cel10}]`).prop("selected", true); }, 500);
             $(`#Moda_P_C #_商品鞋種id option[data-text=${cel10}]`).prop("selected", true);
             //$("#Moda_P_C #_商品鞋種id option:selected").text(row.find('td:eq(10)').text().trim())
             //$("#_商品分類id option:eq(3)").attr('selected', 'selected');
-
-            //$("#_商品分類id").val();
-            //'4'
-            //id=P_Create
-            $("#Moda_P_C #P_Create ").hide();
-            //id=P_Edit
-            $("#Moda_P_C #P_Edit ").show();
+                      
+            //id=P_Create 隱藏Create 按鍵
+            $("#Moda_P_C").find('[id^="P_Create"]').hide();
+            //id=P_Edit 顯示Edit按鍵
+            //$("#Moda_P_C #P_Edit ").show();
+            $("#Moda_P_C").find('[id^="P_Edit"]').show();
             //console.log(row.find('td:eq(3)').text().trim());
         })
 
@@ -657,11 +649,14 @@
 
             ClearPro_Edit_Creater_form(); //清空欄位
             //顯示新增按鈕
-            $("#Moda_P_C #P_Create ").show();
+            //$("#Moda_P_C #P_Create ").show();
+            $("#Moda_P_C").find("[id^='P_Create']").show();
+             //隱藏Edit按鈕
+            //$("#Moda_P_C #P_Edit ").hide();
+            $("#Moda_P_C").find("[id^='P_Edit']").hide();
             //產品id顯示
             $("#Moda_P_C input[name='id']").parent().hide();
-            //隱藏Edit按鈕
-            $("#Moda_P_C #P_Edit ").hide();
+           
             $.ajaxSettings.async = false;
             $.get("@Url.Content("~/Product/GetTyteD")", (datas) => {
                 //console.log(datas);
@@ -713,8 +708,6 @@
         change_table();
 
         }
-
-
 
         //重新加載
       function change_table()
@@ -847,10 +840,17 @@
             }, true);
 
         $(document).ready(function () {
-                    funcLoad();
-                  
-
+                    funcLoad();        
                 });
+
+        //Demo按鍵事件
+        $("#Moda_P_C").find('[id="P_Create_Demo"]').on('click',function(){           
+            let Pmodal =  $("#Moda_P_C");
+            Pmodal.find("input[name='time']").val("2023-02-15T15:53")
+            //極簡風格小牛皮革拖鞋
+        //自動填入新建資料
+        });
+      
     </script>
 
 }

@@ -32,6 +32,14 @@ namespace dbCompanyTest.Controllers
         //存放Product的資料，搜尋請改用Session
         //static List<Product> searchData = new List<Product>();
 
+        //powerBI
+        public IActionResult ProSell_PowerBI_show()
+        {
+            return View();
+        
+        }
+
+
 
         #region 圖表相關
         //圖表使用
@@ -600,7 +608,7 @@ namespace dbCompanyTest.Controllers
                 return Json("失敗");
             }
         }
-
+        
         public IActionResult Pro_Edit(string id) {
             if (!string.IsNullOrEmpty(id))
             {
