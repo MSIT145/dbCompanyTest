@@ -93,16 +93,7 @@
 </div>
 <script src="~/js/product_index.js"></script>
 <script>
-    //HTML載完才會執行
-    //資料送出前將select 資料寫入有name 欄位
-    function formwrite() {
-        let form = $("#Form_ProDe_C");
-        form.find("#商品編號id").val(form.find("#_商品編號id").val());
-        form.find("#商品尺寸id").val(form.find("#_商品尺寸id").val());
-        form.find("#商品顏色id").val(form.find("#_商品顏色id").val());
-        form.find("#商品是否有貨").val(form.find("#_商品是否有貨").prop("checked"));
-        form.find("#商品是否上架").val(form.find("#_商品是否上架").prop("checked"));
-    }
+    //HTML載完才會執行  
 
 
     $(document).ready(function () {
@@ -162,7 +153,7 @@
         });
         //_商品尺寸id連動
         $("#_商品尺寸id").val($("#Form_ProDe_E").find("input[name='商品尺寸id']").val());
-        $("#Form_ProDe_E").find("input[name='商品尺寸id']").hide();
+        //$("#Form_ProDe_E").find("input[name='商品尺寸id']").hide();
 
 
         //提取顏色
@@ -177,18 +168,18 @@
         });
         //_商品顏色id 連動
         $("#_商品顏色id").val($("#Form_ProDe_E").find("input[name='商品顏色id']").val());
-        $("#Form_ProDe_E").find("input[name='商品顏色id']").hide();
+        //$("#Form_ProDe_E").find("input[name='商品顏色id']").hide();
 
         //checkbox 連動
         let 是否上架 =   $("#Form_ProDe_E").find("input[name='商品是否上架']").val()
         if (是否上架 == "True" || 是否上架 == "False")
             $("#_商品是否上架").prop("checked", Boolean(是否上架));
-        $("#Form_ProDe_E").find("input[name='商品是否上架']").hide();
+        //$("#Form_ProDe_E").find("input[name='商品是否上架']").hide();
 
         let 是否有貨 = $("#Form_ProDe_E").find("input[name='商品是否有貨']").val()
         if (是否有貨 == "True" || 是否有貨 == "False")
        $("#_商品是否有貨").prop("checked", Boolean(是否有貨));
-        $("#Form_ProDe_E").find("input[name='商品是否有貨']").hide();
+        //$("#Form_ProDe_E").find("input[name='商品是否有貨']").hide();
         //開啟非同步=================
         $.ajaxSettings.async = false;  
 
@@ -224,6 +215,16 @@
 
         });
     })
+ //資料送出前將select 資料寫入有name 欄位
+    function formwrite() {
+        let form = $("#Form_ProDe_E");
+        form.find("#商品編號id").val(form.find("#_商品編號id").val());
+        form.find("#商品尺寸id").val(form.find("#_商品尺寸id").val());
+        form.find("#商品顏色id").val(form.find("#_商品顏色id").val());
+        form.find("#商品是否有貨").val(form.find("#_商品是否有貨").prop("checked"));
+        form.find("#商品是否上架").val(form.find("#_商品是否上架").prop("checked"));
+    }
+
 </script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
