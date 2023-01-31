@@ -27,6 +27,39 @@ namespace dbCompanyTest.Controllers
             return View(await dbCompanyTestContext.ToListAsync());
         }
 
+        public IActionResult getOrderDetails()
+        {
+            var datas = from c in _context.Orders
+                        join o in _context.OrderDetails on c.訂單編號 equals o.訂單編號
+                        join a in _context.ProductDetails on o.Id equals a.Id
+                        join b in _context.ProductsSizeDetails on a.商品尺寸id equals b.商品尺寸id
+                        join d in _context.ProductsColorDetails on a.商品顏色id equals d.商品顏色id
+                        join e in _context.Products on a.商品編號id equals e.商品編號id
+                        select new ViewModels.OrderDetail_List
+                        {
+                            訂單編號 = c.訂單編號,
+                            送貨地址 = c.送貨地址,
+                            商品名稱 = e.商品名稱,
+                            尺寸種類 = b.尺寸種類,
+                            色碼 = d.色碼,
+                            商品數量 = (int)o.商品數量,
+                            商品價格=(int)o.商品價格,
+                            總金額= (int)o.商品價格* (int)o.商品數量,
+                        };
+            var test = datas.ToList();
+            return Json(datas);
+        }
+        //public IActionResult getOrderDetails(string id)
+        //{
+        //    List < OrderDetail > orderDetail = null;
+        //    var order = _context.OrderDetails.Select(x => x).Where(c => c.訂單編號 == id).ToList();
+        //    foreach (OrderDetail x in order)
+        //    {
+        //        orderDetail.Add(x);
+        //    }
+        //    return Json(orderDetail);
+        //}
+
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(string id)
         {
