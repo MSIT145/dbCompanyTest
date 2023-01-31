@@ -105,6 +105,33 @@
         </div>
 
         <div class="shops">
+            <div class=" d-flex justify-content-between shop-header">
+                @*============== Menu =================*@
+                <div class="ms-4">
+                    <a id="menu" href=""><img src="~/homeImg/menu.png"></a>
+                </div>
+                @*============== LOGO =================*@
+                <div class="logo">
+                    <a class="" asp-controller="Home" asp-action="Index"><img src="~/homeImg/Shoespace1.png" /></a>
+                </div>
+                @*============== 搜尋,我的最愛,會員中心,購物車 =================*@
+
+                <div class=" R-Top-tool">
+                    <div class="tool-box ">
+                        <div class="tool-p ">
+                            <a id="web-search-btn" href=""><img src="~/homeImg/search_header_pc.png"></a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="search-box container" style="left: 0.2rem; right: 1.5rem;">
+                        <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box">
+                </div>
+
+
+            </div>
 
         </div>
 
@@ -162,11 +189,11 @@
                     alert('傳送錯誤: ' + err.toString());
                 });
                 $(`.chatBBody`).append(`<div class="chat">
-                                                        <div class="otherName">系統</div>
-                                                        <div class="otherChat">
-                                                             親愛的${uesrName},我們很高興為您服務
-                                                        </div>
-                                                    </div>`);
+                                                                <div class="otherName">系統</div>
+                                                                <div class="otherChat">
+                                                                     親愛的${uesrName},我們很高興為您服務
+                                                                </div>
+                                                            </div>`);
                 $(`#userName`).val(userName);
             }).catch(function (err) {
                 alert('連線錯誤: ' + err.toString());
@@ -206,18 +233,18 @@
 
         function UpdSystem(user, msg) {
             $(`.chatBBody`).append(`<div class="chat">
-                                                        <div class="otherName">${user}</div>
-                                                        <div class="otherChat">
-                                                                    ${msg}
-                                                        </div>
-                                                    </div>`);
+                                                                <div class="otherName">${user}</div>
+                                                                <div class="otherChat">
+                                                                            ${msg}
+                                                                </div>
+                                                            </div>`);
             $('.chatBBody').animate({
                 scrollTop: $(".chatBBody").offset().top + $(".chat")[$(".chatBBody").find(".chat").length - 1].scrollHeight
             }, 500);
         }
         function AIBOT(msg) {
             const querydata = Botdata.filter(x => x.key === msg)
-            console.log(filterValuePart(Botdata,msg));
+            console.log(filterValuePart(Botdata, msg));
             if (querydata.length != 0) {
                 UpdSystem("系統", querydata[0].value);
             }
@@ -236,11 +263,11 @@
         };
         function UpdContent(msg) {
             $(`.chatBBody`).append(`<div class="chat">
-                                                                               <div class="myName">我</div>
-                                                                            <div class="myChat">
-                                                                                 ${msg}
-                                                                          </div>
-                                                                     </div>`);
+                                                                                       <div class="myName">我</div>
+                                                                                    <div class="myChat">
+                                                                                         ${msg}
+                                                                                  </div>
+                                                                             </div>`);
             $(`#message`).val("");
 
             $('.chatBBody').animate({
@@ -281,22 +308,22 @@
                     countM += x
                     return (
                         `<div class="row" id="${id}">
-                                                            <div class="col-3">
-                                                                                <img  src="@Url.Content("~/images/${a}")" width="70" />
-                                                            </div>
-                                                            <div class="col-8">
-                                                                        <div>品名:<a>${value.商品名稱}</a></div>
-                                                                        <div>尺寸:<a>${value.尺寸種類}</a></div>
-                                                                        <div>顏色:<a>${value.商品顏色種類}</a></div>
-                                                                        <div>數量:<a>${value.訂單數量}</a></div>
-                                                                        <div>價格:<a class="m">${value.商品價格}</a></div>
+                                                                    <div class="col-3">
+                                                                                        <img  src="@Url.Content("~/images/${a}")" width="70" />
+                                                                    </div>
+                                                                    <div class="col-8">
+                                                                                <div>品名:<a>${value.商品名稱}</a></div>
+                                                                                <div>尺寸:<a>${value.尺寸種類}</a></div>
+                                                                                <div>顏色:<a>${value.商品顏色種類}</a></div>
+                                                                                <div>數量:<a>${value.訂單數量}</a></div>
+                                                                                <div>價格:<a class="m">${value.商品價格}</a></div>
 
-                                                            </div>
-                                                                    <div class="purchase-icon-car col-1">
-                                                                                                <input type="hidden" value="${id}" />
-                                                                             </div>
-                                                                    <br/>
-                                                                    </div>  `
+                                                                    </div>
+                                                                            <div class="purchase-icon-car col-1">
+                                                                                                        <input type="hidden" value="${id}" />
+                                                                                     </div>
+                                                                            <br/>
+                                                                            </div>  `
                     );
                 })
                 TOTAL_TWD = `TOTAL TWD $${countM}`
@@ -347,10 +374,10 @@
             const reb = await fetch(`@Url.Content("~/Home/checkmem")`)
             const data = await reb.json();
             if (data != null) {
-                $("#log").css("display","none");
-                $("#log2").css("display","flex");
+                $("#log").css("display", "none");
+                $("#log2").css("display", "flex");
             }
-            else{
+            else {
                 $("#log").css("display", "flex");
                 $("#log2").css("display", "none");
             }
