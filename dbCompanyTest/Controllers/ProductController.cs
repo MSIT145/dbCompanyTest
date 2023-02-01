@@ -33,6 +33,11 @@ namespace dbCompanyTest.Controllers
         //static List<Product> searchData = new List<Product>();
 
         //powerBI
+
+        public IActionResult Pro_PowerBI_Inventory_profit()
+        {
+            return View();
+        }
         public IActionResult ProSell_PowerBI_show()
         {
             return View();
