@@ -72,37 +72,37 @@
              */
             const loadingBarElement = document.querySelector('.loading-bar')
             const bodyElement = document.querySelector('body')
-            //const loadingManager = new THREE.LoadingManager(
-            //    () => {
-            //        window.setTimeout(() => {
-            //            gsap.to(overlayMaterial.uniforms.uAlpha, {
-            //                duration: 3,
-            //                value: 0,
-            //                delay: 1
-            //            })
-            //            gsap.to(overlayMaterial.uniforms.uAlpha, {
-            //                duration: 3,
-            //                value: 0,
-            //                delay: 1
-            //            })
+            const loadingManager = new THREE.LoadingManager(
+                () => {
+                    window.setTimeout(() => {
+                        gsap.to(overlayMaterial.uniforms.uAlpha, {
+                            duration: 3,
+                            value: 0,
+                            delay: 1
+                        })
+                        gsap.to(overlayMaterial.uniforms.uAlpha, {
+                            duration: 3,
+                            value: 0,
+                            delay: 1
+                        })
 
-            //            loadingBarElement.classList.add('ended')
-            //            bodyElement.classList.add('loaded')
-            //            loadingBarElement.style.transform = ''
+                        loadingBarElement.classList.add('ended')
+                        bodyElement.classList.add('loaded')
+                        loadingBarElement.style.transform = ''
 
-            //        }, 500)
-            //    },
-            //    (itemUrl, itemsLoaded, itemsTotal) => {
-            //        console.log(itemUrl, itemsLoaded, itemsTotal)
-            //        const progressRatio = itemsLoaded / itemsTotal
-            //        loadingBarElement.style.transform = `scaleX(${progressRatio})`
-            //        console.log(progressRatio)
-            //    },
-            //    () => {
+                    }, 500)
+                },
+                (itemUrl, itemsLoaded, itemsTotal) => {
+                    console.log(itemUrl, itemsLoaded, itemsTotal)
+                    const progressRatio = itemsLoaded / itemsTotal
+                    loadingBarElement.style.transform = `scaleX(${progressRatio})`
+                    console.log(progressRatio)
+                },
+                () => {
 
-            //    }
-            //)
-            const gltfLoader = new THREE.GLTFLoader(/*loadingManager*/)
+                }
+            )
+            const gltfLoader = new THREE.GLTFLoader(loadingManager)
 
             /**
              *  Textures
@@ -130,43 +130,47 @@
 
             scene.add(sphereShadow)
 
-            ///**
-            // * Overlay
-            // */
-            //const overlayGeometry = new THREE.PlaneGeometry(2, 2, 1, 1)
-            //const overlayMaterial = new THREE.ShaderMaterial({
-            //    vertexShader: `
-            //        void main() {
-            //            gl_Position = vec4(position, 1.0);
-            //        }
-            //    `,
-            //    fragmentShader: `
-            //        uniform float uAlpha;
-            //        void main() {
-            //            gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
-            //            // gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-            //        }
-            //    `,
-            //    uniforms: {
-            //        uAlpha: {
-            //            value: 1.0
-            //        }
-            //    },
-            //    transparent: true
-            //})
-            //const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
-            //scene.add(overlay)
+            /**
+             * Overlay
+             */
+            const overlayGeometry = new THREE.PlaneGeometry(2, 2, 1, 1)
+            const overlayMaterial = new THREE.ShaderMaterial({
+                vertexShader: `
+                    void main() {
+                        gl_Position = vec4(position, 1.0);
+                    }
+                `,
+                fragmentShader: `
+                    uniform float uAlpha;
+                    void main() {
+                        gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
+                        // gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+                    }
+                `,
+                uniforms: {
+                    uAlpha: {
+                        value: 1.0
+                    }
+                },
+                transparent: true
+            })
+            const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
+            scene.add(overlay)
 
 
             /**
              * GLTF Model
              */
+
             let donut = null
-            let base = new THREE.Object3D()
-            scene.add(base)
+            let bird = null
+            //let base = new THREE.Object3D()
+            let mixer;
+            let mixerB;
+            //scene.add(base)
             //抓取3d檔
             gltfLoader.load(
-            'https://rawcdn.githack.com/th9716/3dglb/f14a3ad7320f963f544f64607783ce7d18af4e21/shiba/scene.gltf',
+            'https://rawcdn.githack.com/th9716/3dglb/f14a3ad7320f963f544f64607783ce7d18af4e21/cheesecake.glb',
                 (gltf) => {
                     console.log(gltf);
 
@@ -174,15 +178,22 @@
 
                     const radius = 0.05
 
-                    donut.position.x = 1.5;
-                    donut.position.y = -150;
+                    donut.position.x = 200;
+                    donut.position.y = -0.11776578446016753;
+                    donut.position.z = 250;
 
-                    donut.rotation.y = Math.PI * 0.1
-                    donut.rotation.z = Math.PI * 0.15
+                    donut.rotation.y =Math.PI * 0.18
+                    donut.rotation.z =  Math.PI * 0.15
 
                     donut.scale.set(radius, radius, radius)
 
-                    base.add(donut)
+                    //base.add(donut)
+                    scene.add(donut)
+
+                    //mixer
+                mixer = new THREE.AnimationMixer(donut);
+                mixer.clipAction(gltf.animations[0]).setDuration(0.875).play();
+
                 },
                 (progress) => {
                     console.log(progress);
@@ -191,6 +202,47 @@
                     console.error(error);
                 }
             )
+
+            //bird
+        gltfLoader.load(
+            'https://rawcdn.githack.com/mrdoob/three.js/7249d12dac2907dac95d36227d62c5415af51845/examples/models/gltf/Flamingo.glb',
+            (gltf1) => {
+                console.log(gltf1);
+
+                bird = gltf1.scene
+
+                const radius = 4
+
+                bird.position.x = 500;
+                bird.position.y = 20;
+                bird.position.z = 10;
+
+                bird.rotation.y = Math.PI * 0.18
+                bird.rotation.z = Math.PI * 0.15
+
+                bird.scale.set(radius, radius, radius)
+
+                scene.add(bird)
+
+                //mixer
+                mixerB = new THREE.AnimationMixer(bird);
+                mixerB.clipAction(gltf1.animations[0]).setDuration(1.399999976158142).play();
+
+                //const clips=gltf.animations;
+                //const clip = THREE.AnimationClip.findByName(clips, 'Armature|ArmatureAction.002');
+                //const action=mixer.clipAction(clip);
+                //action.play();
+
+            },
+            (progress) => {
+                console.log(progress);
+            },
+            (error) => {
+                console.error(error);
+            }
+        )
+
+
 
             /**
              * Light
@@ -227,11 +279,11 @@
                     positionX: -1.5
                 },
                 {
-                    rotationY: 0.0314,
+                    rotationY: 0.6314,
                     positionX: 0
                 },
                 {
-                    rotationY: 0.0314,
+                    rotationY: 0.6314,
                     positionX: 0
                 },
             ]
@@ -242,7 +294,8 @@
                 const newSection = Math.round(scrollY / sizes.height)
 
                 console.log(newSection);
-
+            console.log(donut.position)
+            console.log(donut.rotation)
                 if (newSection != currentSection) {
                     currentSection = newSection
 
@@ -277,9 +330,8 @@
              * Camera
              */
             // Base camera
-            const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000)
+        const camera = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 10000) //視野角度 長寬比 近截角 遠截角
             camera.position.z = 1000
-
             scene.add(camera)
 
             /**
@@ -298,8 +350,12 @@
             /**
              * Animate
              */
+
+            
+
             const clock = new THREE.Clock()
             let lastElapsedTime = 0
+            let prevTime = Date.now();
 
             const tick = () => {
                 const elapsedTime = clock.getElapsedTime()
@@ -310,6 +366,22 @@
                     donut.position.y = Math.sin(elapsedTime * .5) * .1 - 0.1
                     sphereShadow.material.opacity = (1 - Math.abs(donut.position.y)) * 0.3
                 }
+
+            //shiba mixer
+            if (mixer) {
+                const time = Date.now();
+                mixer.update((time - prevTime) * 0.001);
+                prevTime = time;
+            }
+
+            //bird mixer
+            if (mixerB) {
+                const time = Date.now();
+                mixerB.update((time - prevTime) * 0.15);
+                prevTime = time;
+            }
+
+                //mixer.update(clock.getDelta);
 
                 // Render
                 renderer.render(scene, camera)
