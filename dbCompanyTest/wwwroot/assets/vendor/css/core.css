@@ -56,6 +56,21 @@
 }
 
 
+.collapse {
+    &:not(.show)
+
+{
+    display: none;
+}
+
+}
+
+.collapsing {
+    height: 0;
+    overflow: hidden;
+    @include transition($transition-collapse);
+}
+
 
 :root {
   font-size: var(--bs-root-font-size);
@@ -295,6 +310,7 @@ svg {
 table {
   caption-side: top;
   border-collapse: collapse;
+
 }
 
 caption {

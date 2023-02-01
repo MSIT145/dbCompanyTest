@@ -179,17 +179,23 @@ namespace dbCompanyTest.Controllers
             {
                 var datas = from c in _context.ToDoLists
                             join o in _context.TestStaffs on c.員工編號 equals o.員工編號
-                            where c.員工編號 == stf || c.起單人 == stf || c.執行人 == stf || c.表單類型 == "人事表單"
+                            where c.員工編號 == stf || c.起單人 == stf || c.執行人 == stf || c.表單類型 == "人事表單" 
                             select c;
-                return Json(datas);
+                var data = from c in datas
+                           where c.表單狀態 != "完成"
+                           select c;
+                return Json(data);
             }
             else
             {
                 var datas = from c in _context.ToDoLists
                             join o in _context.TestStaffs on c.員工編號 equals o.員工編號
-                            where c.員工編號 == stf || c.協辦部門簽核人員 == stf || c.部門主管 == stf || c.起單人 == stf || c.執行人 == stf
+                            where c.員工編號 == stf || c.協辦部門簽核人員 == stf || c.部門主管 == stf || c.起單人 == stf || c.執行人 == stf 
                             select c;
-                return Json(datas);
+                var data = from c in datas
+                           where c.表單狀態 != "完成"
+                           select c;
+                return Json(data);
             }
 
 

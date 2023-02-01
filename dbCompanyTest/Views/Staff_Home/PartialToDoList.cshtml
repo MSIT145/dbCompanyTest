@@ -1,6 +1,18 @@
-﻿<a asp-action="Create" asp-controller="ToDoLists">建立新表單</a>
+﻿<a asp-action="Create" asp-controller="ToDoLists">
+    <button class="btn btn-primary mb-3 btnTDL_DT">建立新表單</button>
+</a>
 <table class="table table-striped-columns">
-    <caption>待辦事項</caption>
+    <thead>
+    </thead>
+    <thead>
+        <tr>
+            <th>待辦事項列表</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
     <thead>
         <tr>
             <th>表單編號</th>
@@ -12,6 +24,24 @@
     </thead>
     <tbody id="ToDolist_tbody">
     </tbody>
+    @*<tbody id="ToDolist_tbody_sec" class="collapse">*@
+    <tbody id="ToDolist_tbody_sec">
+    </tbody>
+    @*<tfoot data-bs-toggle="collapse" href="#ToDolist_tbody_sec" role="button" aria-expanded="false" aria-controls="ToDolist_tbody_sec">*@
+    <tfoot>
+        <tr>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        </tr>
+    </tfoot>
 </table>
+<br/>
+<br/>
+<br/>
+<br/>
+<br />
 
 @*<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>*@
