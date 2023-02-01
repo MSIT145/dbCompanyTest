@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
 using dbCompanyTest.Hubs;
+using NPOI.XWPF.UserModel;
 
 namespace dbCompanyTest.Controllers
 {
@@ -37,6 +38,8 @@ namespace dbCompanyTest.Controllers
                         join e in _context.Products on a.商品編號id equals e.商品編號id
                         select new ViewModels.OrderDetail_List
                         {
+                            Id=o.Id,
+                            無用ID=o.無用id,
                             訂單編號 = c.訂單編號,
                             送貨地址 = c.送貨地址,
                             商品名稱 = e.商品名稱,
@@ -61,23 +64,23 @@ namespace dbCompanyTest.Controllers
         //}
 
         // GET: Orders/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null || _context.Orders == null)
-            {
-                return NotFound();
-            }
-            var order = _context.OrderDetails.Select(x => x).Where(c => c.訂單編號 == id ).ToList();
-            //var order = await _context.OrderDetails
-            //    //.Include(o => o.客戶編號Navigation)
-            //    .FirstOrDefaultAsync(m => m.訂單編號 == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(string id)
+        //{
+        //    if (id == null || _context.Orders == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var order = _context.OrderDetails.Select(x => x).Where(c => c.訂單編號 == id ).ToList();
+        //    //var order = await _context.OrderDetails
+        //    //    //.Include(o => o.客戶編號Navigation)
+        //    //    .FirstOrDefaultAsync(m => m.訂單編號 == id);
+        //    if (order == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(order);
-        }
+        //    return View(order);
+        //}
 
         // GET: Orders/Create
         public IActionResult Create()
@@ -103,6 +106,54 @@ namespace dbCompanyTest.Controllers
             return View(order);
         }
 
+        public async Task<IActionResult> EditDetail(int id)
+        {
+            if (id == null || _context.OrderDetails == null)
+            {
+                return NotFound();
+            }
+            var orderDetail = await _context.OrderDetails.FindAsync(id);
+            if (orderDetail == null)
+            {
+                return NotFound();
+            }
+            var ee=  ViewData["aa"] = new SelectList(_context.ProductDetails, "Id", "Id", orderDetail.Id);
+            ViewData["訂單編號"] = new SelectList(_context.Orders, "訂單編號", "訂單編號", orderDetail.訂單編號);
+            
+            return View(orderDetail);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditDetail(int id, [Bind("無用id,訂單編號,Id,商品價格,商品數量,總金額l")] OrderDetail orderDetail)
+        {
+            if (id != orderDetail.無用id)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(orderDetail);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!OrderDetailExists(orderDetail.無用id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["Id"] = new SelectList(_context.ProductDetails, "Id", "Id", orderDetail.Id);
+            ViewData["訂單編號"] = new SelectList(_context.Orders, "訂單編號", "訂單編號", orderDetail.訂單編號);
+            return View(orderDetail);
+        }
         // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -156,47 +207,77 @@ namespace dbCompanyTest.Controllers
             return View(order);
         }
 
+        public IActionResult DeleteOrder(string id)
+        {
+            var order = _context.Orders.Select(x => x).Where(c => c.訂單編號 == id).ToList();
+            var orderDitail = _context.OrderDetails.Select(x => x).Where(c => c.訂單編號 == id).ToList();
+            _context.Orders.RemoveRange(order);
+            _context.OrderDetails.RemoveRange(orderDitail);
+            _context.SaveChanges();
+            return Content("ok");
+            //return Json(order);
+        }
+        public IActionResult DeleteOrderDitail(int id)
+        {
+            var orderDitail = _context.OrderDetails.Select(x => x).Where(c => c.無用id == id).ToList();
+            _context.OrderDetails.RemoveRange(orderDitail);
+            _context.SaveChanges();
+            return Content("ok");
+            //return Json(order);
+        }
         // GET: Orders/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null || _context.Orders == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(string id)
+        //{
+        //    if (id == null || _context.Orders == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var order = await _context.Orders
-                .Include(o => o.客戶編號Navigation)
-                .FirstOrDefaultAsync(m => m.訂單編號 == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
+        //    //var order = await _context.Orders
+        //    //    .Include(o => o.客戶編號Navigation)
+        //    //    .FirstOrDefaultAsync(m => m.訂單編號 == id);
+        //    Order a = null;
+        //    var order = _context.Orders.Select(x => x).Where(c => c.訂單編號 == id);/*.ToList();*/
+        //    var orderDitail = _context.OrderDetails.Select(x => x).Where(c => c.訂單編號 == id).ToList();
+        //    a = (Order)order;
+        //    //var a = "";
+        //    //if (orderDitail.Any())
+        //    //a = orderDitail;
+        //    if (order == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(order);
-        }
+        //    //return View(order);
+        //    return View(a);
+        //}
 
-        // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            if (_context.Orders == null)
-            {
-                return Problem("Entity set 'dbCompanyTestContext.Orders'  is null.");
-            }
-            var order = await _context.Orders.FindAsync(id);
-            if (order != null)
-            {
-                _context.Orders.Remove(order);
-            }
+        //// POST: Orders/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(string id)
+        //{
+        //    if (_context.Orders == null)
+        //    {
+        //        return Problem("Entity set 'dbCompanyTestContext.Orders'  is null.");
+        //    }
+        //    var order = await _context.Orders.FindAsync(id);
+        //    if (order != null)
+        //    {
+        //        _context.Orders.Remove(order);
+        //    }
             
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool OrderExists(string id)
         {
           return _context.Orders.Any(e => e.訂單編號 == id);
+        }
+        private bool OrderDetailExists(int id)
+        {
+            return _context.OrderDetails.Any(e => e.無用id == id);
         }
     }
 }
