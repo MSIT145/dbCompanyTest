@@ -39,6 +39,11 @@ namespace dbCompanyTest.Controllers
         
         }
 
+        public IActionResult ProSell_PowerBI_member_Sell()
+        {
+            return View();
+        }
+
 
 
         #region 圖表相關
