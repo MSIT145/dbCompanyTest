@@ -45,6 +45,12 @@
     <None Include="wwwroot\assets\vendor\libs\masonry\masonry.js" />
     <None Include="wwwroot\assets\vendor\libs\perfect-scrollbar\perfect-scrollbar.js" />
     <None Include="wwwroot\assets\vendor\libs\popper\popper.js" />
+    <None Include="wwwroot\webcam\flash\com\adobe\images\BitString.as" />
+    <None Include="wwwroot\webcam\flash\com\adobe\images\JPGEncoder.as" />
+    <None Include="wwwroot\webcam\flash\com\adobe\images\PNGEncoder.as" />
+    <None Include="wwwroot\webcam\flash\mx\utils\Base64Encoder.as" />
+    <None Include="wwwroot\webcam\flash\Webcam.as" />
+    <None Include="wwwroot\webcam\flash\Webcam.fla" />
   </ItemGroup>
 
   <ItemGroup>

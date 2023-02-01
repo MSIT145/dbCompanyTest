@@ -7,11 +7,10 @@
     <h1 style="margin:5px 5%;">客戶服務中心</h1>
     <div id="Main">
         <div class="row">
-            <div class="list-group col-3">
+            <div class="list-group col-2">
             </div>
 
-
-            <div class="col-5" id="callback">
+            <div class="col-6" id="callback">
                 <input type="hidden" id="connectionUserID" />
                 <h3 id="userName" style="text-align:center;">客戶名稱</h3>
                 <div id="msgArea">
@@ -21,6 +20,7 @@
                     <img src="~/images/send.png" id="serverSend" />
                 </div>
             </div>
+            <div class="col-4" id="video"></div>
         </div>
     </div>
 
@@ -29,8 +29,16 @@
 
 @section Scripts{
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/webcam/webcam.js"></script>
     <script src="~/js/aibot.js"></script>
     <script>
+        Webcam.set({
+            width:320,
+            Height:240,
+            image_format:'jpeg',
+            image_quality:90
+        });
+        Webcam.attach(`#video`);
         //console.log(Botdata.key[0].你好);
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
