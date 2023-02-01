@@ -25,7 +25,7 @@ $.ajax({
                 );
             }
             else {
-                eleT_sec = $(`<tr ></tr>`).append(`<td>${i_val.交辦事項id}</td>
+                eleT_sec = $(`<tr></tr>`).append(`<td>${i_val.交辦事項id}</td>
                                         <td>${i_val.表單類型}</td>
                                         <td>${i_val.表單內容}</td>
                                         <td>${i_val.表單狀態}</td>
@@ -36,9 +36,15 @@ $.ajax({
             docFrag.append(eleT);
             docFrag_sec.append(eleT_sec);
         });
-        $("#ToDolist_tbody").html(docFrag);
-        $("#ToDolist_tbody_sec").html(docFrag_sec);
+        $("#ToDolist_tbody").prepend(docFrag);
+        //$(".tr_Hide").css("display", "none");
+        $("#ToDolist_tbody_sec").append(docFrag_sec);
     });
+
+$("#tfoot_click").on("click", function () {
+    $("#ToDolist_tbody_sec").toggle(2000);
+    console.log(`123`);
+});
 
 
 /*  < a href = "${TDL_DTpath}" ></a >*/
