@@ -35,8 +35,6 @@ $.ajax({
                 );
                 docFrag_sec.append(eleT_sec);
             }
-            
-           
         });
         $("#ToDolist_tbody").prepend(docFrag);
         $("#ToDolist_tbody_sec").append(docFrag_sec);

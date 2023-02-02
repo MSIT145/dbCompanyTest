@@ -9,6 +9,7 @@ using NPOI.OpenXmlFormats.Wordprocessing;
 using System.Net.Mail;
 using System.Security.Policy;
 using System.Security.Principal;
+using static dbCompanyTest.Controllers.ProductController;
 using static NuGet.Packaging.PackagingConstants;
 
 namespace dbCompanyTest.Controllers
@@ -178,8 +179,8 @@ namespace dbCompanyTest.Controllers
             if (stf == "ST2-0010170")
             {
                 var datas = from c in _context.ToDoLists
-                           // join o in _context.TestStaffs on c.員工編號 equals o.員工編號
-                            where c.員工編號 == stf || c.起單人 == stf || c.執行人 == stf || c.表單類型 == "人事表單" 
+                                // join o in _context.TestStaffs on c.員工編號 equals o.員工編號
+                            where c.員工編號 == stf || c.起單人 == stf || c.執行人 == stf || c.表單類型 == "人事表單"
                             select c;
                 var data = from c in datas
                            where c.表單狀態 != "完成"
@@ -189,8 +190,8 @@ namespace dbCompanyTest.Controllers
             else
             {
                 var datas = from c in _context.ToDoLists
-                            //join o in _context.TestStaffs on c.員工編號 equals o.員工編號
-                            where c.員工編號 == stf || c.協辦部門簽核人員 == stf || c.部門主管 == stf || c.起單人 == stf || c.執行人 == stf 
+                                //join o in _context.TestStaffs on c.員工編號 equals o.員工編號
+                            where c.員工編號 == stf || c.協辦部門簽核人員 == stf || c.部門主管 == stf || c.起單人 == stf || c.執行人 == stf
                             select c;
                 var data = from c in datas
                            where c.表單狀態 != "完成"
@@ -300,28 +301,55 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult TDLCount()
         {
-            var datas = (from c in _context.ToDoLists select c).OrderByDescending(d=>d.交辦事項id).FirstOrDefault().交辦事項id;
+            var datas = (from c in _context.ToDoLists select c).OrderByDescending(d => d.交辦事項id).FirstOrDefault().交辦事項id;
             var count = Convert.ToInt32(datas) + 1;
             return Content(count.ToString());
         }
 
 
 
-
-        public IActionResult ListWaiting()
+        public void stfNum_and_inf0()
         {
             string stfNum = HttpContext.Session.GetString("Account");
+            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
+            ViewBag.dep = stf.部門;
+        }
+        public IActionResult ListWaiting()
+        {
+            stfNum_and_inf0();
+            return View();
+        }
+        public IActionResult MyList()
+        {
+            stfNum_and_inf0();
+            return View();
+        }
+        public IActionResult ListByMe()
+        {
+            stfNum_and_inf0();
+            return View();
+        }
 
+        public IActionResult ListDone()
+        {
+            stfNum_and_inf0();
+            return View();
+        }
+
+        public IActionResult ListWaitingData()
+        {
+            string stfNum = HttpContext.Session.GetString("Account");
             var datas = from c in _context.ToDoLists
-                        where (c.起單人 == stfNum && c.表單狀態 == "退回起單人") || 
-                        (c.部門主管 == stfNum && c.部門主管簽核 == "待簽") || 
-                        (c.協辦部門簽核人員 == stfNum && c.協辦部門簽核 == "待簽")||
+                        where (c.起單人 == stfNum && c.表單狀態 == "退回起單人") ||
+                        (c.部門主管 == stfNum && c.部門主管簽核 == "待簽") ||
+                        (c.協辦部門簽核人員 == stfNum && c.協辦部門簽核 == "待簽") ||
                         (c.執行人 == stfNum && c.執行人簽核 == "待簽")
                         select c;
 
-            return View(datas);
+            return Json(datas);
         }
-        public IActionResult MyList()
+        public IActionResult MyListData()
         {
             string stfNum = HttpContext.Session.GetString("Account");
 
@@ -329,9 +357,10 @@ namespace dbCompanyTest.Controllers
                         where c.起單人 == stfNum && c.表單狀態 != "完成"
                         select c;
 
-            return View(datas);
+            return Json(datas);
+
         }
-        public IActionResult ListByMe()
+        public IActionResult ListByMeData()
         {
             string stfNum = HttpContext.Session.GetString("Account");
 
@@ -342,10 +371,9 @@ namespace dbCompanyTest.Controllers
                        where c.表單狀態 != "完成"
                        select c;
 
-            return View(data);
+            return Json(data);
         }
-      
-        public IActionResult ListDone()
+        public IActionResult ListDoneData()
         {
             string stfNum = HttpContext.Session.GetString("Account");
 
@@ -356,7 +384,8 @@ namespace dbCompanyTest.Controllers
                        where c.表單狀態 == "完成"
                        select c;
 
-            return View(data);
+            return Json(data);
         }
+
     }
 }
