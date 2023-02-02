@@ -36,10 +36,11 @@ namespace dbCompanyTest.Controllers
                         join b in _context.ProductsSizeDetails on a.商品尺寸id equals b.商品尺寸id
                         join d in _context.ProductsColorDetails on a.商品顏色id equals d.商品顏色id
                         join e in _context.Products on a.商品編號id equals e.商品編號id
+                        orderby o.無用id
                         select new ViewModels.OrderDetail_List
                         {
-                            Id=o.Id,
                             無用ID=o.無用id,
+                            Id = o.Id,
                             訂單編號 = c.訂單編號,
                             送貨地址 = c.送貨地址,
                             商品名稱 = e.商品名稱,
@@ -154,6 +155,16 @@ namespace dbCompanyTest.Controllers
             ViewData["訂單編號"] = new SelectList(_context.Orders, "訂單編號", "訂單編號", orderDetail.訂單編號);
             return View(orderDetail);
         }
+
+        public IActionResult EditOrderDetailToSQL(OrderDetail orderDetail)
+        {
+            dbCompanyTestContext _context = new dbCompanyTestContext();
+            OrderDetail data = orderDetail;
+            _context.Update(data);
+            _context.SaveChanges();
+            return Content("OK");
+        }
+
         // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
