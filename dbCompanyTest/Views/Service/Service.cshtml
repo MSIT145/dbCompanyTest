@@ -132,7 +132,8 @@
 
             $('#msgArea').animate({
                 scrollTop: $("#msgArea").offset().top + $(".chat")[$("#msgArea").find(".chat").length - 1].scrollHeight
-            }, 500);
+            }, 50);
+            console.log($(`#msgArea`).scrollTop);
         });
 
         connection.on("UpdSystem", function (user, msg) {
@@ -144,7 +145,7 @@
                                     </div>`);
             $('#msgArea').animate({
                 scrollTop: $("#msgArea").offset().top + $(".chat")[$("#msgArea").find(".chat").length - 1].scrollHeight
-            }, 500);
+            }, 50);
         });
     </script>
 }
