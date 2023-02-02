@@ -32,13 +32,13 @@
     <script src="~/webcam/webcam.js"></script>
     <script src="~/js/aibot.js"></script>
     <script>
-        Webcam.set({
-            width:320,
-            Height:240,
-            image_format:'jpeg',
-            image_quality:90
-        });
-        Webcam.attach(`#video`);
+        //Webcam.set({
+        //    width:320,
+        //    Height:240,
+        //    image_format:'jpeg',
+        //    image_quality:90
+        //});
+        //Webcam.attach(`#video`);
         //console.log(Botdata.key[0].你好);
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
