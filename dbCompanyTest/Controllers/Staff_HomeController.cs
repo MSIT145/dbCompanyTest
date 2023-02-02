@@ -305,6 +305,21 @@ namespace dbCompanyTest.Controllers
             return Content(count.ToString());
         }
 
-
+        public IActionResult MyList()
+        {            
+            return View();
+        }
+        public IActionResult ListByMe()
+        {
+            return View();
+        }
+        public IActionResult ListWaiting()
+        {
+            return View();
+        }
+        public IActionResult ListDone()
+        {
+            return View();
+        }
     }
 }
