@@ -163,11 +163,10 @@
              */
 
             let donut = null
-            let bird = null
-            //let base = new THREE.Object3D()
+            let rocket = null
+            let base = new THREE.Object3D()
             let mixer;
-            let mixerB;
-            //scene.add(base)
+            scene.add(base)
             //抓取3d檔
             gltfLoader.load(
             'https://rawcdn.githack.com/th9716/3dglb/f14a3ad7320f963f544f64607783ce7d18af4e21/cheesecake.glb',
@@ -203,30 +202,23 @@
                 }
             )
 
-            //bird
+            //rocket
         gltfLoader.load(
-            'https://rawcdn.githack.com/mrdoob/three.js/7249d12dac2907dac95d36227d62c5415af51845/examples/models/gltf/Flamingo.glb',
+            "https://rawcdn.githack.com/th9716/3dglb/57d0aa3d7b2b54e4f74bcbf50e672bf50b259a2e/rocket.gltf",
             (gltf1) => {
                 console.log(gltf1);
 
-                bird = gltf1.scene
+                rocket = gltf1.scene
 
-                const radius = 4
+                const radius = 2
 
-                bird.position.x = 500;
-                bird.position.y = 20;
-                bird.position.z = 10;
 
-                bird.rotation.y = Math.PI * 0.18
-                bird.rotation.z = Math.PI * 0.15
 
-                bird.scale.set(radius, radius, radius)
+                rocket.scale.set(radius, radius, radius)
 
-                scene.add(bird)
+                base.add(rocket)
 
-                //mixer
-                mixerB = new THREE.AnimationMixer(bird);
-                mixerB.clipAction(gltf1.animations[0]).setDuration(1.399999976158142).play();
+
 
                 //const clips=gltf.animations;
                 //const clip = THREE.AnimationClip.findByName(clips, 'Armature|ArmatureAction.002');
@@ -241,6 +233,8 @@
                 console.error(error);
             }
         )
+
+
 
 
 
@@ -294,8 +288,8 @@
                 const newSection = Math.round(scrollY / sizes.height)
 
                 console.log(newSection);
-            console.log(donut.position)
-            console.log(donut.rotation)
+            //console.log(donut.position)
+            //console.log(donut.rotation)
                 if (newSection != currentSection) {
                     currentSection = newSection
 
@@ -330,7 +324,7 @@
              * Camera
              */
             // Base camera
-        const camera = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 10000) //視野角度 長寬比 近截角 遠截角
+        const camera = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 100000) //視野角度 長寬比 近截角 遠截角
             camera.position.z = 1000
             scene.add(camera)
 
@@ -346,6 +340,64 @@
             renderer.shadowMap.type = THREE.PCFSoftShadowMap
             renderer.setSize(sizes.width, sizes.height)
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+
+
+        //mouse move
+        let plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -2)
+        let raycaster = new THREE.Raycaster()
+        let mouse = new THREE.Vector2()
+        let pointOfIntersection = new THREE.Vector3()
+        document.addEventListener('mousemove', onMouseMove, false)
+
+        const cursorPos = new THREE.Vector2()
+        const cursorBorderPos = new THREE.Vector2()
+
+        function onMouseMove(e) {
+            console.log(e)
+
+            cursorPos.x = e.clientX-1000
+            cursorPos.y = -(e.clientY-500)
+
+            //mouse.x = (cursorPos.x / sizes.width) * 2 - 1
+            //mouse.y = -(cursorPos.x / sizes.width) * 2 + 1
+
+            rocket.position.set(cursorPos.x, cursorPos.y,0)
+
+
+        }
+
+
+
+
+
+        //// When the mouse moves, call the given function
+        //document.addEventListener('mousemove', onMouseMove, false);
+
+
+        //// Follows the mouse event
+        //function onMouseMove(e) {
+
+        //    // Update the mouse variable
+        //    e.preventDefault();
+        //    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        //    mouse.y = - (e.clientY / window.innerHeight) * 2 + 1;
+
+        //    // Make the sphere follow the mouse
+        //    var vector = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+        //    vector.unproject(camera);
+        //    var dir = vector.sub(camera.position).normalize();
+        //    var distance = - camera.position.z / dir.z;
+        //    var pos = camera.position.clone().add(dir.multiplyScalar(distance));
+        //    rocket.position.copy(pos);
+
+        //    // Make the sphere follow the mouse
+        //    //	mouseMesh.position.set(event.clientX, event.clientY, 0);
+        //};
+
+
+
+
 
             /**
              * Animate
@@ -374,12 +426,7 @@
                 prevTime = time;
             }
 
-            //bird mixer
-            if (mixerB) {
-                const time = Date.now();
-                mixerB.update((time - prevTime) * 0.15);
-                prevTime = time;
-            }
+
 
                 //mixer.update(clock.getDelta);
 
