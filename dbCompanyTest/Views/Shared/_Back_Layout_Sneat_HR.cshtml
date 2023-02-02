@@ -85,26 +85,26 @@
                                 </defs>
                                 <g id="g-app-brand" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                     <g id="Brand-Logo" transform="translate(-27.000000, -15.000000)">
-                                       @* <g id="Icon" transform="translate(27.000000, 15.000000)">
-                                            <g id="Mask" transform="translate(0.000000, 8.000000)">
-                                                <mask id="mask-2" fill="white">
-                                                    <use xlink:href="#path-1"></use>
-                                                </mask>
-                                                <use fill="#696cff" xlink:href="#path-1"></use>
-                                                <g id="Path-3" mask="url(#mask-2)">
-                                                    <use fill="#696cff" xlink:href="#path-3"></use>
-                                                    <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3"></use>
-                                                </g>
-                                                <g id="Path-4" mask="url(#mask-2)">
-                                                    <use fill="#696cff" xlink:href="#path-4"></use>
-                                                    <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4"></use>
-                                                </g>
-                                            </g>
-                                            <g id="Triangle"
-                                               transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) ">
-                                                <use fill="#696cff" xlink:href="#path-5"></use>
-                                                <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>
-                                            </g>
+                                        @* <g id="Icon" transform="translate(27.000000, 15.000000)">
+                                        <g id="Mask" transform="translate(0.000000, 8.000000)">
+                                        <mask id="mask-2" fill="white">
+                                        <use xlink:href="#path-1"></use>
+                                        </mask>
+                                        <use fill="#696cff" xlink:href="#path-1"></use>
+                                        <g id="Path-3" mask="url(#mask-2)">
+                                        <use fill="#696cff" xlink:href="#path-3"></use>
+                                        <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3"></use>
+                                        </g>
+                                        <g id="Path-4" mask="url(#mask-2)">
+                                        <use fill="#696cff" xlink:href="#path-4"></use>
+                                        <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4"></use>
+                                        </g>
+                                        </g>
+                                        <g id="Triangle"
+                                        transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) ">
+                                        <use fill="#696cff" xlink:href="#path-5"></use>
+                                        <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>
+                                        </g>
                                         </g>*@
                                     </g>
                                 </g>
@@ -133,10 +133,30 @@
                     <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle" id="test">
                             <i class="menu-icon tf-icons bx bx-layout"></i>
-                            <div data-i18n="Layouts">通知</div>
+                            <div data-i18n="Layouts">表單</div>
                         </a>
                         <input type="hidden" id="TDL_DTpath1" value="@Url.Content("~/Staff_Home/DT_TDL")" />
                         <ul class="menu-sub" id="note_List">
+                            <li class="menu-item">
+                                <a href="@Url.Content("~/Staff_Home/ListWaiting")" class="menu-link">
+                                    <div data-i18n="Blank">待簽表單</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Content("~/Staff_Home/MyList")" class="menu-link">
+                                    <div data-i18n="Blank">我的表單</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Content("~/Staff_Home/ListByMe")" class="menu-link">
+                                    <div data-i18n="Blank">我經手的表單</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="@Url.Content("~/Staff_Home/ListDone")" class="menu-link">
+                                    <div data-i18n="Blank">已完成表單</div>
+                                </a>
+                            </li>
                             @*<li class="menu-item">
                             <a href="layouts-without-menu.html" class="menu-link">
                             <div data-i18n="Without menu">Without menu</div>
@@ -377,22 +397,22 @@
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">表單 &amp; 圖表</span></li>
                     <!-- Forms -->
                     @*<li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-detail"></i>
-                            <div data-i18n="Form Elements">產品管理</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="~/Product/index" class="menu-link">
-                                    <div data-i18n="Product">商品與細項</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="~/ProductRelevant/index" class="menu-link">
-                                    <div data-i18n="ProductRelevant">相關表單</div>
-                                </a>
-                            </li>
-                        </ul>
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bx-detail"></i>
+                    <div data-i18n="Form Elements">產品管理</div>
+                    </a>
+                    <ul class="menu-sub">
+                    <li class="menu-item">
+                    <a href="~/Product/index" class="menu-link">
+                    <div data-i18n="Product">商品與細項</div>
+                    </a>
+                    </li>
+                    <li class="menu-item">
+                    <a href="~/ProductRelevant/index" class="menu-link">
+                    <div data-i18n="ProductRelevant">相關表單</div>
+                    </a>
+                    </li>
+                    </ul>
                     </li>*@
                     <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -400,10 +420,10 @@
                             <div data-i18n="Form Layouts">員工管理</div>
                         </a>
                         <ul class="menu-sub">
-                           @* <li class="menu-item">
-                                <a href="~/Staff_Home/Index" class="menu-link">
-                                    <div data-i18n="Staff_Home Form">列表</div>
-                                </a>
+                            @* <li class="menu-item">
+                            <a href="~/Staff_Home/Index" class="menu-link">
+                            <div data-i18n="Staff_Home Form">列表</div>
+                            </a>
                             </li>*@
                             <li class="menu-item">
                                 <a href="~/Staff_Home/Index_HR" class="menu-link">
@@ -414,16 +434,16 @@
                     </li>
                     <!-- Tables -->
                     @*<li class="menu-item">
-                        <a href="~/TestClients/index" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-table"></i>
-                            <div data-i18n="TestClients">會員管理</div>
-                        </a>
+                    <a href="~/TestClients/index" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-table"></i>
+                    <div data-i18n="TestClients">會員管理</div>
+                    </a>
                     </li>
                     <li class="menu-item">
-                        <a href="~/Orders/index" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-table"></i>
-                            <div data-i18n="Orders">訂單管理</div>
-                        </a>
+                    <a href="~/Orders/index" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-table"></i>
+                    <div data-i18n="Orders">訂單管理</div>
+                    </a>
                     </li>*@
                     <!-- Misc -->
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
@@ -450,12 +470,12 @@
             <div class="layout-page">
                 <!-- Navbar -->
 
-                 <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
                      id="layout-navbar">
                     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 ">
                         @*d-xl-none*@
                         <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)" id="hb">
-                        @*<a class="nav-item nav-link px-0 me-xl-4" href="#layout-menu" data-bs-toggle="collapse" aria-expanded="true" role="button">*@
+                            @*<a class="nav-item nav-link px-0 me-xl-4" href="#layout-menu" data-bs-toggle="collapse" aria-expanded="true" role="button">*@
                             <i class="bx bx-menu bx-sm"></i>
                         </a>
                     </div>
@@ -476,12 +496,12 @@
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
                             <!-- Place this tag where you want the button to render. -->
                             @*<li class="nav-item lh-1 me-3">
-                                <a class="github-button"
-                                   href="https://github.com/themeselection/sneat-html-admin-template-free"
-                                   data-icon="octicon-star"
-                                   data-size="large"
-                                   data-show-count="true"
-                                   aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
+                            <a class="github-button"
+                            href="https://github.com/themeselection/sneat-html-admin-template-free"
+                            data-icon="octicon-star"
+                            data-size="large"
+                            data-show-count="true"
+                            aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
                             </li>*@
 
                             <!-- User -->
@@ -580,7 +600,7 @@
                                 <script>
                                     document.write(new Date().getFullYear());
                                 </script>
-                              @*  , made with ❤️ by*@
+                                @*  , made with ❤️ by*@
                                 <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
                             </div>
                             <div>
@@ -655,20 +675,20 @@
             $(this).parent().siblings.removeClass("active");
         });
 
-        //$("#test").on("click", () => {
-        //    test();
-        //})
+                //$("#test").on("click", () => {
+                //    test();
+                //})
 
-        //function test() {
-        //    console.log(`531`)
-        //    new Noty({
-        //        //alert,success,warning,error,info
-        //        type: 'success',
-        //        text: '資料更新完成',
-        //        timeout: 3000,
-        //        closeWith: ['click', 'button']
-        //    }).show();
-        //}
+                //function test() {
+                //    console.log(`531`)
+                //    new Noty({
+                //        //alert,success,warning,error,info
+                //        type: 'success',
+                //        text: '資料更新完成',
+                //        timeout: 3000,
+                //        closeWith: ['click', 'button']
+                //    }).show();
+                //}
 
     </script>
     @await RenderSectionAsync("Scripts", required: false)
