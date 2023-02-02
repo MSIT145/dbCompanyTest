@@ -355,6 +355,8 @@
                 const FD = new FormData(document.userInfo)
                 FD.append('下單時間', ordertime)
                 FD.append('訂單編號', orderId)
+                FD.append('訂單狀態','待出貨')
+                FD.append('付款狀態','已付款')
                 const data = await fetch("@Url.Content("~/Shopping/CreateOrder")", {
                     method: "POST",
                     body: FD
