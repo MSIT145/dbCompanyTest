@@ -29,8 +29,16 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda_P_C" id="btn_ProForm" style="margin-right:2em">新增商品</button>
                 <button class="btn btn-primary " type="button" id="btn_HighchartsControl">商品圖表  </button>
             </div>        
-        <div class="col-md-5">       </div>
-        <div class="col-md-3">      </div>
+        <div class="col-md-3">       </div>
+        <div class="col-md-5">  
+                @using (Html.BeginForm("Upload", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                        <div class="input-group ">
+                        <input type="file" class="form-control" aria-describedby="btn-Upload" id="excel" name="excel" accept=".xlsx,.xls">
+                        <button class="btn btn-outline-secondary" type="submit" id="btn-Upload">Excel批次匯入商品建檔</button>
+                        </div>
+                        }
+        </div>
     </div>
         <div class="collapse" id="collapseHighcharts" >
             <div class="card card-body">
@@ -53,22 +61,16 @@
             </div>*@
             <div class="row">
                 <div class="col-md-3">
-                   
+                <div class="input-group ">
+                    <input type="text" class="form-control" placeholder="關鍵字" aria-label="關鍵字" aria-describedby="btn-Search" id="keywork" name="keywork">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-Search">查詢</button>
+                </div>
                 </div>
                 <div class="col-md-6">
-                        @using (Html.BeginForm("Upload", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                        {
-                        <div class="input-group ">
-                        <input type="file" class="form-control" aria-describedby="btn-Upload" id="excel" name="excel" accept=".xlsx,.xls">
-                        <button class="btn btn-outline-secondary" type="submit" id="btn-Upload">Excel批次匯入商品建檔</button>
-                        </div>
-                        }
+                    
                 </div>
                 <div class="col-md-3">
-                    <div class="input-group ">
-                        <input type="text" class="form-control" placeholder="關鍵字" aria-label="關鍵字" aria-describedby="btn-Search" id="keywork" name="keywork">
-                        <button class="btn btn-outline-secondary" type="button" id="btn-Search">查詢</button>
-                    </div>
+                    
                 </div>
             </div>        
         <div class="card-body">
@@ -128,7 +130,7 @@
                         <form name="ProC_Form" id="form01" novalidate>
                             <div class="form-group">
                                 <div class="form-group" style="display: none;">
-                                        <label  class="control-label">商品編號id</label>
+                                        <label  class="control-label">商品編號</label>
                                         <input name="id" class="form-control" readonly />
                                 </div>
                
@@ -224,7 +226,7 @@
                 @*Product Create_END*@
             </div>
             <div class="modal-footer">
-                <button type="button" id="P_Create_Demo" class="btn btn-warning" name="btn_P">新增Demo</button>
+                <button type="button" id="P_Create_Demo" class="btn btn-warning" name="btn_P" style="margin-right:150px">新增Demo</button>
                 <button type="button" id="P_Create" class="btn btn-success" name="btn_P">新增</button>                
                 <button type="button" id="P_Edit" class="btn btn-primary" name="btn_P" style="display: none;">修改</button>
                 <button type="button"  id="P_Close" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
@@ -252,7 +254,7 @@
 </div>
 @*Modal_刪除*@
 <div class="modal fade" id="Moda_D_D" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="DeleteModal-label">警告</h4>
@@ -275,13 +277,50 @@
         </div>
     </div>
 </div>
+@*圖片預覽*@
+<div class="modal fade" id="Moda_Img_View" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">                
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="display:display;">
+                    <img src="" width="500"  name="P_D_img_big" ' />
+                </div>              
+            </div>          
+        </div>
+    </div>
+</div>
+
 
 
 @section Scripts{
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>
-    <script src="~/js/product_index.js"></script>
+    <script src='@Url.Content("~/js/product_index.js")'></script>
         <script>
+            var lang = { 
+            "processing": "處理中...",
+            "loadingRecords": "載入中...",
+            "lengthMenu": "顯示 _MENU_ 項結果",
+            "zeroRecords": "沒有符合的結果",
+            "info": "顯示第 _START_ 至 _END_ 項結果，共 _TOTAL_ 項",
+            "infoEmpty": "顯示第 0 至 0 項結果，共 0 項",
+            "infoFiltered": "(從 _MAX_ 項結果中過濾)",
+            "infoPostFix": "",
+            "search": "搜尋:",
+            "paginate": {
+            "first": "第一頁",
+            "previous": "上一頁",
+            "next": "下一頁",
+            "last": "最後一頁"
+            },
+            "aria": {
+            "sortAscending": ": 升冪排列",
+            "sortDescending": ": 降冪排列"
+            }
+            };        
 
         let url01 = '@Url.ActionLink("showlist","Product")';
         let keywork = $("#keywork").val();       
@@ -293,6 +332,7 @@
                             let _keywork = $("#keywork").val();                              
                             table = $('#tableAll').DataTable(
                                 {
+                                    "language":lang,
                                     "searching": false,
                                     "ajax": url01 + `/?id=${_keywork}`,
                                     "type":'get',                                   
@@ -639,8 +679,13 @@
             $("#Moda_D_C .modal-body").load(`@Url.Content("~/Product/_EditDetial")/?id=${id}`);
         });
 
-
-
+        //產品預覽圖事件
+        $('#tableAll').on('click', 'img[name="P_D_img"]',function(){
+               const url = $(this).prop("src");
+               console.log(url);
+              $('#Moda_Img_View').modal('show');
+              $("#Moda_Img_View").find("img").prop("src",url);
+        });
         //=============產品明細事件End=======================
 
 
@@ -768,9 +813,9 @@
                                         `<td>${item.明細尺寸}</td>` +
                                         `<td>${item.顏色}</td>` +
                                         `<td>${item.數量}</td>` +
-                                        `<td><img src="@Url.Content("~/images")/${item.商品圖片1}" width="100" height="50" '/></td>`+
-                                        `<td><img src="@Url.Content("~/images")/${item.商品圖片2}" width="100" height="50" '/></td>` +
-                                        `<td><img src="@Url.Content("~/images")/${item.商品圖片3}" width="100" height="50" '/></td>` +
+                                        `<td><img src="@Url.Content("~/images")/${item.商品圖片1}" width="100" height="50"  name="P_D_img" '/></td>`+
+                                        `<td><img src="@Url.Content("~/images")/${item.商品圖片2}" width="100" height="50"  name="P_D_img" '/></td>` +
+                                        `<td><img src="@Url.Content("~/images")/${item.商品圖片3}" width="100" height="50"  name="P_D_img" '/></td>` +
                                         `<td>${item.商品是否上架}</td>` +
                                         `<td>${item.商品是否有貨}</td>` +
                                        `<td><button type="submit" class="btn btn-primary" id="E_${item.明細編號}"  name="PD_btnEdit" title="修改"  data-bs-toggle="modal" data-bs-target="#Moda_D_C"><i class="fas fa-edit">修改</i></button></td>` +
@@ -845,8 +890,21 @@
 
         //Demo按鍵事件
         $("#Moda_P_C").find('[id="P_Create_Demo"]').on('click',function(){           
+            let intr_Str = "設計團隊延續製作皮革鞋的堅持與工藝 除了價位平實外 致力打造美感、性能都契合品牌精神的作品。";
             let Pmodal =  $("#Moda_P_C");
-            Pmodal.find("input[name='time']").val("2023-02-15T15:53")
+            const today = new Date().toISOString().substring(0, 16);  //html5 type="datetime-local"可接收格式
+           Pmodal.find("input[name='time']").val(today);
+            //Pmodal.find("input[name='time']").val("2023-02-15T15:53");
+            Pmodal.find("input[name='name']").val("歐風簡約皮革休閒鞋");
+            Pmodal.find("input[name='price']").val("1999");
+            Pmodal.find("#_introduce").val(intr_Str);
+            Pmodal.find("input[name='material']").val("牛皮");
+            Pmodal.find("input[name='weight']").val("650");
+            Pmodal.find("input[name='cost']").val("255");
+            let cel9 = '女鞋';
+            Pmodal.find(`#_商品分類id option[data-text=${cel9}]`).prop("selected", true);
+            const cel10 = '牛津';
+            Pmodal.find(`#_商品鞋種id option[data-text=${cel10}]`).prop("selected", true);
             //極簡風格小牛皮革拖鞋
         //自動填入新建資料
         });

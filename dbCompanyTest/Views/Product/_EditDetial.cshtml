@@ -10,7 +10,8 @@
                 <span asp-validation-for="Id" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="商品編號id" class="control-label"></label>
+                <label class="control-label">商品編號</label>
+                <label asp-for="商品編號id" class="control-label" style="display:none"></label>
                 <select id="_商品編號id" class="form-select" aria-label="商品編號" disabled="disabled">
                     <option selected>ajax_select商品編號+名稱</option>
                 </select>
@@ -18,7 +19,8 @@
               
             </div>
             <div class="form-group">
-                <label asp-for="商品尺寸id" class="control-label"></label>
+                <label class="control-label">商品尺寸</label>
+                <label asp-for="商品尺寸id" class="control-label" style="display:none"></label>
                 <select id="_商品尺寸id" class="form-select" aria-label="商品尺寸">
                     <option selected>ajax_select尺寸id+尺寸種類</option>
                 </select>
@@ -26,7 +28,8 @@
                 <span asp-validation-for="商品尺寸id" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="商品顏色id" class="control-label"></label>
+                <label class="control-label">商品顏色</label>
+                <label asp-for="商品顏色id" class="control-label" style="display:none"></label>
                 <select id="_商品顏色id" class="form-select" aria-label="商品顏色id">
                     <option selected>ajax_select顏色id+顏色名稱</option>
                 </select>
@@ -60,7 +63,7 @@
                 <input class="form-control" type="file" id="formFile3" name="photo3">
                 <img src="@Url.Content("~/images")/404.jpg"  height="100"  id="img3"/>
             </div>
-            <div class="form-group" id="LocationID">
+            <div class="form-group" id="LocationID" style="display:none">
                 <label asp-for="圖片位置id" class="control-label"></label>
                 <input asp-for="圖片位置id" class="form-control" readonly="readonly" />
                 <span asp-validation-for="圖片位置id" class="text-danger"></span>

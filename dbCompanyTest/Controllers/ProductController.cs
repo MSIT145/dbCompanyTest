@@ -102,12 +102,12 @@ namespace dbCompanyTest.Controllers
 
 
             //沒有2023資料,只能先用2022
-            var tempOD = _tempOD.Where(t => t.下單時間.Substring(0, 4).Contains("2022"));
+            var tempOD2 = _tempOD2.Where(t => t.下單時間.Substring(0, 4).Contains("2023"));
             //計算總收益     
             decimal totalAll = _tempOD2.Sum(od => od.總金額).Value;
             //Left Join 要改成ProductDetail 的 ID 
             var tempD = from p in db.Products                       
-                        join od in _tempOD2 on p.商品編號id equals od.商品編號id
+                        join od in tempOD2 on p.商品編號id equals od.商品編號id
                        into EmployeeAddressGroup
                         from address in EmployeeAddressGroup.DefaultIfEmpty()
                         group address by new { p.商品編號id, p.商品名稱 } into g
@@ -145,7 +145,7 @@ namespace dbCompanyTest.Controllers
                 PieData = top5,
                 T5Sell = _T5Sell,
                 allSell = totalAll,
-                year = "2022"
+                year = "2023"
             };
           
             return Json(Pie_D);
@@ -170,7 +170,7 @@ namespace dbCompanyTest.Controllers
                 商品數量 = od.商品數量,
                 總金額 = od.總金額,
                 下單時間 = o.下單時間
-            }).Where(t => t.下單時間.Substring(0, 4).Contains("2022"));
+            }).Where(t => t.下單時間.Substring(0, 4).Contains("2023"));
             //將PrductDetail 轉為文字
             var data = from pd in db.ProductDetails.ToList()
                        join p in db.Products on pd.商品編號id equals p.商品編號id
@@ -207,7 +207,7 @@ namespace dbCompanyTest.Controllers
                 categories = _categories,
                 datas = _datas,
                 allSell = _tempOD.Sum(od => od.總金額).Value,
-                year = "2022"
+                year = "2023"
             };       
             return Json(colData);
         }
