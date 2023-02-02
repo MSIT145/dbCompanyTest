@@ -1,18 +1,72 @@
-﻿<table class="table table-striped-columns">
-    <caption>待出貨清單</caption>
-    <thead>
-        <tr>
-            <th>訂單編號</th>
-            <th>客戶編號</th>
+﻿<div>
+    <table class="table1 table table-striped-columns">
+        <thead>
+        </thead>
+        <thead>
+            <tr>
+                <th>待出貨清單</th>
+            </tr>
+        </thead>
+        <thead tr class="header">
+            <tr>
+                <th class="col-1">訂單編號</th>
+                <th class="col-1">客戶編號</th>
+                <th class="col-1">商品數量</th>
+                <th class="col-3">送貨地址</th>
+                <th class="col-1"></th>
+            </tr>
+        </thead>
 
-            <th>商品數量</th>
-            <th>送貨地址</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody id="Sheeplist_tbody">
-    </tbody>
-</table>
+
+
+
+        <tbody>
+            <tr class="collapse1" id="456">
+                <td colspan="5" style="padding:0; ">
+                    <div>
+                        <table class="table1 table-inner table table-striped-columns" style="margin:0 !important;">
+                            <tbody id="Sheeplist_tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table__wrapper">
+                        <table class="table1 table-inner table table-striped-columns">
+                            <tbody id="Sheeplist_tbody_sec">
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tbody id="Sheeplis_tfoot_click">
+            <tr>
+                <td colspan="5">
+                    <div>
+                        <table class="table table-striped-columns" style="margin:0 !important;">
+                            <tr>
+                                <td class="col-1"> </td>
+                                <td class="col-1"> </td>
+                                <td id="Sheeplis_td_text" class="col-1">展開</td>
+                                <td class="col-1"> </td>
+                                <td class="col-1"> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+
+
+
+
+
+
+       
+    </table>
+</div>
+<br />
+<br />
+
 
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -63,4 +117,17 @@
         </div>
     </div>
 </div>
-    @*<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>*@
+
+
+<script>
+    $("#Sheeplis_tfoot_click").click(function () {
+        console.log(`123456`)
+        $("#456").toggleClass("active");
+
+        if ($("#Sheeplis_td_text").text() == "展開")
+            $("#Sheeplis_td_text").text("收折")
+        else
+            $("#Sheeplis_td_text").text("展開");
+
+    });
+</script>

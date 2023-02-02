@@ -8,22 +8,47 @@ $.ajax({
 
     .done(data => {
         let docFrag = $(document.createDocumentFragment());
+        let docFrag_sec = $(document.createDocumentFragment());
         let lastSID = "";
+        let rowCound = 0;
         $.each(data, function (i, i_val) {
-
+            let eleT = "";
+            let eleT_sec = "";
+           
             if (lastSID !== i_val.訂單編號) {
-                const eleT = $(`<tr></tr>`).append(`<td>${i_val.訂單編號}</td>
-                        <td>${i_val.客戶編號}</td>                       
-                        <td>${i_val.商品數量}</td>
-                        <td>${i_val.送貨地址}</td>
-                        <td>
+                rowCound++;
+                if (rowCound <= 5) {
+                    eleT = $(`<tr></tr>`).append(`<td  class="col-1">${i_val.訂單編號}</td>
+                        <td  class="col-1">${i_val.客戶編號}</td>                       
+                        <td  class="col-1">${i_val.商品數量}</td>
+                        <td  class="col-3">${i_val.送貨地址}</td>
+                        <td  class="col-1">
                         <button class="btn btn-primary mb-3 btnView" data-bs-toggle="modal" data-bs-target="#addModal">詳細資料</button> 
-                        </td>`);
-                docFrag.append(eleT);
+                        </td>`
+                    );
+                    docFrag.append(eleT);
+                }
+                else {
+                    eleT_sec = $(`<tr></tr>`).append(`<td  class="col-1">${i_val.訂單編號}</td>
+                        <td  class="col-1">${i_val.客戶編號}</td>                       
+                        <td  class="col-1">${i_val.商品數量}</td>
+                        <td  class="col-3">${i_val.送貨地址}</td>
+                        <td  class="col-1">
+                        <button class="btn btn-primary mb-3 btnView" data-bs-toggle="modal" data-bs-target="#addModal">詳細資料</button> 
+                        </td>`
+                    );
+                    docFrag_sec.append(eleT_sec);
+                }
+
             }
             lastSID = i_val.訂單編號
         });
-        $("#Sheeplist_tbody").html(docFrag);
+        $("#Sheeplist_tbody").prepend(docFrag);
+        $("#Sheeplist_tbody_sec").append(docFrag_sec);
+
+
+
+
 
         $(".btnView").on('click', function () {
             let SID = $(this).parents("td").siblings("td").first().text()

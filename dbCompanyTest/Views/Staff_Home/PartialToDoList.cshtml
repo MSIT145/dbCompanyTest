@@ -1,7 +1,67 @@
 ﻿<a asp-action="Create" asp-controller="ToDoLists">
     <button class="btn btn-primary mb-3 btnTDL_DT">建立新表單</button>
 </a>
-<table class="table table-striped-columns">
+
+<div>
+    <table class="table1 table table-striped-columns">
+        <thead>
+        </thead>
+        <thead>
+            <tr>
+                <th>待辦事項列表</th>
+            </tr>
+        </thead>
+        <thead>
+            <tr class="header">
+                <th class="col-1">表單編號</th>
+                <th class="col-1">表單類型</th>
+                <th class="col-3">表單內容</th>
+                <th class="col-1">狀態</th>
+                <th class="col-1"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr class="collapse1" id="123">
+                <td colspan="5" style="padding:0; ">
+                    <div>
+                        <table class="table1 table-inner table table-striped-columns" style="margin:0 !important;">
+                            <tbody id="ToDolist_tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table__wrapper">
+                        <table class="table1 table-inner table table-striped-columns">
+                            <tbody id="ToDolist_tbody_sec">
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tbody id="tfoot_click">
+            <tr>
+                <td colspan="5">
+                    <div>
+                        <table class="table table-striped-columns" style="margin:0 !important;">
+                            <tr>
+                                <td class="col-1"> </td>
+                                <td class="col-1"> </td>
+                                <td id="td_text" class="col-1">展開</td>
+                                <td class="col-1"> </td>
+                                <td class="col-1"> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+
+@*<table class="table table-striped-columns">
     <thead>
     </thead>
     <thead>
@@ -25,11 +85,11 @@
     <tbody id="ToDolist_tbody">
         <tr><td id="ToDolist_tr"></td></tr>
     </tbody>
-    @*<tbody id="ToDolist_tbody_sec" class="collapse">*@
-    @*<tbody id="ToDolist_tbody_sec" >
+@*<tbody id="ToDolist_tbody_sec" class="collapse">*@
+@*<tbody id="ToDolist_tbody_sec" >
     </tbody>*@
-    @*<tfoot data-bs-toggle="collapse" href="#ToDolist_tbody_sec" role="button" aria-expanded="false" aria-controls="ToDolist_tbody_sec">*@
-    <tfoot id="tfoot_click">
+@*<tfoot data-bs-toggle="collapse" href="#ToDolist_tbody_sec" role="button" aria-expanded="false" aria-controls="ToDolist_tbody_sec">*@
+@* <tfoot id="tfoot_click">
         <tr>
             <td> </td>
             <td> </td>
@@ -39,11 +99,23 @@
         </tr>
     </tfoot>
 </table>
-<button class="btn btn-primary mb-3" id="test">test</button>
-<br/>
-<br/>
-<br/>
-<br/>
+<button class="btn btn-primary mb-3" id="test">test</button>*@
+<br />
+<br />
+<br />
+<br />
 <br />
 
-@*<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>*@
+
+<script>
+    $("#tfoot_click").click(function () {
+        console.log(`123456`)
+        $("#123").toggleClass("active");
+
+        if ($("#td_text").text() == "展開")
+            $("#td_text").text("收折")
+        else
+            $("#td_text").text("展開");
+
+    });
+</script>
