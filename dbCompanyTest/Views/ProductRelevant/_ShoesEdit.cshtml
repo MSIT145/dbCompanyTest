@@ -7,7 +7,8 @@
         <form name="proInfo">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="商品鞋種id" class="control-label"></label>
+                <label class="control-label">商品鞋種編號</label>
+                <label asp-for="商品鞋種id" class="control-label" style="display:none"></label>
                 <input asp-for="商品鞋種id" class="form-control"  readonly="readonly"/>
                 <span asp-validation-for="商品鞋種id" class="text-danger"></span>
             </div>

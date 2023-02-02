@@ -6,7 +6,8 @@
         <form name="proInfo">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="商品顏色id" class="control-label"></label>
+                <label class="control-label">商品顏色編號</label>
+                <label asp-for="商品顏色id" class="control-label" style="display:none"></label>
                 <input asp-for="商品顏色id" class="form-control" readonly="readonly" />
                 <span asp-validation-for="商品顏色id" class="text-danger"></span>
             </div>
@@ -19,13 +20,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="色碼" class="control-label"></label>
-                <input asp-for="色碼" class="form-control" />
+                <input asp-for="色碼" class="form-control" type="color" style="width:5em; height:3em;"/>
                 <div class="invalid-feedback">
                     <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
                 </div>
             </div>
             <div class="form-group">
-                <label for="formFile" class="form-label">商品顏色圖片</label>
+                <label for="formFile" class="control-label">商品顏色圖片</label>
                 <input class="form-control" type="file" id="formFile" name="商品顏色圖片" style="margin-bottom:15px;">
                 <div class="invalid-feedback">
                     <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
