@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
+using dbCompanyTest.ViewModels;
 
 namespace dbCompanyTest.Controllers
 {
@@ -68,28 +69,27 @@ namespace dbCompanyTest.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] ToDoList toDoList)
+       // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(/*[Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] ToDoList toDoList*/CToDoListViewModels cToDoListViewModels)
         {
             if (/*ModelState.IsValid*/true)
             {
-                if (toDoList.附件path != null)
+                if (cToDoListViewModels.File != null)
                 {
                     string FileName = Guid.NewGuid().ToString() + ".pdf";
                     string path = _environment.WebRootPath + "/Files/" + FileName;
-                    toDoList.附件path = FileName;
-                    //清空資源
-                    //using (FileStream file = new FileStream(path, FileMode.Create))
-                    //{
-                    //    toDoList.附件.CopyTo(file);
-                    //}
-                    _context.Add(toDoList);
+                    cToDoListViewModels.附件path = FileName;
+                    using (FileStream file = new FileStream(path, FileMode.Create))
+                    {
+                        cToDoListViewModels.File.CopyTo(file);
+                    }
+                }
+                    _context.Add(cToDoListViewModels.toDoList);
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Index", "Staff_Home");
-                }
-                ViewData["員工編號"] = new SelectList(_context.TestStaffs, "員工編號", "員工編號", toDoList.員工編號);
-                return View(toDoList);
             }
+                ViewData["員工編號"] = new SelectList(_context.TestStaffs, "員工編號", "員工編號", cToDoListViewModels.員工編號);
+                return View(cToDoListViewModels);
         }
 
         // GET: ToDoLists/Edit/5
