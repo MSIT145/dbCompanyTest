@@ -14,7 +14,7 @@ namespace dbCompanyTest.Controllers
         dbCompanyTestContext _context = new dbCompanyTestContext();
 
         private IWebHostEnvironment _environment;
-        public ProductController(IWebHostEnvironment p)
+        public ToDoListsController(IWebHostEnvironment p)
         {
             _environment = p;
         }
@@ -73,13 +73,23 @@ namespace dbCompanyTest.Controllers
         {
             if (/*ModelState.IsValid*/true)
             {
-                
-                _context.Add(toDoList);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Staff_Home");
+                if (toDoList.附件path != null)
+                {
+                    string FileName = Guid.NewGuid().ToString() + ".pdf";
+                    string path = _environment.WebRootPath + "/Files/" + FileName;
+                    toDoList.附件path = FileName;
+                    //清空資源
+                    //using (FileStream file = new FileStream(path, FileMode.Create))
+                    //{
+                    //    toDoList.附件.CopyTo(file);
+                    //}
+                    _context.Add(toDoList);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Staff_Home");
+                }
+                ViewData["員工編號"] = new SelectList(_context.TestStaffs, "員工編號", "員工編號", toDoList.員工編號);
+                return View(toDoList);
             }
-            ViewData["員工編號"] = new SelectList(_context.TestStaffs, "員工編號", "員工編號", toDoList.員工編號);
-            return View(toDoList);
         }
 
         // GET: ToDoLists/Edit/5
@@ -168,14 +178,14 @@ namespace dbCompanyTest.Controllers
             {
                 _context.ToDoLists.Remove(toDoList);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ToDoListExists(int id)
         {
-          return _context.ToDoLists.Any(e => e.交辦事項id == id);
+            return _context.ToDoLists.Any(e => e.交辦事項id == id);
         }
     }
 }
