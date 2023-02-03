@@ -63,8 +63,8 @@
 }
 
 .table1 tr.active .table__wrapper {
-    max-height: 300px !important; 
-    transition: max-height 2s !important;
+    max-height: 5000px !important; 
+    transition: max-height 1s !important;
 }
 
 

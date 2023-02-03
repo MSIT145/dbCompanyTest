@@ -145,6 +145,6 @@ namespace dbCompanyTest.ViewModels
             set { _toDoList.附件path = value; }
         }
 
-        public IFormFile File { get; set; }
+        public IFormFile File{ get; set; }
     }
 }

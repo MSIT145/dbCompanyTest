@@ -1,5 +1,5 @@
-﻿@model dbCompanyTest.Models.ToDoList
-
+﻿@*@model dbCompanyTest.Models.ToDoList*@
+@model dbCompanyTest.ViewModels.CToDoListViewModels
 @{
     ViewData["Title"] = "Create";
 }
@@ -142,6 +142,11 @@
                     <label asp-for="附件path" class="control-label" id="lab_Attached_path"></label>
                     <input asp-for="附件path" class="form-control" id="inp_Attached_path" type="hidden" />
                     <span asp-validation-for="附件path" class="text-danger"></span>
+                </div>
+                <div class="form-group" id="div_Attached_File">
+                    <label asp-for="File" class="control-label" id="lab_Attached_path"></label>
+                    <input asp-for="File" class="form-control" id="inp_Attached_path" type="hidden" />
+                    <span asp-validation-for="File" class="text-danger"></span>
                 </div>
                 <div class="form-group">
 
