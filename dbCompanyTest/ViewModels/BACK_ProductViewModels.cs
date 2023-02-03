@@ -98,4 +98,46 @@
 
     }
 
+
+    #region ProductRelevant 使用類別
+    //ProductRelevant 圖表使用的類別
+    //用來回傳細項商品的銷售額
+    public class Back_SellData_s
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public decimal sell { get; set; }
+    }
+    //回傳資訊較多的細項銷售資料
+    public class Back_PD_sumSell
+    {
+        public int Id { get; set; }
+        public string name { get; set; }
+        public decimal sell { get; set; }
+        public int? 商品編號id { get; set; }
+        public int? 商品顏色id { get; set; }
+        public int? 商品尺寸id { get; set; }
+    }
+    //氣泡圖專用類別
+    public class Back_proselldata
+    {
+        public string name { get; set; }
+        public decimal value { get; set; }
+    }
+    public class Back_clsseries
+    {
+        public string name { get; set; }
+        public List<Back_proselldata> data { get; set; }
+    }
+    public class bubble_infor
+    {
+        public string title_text { get; set; }
+        public string pontformat { get; set; }
+        public int filter_value { get; set; }
+        public List<Back_clsseries> series { get; set; }
+    }
+
+    #endregion ProductRelevant 使用類別
+
+
 }
