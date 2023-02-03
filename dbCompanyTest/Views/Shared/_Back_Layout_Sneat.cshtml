@@ -700,23 +700,25 @@
             $(this).parent().siblings.removeClass("active");
         });
 
-                        //$("#test").on("click", () => {
-                        //    test();
-                        //})
+        $("#test").on("click", () => {
+            test();
+        })
 
-                        //$("#hb").on("click",()=>{
-                        //    $("html").addClass("layout-transitioning")
-                        //});
-                        //function test() {
-                        //    console.log(`531`)
-                        //    new Noty({
-                        //        //alert,success,warning,error,info
-                        //        type: 'success',
-                        //        text: '資料更新完成',
-                        //        timeout: 3000,
-                        //        closeWith: ['click', 'button']
-                        //    }).show();
-                        //}
+        $("#hb").on("click", () => {
+            $("html").addClass("layout-transitioning")
+        });
+        function test() {
+            new Noty({
+                //alert,success,warning,error,info
+                type: 'success',
+                text: '資料更新完成',
+                timeout: 3000,
+                //closeWith: ['click', 'button'],
+                //dismissQueue: false,
+                layout: 'topCenter',
+                //modal: true
+            }).show();
+        }
 
     </script>
     @await RenderSectionAsync("Scripts", required: false)

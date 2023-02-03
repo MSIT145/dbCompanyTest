@@ -317,29 +317,11 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult ListWaiting()
         {
-            stfNum_and_inf0();
-            return View();
-        }
-        public IActionResult MyList()
-        {
-            stfNum_and_inf0();
-            return View();
-        }
-        public IActionResult ListByMe()
-        {
-            stfNum_and_inf0();
-            return View();
-        }
-
-        public IActionResult ListDone()
-        {
-            stfNum_and_inf0();
-            return View();
-        }
-
-        public IActionResult ListWaitingData()
-        {
             string stfNum = HttpContext.Session.GetString("Account");
+            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
+            ViewBag.dep = stf.部門;
+
             var datas = from c in _context.ToDoLists
                         where (c.起單人 == stfNum && c.表單狀態 == "退回起單人") ||
                         (c.部門主管 == stfNum && c.部門主管簽核 == "待簽") ||
@@ -347,22 +329,26 @@ namespace dbCompanyTest.Controllers
                         (c.執行人 == stfNum && c.執行人簽核 == "待簽")
                         select c;
 
-            return Json(datas);
+            return View(datas);
         }
-        public IActionResult MyListData()
+        public IActionResult MyList()
         {
             string stfNum = HttpContext.Session.GetString("Account");
+            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
+            ViewBag.dep = stf.部門;
 
             var datas = from c in _context.ToDoLists
                         where c.起單人 == stfNum && c.表單狀態 != "完成"
                         select c;
-
-            return Json(datas);
-
+            return View(datas);
         }
-        public IActionResult ListByMeData()
+        public IActionResult ListByMe()
         {
             string stfNum = HttpContext.Session.GetString("Account");
+            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
+            ViewBag.dep = stf.部門;
 
             var datas = from c in _context.ToDoLists
                         where c.協辦部門簽核人員 == stfNum || c.部門主管 == stfNum || c.執行人 == stfNum
@@ -371,11 +357,15 @@ namespace dbCompanyTest.Controllers
                        where c.表單狀態 != "完成"
                        select c;
 
-            return Json(data);
+            return View(data);
         }
-        public IActionResult ListDoneData()
+
+        public IActionResult ListDone()
         {
             string stfNum = HttpContext.Session.GetString("Account");
+            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
+            ViewBag.dep = stf.部門;
 
             var datas = from c in _context.ToDoLists
                         where c.員工編號 == stfNum || c.協辦部門簽核人員 == stfNum || c.部門主管 == stfNum || c.起單人 == stfNum || c.執行人 == stfNum
@@ -384,8 +374,10 @@ namespace dbCompanyTest.Controllers
                        where c.表單狀態 == "完成"
                        select c;
 
-            return Json(data);
+            return View(data);
         }
+
+      
 
     }
 }
