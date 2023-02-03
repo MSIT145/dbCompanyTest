@@ -40,20 +40,23 @@
         //});
         //Webcam.attach(`#video`);
         //console.log(Botdata.key[0].你好);
-        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-        connection.start().then(async function () {
-            //connection.invoke(`getName`, "客服人員");
-            const data = await fetch("@Url.Content("~/Staff_Home/StaffNum")");
-            const StaffNum = await data.text();
-            if (StaffNum == "fales")
-                alert("連線逾時請重新登入");
-            else
-                connection.invoke("getName", StaffNum).catch(function (err) {
-                    alert('傳送錯誤: ' + err.toString());
-                });
-            //console.log("連線成功");
-        });
+        //connection.start().then(async function () {
+        //    //connection.invoke(`getName`, "客服人員");
+        //    const data = await fetch("@Url.Content("~/Staff_Home/StaffNum")");
+        //    const StaffNum = await data.text();
+        //    if (StaffNum == "fales")
+        //        alert("連線逾時請重新登入");
+        //    else
+        //        connection.invoke("getName", StaffNum).catch(function (err) {
+        //            alert('傳送錯誤: ' + err.toString());
+        //        });
+        //    //console.log("連線成功");
+        //});
+        //$(window).ready(function(){
+
+        
         connection.on(`userList`, function (data) {
             const userList = JSON.parse(data);
             const htmluserList = userList.map((value) => {
@@ -156,6 +159,8 @@
                 scrollTop: $("#msgArea").offset().top + TotalH
             }, 500);
         }
+
+        //})
     </script>
 }
 

@@ -1,16 +1,16 @@
 ﻿var Staff_Home_StaffNum = $("#StaffNumpath").val();
-var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+//var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-connection.start().then(async function () {
-    const data = await fetch(`${Staff_Home_StaffNum}`);
-    const StaffNum = await data.text();
-    if (StaffNum == "fales")
-        alert("連線逾時請重新登入");
-    else
-        connection.invoke("getName", StaffNum).catch(function (err) {
-            alert('傳送錯誤: ' + err.toString());
-        });
-});
+//connection.start().then(async function () {
+//    const data = await fetch(`${Staff_Home_StaffNum}`);
+//    const StaffNum = await data.text();
+//    if (StaffNum == "fales")
+//        alert("連線逾時請重新登入");
+//    else
+//        connection.invoke("getName", StaffNum).catch(function (err) {
+//            alert('傳送錯誤: ' + err.toString());
+//        });
+//});
 
 $("#inp_start").on("click", function () {
     var split_name_num = $(`#stf_info`).text().split(' ');
