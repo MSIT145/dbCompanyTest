@@ -82,6 +82,7 @@
                     connection.invoke(`bindWaiterUser`, customerID);
                 });
             }
+            resetScrollSite();
         });
 
         connection.on(`newClientMsg`, function (data) {
@@ -130,10 +131,7 @@
                                                      </div>`);
             $(`#message`).val("");
 
-            $('#msgArea').animate({
-                scrollTop: $("#msgArea").offset().top + $(".chat")[$("#msgArea").find(".chat").length - 1].scrollHeight
-            }, 50);
-            console.log($(`#msgArea`).scrollTop);
+            resetScrollSite();
         });
 
         connection.on("UpdSystem", function (user, msg) {
@@ -143,10 +141,21 @@
                                                     ${msg}
                                         </div>
                                     </div>`);
-            $('#msgArea').animate({
-                scrollTop: $("#msgArea").offset().top + $(".chat")[$("#msgArea").find(".chat").length - 1].scrollHeight
-            }, 50);
+            resetScrollSite();
         });
+
+        function resetScrollSite(){
+            let chatList = $("#msgArea").find(".chat");
+            let TotalH = 0;
+            for(var xh of chatList)
+            {
+                TotalH += xh.scrollHeight;
+            }
+            console.log(TotalH);
+            $('#msgArea').animate({
+                scrollTop: $("#msgArea").offset().top + TotalH
+            }, 500);
+        }
     </script>
 }
 

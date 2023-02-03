@@ -112,9 +112,10 @@
     margin-right: 28%;
     width: 70%;
     border-radius: 5px;
-    background-color:bisque;
+    background-color: bisque;
     color: gray;
     padding: 5px;
+    word-break: break-all;
 }
 
 .chatBBody .myName{

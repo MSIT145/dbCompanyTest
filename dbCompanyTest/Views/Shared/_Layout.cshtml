@@ -238,9 +238,7 @@
                                                                             ${msg}
                                                                 </div>
                                                             </div>`);
-            $('.chatBBody').animate({
-                scrollTop: $(".chatBBody").offset().top + $(".chat")[$(".chatBBody").find(".chat").length - 1].scrollHeight
-            }, 500);
+            resetScrollSite();
         }
         function AIBOT(msg) {
             const querydata = Botdata.filter(x => x.key === msg)
@@ -251,6 +249,18 @@
             else {
                 UpdSystem("系統", "我不知道這個問題，可以按上方按鈕與客服人員聯繫");
             }
+        }
+        function resetScrollSite(){
+            let chatList = $(".chatBBody").find(".chat");
+            let TotalH = 0;
+            for(var xh of chatList)
+            {
+                TotalH += xh.scrollHeight;
+            }
+            console.log(TotalH);
+            $('.chatBBody').animate({
+                scrollTop: $(".chatBBody").offset().top + TotalH
+            }, 500);
         }
 
         function filterValuePart(arr, part) {
@@ -269,10 +279,7 @@
                                                                                   </div>
                                                                              </div>`);
             $(`#message`).val("");
-
-            $('.chatBBody').animate({
-                scrollTop: $(".chatBBody").offset().top + $(".chat")[$(".chatBBody").find(".chat").length - 1].scrollHeight
-            }, 500);
+            resetScrollSite();
         }
         //-------購物車----
         const carjson = document.querySelector('#car_iten');
