@@ -6,7 +6,7 @@
     else if (ViewBag.dep == "人事")
         Layout = "_Back_Layout_Sneat_HR";
 }
-
+<input type="hidden" id="StaffNumpath" value="@Url.Content("~/Staff_Home/StaffNum")" />
 <div style="width:80%;margin:20px auto;">
     <h4 id="stf_info">@ViewBag.acc</h4>
     <table class="table1 table table-striped-columns">
@@ -67,3 +67,13 @@
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/staffconnect.js"></script>
+    
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -12,6 +12,13 @@ namespace dbCompanyTest.Controllers
     public class ToDoListsController : Controller
     {
         dbCompanyTestContext _context = new dbCompanyTestContext();
+
+        private IWebHostEnvironment _environment;
+        public ProductController(IWebHostEnvironment p)
+        {
+            _environment = p;
+        }
+
         //private readonly dbCompanyTestContext _context;
 
         //public ToDoListsController(dbCompanyTestContext context)

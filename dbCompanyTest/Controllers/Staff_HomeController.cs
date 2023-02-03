@@ -377,7 +377,10 @@ namespace dbCompanyTest.Controllers
             return View(data);
         }
 
-      
+        public IActionResult Partial_List()
+        {
+            return PartialView();
+        }
 
     }
 }
