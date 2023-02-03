@@ -385,7 +385,7 @@
             shibaBody = new CANNON.Body({
                 mass: 0,
                 shape: shibashape,
-                position: new CANNON.Vec3(5, 0, 0),
+                //position: new CANNON.Vec3(5, 0, 0),
                 material: shibaCM
             })
             world.add(shibaBody)
@@ -524,8 +524,8 @@
                 sphere.quaternion.copy(sphereBody.quaternion)
             }
             if (shiba1) {
-                rocket.position.copy(shibaBody.position)
-                rocket.quaternion.copy(shibaBody.quaternion)
+                shibaBody.position.copy(rocket.position)
+                shibaBody.quaternion.copy(rocket.quaternion)
                 console.log(rocket.position)
                 console.log(shibaBody.position)
             }
