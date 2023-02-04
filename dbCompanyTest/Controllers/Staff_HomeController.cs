@@ -17,6 +17,11 @@ namespace dbCompanyTest.Controllers
     public class Staff_HomeController : Controller
     {
         dbCompanyTestContext _context = new dbCompanyTestContext();
+        private IWebHostEnvironment _environment;
+        public Staff_HomeController(IWebHostEnvironment p)
+        {
+            _environment = p;
+        }
         public IActionResult Index()
         {
             string stfNum = HttpContext.Session.GetString("Account");
@@ -109,20 +114,54 @@ namespace dbCompanyTest.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DT_TDL(int id, [Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] ToDoList toDoList)
+        public async Task<IActionResult> DT_TDL(/*int id, [Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] */CToDoListViewModels cToDoListViewModels/*, ToDoList toDoList*/)
         {
-
+            var thislist = _context.ToDoLists.FirstOrDefault(t => t.交辦事項id == cToDoListViewModels.交辦事項id);
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(toDoList);
+                    if (cToDoListViewModels.File != null && thislist != null)
+                    {
+                        string oldPath = _environment.WebRootPath + "/File/" + thislist.附件path;
+                        if (System.IO.File.Exists(oldPath))
+                            System.IO.File.Delete(oldPath);
+                        string FileName = Guid.NewGuid().ToString() + ".pdf";
+                        string path = _environment.WebRootPath + "/File/" + FileName;
+                        thislist.附件path = FileName;
+                        using (FileStream file = new FileStream(path, FileMode.Create))
+                        {
+                            cToDoListViewModels.File.CopyTo(file);
+                        }
+                    }
+                    //_context.Update(toDoList/*cToDoListViewModels.toDoList*/);
+                    thislist.部門主管簽核 = cToDoListViewModels.部門主管簽核;
+                    thislist.部門主管簽核意見 = cToDoListViewModels.部門主管簽核意見;
+                    thislist.部門主管簽核時間 = cToDoListViewModels.部門主管簽核時間;
+
+                    thislist.協辦部門簽核 = cToDoListViewModels.協辦部門簽核;
+                    thislist.協辦部門簽核意見 = cToDoListViewModels.協辦部門簽核意見;
+                    thislist.協辦部門簽核時間 = cToDoListViewModels.協辦部門簽核時間;
+                   
+                    thislist.老闆簽核 = cToDoListViewModels.老闆簽核;
+                    thislist.老闆簽核意見 = cToDoListViewModels.老闆簽核意見;
+                    thislist.老闆簽核時間 = cToDoListViewModels.老闆簽核時間;
+
+                    thislist.執行人簽核 = cToDoListViewModels.執行人簽核;
+                    thislist.回覆 = cToDoListViewModels.回覆;
+                    thislist.執行時間 = cToDoListViewModels.執行時間;
+
+                    thislist.表單狀態 = cToDoListViewModels.表單狀態;
+                    thislist.表單內容 = cToDoListViewModels.表單內容;
+                    thislist.起單時間 = cToDoListViewModels.起單時間;
+
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ToDoListExists(toDoList.交辦事項id))
+                    if (!ToDoListExists(cToDoListViewModels.交辦事項id))
                     {
                         return NotFound();
                     }

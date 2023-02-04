@@ -33,7 +33,7 @@
 
     <div class="row" id="div_data">
         <div class="col-md-4">
-            <form asp-action="DT_TDL">
+            <form asp-action="DT_TDL" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger no"></div>
                 <input asp-for="交辦事項id" class="no" id="listnumber" />
                 <div class="form-group no">
@@ -160,6 +160,11 @@
                     <input asp-for="附件path" class="form-control" id="inp_Attached_path" />
                     <span asp-validation-for="附件path" class="text-danger"></span>
                 </div>
+                <div class="form-group" id="div_Attached_File">
+                    <label class="control-label" id="lab_File">附件</label>
+                    <input class="form-control" id="File" type="file" name="File" />
+
+                </div>
                 <div class="form-group">
 
                     <input type="submit" value="送出" class="btn btn-primary" id="inp_start" />
@@ -185,6 +190,7 @@
         var splitmain = $(`#stf_info`).text().indexOf(' ');
         var stf = $(`#stf_info`).text().substr(0, split);
         $(".no").css("display", "none");
+        $("#div_Attached_File").css("display", "none");
         $("#inp_start").css("display", "");
 
         $("#span_whostart").text($("#inp_whostart").val());
