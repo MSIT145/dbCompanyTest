@@ -24,6 +24,27 @@ namespace dbCompanyTest.ViewModels
         public List<int>? pro商品DetailIDlist { get; set; }
         public List<int>? pro商品顏色idlist { get; set; }
         public List<int>? pro商品尺寸idlist { get; set; }
-
+        public List<paretCommentclass>? paretCommentslist { get; set; }
+        public List<childCommentclass>? childCommentlist { get; set; }
+        //ParetComment訊息
+        public class paretCommentclass
+        {
+            public int paretCommentID { get; set; }
+            public string? paretCommentGuestID { get; set; }
+            public string? paretCommentGuestName { get; set; }
+            public string? paretComment { get; set; }
+            public DateTime paretCommentDate { get; set; }
+        }
+        //ChildComment訊息
+        public class childCommentclass
+        {
+            public int childCommentID { get; set; }
+            public DateTime childCommentDate { get; set; }
+            public string? childCommentGuestID { get; set; }
+            public string? childCommentGuestName { get; set; }
+            public string? childComment { get; set; }
+            public int? childCommentParet { get; set; }
+            public int? childCommentchildid { get; set; }
+        }
     }
 }

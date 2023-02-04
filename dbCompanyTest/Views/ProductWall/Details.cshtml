@@ -121,8 +121,92 @@
                 </div>
             </div>
         </div>
+        @*評論區*@
+        <div class="d-right-detail-item">
+            <p>評論</p>
+            <ul>
+                @{
+                    foreach (var paretitem in Model.paretCommentslist)
+                    {
+                        <li>
+                            <div class="itemCommentContent" data-id="@paretitem.paretCommentID" data-name="paret">
+                                <div>
+                                    <p class="itemName">會員:@paretitem.paretCommentGuestName</p>
+                                    <p class="itemMessage">內容:@paretitem.paretComment</p>
+                                </div>
+                                <div>
+                                    <span class="itemreport">回覆</span>
+                                </div>
+                            </div>
+                            <div style="display:flex;margin-left:2px;border-left:solid;">
+                                <ul>
+                                    @{
+                                        foreach (var childitem in Model.childCommentlist)
+                                        {
+                                            if (paretitem.paretCommentID == childitem.childCommentParet && childitem.childCommentchildid == null)
+                                            {
+                                                <div style="display:flex;" class="itemCommentContent" data-id="@childitem.childCommentID" data-name="child">
+                                                    <div class="itemdivborder"></div>
+                                                <li>
+                                                    <div>
+                                                        <p class="itemName">會員:@childitem.childCommentGuestName</p>
+                                                        <p class="itemMessage">內容:@childitem.childComment</p>
+                                                    </div>
+                                                    <div>
+                                                        <span class="itemreport">回覆</span>
+                                                    </div>
+                                                    <div style="display:flex;margin-left:28px;border-left:solid;">
+                                                        <ul>
+                                                                @{
+                                                                    foreach (var childitemchildid in Model.childCommentlist)
+                                                                    {
+                                                                        if (childitem.childCommentID == childitemchildid.childCommentchildid)
+                                                                        {
+                                                                        <div style="display:flex;" class="itemCommentContent">
+                                                                            <div class="itemdivborder"></div>
+                                                                        <li>
+                                                                            <div>
+                                                                                <p class="itemName">會員:@childitemchildid.childCommentGuestName</p>
+                                                                                <p class="itemMessage">內容:@childitemchildid.childComment</p>
+                                                                            </div>
+                                                                            <div><span class="itemreport">回覆</span></div>
+                                                                        </li>
+                                                                </div>
+                                                                        }
+                                                                    }
+                                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                            </div>
+                                            }
+                                        }
+                                    }
+                </ul>
+            </div>
+            </li>
+                    }
+                }
+    </ul>
+            @*回覆視窗*@
+    <hr />
+    <div class="reportmain" data-name="reportmain"></div>
+    <div class="userreport">
+        <input class="userreportinput" type="text" placeholder="留言..." /><br />
+        <input type="submit" id="userreportSubmit" class="btn btn-primary" value="送出" />
+        <input type="button" id="userreportCancel" class="btn btn-secondary" value="取消" />
     </div>
+
 </div>
+</div>
+</div>
+
+
+
+
+
+
+
 
 
 @*返回頂部*@
@@ -168,27 +252,90 @@
         let count = 1;
         let sizecheck = null;
 
-        $(window).ready(function () {
-            if ($(window).width() < 500) 
-            {
-                $("#carouselExampleDark").append($(".d-right-detail"));
+        ////Signalr評論
+        //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        ////與Server建立連線
+        //connection.start().then(function () {
+        //    console.log("Hub 連線完成");
+        //}).catch(function (err) {
+        //    alert('連線錯誤: ' + err.toString());
+        //});
+        $(`.itemreport`).on("click", function () {
+            $(this).after($(`.userreport`));
+        });
+        $(`#userreportSubmit`).on(`click`, function () {
+            //e.preventdefault();
+            //回復商品
+            if ($(`.userreport`).siblings(`.reportmain`).data('name') === "reportmain") {
+                console.log("aaa");
+                let comment = $(`.userreportinput`).val();
+                let productid = @Model.pro商品編號;
+                let colorid = @Model.商品顏色ID;
+                //connection.invoke('SendComment', comment, productid, colorid).catch(function () {
+                //    console.log("傳送錯誤");
+                //});
+            }
+            //回復主題
+            else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "paret") {
+                let comment = $(`.userreportinput`).val();
+                let paretID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
+                console.log(paretID);
+                //connection.invoke('SendComment', comment, paretID).catch(function () {
+                //    console.log("傳送錯誤");
+                //})
+            }
 
+            //回復子題
+            else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "child") {
+                let comment = $(`.userreportinput`).val();
+                let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().siblings('div').data('id');
+                console.log(paretID);
+                let childID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
+                console.log(childID);
+
+                //connection.invoke('SendComment', comment, paretID, childID).catch(function () {
+                //    console.log("傳送錯誤");
+                //})
+            }
+            //最後
+            else {
+                let comment = $(`.userreportinput`).val();
+                let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().parent().parent().parent().siblings('div').data('id');
+                console.log(paretID);
+                let childID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().closest(`.itemCommentContent`).data('id');
+                console.log(childID);
+
+                //connection.invoke('SendComment', comment, paretID, childID).catch(function () {
+                //    console.log("傳送錯誤");
+                //});
+            }
+
+        });
+        $(`#userreportCancel`).on("click", function () {
+            $(`.reportmain`).after($(`.userreport`));
+            $(`.userreportinput`).val("");
+        });
+
+
+        //以上評論
+        //判斷視窗大小RWD
+        $(window).ready(function () {
+            if ($(window).width() < 500) {
+                $("#carouselExampleDark").append($(".d-right-detail"));
             }
         });
-        $(window).on("resize", function(e){
-            if($(window).width()<500)
-            {
+        $(window).on("resize", function (e) {
+            if ($(window).width() < 500) {
                 $("#carouselExampleDark").append($(".d-right-detail"));
 
             }
-            else
-            {
+            else {
                 $(".content").append($(".d-right-detail"));
 
             }
         });
 
-
+        //回到頂部
         //$(".web-top").on('click',function(e){
         //    e.preventDefault();
         //    $("html").animate(
@@ -208,8 +355,8 @@
         //});
         $(".tab-item").on('click', function () {
             $(this).addClass("ac").siblings().removeClass("ac");
-           let item =  $(this).data('item');
-            $(`div[data-detail=${item}]`).addClass("detail-item-show").siblings().removeClass("detail-item-show");     
+            let item = $(this).data('item');
+            $(`div[data-detail=${item}]`).addClass("detail-item-show").siblings().removeClass("detail-item-show");
         });
 
         $(".plus").on("click", function () {

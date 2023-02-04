@@ -18,6 +18,7 @@ namespace dbCompanyTest.Models
 
         public virtual DbSet<ActivityImage> ActivityImages { get; set; } = null!;
         public virtual DbSet<Aiqa> Aiqas { get; set; } = null!;
+        public virtual DbSet<ChildComment> ChildComments { get; set; } = null!;
         public virtual DbSet<Cobranding> Cobrandings { get; set; } = null!;
         public virtual DbSet<CobrandingDetail> CobrandingDetails { get; set; } = null!;
         public virtual DbSet<Logindatum> Logindata { get; set; } = null!;
@@ -25,6 +26,7 @@ namespace dbCompanyTest.Models
         public virtual DbSet<Offer> Offers { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
+        public virtual DbSet<ParentComment> ParentComments { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<ProductDetail> ProductDetails { get; set; } = null!;
         public virtual DbSet<ProductsColorDetail> ProductsColorDetails { get; set; } = null!;
@@ -43,7 +45,7 @@ namespace dbCompanyTest.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=dbCompanyTest;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=dbCompanyTest;Integrated Security=True; TrustServerCertificate=true");
             }
         }
 
@@ -63,6 +65,32 @@ namespace dbCompanyTest.Models
                 entity.ToTable("AIQA");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+            });
+
+            modelBuilder.Entity<ChildComment>(entity =>
+            {
+                entity.HasKey(e => e.訊息id);
+
+                entity.ToTable("ChildComment");
+
+                entity.Property(e => e.訊息id).HasColumnName("訊息ID");
+
+                entity.Property(e => e.內容).HasMaxLength(50);
+
+                entity.Property(e => e.子訊息id).HasColumnName("子訊息ID");
+
+                entity.Property(e => e.客戶姓名).HasMaxLength(50);
+
+                entity.Property(e => e.客戶編號).HasMaxLength(50);
+
+                entity.Property(e => e.建立日期).HasColumnType("date");
+
+                entity.Property(e => e.父訊息id).HasColumnName("父訊息ID");
+
+                entity.HasOne(d => d.父訊息)
+                    .WithMany(p => p.ChildComments)
+                    .HasForeignKey(d => d.父訊息id)
+                    .HasConstraintName("FK_ChildComment_ParentComment");
             });
 
             modelBuilder.Entity<Cobranding>(entity =>
@@ -201,6 +229,32 @@ namespace dbCompanyTest.Models
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.訂單編號)
                     .HasConstraintName("FK_OrderDetail_Order");
+            });
+
+            modelBuilder.Entity<ParentComment>(entity =>
+            {
+                entity.HasKey(e => e.訊息id);
+
+                entity.ToTable("ParentComment");
+
+                entity.Property(e => e.訊息id).HasColumnName("訊息ID");
+
+                entity.Property(e => e.內容).HasMaxLength(50);
+
+                entity.Property(e => e.商品編號id).HasColumnName("商品編號ID");
+
+                entity.Property(e => e.商品顏色id).HasColumnName("商品顏色ID");
+
+                entity.Property(e => e.客戶姓名).HasMaxLength(50);
+
+                entity.Property(e => e.客戶編號).HasMaxLength(50);
+
+                entity.Property(e => e.建立日期).HasColumnType("date");
+
+                entity.HasOne(d => d.客戶編號Navigation)
+                    .WithMany(p => p.ParentComments)
+                    .HasForeignKey(d => d.客戶編號)
+                    .HasConstraintName("FK_ParentComment_testClient");
             });
 
             modelBuilder.Entity<Product>(entity =>
