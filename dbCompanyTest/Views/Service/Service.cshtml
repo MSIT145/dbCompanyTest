@@ -77,7 +77,7 @@
             let userdiv = document.getElementsByClassName(`list-group-item`);
             for (let Item of userdiv) {
                 Item.addEventListener(`dblclick`, function () {
-                    console.log("qwe");
+                    //console.log("qwe");
                     customerID = $(this).attr("id");
                     $(`#connectionUserID`).val(customerID);
                     $(`#userName`).text($(this).find(`h5`).text());
@@ -145,6 +145,9 @@
                                         </div>
                                     </div>`);
             resetScrollSite();
+            if(msg.substr(msg.length-4)){
+                $(`#connectionUserID`).val("");
+            }
         });
 
         function resetScrollSite(){

@@ -179,8 +179,9 @@
 
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-        $(`#connection`).on(`click`, function () {
-            connection.start().then(async function () {
+        connection.start();
+
+        $(`#connection`).on(`click`,async function () {
                 $(`#errorstring`).text("");
                 const data = await fetch("@Url.Content("~/Login/getUser")");
                 const uesrName = await data.text();
@@ -195,9 +196,6 @@
                                                                 </div>
                                                             </div>`);
                 $(`#userName`).val(userName);
-            }).catch(function (err) {
-                alert('連線錯誤: ' + err.toString());
-            });
         })
 
         connection.on("UpdSelfID", function (id) {

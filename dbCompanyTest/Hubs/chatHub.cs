@@ -17,13 +17,13 @@ namespace dbCompanyTest.Hubs
             {
                 user newuser = new user();
                 newuser.connectionId = Context.ConnectionId;
+                newuser.userName = "訪客";
                 userList.Add(newuser);
             }
 
             //await Clients.All.SendAsync("UpdList", jsonString);
             //await Clients.Client(Context.ConnectionId).SendAsync("UpdSelfID", Context.ConnectionId);
-
-            await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "系統", "連線成功");
+            //await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "系統", "連線成功");
 
             await base.OnConnectedAsync();
         }
@@ -107,7 +107,7 @@ namespace dbCompanyTest.Hubs
 
         public async void Update()
         {
-            List<user> client = userList.Where(x => x.userName.Substring(0, 2) != "ST").ToList();
+            List<user> client = userList.Where(x => x.userName.Substring(0, 2) != "ST" && x.userWords!=null).ToList();
             string jsonString = JsonConvert.SerializeObject(client);
             List<string> waiter = userList.Where(x => x.userName.Substring(0, 2) == "ST").Select(x => x.connectionId).ToList();
             foreach (string item in waiter)
@@ -118,7 +118,7 @@ namespace dbCompanyTest.Hubs
         {
             string Send_To_ID = "";
             string come_from_ID = userList.FirstOrDefault(x => x.userName == come_from_num).connectionId;
-            if(userList.Where(x => x.userName == Send_To_num).FirstOrDefault() != null)  //todo 如果被通知人不在線上，就把通知存資料庫，登入再來讀
+            if (userList.Where(x => x.userName == Send_To_num).FirstOrDefault() != null)  //todo 如果被通知人不在線上，就把通知存資料庫，登入再來讀
             {
                 Send_To_ID = userList.FirstOrDefault(x => x.userName == Send_To_num).connectionId;
                 await Clients.Client(Send_To_ID).SendAsync("receive", msg, listtype, listnum);
