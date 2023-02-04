@@ -144,8 +144,8 @@
                     <span asp-validation-for="附件path" class="text-danger"></span>
                 </div>
                 <div class="form-group" id="div_Attached_File">
-                    <label asp-for="File" class="control-label" id="lab_Attached_path"></label>
-                    <input asp-for="File" class="form-control" id="inp_Attached_path" type="hidden" />
+                    <label class="control-label" id="lab_File">附件</label>
+                    <input asp-for="File" class="form-control" id="inp_File" type="file" name="File" />
                     <span asp-validation-for="File" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -167,7 +167,7 @@
     <script>
         var split = $(`#stf_info`).text().split(' ');
         var stf = split[1];
-        //var Send_To_num = $("#inp_super_vs").val();
+        var Send_To_num = $("#inp_super_vs").val();
         $("#lab_stfId,#lab_whostart,#lab_Attached_path").css("display", 'none');
         $("#stfId").val(stf);
         ragular();
@@ -254,7 +254,7 @@
         })
 
         function ragular() {
-            $("#div_ans,#div_sta,#div_starttime,#div_super_vs,#div_super_vs_sin,#div_super_vs_opn,#div_super_vs_time,#div_co_dep,#div_co_dep_sin,#div_co_dep_who,#div_co_dep_opn,#div_co_dep_time,#div_boss_time,#div_boss_sin,#div_boss_opn,#div_execut_time,#div_executor_sin").css("display", 'none');
+            $("#div_Attached,#div_ans,#div_sta,#div_starttime,#div_super_vs,#div_super_vs_sin,#div_super_vs_opn,#div_super_vs_time,#div_co_dep,#div_co_dep_sin,#div_co_dep_who,#div_co_dep_opn,#div_co_dep_time,#div_boss_time,#div_boss_sin,#div_boss_opn,#div_execut_time,#div_executor_sin").css("display", 'none');
         }
 
     </script>

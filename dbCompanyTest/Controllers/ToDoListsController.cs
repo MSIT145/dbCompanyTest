@@ -65,19 +65,19 @@ namespace dbCompanyTest.Controllers
             return View();
         }
 
-        // POST: ToDoLists/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
-       // [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(/*[Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] ToDoList toDoList*/CToDoListViewModels cToDoListViewModels)
+        // [ValidateAntiForgeryToken]
+        public IActionResult Create(CToDoListViewModels cToDoListViewModels)
+        //public async Task<IActionResult> Create(CToDoListViewModels cToDoListViewModels)
+        /*[Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] ToDoList toDoList*/
         {
             if (/*ModelState.IsValid*/true)
             {
                 if (cToDoListViewModels.File != null)
                 {
                     string FileName = Guid.NewGuid().ToString() + ".pdf";
-                    string path = _environment.WebRootPath + "/Files/" + FileName;
+                    string path = _environment.WebRootPath + "/File/" + FileName;
                     cToDoListViewModels.附件path = FileName;
                     using (FileStream file = new FileStream(path, FileMode.Create))
                     {
@@ -85,7 +85,7 @@ namespace dbCompanyTest.Controllers
                     }
                 }
                     _context.Add(cToDoListViewModels.toDoList);
-                    await _context.SaveChangesAsync();
+                    /*await*/ _context.SaveChangesAsync();
                     return RedirectToAction("Index", "Staff_Home");
             }
                 ViewData["員工編號"] = new SelectList(_context.TestStaffs, "員工編號", "員工編號", cToDoListViewModels.員工編號);
