@@ -17,12 +17,14 @@ time, mark, audio, video {
     font: inherit;
     font-weight: normal;
     vertical-align: baseline;
+    list-style: none;
 }
+
 @media screen and (max-width:500px) {
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
-    del, dfn, em,  ins, kbd, q, s, samp,
+    del, dfn, em, ins, kbd, q, s, samp,
     small, strike, strong, sub, sup, tt, var,
     b, u, i, center,
     dl, dt, dd, ol, ul, li,
@@ -32,8 +34,8 @@ time, mark, audio, video {
     figure, figcaption, footer, header, hgroup,
     menu, nav, output, ruby, section, summary,
     time, mark, audio, video {
-        margin-left:0.3px;
-        
+        margin-left: 0.3px;
+        list-style: none;
     }
 }
 
@@ -59,15 +61,14 @@ a {
 
 .content {
     display: flex;
-    justify-content:center;
+    justify-content: center;
     flex-direction: row;
-    
 }
 
 @media screen and (max-width:500px) {
     .content {
         display: flex;
-        flex-direction:column;
+        flex-direction: column;
     }
 }
 
@@ -140,7 +141,6 @@ a {
         transform: scale(1,1);
         transition: all 1s ease-out;
         float: none;
-
     }
 
 .d-carouse-pic {
@@ -157,6 +157,38 @@ a {
     max-width: 100%;
     width: 15%;
 }
+
+    .d-right-detail .itemdivborder {
+        width: 24px;
+        height: 12px;
+        border-bottom-width: 2px;
+        border-left-color: #F0F2F5;
+        border-right-color: #F0F2F5;
+        border-bottom-width: 2px;
+        border-bottom-left-radius: 100px;
+        border-left-style: solid;
+        border-bottom-style: solid;
+    }
+
+    .d-right-detail .itemdivborderlight {
+        background-color: #F0F2F5;
+        width: 2px;
+        left: 74px;
+        height: 100%;
+        position: absolute;
+        display: block;
+    }
+
+    .d-right-detail .userreportinput {
+        border: 1px,solid,#F0F2F5;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+
+    .d-right-detail .userreport {
+    }
+
 @media screen and (max-width:500px) {
     .d-right-detail {
         max-width: 100%;
@@ -180,7 +212,7 @@ a {
 @media screen and (man-width:500px) {
     .d-right-detail-item {
         min-width: 200px;
-        width:480px;
+        width: 480px;
         color: #636363;
         margin-top: 8px;
         margin-bottom: 8px;
@@ -524,9 +556,9 @@ img:hover{transform:scale(1.2,1.2);}
     text-align: center;
     line-height: 35px;
     height: 35px;
-    width: 300px; /*在注意變更*/
     cursor: pointer;
 }
+
 @media screen and (max-width:500px) {
     .user-choose-size {
         width: 480px;
@@ -577,6 +609,7 @@ img:hover{transform:scale(1.2,1.2);}
 .ac span {
     color: #2b2b2b;
 }
+
 .web-top {
     position: fixed;
     width: 42px;
@@ -585,6 +618,7 @@ img:hover{transform:scale(1.2,1.2);}
     right: 60px;
     display: none;
 }
+
     .web-top .icon {
         cursor: pointer;
         width: 42px;
@@ -592,6 +626,7 @@ img:hover{transform:scale(1.2,1.2);}
         background-size: contain;
         text-align: center;
     }
+
 .back-top {
-    background-image:url(/images/top.jpg);
+    background-image: url(/images/top.jpg);
 }

@@ -127,7 +127,7 @@
 
 
                 <div class="search-box container" style="left: 0.2rem; right: 1.5rem;">
-                        <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box">
+                    <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box">
                 </div>
 
 
@@ -190,11 +190,11 @@
                     alert('傳送錯誤: ' + err.toString());
                 });
                 $(`.chatBBody`).append(`<div class="chat">
-                                                                <div class="otherName">系統</div>
-                                                                <div class="otherChat">
-                                                                     親愛的${uesrName},我們很高興為您服務
-                                                                </div>
-                                                            </div>`);
+                                                                        <div class="otherName">系統</div>
+                                                                        <div class="otherChat">
+                                                                             親愛的${uesrName},我們很高興為您服務
+                                                                        </div>
+                                                                    </div>`);
                 $(`#userName`).val(userName);
         })
 
@@ -231,11 +231,11 @@
 
         function UpdSystem(user, msg) {
             $(`.chatBBody`).append(`<div class="chat">
-                                                                <div class="otherName">${user}</div>
-                                                                <div class="otherChat">
-                                                                            ${msg}
-                                                                </div>
-                                                            </div>`);
+                                                                        <div class="otherName">${user}</div>
+                                                                        <div class="otherChat">
+                                                                                    ${msg}
+                                                                        </div>
+                                                                    </div>`);
             resetScrollSite();
         }
         function AIBOT(msg) {
@@ -248,11 +248,10 @@
                 UpdSystem("系統", "我不知道這個問題，可以按上方按鈕與客服人員聯繫");
             }
         }
-        function resetScrollSite(){
+        function resetScrollSite() {
             let chatList = $(".chatBBody").find(".chat");
             let TotalH = 0;
-            for(var xh of chatList)
-            {
+            for (var xh of chatList) {
                 TotalH += xh.scrollHeight;
             }
             console.log(TotalH);
@@ -271,11 +270,11 @@
         };
         function UpdContent(msg) {
             $(`.chatBBody`).append(`<div class="chat">
-                                                                                       <div class="myName">我</div>
-                                                                                    <div class="myChat">
-                                                                                         ${msg}
-                                                                                  </div>
-                                                                             </div>`);
+                                                                                               <div class="myName">我</div>
+                                                                                            <div class="myChat">
+                                                                                                 ${msg}
+                                                                                          </div>
+                                                                                     </div>`);
             $(`#message`).val("");
             resetScrollSite();
         }
@@ -313,22 +312,22 @@
                     countM += x
                     return (
                         `<div class="row" id="${id}">
-                                                                    <div class="col-3">
-                                                                                        <img  src="@Url.Content("~/images/${a}")" width="70" />
-                                                                    </div>
-                                                                    <div class="col-8">
-                                                                                <div>品名:<a>${value.商品名稱}</a></div>
-                                                                                <div>尺寸:<a>${value.尺寸種類}</a></div>
-                                                                                <div>顏色:<a>${value.商品顏色種類}</a></div>
-                                                                                <div>數量:<a>${value.訂單數量}</a></div>
-                                                                                <div>價格:<a class="m">${value.商品價格}</a></div>
+                                                                            <div class="col-3">
+                                                                                                <img  src="@Url.Content("~/images/${a}")" width="70" />
+                                                                            </div>
+                                                                            <div class="col-8">
+                                                                                        <div>品名:<a>${value.商品名稱}</a></div>
+                                                                                        <div>尺寸:<a>${value.尺寸種類}</a></div>
+                                                                                        <div>顏色:<a>${value.商品顏色種類}</a></div>
+                                                                                        <div>數量:<a>${value.訂單數量}</a></div>
+                                                                                        <div>價格:<a class="m">${value.商品價格}</a></div>
 
-                                                                    </div>
-                                                                            <div class="purchase-icon-car col-1">
-                                                                                                        <input type="hidden" value="${id}" />
-                                                                                     </div>
-                                                                            <br/>
-                                                                            </div>  `
+                                                                            </div>
+                                                                                    <div class="purchase-icon-car col-1">
+                                                                                                                <input type="hidden" value="${id}" />
+                                                                                             </div>
+                                                                                    <br/>
+                                                                                    </div>  `
                     );
                 })
                 TOTAL_TWD = `TOTAL TWD $${countM}`

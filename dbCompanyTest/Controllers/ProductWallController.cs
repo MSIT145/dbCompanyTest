@@ -342,13 +342,6 @@ namespace dbCompanyTest.Controllers
                     pdm.childCommentlist = pdm.childCommentlist.Distinct().ToList();
                 }
 
-
-
-
-
-
-
-
                 return View(pdm);
             }
 
