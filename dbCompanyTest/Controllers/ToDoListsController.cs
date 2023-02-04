@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
+using NPOI.HPSF;
 
 namespace dbCompanyTest.Controllers
 {
@@ -57,7 +58,7 @@ namespace dbCompanyTest.Controllers
         public IActionResult Create()
         {
             //ViewData["員工編號"] = new SelectList(_context.TestStaffs, "員工編號", "員工編號");
-            string stfNum = HttpContext.Session.GetString("Account");
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
             ViewBag.acc = $"{stf.員工姓名} {stfNum} {stf.部門}";
@@ -76,7 +77,13 @@ namespace dbCompanyTest.Controllers
             {
                 if (cToDoListViewModels.File != null)
                 {
-                    string FileName = Guid.NewGuid().ToString() + ".pdf";
+                    
+                    string FileNameSub = cToDoListViewModels.File.FileName;
+                    string[] words = FileNameSub.Split('.');
+                    int FileTypeIndex = words.Length;
+                    string FileType = words[FileTypeIndex - 1];
+                    
+                    string FileName = $"{Guid.NewGuid().ToString()}.{FileType}";
                     string path = _environment.WebRootPath + "/File/" + FileName;
                     cToDoListViewModels.附件path = FileName;
                     using (FileStream file = new FileStream(path, FileMode.Create))

@@ -24,7 +24,7 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult Index()
         {
-            string stfNum = HttpContext.Session.GetString("Account");
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
             ViewBag.acc = $"{stfNum} {stf.員工姓名} {stf.部門}";
@@ -32,7 +32,7 @@ namespace dbCompanyTest.Controllers
         }
         public async Task<IActionResult> Index_HR()
         {
-            string stfNum = HttpContext.Session.GetString("Account");
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
             ViewBag.HR = $"{stfNum} {stf.員工姓名} {stf.部門}";
@@ -42,8 +42,8 @@ namespace dbCompanyTest.Controllers
         public IActionResult login()
         {
             //HttpContext.Session.Remove("Account");
-            string stfNum = HttpContext.Session.GetString("Account");
-            if (HttpContext.Session.Keys.Contains("Account"))
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
             {
                 TestStaff x = _context.TestStaffs.FirstOrDefault(T => T.員工編號 == stfNum);
                 if (x.部門 == "行政" || x.部門 == "執行長室")
@@ -65,8 +65,8 @@ namespace dbCompanyTest.Controllers
             {
                 if (x.密碼.Equals(password) && x.員工編號.Equals(account))
                 {
-                    if (!HttpContext.Session.Keys.Contains("Account"))
-                        HttpContext.Session.SetString("Account", account);
+                    if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+                        HttpContext.Session.SetString(CDittionary.SK_STAFF_NUMBER_SESSION, account);
                     return Content("success");
                 }
             }
@@ -82,7 +82,7 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult logout()
         {
-            HttpContext.Session.Remove("Account");
+            HttpContext.Session.Remove(CDittionary.SK_STAFF_NUMBER_SESSION);
             return RedirectToAction("login");
         }
         public IActionResult PartialSheeplist()
@@ -95,7 +95,7 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult Create_TDL()
         {
-            string stfNum = HttpContext.Session.GetString("Account");
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
@@ -104,7 +104,7 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult DT_TDL(int listNum)
         {
-            string stfNum = HttpContext.Session.GetString("Account");
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
@@ -127,7 +127,12 @@ namespace dbCompanyTest.Controllers
                         string oldPath = _environment.WebRootPath + "/File/" + thislist.附件path;
                         if (System.IO.File.Exists(oldPath))
                             System.IO.File.Delete(oldPath);
-                        string FileName = Guid.NewGuid().ToString() + ".pdf";
+                        string FileNameSub = cToDoListViewModels.File.FileName;
+                        string[] words = FileNameSub.Split('.');
+                        int FileTypeIndex = words.Length;
+                        string FileType = words[FileTypeIndex - 1];
+
+                        string FileName = $"{Guid.NewGuid().ToString()}.{FileType}";
                         string path = _environment.WebRootPath + "/File/" + FileName;
                         thislist.附件path = FileName;
                         using (FileStream file = new FileStream(path, FileMode.Create))
@@ -331,8 +336,8 @@ namespace dbCompanyTest.Controllers
         public IActionResult StaffNum()
         {
             string stfNum = "";
-            if (HttpContext.Session.Keys.Contains("Account"))
-                stfNum = HttpContext.Session.GetString("Account");
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+                stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             else
                 stfNum = "fales";
             return Content(stfNum);
@@ -349,14 +354,14 @@ namespace dbCompanyTest.Controllers
 
         public void stfNum_and_inf0()
         {
-            string stfNum = HttpContext.Session.GetString("Account");
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
         }
         public IActionResult ListWaiting()
         {
-            string stfNum = HttpContext.Session.GetString("Account");
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
@@ -372,7 +377,7 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult MyList()
         {
-            string stfNum = HttpContext.Session.GetString("Account");
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
@@ -384,7 +389,7 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult ListByMe()
         {
-            string stfNum = HttpContext.Session.GetString("Account");
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
@@ -401,7 +406,7 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult ListDone()
         {
-            string stfNum = HttpContext.Session.GetString("Account");
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
