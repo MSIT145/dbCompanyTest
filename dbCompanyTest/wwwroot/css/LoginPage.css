@@ -44,7 +44,7 @@
     opacity: 0.5;
 }
 
-#login {
+.login {
     margin: 3px auto;
     width: 35%;
     border: 3px solid dimgray;
@@ -53,6 +53,7 @@
     transition: all 0.3s;
     background-color: dimgray;
     color: white;
+    cursor:pointer;
 }
 
 .Linput:focus {
@@ -84,4 +85,8 @@
     transition: all 0.3s;
     background-color: dimgray;
     color: white;
+}
+
+#create{
+    cursor:pointer;
 }

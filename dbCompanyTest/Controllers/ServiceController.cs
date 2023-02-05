@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using dbCompanyTest.Models;
 
 namespace dbCompanyTest.Controllers
 {
@@ -6,7 +7,7 @@ namespace dbCompanyTest.Controllers
     {
         public IActionResult Service()
         {
-            if (HttpContext.Session.Keys.Contains("Account"))
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
                 return View();
             else
                 return RedirectToAction("login", "Staff_Home");
