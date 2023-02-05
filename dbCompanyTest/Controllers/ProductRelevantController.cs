@@ -215,7 +215,7 @@ namespace dbCompanyTest.Controllers
             };
             return bubinf;
         }
-
+        //建構氣泡圖所需完整資料
         public IActionResult color_bubblechart()
         {
             var temp = SellJoinProDetail();
@@ -240,7 +240,112 @@ namespace dbCompanyTest.Controllers
 
             return Json(build_bubble_info(temp_colorSell.ToList(),"Top 10色彩銷售統計"));
         }
-       
+
+        public IActionResult size_bubblechart()
+        {
+            var temp = SellJoinProDetail();
+            //group by 取得顏色總價
+            var temp_colorSell = from t in temp
+                                 join c in db.ProductsSizeDetails
+                                 on t.商品尺寸id equals c.商品尺寸id
+                                 group t by new { t.商品尺寸id, c.尺寸種類 } into g
+                                 select new bubble_chart_temp_sell
+                                 {
+                                     _id = g.Key.商品尺寸id.Value,
+                                     _name = g.Key.尺寸種類,
+                                     sellsum = g.Sum(g => g.sell),
+                                     _data = (from t in temp
+                                              where t.商品尺寸id == g.Key.商品尺寸id
+                                              select new Back_proselldata
+                                              {
+                                                  name = t.name,
+                                                  value = t.sell
+                                              }).ToList()
+                                 };
+
+            return Json(build_bubble_info(temp_colorSell.ToList(), "Top 10尺寸銷售統計"));
+        }
+
+        public IActionResult type_bubblechart()
+        {
+            var temp = SellJoinProDetail();
+            //要先與商品編號id group by 取得 每項商品的總銷售
+            var ProSumsell = temp.GroupBy(t => t.商品編號id).Select(g => new { 商品編號id = g.Key, sellsum = g.Sum(g => g.sell) }) ;
+            //再與Product join 才能與 種類表單group by 
+            var tempPro = from t in ProSumsell
+                          join c in db.Products
+                          on t.商品編號id equals c.商品編號id
+                          select new
+                          {
+                              商品編號id = t.商品編號id,
+                              sellsum = t.sellsum,
+                              name = c.商品名稱,
+                              商品分類id = c.商品分類id,
+                              商品鞋種id = c.商品鞋種id
+                          };
+            //group by 取得顏色總價
+            var temp_colorSell = from t in tempPro
+                                 join c in db.ProductsTypeDetails
+                                 on t.商品分類id equals c.商品分類id
+                                 group t by new { t.商品分類id, c.商品分類名稱 } into g
+                                 select new bubble_chart_temp_sell
+                                 {
+                                     _id = g.Key.商品分類id.Value,
+                                     _name = g.Key.商品分類名稱,
+                                     sellsum = g.Sum(g => g.sellsum),
+                                     _data = (from t in tempPro
+                                              where t.商品分類id == g.Key.商品分類id
+                                              select new Back_proselldata
+                                              {
+                                                  name = t.name,
+                                                  value = t.sellsum
+                                              }).ToList()
+                                 };
+
+            return Json(build_bubble_info(temp_colorSell.ToList(), "Top 10商品分類銷售統計"));
+        }
+
+        public IActionResult shoes_bubblechart()
+        {
+            var temp = SellJoinProDetail();
+            //要先與商品編號id group by 取得 每項商品的總銷售
+            var ProSumsell = temp.GroupBy(t => t.商品編號id).Select(g => new { 商品編號id = g.Key, sellsum = g.Sum(g => g.sell) });
+            //再與Product join 才能與 種類表單group by 
+            var tempPro = from t in ProSumsell
+                          join c in db.Products
+                          on t.商品編號id equals c.商品編號id
+                          select new
+                          {
+                              商品編號id = t.商品編號id,
+                              sellsum = t.sellsum,
+                              name = c.商品名稱,
+                              商品分類id = c.商品分類id,
+                              商品鞋種id = c.商品鞋種id
+                          };
+            //group by 取得顏色總價
+            var temp_colorSell = from t in tempPro
+                                 join c in db.商品鞋種s
+                                 on t.商品鞋種id equals c.商品鞋種id
+                                 group t by new { t.商品鞋種id, c.鞋種 } into g
+                                 select new bubble_chart_temp_sell
+                                 {
+                                     _id = g.Key.商品鞋種id.Value,
+                                     _name = g.Key.鞋種,
+                                     sellsum = g.Sum(g => g.sellsum),
+                                     _data = (from t in tempPro
+                                              where t.商品鞋種id == g.Key.商品鞋種id
+                                              select new Back_proselldata
+                                              {
+                                                  name = t.name,
+                                                  value = t.sellsum
+                                              }).ToList()
+                                 };
+
+            return Json(build_bubble_info(temp_colorSell.ToList(), "Top 10鞋種銷售統計"));
+        }
+
+
+
 
         #endregion 圖表專用
 
