@@ -134,7 +134,7 @@ namespace dbCompanyTest.Controllers
 
                         string FileName = $"{Guid.NewGuid().ToString()}.{FileType}";
                         string path = _environment.WebRootPath + "/File/" + FileName;
-                        thislist.附件path = path;
+                        thislist.附件path = FileName;
                         using (FileStream file = new FileStream(path, FileMode.Create))
                         {
                             cToDoListViewModels.File.CopyTo(file);
