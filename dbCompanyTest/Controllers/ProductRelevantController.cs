@@ -97,7 +97,7 @@ namespace dbCompanyTest.Controllers
         }
 
         //將前10的Bar資料組成Bar圖所需的完整資料
-        public Bar_chart_info Build_Bar_chart_info_Top10(List<Bar_chart_tempSell> _temp_sell)
+        public Bar_chart_info Build_Bar_chart_info_Top10(List<Bar_chart_tempSell> _temp_sell,string _title,string _subtitle)
         {
             //找出前10名銷售顏色
             var temp_colorSell_Top10 = _temp_sell.OrderByDescending(o => o.sellsum).Take(10).ToList();
@@ -116,8 +116,8 @@ namespace dbCompanyTest.Controllers
             Bar_chart_info chart_Info = new Bar_chart_info()
             {
                 topcolor = colorlist[0],
-                title = "Top10 色彩銷售表",
-                subtitle = "受歡迎的色彩Top10",
+                title = _title,
+                subtitle = _subtitle,
                 categories = _categories,
                 yAxis_title_text = "元整 (新台幣 )",
                 tooltip_valueSuffix = "元整 (新台幣 )",
@@ -129,30 +129,6 @@ namespace dbCompanyTest.Controllers
 
         }
 
-        public class Bar_chart_tempSell
-        { 
-            public string name { get; set; }
-            public decimal sellsum { get; set; }
-
-        }
-
-        //組成Bar圖所需的資料
-        string[] colorlist = { "#C8ECFA", "#A9A9AE", "#DCFAC9", "#FFFFC2", "#E6EBFF", "#FFC2E6", "#F8F4A0", "#91F6F5", "#FFC1C1", "#F7FFFF" };
-        public IActionResult color_Barchart()
-        {
-            var temp = SellJoinProDetail();
-            //group by 取得顏色總價
-            var temp_colorSell = from t in temp
-                                 join c in db.ProductsColorDetails
-                                 on t.商品顏色id equals c.商品顏色id
-                                 group t by new { t.商品顏色id, c.商品顏色種類 } into g
-                                 select new Bar_chart_tempSell
-                                 {
-                                     name=g.Key.商品顏色種類,
-                                     sellsum = g.Sum(g => g.sell)
-                                 };
-            return Json(Build_Bar_chart_info_Top10(temp_colorSell.ToList()));
-        }
         public class Bar_chart_info
         {
             public string topcolor { get; set; }
@@ -172,14 +148,74 @@ namespace dbCompanyTest.Controllers
         }
 
         public class Bar_series
-        { 
+        {
             public string name { get; set; }
             public List<Bar_series_data> data { get; set; }
         }
 
+        public class Bar_chart_tempSell
+        { 
+            public string name { get; set; }
+            public decimal sellsum { get; set; }
+
+        }
+
+        //組成Bar圖所需的資料
+        string[] colorlist = { "#C8ECFA", "#A9A9AE", "#DCFAC9", "#FFFFC2", "#E6EBFF", "#FFC2E6", "#F8F4A0", "#91F6F5", "#FFC1C1", "#F7FFFF" };
+        
+        //建構Bar圖
+        public IActionResult color_Barchart()
+        {
+            var temp = SellJoinProDetail();
+            //group by 取得顏色總價
+            var temp_colorSell = from t in temp
+                                 join c in db.ProductsColorDetails
+                                 on t.商品顏色id equals c.商品顏色id
+                                 group t by new { t.商品顏色id, c.商品顏色種類 } into g
+                                 select new Bar_chart_tempSell
+                                 {
+                                     name=g.Key.商品顏色種類,
+                                     sellsum = g.Sum(g => g.sell)
+                                 };
+            return Json(Build_Bar_chart_info_Top10(temp_colorSell.ToList(), "Top10 色彩銷售表", "受歡迎的色彩Top10"));
+        }
+
+
 
 
         //組成氣泡圖所需資料
+
+        public class bubble_chart_temp_sell
+        { 
+            public int _id { get; set; }
+            public string _name { get; set; }
+            public decimal sellsum { get; set; }
+            public List<Back_proselldata> _data { get; set; }
+           
+        }
+        public bubble_infor build_bubble_info(List<bubble_chart_temp_sell> _temp,string _title_text)
+        {
+            //找出前10名銷售顏色
+            var temp_colorSell_Top10 = _temp.OrderByDescending(o => o.sellsum).Take(10).ToList();
+            //建立series
+            List<Back_clsseries> series = new List<Back_clsseries>();
+            foreach (var p in temp_colorSell_Top10)
+            {
+                series.Add(new Back_clsseries() { name = p._name, data = p._data.ToList() });
+            }
+            //if (series.Count() < 0)
+            //    return Json("錯誤_沒有前五名銷售資料!");
+            //建立氣泡圖所需完整資料
+            bubble_infor bubinf = new bubble_infor()
+            {
+                title_text = _title_text,
+                pontformat = " 元(台幣)",
+                filter_value = 10000,
+                series = series
+            };
+            return bubinf;
+        }
+
         public IActionResult color_bubblechart()
         {
             var temp = SellJoinProDetail();
@@ -188,38 +224,21 @@ namespace dbCompanyTest.Controllers
                                                             join c in db.ProductsColorDetails 
                                                             on t.商品顏色id equals c.商品顏色id
                                       group t by new { t.商品顏色id,c.商品顏色種類 } into g
-                                      select new
+                                      select new bubble_chart_temp_sell
                                       {
-                                          c_id =  g.Key.商品顏色id,
-                                          c_name= g.Key.商品顏色種類,
+                                          _id =  g.Key.商品顏色id.Value,
+                                          _name= g.Key.商品顏色種類,
                                           sellsum = g.Sum(g=> g.sell),
-                                          _data = from t in temp
+                                          _data =(from t in temp
                                                       where t.商品顏色id == g.Key.商品顏色id
                                                       select new Back_proselldata
                                                       { 
                                                              name = t.name,
                                                              value = t.sell
-                                                      }
+                                                      }).ToList()
                                       };
-            //找出前10名銷售顏色
-            var temp_colorSell_Top10 =  temp_colorSell.OrderByDescending(o => o.sellsum).Take(10).ToList();         
-            //建立series
-            List<Back_clsseries> series = new List<Back_clsseries>();
-            foreach (var p in temp_colorSell_Top10)
-            {
-                series.Add(new Back_clsseries() { name = p.c_name, data = p._data.ToList()});
-            }
-            if(series.Count()<0)
-                return Json("錯誤_沒有前五名銷售資料!");
-            //建立氣泡圖所需完整資料
-            bubble_infor bubinf = new bubble_infor()
-            {
-                title_text = "Top 10 色彩銷售統計",
-                pontformat = " 元(台幣)",
-                filter_value = 10000,
-                series = series
-            };
-            return Json(bubinf);
+
+            return Json(build_bubble_info(temp_colorSell.ToList(),"Top 10色彩銷售統計"));
         }
        
 
