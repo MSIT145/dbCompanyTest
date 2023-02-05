@@ -95,23 +95,12 @@ namespace dbCompanyTest.Controllers
                        };
             return temp.ToList();
         }
-        //組成Bar圖所需的資料
-        string[] colorlist = { "#C8ECFA", "#A9A9AE", "#DCFAC9", "#FFFFC2", "#E6EBFF", "#FFC2E6", "#F8F4A0", "#91F6F5", "#FFC1C1", "#F7FFFF" };
-        public IActionResult color_Barchart()
+
+        //將前10的Bar資料組成Bar圖所需的完整資料
+        public Bar_chart_info Build_Bar_chart_info_Top10(List<Bar_chart_tempSell> _temp_sell)
         {
-            var temp = SellJoinProDetail();
-            //group by 取得顏色總價
-            var temp_colorSell = from t in temp
-                                 join c in db.ProductsColorDetails
-                                 on t.商品顏色id equals c.商品顏色id
-                                 group t by new { t.商品顏色id, c.商品顏色種類 } into g
-                                 select new
-                                 {
-                                     c_name = g.Key.商品顏色種類,
-                                     sellsum = g.Sum(g => g.sell)
-                                 };
             //找出前10名銷售顏色
-            var temp_colorSell_Top10 = temp_colorSell.OrderByDescending(o => o.sellsum).Take(10).ToList();
+            var temp_colorSell_Top10 = _temp_sell.OrderByDescending(o => o.sellsum).Take(10).ToList();
             //組出Bar_chart所需的資料
             List<Bar_series_data> _data = temp_colorSell_Top10.Select(t => new Bar_series_data { y = t.sellsum, color = "" }).ToList();
             for (int i = 0; i < temp_colorSell_Top10.Count; i++)
@@ -123,8 +112,9 @@ namespace dbCompanyTest.Controllers
                 name = "銷售金額",
                 data = _data
             };
-            List<string> _categories = temp_colorSell_Top10.Select(t => t.c_name).ToList();
-            Bar_chart_info chart_Info = new Bar_chart_info() {
+            List<string> _categories = temp_colorSell_Top10.Select(t => t.name).ToList();
+            Bar_chart_info chart_Info = new Bar_chart_info()
+            {
                 topcolor = colorlist[0],
                 title = "Top10 色彩銷售表",
                 subtitle = "受歡迎的色彩Top10",
@@ -135,7 +125,33 @@ namespace dbCompanyTest.Controllers
                 series = _series
             };
 
-            return Json(chart_Info);
+            return chart_Info;
+
+        }
+
+        public class Bar_chart_tempSell
+        { 
+            public string name { get; set; }
+            public decimal sellsum { get; set; }
+
+        }
+
+        //組成Bar圖所需的資料
+        string[] colorlist = { "#C8ECFA", "#A9A9AE", "#DCFAC9", "#FFFFC2", "#E6EBFF", "#FFC2E6", "#F8F4A0", "#91F6F5", "#FFC1C1", "#F7FFFF" };
+        public IActionResult color_Barchart()
+        {
+            var temp = SellJoinProDetail();
+            //group by 取得顏色總價
+            var temp_colorSell = from t in temp
+                                 join c in db.ProductsColorDetails
+                                 on t.商品顏色id equals c.商品顏色id
+                                 group t by new { t.商品顏色id, c.商品顏色種類 } into g
+                                 select new Bar_chart_tempSell
+                                 {
+                                     name=g.Key.商品顏色種類,
+                                     sellsum = g.Sum(g => g.sell)
+                                 };
+            return Json(Build_Bar_chart_info_Top10(temp_colorSell.ToList()));
         }
         public class Bar_chart_info
         {
