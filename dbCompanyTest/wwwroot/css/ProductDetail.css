@@ -188,6 +188,9 @@ a {
 
     .d-right-detail .userreport {
     }
+    .d-right-detail .itemCommentContent span{
+        font-size:x-small;
+    }
 
 @media screen and (max-width:500px) {
     .d-right-detail {

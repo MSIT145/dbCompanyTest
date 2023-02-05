@@ -135,7 +135,7 @@
                                     <p class="itemMessage">內容:@paretitem.paretComment</p>
                                 </div>
                                 <div>
-                                    <span class="itemreport">回覆</span>
+                                    <span class="itemreport">回覆</span><span>|</span><span>留言時間:@paretitem.paretCommentDate</span>
                                 </div>
                             </div>
                             <div style="display:flex;margin-left:2px;border-left:solid;">
@@ -153,7 +153,7 @@
                                                         <p class="itemMessage">內容:@childitem.childComment</p>
                                                     </div>
                                                     <div>
-                                                        <span class="itemreport">回覆</span>
+                                                        <span class="itemreport">回覆</span><span>|</span><span>留言時間:@childitem.childCommentDate</span>
                                                     </div>
                                                     <div style="display:flex;margin-left:28px;border-left:solid;">
                                                         <ul>
@@ -169,7 +169,7 @@
                                                                                 <p class="itemName">會員:@childitemchildid.childCommentGuestName</p>
                                                                                 <p class="itemMessage">內容:@childitemchildid.childComment</p>
                                                                             </div>
-                                                                            <div><span class="itemreport">回覆</span></div>
+                                                                            <span class="itemreport">回覆</span><span>|</span><span>留言時間:@childitemchildid.childCommentDate</span>
                                                                         </li>
                                                                 </div>
                                                                         }
@@ -225,7 +225,7 @@
     </div>
 </div>
 @*分享視窗*@
-<div class="modal" id="share" style="display:none">
+@*<div class="modal" id="share" style="display:none">
     <div class="modal-box">
         <div class="modal-content">
             <div class="modal-header"><div class="modal-close"></div></div>
@@ -245,14 +245,29 @@
 
         </div>
     </div>
-</div>
+</div>*@
 
 @section Scripts{
     <script>
         let count = 1;
         let sizecheck = null;
+        let login = false;
+        let userdata = null;
+
 
         ////Signalr評論
+        async function checkuser() {
+            var data = await fetch("@Url.Content("~/ProductWall/checkuser")");
+            var response = await data.json();
+            if (response == null) {
+                $('#error').css("display", "block");
+                $('.modal-text').text(`請登入會員`);
+            }
+            else {
+                userdata = await JSON.parse(response);
+            }
+
+        }
         //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
         ////與Server建立連線
         //connection.start().then(function () {
@@ -261,16 +276,20 @@
         //    alert('連線錯誤: ' + err.toString());
         //});
         $(`.itemreport`).on("click", function () {
-            $(this).after($(`.userreport`));
+            $(this).closest(`div`).after($(`.userreport`));
         });
-        $(`#userreportSubmit`).on(`click`, function () {
+        $(`#userreportSubmit`).on(`click`, async function () {
             //e.preventdefault();
+            await checkuser();
+            console.log(userdata);
             //回復商品
             if ($(`.userreport`).siblings(`.reportmain`).data('name') === "reportmain") {
                 console.log("aaa");
                 let comment = $(`.userreportinput`).val();
                 let productid = @Model.pro商品編號;
                 let colorid = @Model.商品顏色ID;
+
+
                 //connection.invoke('SendComment', comment, productid, colorid).catch(function () {
                 //    console.log("傳送錯誤");
                 //});

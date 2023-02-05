@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Cryptography.Xml;
+using System.Text.Json;
 using X.PagedList;
 using static dbCompanyTest.ViewModels.ProductDetailViewModels;
 
@@ -345,6 +346,29 @@ namespace dbCompanyTest.Controllers
                 return View(pdm);
             }
 
+        }
+
+
+
+        public IActionResult checkuser() 
+        {
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+            {
+                string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                return Json(json);
+
+            }
+            else if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION)) 
+            {
+                string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
+                json = $"{{\"name\":\"{json}\"}}";//將string 組成 Json字串
+                return Json(json);
+            }
+            else
+            {
+                return Json(null);
+            }
+        
         }
     }
 }

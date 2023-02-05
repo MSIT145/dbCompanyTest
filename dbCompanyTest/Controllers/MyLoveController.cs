@@ -304,8 +304,6 @@ namespace dbCompanyTest.Controllers
 
 
                     }
-
-
                 }
                 return Content("true");
 
