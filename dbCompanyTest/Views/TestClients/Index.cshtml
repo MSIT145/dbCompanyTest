@@ -35,9 +35,6 @@
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.密碼)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.性別)
             </th>
             <th>
@@ -66,13 +63,10 @@
                         @Html.DisplayFor(modelItem => item.身分證字號)
                     </td>
                     <td>
-                        @item.縣市 @item.區 @item.地址
+                        @item.縣市 @item.區<br/> @item.地址
                     </td>
-                    <td>
+                    <td style="max-width:10%">
                         @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.密碼)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.性別)
@@ -90,7 +84,7 @@
         }
     </tbody>
 </table>
-</divsty>
+
 @section Scripts{
     <script>
         $(`#printClientData`).on(`click`, async function () {
@@ -165,13 +159,10 @@
                                                 ${value.身分證字號}
                                             </td>
                                             <td>
-                                                ${value.縣市} ${value.區} ${value.地址}
+                                                ${value.縣市} ${value.區}<br/> ${value.地址}
                                             </td>
-                                            <td>
+                                            <td style="max-width:10%">
                                                 ${value.email}
-                                            </td>
-                                            <td>
-                                                ${value.密碼}
                                             </td>
                                             <td>
                                                 ${value.性別}

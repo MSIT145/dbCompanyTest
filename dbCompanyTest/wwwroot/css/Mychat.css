@@ -70,19 +70,21 @@
     width: 100%;
     height: 15%;
     background-color: rgb(191, 169, 154);
+    display:flex;
+    align-items:center;
 }
 
 .chatBBody {
     background-color: white;
     width: 100%;
-    height: 77%;
+    height: 76%;
     overflow-y: scroll;
 }
 
 .chatFooter {
     border-radius: 0 0 15px 15px;
     width: 100%;
-    height: 8%;
+    height: 9%;
     text-align: center;
     color:white;
     background-color: rgb(191, 169, 154);
@@ -121,4 +123,18 @@
 .chatBBody .myName{
     margin: 0 10px 0 0;
     text-align:end;
+}
+
+#connection{
+    display:flex;
+    height:69%;
+    margin:0 auto;
+    padding:1%;
+    font-size:small;
+    background-color:darkgrey;
+    text-align:center;
+    align-items:center;
+    border:3px solid white;
+    border-radius:50px;
+    cursor:pointer;
 }

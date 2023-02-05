@@ -2,24 +2,34 @@
 <div id="createPage">
     <form name="userForm" method="post">
         <input type="hidden" name="客戶編號" />
-        <input type="text" name="客戶姓名" class="Linput" placeholder="姓名" /><br />
-        <input type="text" name="客戶電話" class="Linput" placeholder="電話" /><br />
-        <input type="text" name="身分證字號" class="Linput" placeholder="身分證字號" /><br />
+        <input type="text" name="客戶姓名" id="客戶姓名" class="Linput" placeholder="姓名" /><br />
+        <input type="text" name="客戶電話" id="客戶電話" class="Linput" placeholder="電話" /><br />
+        <input type="text" name="身分證字號" id="身分證字號" class="Linput" placeholder="身分證字號" /><br />
         <select name="縣市" id="city" class="Linput"></select><br />
         <select name="區" id="town" class="Linput"></select><br />
-        <input type="text" name="地址" class="Linput" placeholder="地址" /> <br />
+        <input type="text" name="地址" id="地址" class="Linput" placeholder="地址" /> <br />
         <input asp-for="Email" type="text" name="Email" class="Linput" placeholder="Email" /><br />
-        <input type="password" name="密碼" class="Linput" placeholder="密碼" /> <br />
+        <input type="password" name="密碼" id="密碼" class="Linput" placeholder="密碼" /> <br />
         <select name="性別" id="sex" class="Linput"><option>男</option><option>女</option></select><br />
-        <input type="date" name="生日" class="Linput" placeholder="生日" /><br />
+        <input type="date" name="生日" id="生日" class="Linput" placeholder="生日" /><br />
         <input type="submit" value="註冊" id="checkcreate" />
         <p id="createAlert" style="color:red;"></p>
     </form>
 </div>
+<div><button id="demo"></button><input type="hidden" id="democheck"></div>
 <script src="~/datas/taiwan_districts.js"></script>
 <script src="~/js/city_data.js"></script>
 <script>
     var check = [false, false, false, false, false];
+    $(`#demo`).on(`click`, function () {
+        $(`#客戶姓名`).val("GAAYRY");
+        $(`#客戶電話`).val("0945614548");
+        $(`#身分證字號`).val("F123654874");
+        $(`#地址`).val("南京東路");
+        $(`#Email`).val("aland821206@@gmail.com");
+        $(`#密碼`).val("qwe123456!");
+        $(`#democheck`).val("OK");
+    })
     $(`input[name=Email],input[name=客戶電話],input[name=身分證字號],input[name=密碼],input[name=客戶姓名]`).on(`blur`, function () {
         const checkInput = $(this);
         const EIP = checkInput.val();
@@ -72,6 +82,9 @@
         event.preventDefault();
         let canAdd = 0;
         $.each(check, function (index, value) {
+            if($(`#democheck`).val()=="OK"){
+                value = true;
+            }
             if (value) {
                 canAdd++;
             }
