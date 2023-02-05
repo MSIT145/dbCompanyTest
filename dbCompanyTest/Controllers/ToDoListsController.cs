@@ -85,7 +85,7 @@ namespace dbCompanyTest.Controllers
                     
                     string FileName = $"{Guid.NewGuid().ToString()}.{FileType}";
                     string path = _environment.WebRootPath + "/File/" + FileName;
-                    cToDoListViewModels.附件path = FileName;
+                    cToDoListViewModels.附件path = path;
                     using (FileStream file = new FileStream(path, FileMode.Create))
                     {
                         cToDoListViewModels.File.CopyTo(file);
@@ -93,6 +93,7 @@ namespace dbCompanyTest.Controllers
                 }
                     _context.Add(cToDoListViewModels.toDoList);
                     /*await*/ _context.SaveChangesAsync();
+
                     return RedirectToAction("Index", "Staff_Home");
             }
                 ViewData["員工編號"] = new SelectList(_context.TestStaffs, "員工編號", "員工編號", cToDoListViewModels.員工編號);

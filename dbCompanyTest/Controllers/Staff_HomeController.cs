@@ -134,7 +134,7 @@ namespace dbCompanyTest.Controllers
 
                         string FileName = $"{Guid.NewGuid().ToString()}.{FileType}";
                         string path = _environment.WebRootPath + "/File/" + FileName;
-                        thislist.附件path = FileName;
+                        thislist.附件path = path;
                         using (FileStream file = new FileStream(path, FileMode.Create))
                         {
                             cToDoListViewModels.File.CopyTo(file);
@@ -347,6 +347,7 @@ namespace dbCompanyTest.Controllers
         {
             var datas = (from c in _context.ToDoLists select c).OrderByDescending(d => d.交辦事項id).FirstOrDefault().交辦事項id;
             var count = Convert.ToInt32(datas) + 1;
+            
             return Content(count.ToString());
         }
 
