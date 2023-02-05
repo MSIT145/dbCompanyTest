@@ -127,7 +127,7 @@
 
 
                 <div class="search-box container" style="left: 0.2rem; right: 1.5rem;">
-                    <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box">
+                    <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box" style="display:none;">
                 </div>
 
 
@@ -405,11 +405,13 @@
             let _this = $(this);
             if (!_this.hasClass('clicked')) {
                 _this.addClass('clicked');
+                $('.search-box').css("display","block");
                 $('.search-box').animate({
                     left: '0.2rem', right: "1.5rem",
                 }, 100);
             } else {
                 _this.removeClass('clicked');
+                $('.search-box').css("display", "none");
                 $('.search-box').animate({
                     left: '7.5rem', right: '7.5rem',
                 }, 100);
