@@ -73,7 +73,7 @@ namespace dbCompanyTest.Controllers
             return View();
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(CToDoListViewModels cToDoListViewModels)
@@ -87,43 +87,41 @@ namespace dbCompanyTest.Controllers
                 string html = pdf(count.ToString(), cToDoListViewModels.表單內容);
                 string pdfName = $"{Guid.NewGuid().ToString()}.pdf";
                 cToDoListViewModels.附件 = pdfName;
+
                 var properties = new ConverterProperties();
                 properties.SetBaseUri(_environment.WebRootPath + "\\File\\");
                 properties.SetCharset("utf-8");
-
                 var provider = new DefaultFontProvider(true, true, true);//系統字體 中文
                 properties.SetFontProvider(provider);
+
                 using (FileStream file1 = new FileStream(_environment.WebRootPath + "\\File\\" + pdfName, FileMode.Create))
-                {
                     HtmlConverter.ConvertToPdf(html, file1, properties);
-                }
             }
 
             if (ModelState.IsValid)
             {
                 if (cToDoListViewModels.File != null)
                 {
-                    
                     string FileNameSub = cToDoListViewModels.File.FileName;
                     string[] words = FileNameSub.Split('.');
                     int FileTypeIndex = words.Length;
                     string FileType = words[FileTypeIndex - 1];
-                    
+
                     string FileName = $"{Guid.NewGuid().ToString()}.{FileType}";
                     string path = _environment.WebRootPath + "\\File\\" + FileName;
                     cToDoListViewModels.附件path = FileName;
-                    using (FileStream file = new FileStream(path, FileMode.Create))
-                    {
-                        cToDoListViewModels.File.CopyTo(file);
-                    }
-                }
-                    _context.Add(cToDoListViewModels.toDoList);
-                    /*await*/ _context.SaveChangesAsync();
 
-                    return RedirectToAction("Index", "Staff_Home");
+                    using (FileStream file = new FileStream(path, FileMode.Create))
+                        cToDoListViewModels.File.CopyTo(file);
+                }
+                _context.Add(cToDoListViewModels.toDoList);
+                /*await*/
+                _context.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Staff_Home");
             }
-                ViewData["員工編號"] = new SelectList(_context.TestStaffs, "員工編號", "員工編號", cToDoListViewModels.員工編號);
-                return View(cToDoListViewModels);
+            ViewData["員工編號"] = new SelectList(_context.TestStaffs, "員工編號", "員工編號", cToDoListViewModels.員工編號);
+            return View(cToDoListViewModels);
         }
 
         // GET: ToDoLists/Edit/5
