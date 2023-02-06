@@ -115,7 +115,7 @@ namespace dbCompanyTest.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DT_TDL(/*int id, [Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] */CToDoListViewModels cToDoListViewModels/*, ToDoList toDoList*/)
+        public async Task<IActionResult> DT_TDL(CToDoListViewModels cToDoListViewModels/*int id, [Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] *//*, ToDoList toDoList*/)
         {
             var thislist = _context.ToDoLists.FirstOrDefault(t => t.交辦事項id == cToDoListViewModels.交辦事項id);
 
@@ -141,6 +141,44 @@ namespace dbCompanyTest.Controllers
                             cToDoListViewModels.File.CopyTo(file);
                         }
                     }
+                    if (thislist != null && cToDoListViewModels.表單類型 == "人事表單")
+                    {
+                        if (System.IO.File.Exists(_environment.WebRootPath + "/File/" + thislist.附件))
+                        {
+                            string oldpath = _environment.WebRootPath + "/File/" + thislist.附件;
+                            string NewFileNamePath = $"{_environment.WebRootPath}/File/{Guid.NewGuid().ToString()}.pdf";
+
+
+                            if (cToDoListViewModels.部門主管簽核 != thislist.部門主管簽核 && cToDoListViewModels.部門主管簽核 == "敬陳")
+                            {
+                                AddImg(oldpath, NewFileNamePath, $"{_environment.WebRootPath}/Sign/{thislist.部門主管}.jpg", 158, 545);
+                                thislist.附件 = NewFileNamePath;
+                                if (System.IO.File.Exists(oldpath))
+                                    System.IO.File.Delete(oldpath);
+                            }
+                            if (cToDoListViewModels.協辦部門簽核 != thislist.協辦部門簽核 && cToDoListViewModels.協辦部門簽核 == "敬陳")
+                            {
+                                AddImg(oldpath, NewFileNamePath, $"{_environment.WebRootPath}/Sign/{thislist.協辦部門簽核人員}.jpg", 262, 545);
+                                thislist.附件 = NewFileNamePath;
+                                if (System.IO.File.Exists(oldpath))
+                                    System.IO.File.Delete(oldpath);
+                            }
+                            if (cToDoListViewModels.老闆簽核 != thislist.老闆簽核 && cToDoListViewModels.老闆簽核 == "敬陳")
+                            {
+                                AddImg(oldpath, NewFileNamePath, $"{_environment.WebRootPath}/Sign/ST2-0010170.jpg", 366, 545);
+                                thislist.附件 = NewFileNamePath;
+                                if (System.IO.File.Exists(oldpath))
+                                    System.IO.File.Delete(oldpath);
+                            }
+                            if (cToDoListViewModels.執行人簽核 != thislist.執行人簽核 && cToDoListViewModels.執行人簽核 == "完成")
+                            {
+                                AddImg(oldpath, NewFileNamePath, $"{_environment.WebRootPath}/Sign/{thislist.執行人}.jpg", 470, 545);
+                                thislist.附件 = NewFileNamePath;
+                                if (System.IO.File.Exists(oldpath))
+                                    System.IO.File.Delete(oldpath);
+                            }
+                        }
+                    }
                     //_context.Update(toDoList/*cToDoListViewModels.toDoList*/);
                     thislist.部門主管簽核 = cToDoListViewModels.部門主管簽核;
                     thislist.部門主管簽核意見 = cToDoListViewModels.部門主管簽核意見;
@@ -149,7 +187,7 @@ namespace dbCompanyTest.Controllers
                     thislist.協辦部門簽核 = cToDoListViewModels.協辦部門簽核;
                     thislist.協辦部門簽核意見 = cToDoListViewModels.協辦部門簽核意見;
                     thislist.協辦部門簽核時間 = cToDoListViewModels.協辦部門簽核時間;
-                   
+
                     thislist.老闆簽核 = cToDoListViewModels.老闆簽核;
                     thislist.老闆簽核意見 = cToDoListViewModels.老闆簽核意見;
                     thislist.老闆簽核時間 = cToDoListViewModels.老闆簽核時間;
@@ -348,7 +386,7 @@ namespace dbCompanyTest.Controllers
         {
             var datas = (from c in _context.ToDoLists select c).OrderByDescending(d => d.交辦事項id).FirstOrDefault().交辦事項id;
             var count = Convert.ToInt32(datas) + 1;
-            
+
             return Content(count.ToString());
         }
 
