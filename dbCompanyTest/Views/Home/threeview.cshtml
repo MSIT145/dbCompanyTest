@@ -49,8 +49,7 @@
 	<script src="https://unpkg.com/three@0.146.0/build/three.min.js"></script>
 	<script src="https://unpkg.com/three@0.146.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js" ></script>
-    <script src="https://cdn.jsdelivr.net/npm/yuka@0.7.8/build/yuka.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
+    <script src="~/js/orbitcontrols.js"></script>
 @*    <script src="https://unpkg.com/browse/cannon@0.6.2/tools/threejs/CannonDebugRenderer.js"></script>
 *@	@*gsap*@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
@@ -69,6 +68,10 @@
         let restitution = 0.7
         let sphereGroundContact
         let shibaGroundContact
+        let controls
+
+        
+
 
 
 		            /**
@@ -172,32 +175,35 @@
              * GLTF Model
              */
 
-            let donut = null
+            let shiba = null
+            let shoes = null
+            let converse = null
+            let muestra = null
             let rocket = null
             let base = new THREE.Object3D()
             let mixer;
             scene.add(base)
             //抓取3d檔
             gltfLoader.load(
-            'https://rawcdn.githack.com/th9716/3dglb/f14a3ad7320f963f544f64607783ce7d18af4e21/cheesecake.glb',
+            'https://rawcdn.githack.com/th9716/3dglb/a9d13909b8f815f49d397e12e2d2f11314403606/shiba/cheesecake1.glb',
                 (gltf) => {
                     console.log(gltf);
 
-                    donut = gltf.scene
+                    shiba = gltf.scene
 
-                    const radius = 0.05
+                    const radius =10
 
-                    donut.position.x = 150;
-                    donut.position.y = 0;
-                    donut.position.z = 250;
+                    shiba.position.x = 0;
+                    shiba.position.y = -450;
+                    shiba.position.z = 200;
 
-                    donut.rotation.y =Math.PI * 0.18
-                    donut.rotation.z =  Math.PI * 0.15
+                    shiba.rotation.y =Math.PI * 0.18
+                    shiba.rotation.z =  Math.PI * 0.15
 
-                    donut.scale.set(radius, radius, radius)
+                    shiba.scale.set(radius, radius, radius)
 
                     //base.add(donut)
-                    scene.add(donut)
+                    scene.add(shiba)
 
 
                     //獲取模型外框範圍
@@ -207,7 +213,7 @@
                     //scene.add(helper);
 
                     //mixer
-                mixer = new THREE.AnimationMixer(donut);
+                mixer = new THREE.AnimationMixer(shiba);
                 mixer.clipAction(gltf.animations[0]).setDuration(0.875).play();
 
                 },
@@ -218,6 +224,85 @@
                     console.error(error);
                 }
             )
+
+        gltfLoader.load(
+            'https://rawcdn.githack.com/th9716/3dglb/9860c31bd60230875766a370224e1ad8a3ef4197/shoes.glb',
+            (gltf) => {
+                shoes = gltf.scene
+                shoes.position.x = 0;
+                shoes.position.y = -300;
+                shoes.position.z = 150;
+
+                shoes.rotation.x = 0;
+                shoes.rotation.y = 89.6;
+                shoes.rotation.z = 0;
+
+                shoes.scale.set(10, 10, 10)
+
+                scene.add(shoes)
+
+            },
+            (progress) => {
+                console.log(progress);
+            },
+            (error) => {
+                console.error(error);
+            }
+        )
+
+
+        gltfLoader.load(
+            'https://rawcdn.githack.com/th9716/3dglb/a9d13909b8f815f49d397e12e2d2f11314403606/converse/scene.gltf',
+            (gltf) => {
+                converse = gltf.scene
+                converse.position.x = 300;
+                converse.position.y = -160;
+                converse.position.z = 250;
+
+                converse.rotation.x=0;
+                converse.rotation.y=84.6;
+                converse.rotation.z=0;
+
+                converse.scale.set(90, 90, 90)
+
+                scene.add(converse)
+
+
+            },
+            (progress) => {
+                console.log(progress);
+            },
+            (error) => {
+                console.error(error);
+            }
+        )
+
+        //gltfLoader.load(
+        //    'https://rawcdn.githack.com/th9716/3dglb/a9d13909b8f815f49d397e12e2d2f11314403606/muestra/scene.gltf',
+        //    (gltf) => {
+        //        muestra = gltf.scene
+        //        muestra.position.x = 550;
+        //        muestra.position.y = -60;
+        //        muestra.position.z = 400;
+
+        //        muestra.rotation.x=0;
+        //        muestra.rotation.y=23.6;
+        //        muestra.rotation.z=0;
+
+        //        muestra.scale.set(80, 80, 80)
+
+        //        scene.add(muestra)
+        //    },
+        //    (progress) => {
+        //        console.log(progress);
+        //    },
+        //    (error) => {
+        //        console.error(error);
+        //    }
+        //)
+
+
+
 
 
 
@@ -276,9 +361,9 @@
                 if (newSection != currentSection) {
                     currentSection = newSection
 
-                    if (!!donut) {
+                    if (!!shiba) {
                         gsap.to(
-                            donut.rotation, {
+                            shiba.rotation, {
                                 duration: 1.5,
                                 ease: 'power2.inOut',
                                 y: transformDonut[currentSection].rotationY
@@ -307,10 +392,17 @@
              * Camera
              */
             // Base camera
-        const camera = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 100000) //視野角度 長寬比 近截角 遠截角
-            camera.position.z = 1000
+            const camera = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 100000) //視野角度 長寬比 近截角 遠截角
+            camera.position.z = 1200
             scene.add(camera)
 
+            // controls
+
+            controls = new THREE.OrbitControls(camera);
+
+            controls.enableDamping = true // 啟用阻尼效果
+            controls.dampingFactor = 0.25 // 阻尼系數
+            controls.autoRotate = true    // 啟用自動旋轉
             /**
              * Renderer
              */
@@ -328,30 +420,65 @@
 
         //mouse move
         let plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -2)
-        let raycaster = new THREE.Raycaster()
-        let mouse = new THREE.Vector2()
         let pointOfIntersection = new THREE.Vector3()
-        document.addEventListener('mousemove', onMouseMove, false)
+        //宣告raycaster和mouse變數
+
+        var raycaster = new THREE.Raycaster();
+        var mouse = new THREE.Vector2();
+        var Clickmouse = new THREE.Vector2();
+        let objects=[shiba,shoes,converse];
+
 
         const cursorPos = new THREE.Vector2()
         const cursorBorderPos = new THREE.Vector2()
 
+        document.addEventListener('mousemove', onMouseMove, false)
+
+
+        //// 從相機的朝向發出射線
+        //// pointer是滑鼠映射再畫布上的位置，x和y的值都必須要用-1~+1之間的值來表示
+        //raycaster.setFromCamera(mouse, camera);
+        //// 把一整個scene的mesh通通檢測過一遍，看有沒有相交
+        //const intersects = raycaster.intersectObjects(scene.children);
+
+
+        
+
+        document.addEventListener('click',event=>{
+            Clickmouse.x=(event.clientX/window.innerWidth)*2-1;
+            Clickmouse.y=-(event.clientY/window.innerHeight)*2+1;
+
+            let name="Object_2002";
+            // 透過滑鼠點的位置和當前相機的矩陣計算出 raycaster值
+            raycaster.setFromCamera(mouse, camera);
+
+            // 取得 raycaster 射線和所有物件相交的陣列集合
+            var intersects = raycaster.intersectObjects(scene.children);
+            // 計算後，將所有有相交的物件的顏色改變為紅色，如果只需要將第一個觸發事件，那就陣列的第一個物件改變顏色即可
+            for (var i = 0; i < 1; i++) {
+
+                //intersects[i].object.material.color.set(0xff0000);
+                console.log(intersects[i].object.name)
+                if(intersects[i].object.name == name){
+                    alert("Object_2002 click")
+                }
+
+            }
+
+
+        })
+
+
         function onMouseMove(e) {
-            console.log(e)
+            //console.log(e)
 
             cursorPos.x = e.clientX - 1000
             cursorPos.y = -(e.clientY - 500)
 
-            //cursorPos.x = e.clientX 
-            //cursorPos.y = -e.clientY
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
-            //mouse.x = (cursorPos.x / sizes.width) * 2 - 1
-            //mouse.y = -(cursorPos.x / sizes.width) * 2 + 1
-
-            rocket.position.set(cursorPos.x, cursorPos.y,250)
-
-
-
+            rocket.position.set(cursorPos.x, cursorPos.y,200)
         }
 
 
@@ -391,24 +518,24 @@
             world.add(shibaBody)
 
 
-            // 建立球剛體
-            let sphereShape = new CANNON.Sphere(150)
-            let sphereCM = new CANNON.Material()
-            sphereBody = new CANNON.Body({
-                mass: 5,
-                shape: sphereShape,
-                position: new CANNON.Vec3(0, 600, 250),
-                material: sphereCM
-            })
-            world.add(sphereBody)
+            //// 建立球剛體
+            //let sphereShape = new CANNON.Sphere(150)
+            //let sphereCM = new CANNON.Material()
+            //sphereBody = new CANNON.Body({
+            //    mass: 5,
+            //    shape: sphereShape,
+            //    position: new CANNON.Vec3(0, 600, 250),
+            //    material: sphereCM
+            //})
+            //world.add(sphereBody)
 
 
-            // 設定兩剛體碰撞時交互作用屬性
-            sphereGroundContact = new CANNON.ContactMaterial(groundCM, sphereCM, {
-                friction: friction, // 摩擦力
-                restitution: restitution // 恢復係數, 衡量兩個物體碰撞後反彈程度
-            })
-            world.addContactMaterial(sphereGroundContact)
+            //// 設定兩剛體碰撞時交互作用屬性
+            //sphereGroundContact = new CANNON.ContactMaterial(groundCM, sphereCM, {
+            //    friction: friction, // 摩擦力
+            //    restitution: restitution // 恢復係數, 衡量兩個物體碰撞後反彈程度
+            //})
+            //world.addContactMaterial(sphereGroundContact)
 
             // 設定兩剛體碰撞時交互作用屬性
             shibaGroundContact = new CANNON.ContactMaterial(groundCM, shibaCM, {
@@ -417,30 +544,30 @@
             })
             world.addContactMaterial(shibaGroundContact)
 
-            // 設定兩剛體碰撞時交互作用屬性
-            let ballGroundContact = new CANNON.ContactMaterial(sphereCM, shibaCM, {
-                friction: 0.8, // 摩擦力
-                restitution: 0.8 // 恢復係數, 衡量兩個物體碰撞後反彈程度
-            })
-            world.addContactMaterial(ballGroundContact)
+            //// 設定兩剛體碰撞時交互作用屬性
+            //let ballGroundContact = new CANNON.ContactMaterial(sphereCM, shibaCM, {
+            //    friction: 0.8, // 摩擦力
+            //    restitution: 0.8 // 恢復係數, 衡量兩個物體碰撞後反彈程度
+            //})
+            //world.addContactMaterial(ballGroundContact)
 
-            // 地板網格外觀
-            let groundGeometry = new THREE.PlaneGeometry(20, 20, 32)
-            let groundMaterial = new THREE.MeshLambertMaterial({
-                color: 0xa5a5a5,
-                side: THREE.DoubleSide
-            })
-            let ground = new THREE.Mesh(groundGeometry, groundMaterial)
-            ground.rotation.x = -Math.PI / 2
-            ground.receiveShadow = true
-            scene.add(ground)
+            //// 地板網格外觀
+            //let groundGeometry = new THREE.PlaneGeometry(20, 20, 32)
+            //let groundMaterial = new THREE.MeshLambertMaterial({
+            //    color: 0xa5a5a5,
+            //    side: THREE.DoubleSide
+            //})
+            //let ground = new THREE.Mesh(groundGeometry, groundMaterial)
+            //ground.rotation.x = -Math.PI / 2
+            //ground.receiveShadow = true
+            //scene.add(ground)
 
-            // 球網格外觀
-            let sphereGeometry = new THREE.SphereGeometry(150, 32, 32)
-            let sphereMaterial = new THREE.MeshStandardMaterial({ color: 0x33aaaa })
-            sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
-            sphere.castShadow = true
-            scene.add(sphere)
+            //// 球網格外觀
+            //let sphereGeometry = new THREE.SphereGeometry(150, 32, 32)
+            //let sphereMaterial = new THREE.MeshStandardMaterial({ color: 0x33aaaa })
+            //sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
+            //sphere.castShadow = true
+            //scene.add(sphere)
 
             // 圓柱網格外觀
             //let shibaGeometry = new THREE.CylinderGeometry(150, 150, 500, 16)
@@ -457,7 +584,7 @@
 
                     rocket = gltf1.scene
 
-                    const radius = 2
+                    const radius = 1
 
 
                     rocket.scale.set(radius, radius, radius)
@@ -505,9 +632,9 @@
                 lastElapsedTime = elapsedTime
 
 
-                if (!!donut) {
-                    donut.position.y = Math.sin(elapsedTime * .5) * .1 - 0.1
-                    sphereShadow.material.opacity = (1 - Math.abs(donut.position.y)) * 0.3
+                if (!!shiba) {
+                    shiba.position.y = Math.sin(elapsedTime * .5) * .1 - 0.1
+                    sphereShadow.material.opacity = (1 - Math.abs(shiba.position.y)) * 0.3
                 }
 
             //shiba mixer
@@ -519,10 +646,11 @@
 
 
             world.step(timeStep)
-            if (sphere) {
-                sphere.position.copy(sphereBody.position)
-                sphere.quaternion.copy(sphereBody.quaternion)
-            }
+
+            //if (sphere) {
+            //    sphere.position.copy(sphereBody.position)
+            //    sphere.quaternion.copy(sphereBody.quaternion)
+            //}
             if (shiba1) {
                 shibaBody.position.copy(rocket.position)
                 shibaBody.quaternion.copy(rocket.quaternion)
@@ -530,6 +658,11 @@
                 console.log(shibaBody.position)
             }
 
+
+
+            
+
+                
 
                 //mixer.update(clock.getDelta);
 
