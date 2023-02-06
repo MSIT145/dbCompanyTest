@@ -33,7 +33,7 @@
                     <span style="color:red;display:none" id="accounterror">請輸入帳號</span>
                     <input type="password" asp-controller="Login" asp-action="Login" name="txtPassword" class="Linput" id="password" placeholder="密碼" value="123456" />
                     <p id="result"></p>
-                    <botton type="submit" class="login">登入</botton><br />
+                    <botton type="submit" id="login" class="login">登入</botton><br />
                     <botton id="forgetPassword" class="login">忘記密碼</botton>
 
                 </form>
@@ -43,6 +43,10 @@
                 @*<a asp-action="Create" asp-controller="TestClients" style="color:white">註冊新會員</a>*@
                 <span id="create">註冊新會員</span>
             </p>
+            <hr/>
+            <button id="sheep">sheep</button>
+            <button id="lu">lu</button>
+            <button id="gary">gary</button>
         </div>
     </div>
     @*<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -90,7 +94,7 @@
             }
         });
 
-        $(`.login`).on(`click`, () => {
+        $(`#login`).on(`click`, () => {
             const account = $(`#account`).val();
             const password = $(`#password`).val();
             xhr.open(`post`, `/Login/checkLogin`);
@@ -123,8 +127,15 @@
             console.log(data);
         };
         //---購物車載入結束--LU
-
-
+        $(`#gary`).on(`click`, function () {
+            $(`#account`).val(`gary@gmail.com`);
+        });
+        $(`#sheep`).on(`click`,function(){
+            $(`#account`).val(`sheep@gmail.com`);
+        });
+        $(`#lu`).on(`click`, function () {
+            $(`#account`).val(`lubig@gmail.com`);
+        });
     </script>
     <script src="~/js/city_data.js"></script>
 }
