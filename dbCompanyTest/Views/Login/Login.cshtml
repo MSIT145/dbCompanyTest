@@ -90,7 +90,7 @@
             }
         });
 
-        $(`#login`).on(`click`, () => {
+        $(`.login`).on(`click`, () => {
             const account = $(`#account`).val();
             const password = $(`#password`).val();
             xhr.open(`post`, `/Login/checkLogin`);
