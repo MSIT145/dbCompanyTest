@@ -15,6 +15,8 @@ using iText.Html2pdf;
 //
 using iText.Html2pdf.Resolver.Font;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Text;
 
 namespace dbCompanyTest.Controllers
 {
@@ -84,18 +86,46 @@ namespace dbCompanyTest.Controllers
             var count = Convert.ToInt32(datas) + 1;
             if (cToDoListViewModels.表單類型 == "人事表單")
             {
-                string html = pdf(count.ToString(), cToDoListViewModels.表單內容);
+                Regex regex = null;
+
+
+                var htmlTemplate = System.IO.File.ReadAllText(_environment.WebRootPath + "/File/htmlTemplate.html");
+                var start = "<!--template-start-->";
+                var end = "<!--template-end-->";
+
+                var match = Regex.Match(htmlTemplate, $@"{start}(.|\s)+?{end}");
+                //if (match != null && match.Value.Length > start.Length + end.Length)
+                //{
+                var template = match.Value.Substring(start.Length, match.Value.Length - start.Length - end.Length);
+                var sb = new StringBuilder(start);
+
+
+                Dictionary<String, String> dic = new Dictionary<String, String> { ["{{Avatar}}"] = $"{_environment.WebRootPath}/Sign/{cToDoListViewModels.起單人}.jpg" };
+                regex = new Regex(String.Join("|", dic.Keys), RegexOptions.IgnoreCase);
+                var html = regex.Replace(template, m => dic[m.Value]);
+
+                dic = new Dictionary<String, String> { ["{{Content}}"] = $"{cToDoListViewModels.表單內容}" };
+                regex = new Regex(String.Join("|", dic.Keys), RegexOptions.IgnoreCase);
+                html = regex.Replace(html, m => dic[m.Value]);
+
+                dic = new Dictionary<String, String> { ["{{id}}"] = $"{count}" };
+                regex = new Regex(String.Join("|", dic.Keys), RegexOptions.IgnoreCase);
+                html = regex.Replace(html, m => dic[m.Value]);
+                //}
+
+
                 string pdfName = $"{Guid.NewGuid().ToString()}.pdf";
                 cToDoListViewModels.附件 = pdfName;
-
                 var properties = new ConverterProperties();
                 properties.SetBaseUri(_environment.WebRootPath + "\\File\\");
                 properties.SetCharset("utf-8");
+
                 var provider = new DefaultFontProvider(true, true, true);//系統字體 中文
                 properties.SetFontProvider(provider);
-
                 using (FileStream file1 = new FileStream(_environment.WebRootPath + "\\File\\" + pdfName, FileMode.Create))
+                {
                     HtmlConverter.ConvertToPdf(html, file1, properties);
+                }
             }
 
             if (ModelState.IsValid)
