@@ -1,5 +1,6 @@
 ﻿using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
+using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -426,6 +427,32 @@ namespace dbCompanyTest.Controllers
         {
             return PartialView();
         }
+        protected void AddImg(string oldP, string newP, string imP, int x, int y)
+        {
+            using (Stream inputPdfStream = new FileStream(oldP, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (Stream inputImageStream = new FileStream(imP, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (Stream outputPdfStream = new FileStream(newP, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                var reader = new iTextSharp.text.pdf.PdfReader(inputPdfStream);//讀取原有pdf
+                var stamper = new PdfStamper(reader, outputPdfStream);
+                var pdfContentByte = stamper.GetOverContent(1);//取內容
+                iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(inputImageStream);//取圖片
+                image.ScalePercent(75);//設置圖片比例
 
+                image.SetAbsolutePosition(x, y);//圖片位置
+                pdfContentByte.AddImage(image);
+                stamper.Close();
+            }
+
+        }
+
+        public IActionResult test()
+        {
+            //AddImg($"{_environment.WebRootPath}/File/e1b8e992-3661-4b0f-9ccd-0c01575cde0d.pdf", $"{_environment.WebRootPath}/File/new.pdf", $"{_environment.WebRootPath}/Sign/ST1-00837.jpg", 158 ,545);//部門主管
+            //AddImg($"{_environment.WebRootPath}/File/e1b8e992-3661-4b0f-9ccd-0c01575cde0d.pdf", $"{_environment.WebRootPath}/File/new.pdf", $"{_environment.WebRootPath}/Sign/ST1-00837.jpg", 262, 545);//協辦部門
+            //AddImg($"{_environment.WebRootPath}/File/e1b8e992-3661-4b0f-9ccd-0c01575cde0d.pdf", $"{_environment.WebRootPath}/File/new.pdf", $"{_environment.WebRootPath}/Sign/ST1-00837.jpg", 366, 545);//老闆
+            //AddImg($"{_environment.WebRootPath}/File/e1b8e992-3661-4b0f-9ccd-0c01575cde0d.pdf", $"{_environment.WebRootPath}/File/new.pdf", $"{_environment.WebRootPath}/Sign/ST1-00837.jpg", 470, 545);
+            return RedirectToAction("logout");
+        }
     }
 }
