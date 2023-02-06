@@ -136,7 +136,30 @@
                                     <p class="itemMessage">內容:@paretitem.paretComment</p>
                                 </div>
                                 <div>
-                                    <span class="itemreport">回覆</span><span>|</span><span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
+                                    @if (paretitem.paretCommentGuestID.Equals(Model.客戶編號))
+                                    {
+                                        <span class="itemreport">回覆</span>
+
+                                        <span>|</span>
+
+                                        <span class="itemreportEdit">編輯</span>
+
+                                        <span>|</span>
+
+                                        <span class="itemreportDelete" data-id="@paretitem.paretCommentID" data-order="1">刪除</span>
+
+                                        <span>|</span>
+
+                                        <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="itemreport">回覆</span>
+
+                                        <span>|</span>
+
+                                        <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
+                                    }
                                 </div>
                             </div>
                             <div style="display:flex;margin-left:2px;border-left:solid;">
@@ -154,7 +177,30 @@
                                                         <p class="itemMessage">內容:@childitem.childComment</p>
                                                     </div>
                                                     <div>
-                                                        <span class="itemreport">回覆</span><span>|</span><span>留言時間:@childitem.childCommentDate</span>
+                                                            @if (childitem.childCommentGuestID.Equals(Model.客戶編號))
+                                                            {
+                                                            <span class="itemreport">回覆</span>
+
+                                                            <span>|</span>
+
+                                                            <span class="itemreportEdit">編輯</span>
+
+                                                            <span>|</span>
+
+                                                            <span class="itemreportDelete" data-id="@childitem.childCommentID" data-order="2">刪除</span>
+
+                                                            <span>|</span>
+
+                                                            <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
+                                                            }
+                                                            else
+                                                            {
+                                                            <span class="itemreport">回覆</span>
+
+                                                            <span>|</span>
+
+                                                            <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
+                                                            }
                                                     </div>
                                                     <div style="display:flex;margin-left:28px;border-left:solid;">
                                                         <ul>
@@ -170,7 +216,30 @@
                                                                                 <p class="itemName">會員:@childitemchildid.childCommentGuestName</p>
                                                                                 <p class="itemMessage">內容:@childitemchildid.childComment</p>
                                                                             </div>
-                                                                            <span class="itemreport">回覆</span><span>|</span><span>留言時間:@childitemchildid.childCommentDate</span>
+                                                                                    @if (childitemchildid.childCommentGuestID.Equals(Model.客戶編號))
+                                                                                    {
+                                                                                <span class="itemreport">回覆</span>
+
+                                                                                <span>|</span>
+
+                                                                                <span class="itemreportEdit">編輯</span>
+
+                                                                                <span>|</span>
+
+                                                                                <span class="itemreportDelete" data-id="@childitemchildid.childCommentID" data-order="2">刪除</span>
+
+                                                                                <span>|</span>
+
+                                                                                <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                <span class="itemreport">回覆</span>
+
+                                                                                <span>|</span>
+
+                                                                                <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
+                                                                                    }
                                                                         </li>
                                                                 </div>
                                                                         }
@@ -225,6 +294,29 @@
         </div>
     </div>
 </div>
+
+@*警告訊息*@
+<div class="modal" id="alert" style="display:none;">
+    <div class="modal-box">
+        <div class="modal-content">
+            <div class="modal-header"><div class="modal-close"></div></div>
+            <div class="content-box">
+
+                <div class="modal-text">
+                    <input type="button" class="btn btn-primary alertsubmit" value="確認" />
+                    <input type="button" class="btn btn-danger alertcancel" value="取消" />
+                </div>
+                <div style="display:flex; justify-content:center;">
+                    <input type="button" class="btn btn-primary alertsubmit me-2" value="確認" />
+                    <input type="button" class="btn btn-danger alertcancel ms-2" value="取消" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @*分享視窗*@
 @*<div class="modal" id="share" style="display:none">
     <div class="modal-box">
@@ -255,6 +347,7 @@
         let login = false;
         let userdata = null;
         let datas = null;
+        let checkdelete = false;
 
 
         ////Signalr評論
@@ -282,8 +375,43 @@
         $(`.itemreport`).on("click", function () {
             $(this).closest(`div`).after($(`.userreport`));
         });
+        $(`.itemreportDelete`).on("click", async function () {
+            $('.modal-text').text("請問確認要刪除嗎?");
+            const id = $(this).data('id');
+            const order = $(this).data('order');
+            $('#alert').css('display', 'block');
+            
+            if (await checkdelete) {
+                deletecomment(id,order);
+            }
 
-
+        });
+        async function deletecomment(id, order) {
+            let productid = @Model.pro商品編號;
+            let colorid = @Model.商品顏色ID;
+            let FD = new FormData();
+            FD.append('id',id)
+            FD.append('order', order)
+            FD.append('productid', productid)
+            FD.append('colorid', colorid)
+            var data = await fetch(`@Url.Content("~/ProductWall/DeleteComment")`,{
+                method:"POST",
+                body: FD
+            });
+            let response = await data.text();
+            if (response != null) {
+                connection.invoke("SendComment", response).catch(function () {
+                    console.log("傳送錯誤");
+                });
+            }
+            else {
+                $('#error').css("display", "block");
+                $('.modal-text').text("傳送訊息失敗");
+            }
+            //let response = await data.text();
+            //$('#error').css("display", "block");
+            //$('.modal-text').text(response);
+        };
 
         connection.on('UpdMessage', function (response) {
             //datas = JSON.parse(response);
@@ -424,6 +552,8 @@
                 }
             }
         });
+
+
         $(`#userreportCancel`).on("click", function () {
             $(`.reportmain`).after($(`.userreport`));
             $(`.userreportinput`).val("");
@@ -431,6 +561,28 @@
 
 
         //以上評論
+        //警示視窗
+        $(`.alertcancel`).on(`click`, function () {
+            $('#alert').css("display", "none");
+            checkdelete = false;
+        });
+        $(`.alertsubmit`).on(`click`, function () {
+            $('#alert').css("display", "none");
+            checkdelete = true;
+        });
+
+        $('.modal-close').on('click', function () {
+            //$('#share').css("display", "none");
+            $('#error').css("display", "none");
+            $('#alert').css("display", "none");
+            checkdelete = false;
+        });
+
+
+
+
+
+
         //判斷視窗大小RWD
         $(window).ready(function () {
             if ($(window).width() < 500) {
@@ -509,12 +661,6 @@
                 checkCount();
             });
         });
-
-        $('.modal-close').on('click', function () {
-            $('#share').css("display", "none");
-            $('#error').css("display", "none");
-        });
-
         $('.d-right-share-pic,.d-right-share-pic-Text').on(`click`, function () {
             sizecheck = $(".size-item.active").text();
             let idcheck = $(".d-right-color-item.active").find('a').attr("id");

@@ -9,6 +9,7 @@ using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography.Xml;
 using System.Text.Json;
 using X.PagedList;
+using static dbCompanyTest.Controllers.ProductController;
 using static dbCompanyTest.ViewModels.ProductDetailViewModels;
 
 namespace dbCompanyTest.Controllers
@@ -345,7 +346,18 @@ namespace dbCompanyTest.Controllers
                     pdm.childCommentlist.Add(childlist);
                     pdm.childCommentlist = pdm.childCommentlist.Distinct().ToList();
                 }
-
+                if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+                {
+                    string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                    var data = JsonSerializer.Deserialize<TestClient>(json);
+                    pdm.客戶編號 = data.客戶編號;
+                }
+                else if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+                {
+                    string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
+                    var data = JsonSerializer.Deserialize<string>(json);
+                    pdm.員工編號 = data;
+                }
                 return View(pdm);
             }
 
@@ -498,6 +510,28 @@ namespace dbCompanyTest.Controllers
         {
             ProductDetailViewModels data = JsonSerializer.Deserialize<ProductDetailViewModels>(datas);
             return PartialView(data);
+        }
+        public IActionResult DeleteComment(IFormCollection data) 
+        {
+            if (Convert.ToInt32(data["order"]) == 1)
+            {
+                var parentdata = _context.ParentComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
+                _context.ParentComments.Remove(parentdata);
+                _context.SaveChanges();
+                ProductDetailViewModels pdm = selectData(data);
+                return Json(pdm);
+            }
+            else if (Convert.ToInt32(data["order"]) == 2)
+            {
+                var childdata = _context.ChildComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
+                _context.ChildComments.Remove(childdata);
+                _context.SaveChanges();
+                ProductDetailViewModels pdm = selectData(data);
+                return Json(pdm);
+            }
+            else {
+                return Content("失敗請聯繫客服");
+            }
         }
     }
 }
