@@ -3,6 +3,7 @@ using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.Security.Cryptography.Xml;
 using System.Text.Json;
 using X.PagedList;
@@ -369,6 +370,29 @@ namespace dbCompanyTest.Controllers
                 return Json(null);
             }
         
+        }
+        public IActionResult CreateComment(string comment,int productid,int colorid ,string userdata) 
+        {
+            var user = _context.TestClients.FirstOrDefault(x => x.客戶編號 == userdata);
+            if (user != null)
+            {
+                ParentComment PC = new ParentComment();
+                PC.內容 = comment;
+                PC.商品顏色id = colorid;
+                PC.商品編號id = productid;
+                PC.建立日期 = DateTime.Now;
+                PC.客戶編號 = user.客戶編號;
+                PC.客戶姓名 = user.客戶姓名;
+                _context.ParentComments.Add(PC);
+                _context.SaveChanges();
+                string json = JsonSerializer.Serialize(PC);
+
+                return Json(json);
+            }
+            else {
+                return Json(null);
+            }
+            
         }
     }
 }

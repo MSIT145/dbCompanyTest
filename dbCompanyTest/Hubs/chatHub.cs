@@ -126,5 +126,10 @@ namespace dbCompanyTest.Hubs
 
         }
 
+        //回復商品
+        public async Task SendComment(string response) 
+        {
+            await Clients.All.SendAsync("UpdMessage", response);
+        }
     }
 }
