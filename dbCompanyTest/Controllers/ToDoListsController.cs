@@ -8,6 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
 using NPOI.HPSF;
+using System.Reflection;
+using System.Drawing.Imaging;
+using System.Drawing;
+using iText.Html2pdf;
+//
+using iText.Html2pdf.Resolver.Font;
+using System.IO;
 
 namespace dbCompanyTest.Controllers
 {
@@ -68,12 +75,31 @@ namespace dbCompanyTest.Controllers
 
         
         [HttpPost]
-        // [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CToDoListViewModels cToDoListViewModels)
         //public async Task<IActionResult> Create(CToDoListViewModels cToDoListViewModels)
         /*[Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] ToDoList toDoList*/
         {
-            if (/*ModelState.IsValid*/true)
+            var datas = (from c in _context.ToDoLists select c).OrderByDescending(d => d.交辦事項id).FirstOrDefault().交辦事項id;
+            var count = Convert.ToInt32(datas) + 1;
+            if (cToDoListViewModels.表單類型 == "人事表單")
+            {
+                string html = pdf(count.ToString(), cToDoListViewModels.表單內容);
+                string pdfName = $"{Guid.NewGuid().ToString()}.pdf";
+                cToDoListViewModels.附件 = pdfName;
+                var properties = new ConverterProperties();
+                properties.SetBaseUri(_environment.WebRootPath + "\\File\\");
+                properties.SetCharset("utf-8");
+
+                var provider = new DefaultFontProvider(true, true, true);//系統字體 中文
+                properties.SetFontProvider(provider);
+                using (FileStream file1 = new FileStream(_environment.WebRootPath + "\\File\\" + pdfName, FileMode.Create))
+                {
+                    HtmlConverter.ConvertToPdf(html, file1, properties);
+                }
+            }
+
+            if (ModelState.IsValid)
             {
                 if (cToDoListViewModels.File != null)
                 {
@@ -194,6 +220,45 @@ namespace dbCompanyTest.Controllers
         private bool ToDoListExists(int id)
         {
             return _context.ToDoLists.Any(e => e.交辦事項id == id);
+        }
+
+        public string pdf(string id, string conten)
+        {
+            string html = "<div style=\"width:80%;margin:200px auto; border: 2px;\">" +
+                $"<h1 style=\"text-align: center;\">表單{id}</h1>" +
+                "<h3>表單內容</h3>" +
+                $"<p>{conten}</p>" +
+                "<hr/>" +
+                " <div id=\"Grid\" style=\"border-style:solid;\">" +
+                "<table cellpadding=\"5\" cellspacing=\"0\" style=\"border: 1px solid #ccc;font-size: 9pt; width: 100%;\">" +
+                " <tr >" +
+                "<th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">起單人</th>" +
+                " <th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">部門主管</th>" +
+                "<th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">協辦部門</th>" +
+                "<th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">老闆</th>" +
+                "<th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">執行</th>" +
+                "</tr>" +
+                "<tr >" +
+                " <th style=\"background-color: #B8DBFD;border: 1px solid #ccc\"></th>" +
+                "<th style=\"background-color: #B8DBFD;border: 1px solid #ccc\"></th>" +
+                "<th style=\"background-color: #B8DBFD;border: 1px solid #ccc\"></th>" +
+                "<th style=\"background-color: #B8DBFD;border: 1px solid #ccc\"></th>" +
+                "<th style=\"background-color: #B8DBFD;border: 1px solid #ccc\"></th>" +
+                "</tr>" +
+                "<tr >" +
+                "<td style=\"width:120px; height: 150px; border: 1px solid #ccc\"></td>" +
+                "<td style=\"width:120px; height: 150px;border: 1px solid #ccc\"></td>" +
+                "<td style=\"width:120px; height: 150px;border: 1px solid #ccc\"></td>" +
+                " <td style=\"width:120px; height: 150px;border: 1px solid #ccc\"></td>" +
+                "<td style=\"width:120px; height: 150px;border: 1px solid #ccc\"></td>" +
+                "</tr>" +
+                "</table>" +
+                "</div>" +
+                "<br />" +
+                "<br />" +
+                "</div>";
+
+            return html;
         }
     }
 }

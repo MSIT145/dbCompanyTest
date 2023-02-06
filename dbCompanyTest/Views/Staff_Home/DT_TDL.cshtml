@@ -26,11 +26,11 @@
             <span>表單內容 :</span><span id="span_cont"></span>
         </p>
         <div id="schedule"></div>
-       
+
     </div>
     <input type="hidden" id="StaffNumpath" value="@Url.Content("~/Staff_Home/StaffNum")" />
 
-    
+
 
 
 
@@ -184,9 +184,10 @@
                     <input type="submit" value="送出" class="btn btn-primary" id="inp_start" />
                 </div>
             </form>
-            <iframe src="~/File/@Model.附件path" height="1000" width="100%">附件</iframe>
         </div>
     </div>
+    <br/>
+    <iframe src="~/File/@Model.附件path" height="800" width="100%">附件</iframe>
 
     <div>
         <a asp-action="Index">Back to List</a>
