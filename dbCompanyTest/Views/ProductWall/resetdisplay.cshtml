@@ -73,113 +73,179 @@
     <input type="button" id="userreportCancel" class="btn btn-secondary" value="取消" />
 </div>
 
-    <script>
-         async function checkuser() {
-                let data = await fetch("@Url.Content("~/ProductWall/checkuser")");
-                let response = await data.json();
-                //console.log(response);
-                if (response == null) {
-                    $('#error').css("display", "block");
-                    $('.modal-text').text(`請登入會員`);
-                }
-                else {
-                    userdata = JSON.stringify(response);
-                }
+<script>
 
-            }
-            //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-            ////與Server建立連線
-            //connection.start().then(function () {
-            //    console.log("Hub 連線完成");
-            //}).catch(function (err) {
-            //    alert('連線錯誤: ' + err.toString());
-            //});
-            $(`.itemreport`).on("click", function () {
-                $(this).closest(`div`).after($(`.userreport`));
-            });
+    ////Signalr評論
+    //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+    async function checkuser() {
+        let data = await fetch("@Url.Content("~/ProductWall/checkuser")");
+        let response = await data.json();
+        //console.log(response);
+        if (response == null) {
+            $('#error').css("display", "block");
+            $('.modal-text').text(`請登入會員`);
+        }
+        else {
+            userdata = JSON.stringify(response);
+        }
+
+    }
+    //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+    ////與Server建立連線
+    //connection.start().then(function () {
+    //    console.log("Hub 連線完成");
+    //}).catch(function (err) {
+    //    alert('連線錯誤: ' + err.toString());
+    //});
+    $(`.itemreport`).on("click", function () {
+        $(this).closest(`div`).after($(`.userreport`));
+    });
 
 
 
-            connection.on('UpdMessage', function (response) {
-                //datas = JSON.parse(response);
-                //console.log(datas);
-                $('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
-            });
+    connection.on('UpdMessage', function (response) {
+        //datas = JSON.parse(response);
+        //console.log(datas);
+        $('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
+    });
 
-            $(`#userreportSubmit`).on(`click`, async function () {
-                //e.preventdefault();
-                await checkuser();
-                //console.log(userdata);//string
-                if (userdata != null) {
-                    //回復商品
-                    if ($(`.userreport`).siblings(`.reportmain`).data('name') === "reportmain") {
-                        let comment = $(`.userreportinput`).val();//使用者輸入內容
-                        let productid = @Model.pro商品編號;
-                        let colorid = @Model.商品顏色ID;
-                        (async function () {
-                            let FD = new FormData();
-                            FD.append('comment', comment)
-                            FD.append('productid', productid)
-                            FD.append('colorid', colorid)
-                            FD.append('userdata', userdata)
-                            let data = await fetch(`@Url.Content("~/ProductWall/CreateComment")`, {
-                            method: "POST",
-                            body: FD
-                        })
-                        let response = await data.text();
-
-                        if (response != null) {
-                            connection.invoke("SendComment", response).catch(function () {
-                                console.log("傳送錯誤");
-                            });
-                        }
-                        else {
-                            $('#error').css("display", "block");
-                            $('.modal-text').text("傳送訊息失敗");
-                        }
-                    }());//加上小括號立即執行
-                }
-                //回復主題
-                else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "paret") {
-                    let comment = $(`.userreportinput`).val();
-                    let paretID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
-                    console.log(paretID);
-
-                    connection.invoke("SendComment", comment, paretID, userdata).catch(function () {
-                        console.log("傳送錯誤");
+    $(`#userreportSubmit`).on(`click`, async function () {
+        //e.preventdefault();
+        await checkuser();
+        //console.log(userdata);//string
+        if (userdata != null) {
+            //回復商品
+            if ($(`.userreport`).siblings(`.reportmain`).data('name') === "reportmain") {
+                let comment = $(`.userreportinput`).val();//使用者輸入內容
+                let productid = @Model.pro商品編號;
+                let colorid = @Model.商品顏色ID;
+                (async function () {
+                    let FD = new FormData();
+                    FD.append('comment', comment)
+                    FD.append('productid', productid)
+                    FD.append('colorid', colorid)
+                    FD.append('userdata', userdata)
+                    FD.append('count', 1)
+                    let data = await fetch(`@Url.Content("~/ProductWall/CreateComment")`, {
+                        method: "POST",
+                        body: FD
                     })
-                }
+                    let response = await data.text();
 
-                //回復子題
-                else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "child") {
-                    let comment = $(`.userreportinput`).val();
-                    let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().siblings('div').data('id');
-                    console.log(paretID);
-                    let childID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
-                    console.log(childID);
-
-                    connection.invoke('SendComment', comment, paretID, childID, userdata).catch(function () {
-                        console.log("傳送錯誤");
-                    })
-                }
-                //最後
-                else {
-                    let comment = $(`.userreportinput`).val();
-                    let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().parent().parent().parent().siblings('div').data('id');
-                    console.log(paretID);
-                    let childID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().closest(`.itemCommentContent`).data('id');
-                    console.log(childID);
-
-                    connection.invoke('SendComment', comment, paretID, childID, userdata).catch(function () {
-                        console.log("傳送錯誤");
-                    });
-                }
+                    if (response != null) {
+                        connection.invoke("SendComment", response).catch(function () {
+                            console.log("傳送錯誤");
+                        });
+                    }
+                    else {
+                        $('#error').css("display", "block");
+                        $('.modal-text').text("傳送訊息失敗");
+                    }
+                }());//加上小括號立即執行
             }
-        });
-        $(`#userreportCancel`).on("click", function () {
-            $(`.reportmain`).after($(`.userreport`));
-            $(`.userreportinput`).val("");
-        });
+            //回復主題
+            else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "paret") {
+                let comment = $(`.userreportinput`).val();
+                let productid = @Model.pro商品編號;
+                let colorid = @Model.商品顏色ID;
+                let paretID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
+                (async function () {
+                    let FD = new FormData();
+                    FD.append('comment', comment)
+                    FD.append('productid', productid)
+                    FD.append('colorid', colorid)
+                    FD.append('userdata', userdata)
+                    FD.append('paretID', paretID)
+                    FD.append('count', 2)
+                    let data = await fetch(`@Url.Content("~/ProductWall/CreateComment")`, {
+                        method: "POST",
+                        body: FD
+                    })
+                    let response = await data.text();
+
+                    if (response != null) {
+                        connection.invoke("SendComment", response).catch(function () {
+                            console.log("傳送錯誤");
+                        });
+                    }
+                    else {
+                        $('#error').css("display", "block");
+                        $('.modal-text').text("傳送訊息失敗");
+                    }
+                }());//加上小括號立即執行
+            }
+            //回復子題
+            else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "child") {
+                let comment = $(`.userreportinput`).val();
+                let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().siblings('div').data('id');
+                let childID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
+                let productid = @Model.pro商品編號;
+                let colorid = @Model.商品顏色ID;
+                (async function () {
+                    let FD = new FormData();
+                    FD.append('comment', comment)
+                    FD.append('productid', productid)
+                    FD.append('colorid', colorid)
+                    FD.append('userdata', userdata)
+                    FD.append('paretID', paretID)
+                    FD.append('childID', childID)
+                    FD.append('count', 3)
+                    let data = await fetch(`@Url.Content("~/ProductWall/CreateComment")`, {
+                        method: "POST",
+                        body: FD
+                    })
+                    let response = await data.text();
+
+                    if (response != null) {
+                        connection.invoke("SendComment", response).catch(function () {
+                            console.log("傳送錯誤");
+                        });
+                    }
+                    else {
+                        $('#error').css("display", "block");
+                        $('.modal-text').text("傳送訊息失敗");
+                    }
+                }());
+            }
+            //最後
+            else {
+                let comment = $(`.userreportinput`).val();
+                let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().parent().parent().parent().siblings('div').data('id');
+                let childID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().closest(`.itemCommentContent`).data('id');
+                let productid = @Model.pro商品編號;
+                let colorid = @Model.商品顏色ID;
+                (async function () {
+                    let FD = new FormData();
+                    FD.append('comment', comment)
+                    FD.append('productid', productid)
+                    FD.append('colorid', colorid)
+                    FD.append('userdata', userdata)
+                    FD.append('paretID', paretID)
+                    FD.append('childID', childID)
+                    FD.append('count', 3)
+                    let data = await fetch(`@Url.Content("~/ProductWall/CreateComment")`, {
+                        method: "POST",
+                        body: FD
+                    })
+                    let response = await data.text();
+
+                    if (response != null) {
+                        connection.invoke("SendComment", response).catch(function () {
+                            console.log("傳送錯誤");
+                        });
+                    }
+                    else {
+                        $('#error').css("display", "block");
+                        $('.modal-text').text("傳送訊息失敗");
+                    }
+                }());
+            }
+        }
+    });
+    $(`#userreportCancel`).on("click", function () {
+        $(`.reportmain`).after($(`.userreport`));
+        $(`.userreportinput`).val("");
+    });
 
     </script>
 

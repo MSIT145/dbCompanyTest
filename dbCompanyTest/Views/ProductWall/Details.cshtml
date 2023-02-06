@@ -57,11 +57,11 @@
                     {
                         if (Model.pro商品顏色idlist[i] == Model.商品顏色ID)
                         {
-                                                            <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                            <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
                         }
                         else
                         {
-                                                            <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品編號+"&colorID="+Model.pro商品顏色idlist[i])" id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                            <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品編號+"&colorID="+Model.pro商品顏色idlist[i])" id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
                         }
 
                     }
@@ -74,7 +74,7 @@
                 @{
                     for (int i = 0; i < Model.pro商品尺寸list.Count; i++)
                     {
-                                                        <div class="size-item" id="@Model.pro商品尺寸idlist[i]">@Model.pro商品尺寸list[i]</div>
+                        <div class="size-item" id="@Model.pro商品尺寸idlist[i]">@Model.pro商品尺寸list[i]</div>
                     }
                 }
             </div>
@@ -129,63 +129,63 @@
                 @{
                     foreach (var paretitem in Model.paretCommentslist)
                     {
-                                                        <li>
-                                                            <div class="itemCommentContent" data-id="@paretitem.paretCommentID" data-name="paret">
-                                                                <div>
-                                                                    <p class="itemName">會員:@paretitem.paretCommentGuestName</p>
-                                                                    <p class="itemMessage">內容:@paretitem.paretComment</p>
-                                                                </div>
-                                                                <div>
-                                                                    <span class="itemreport">回覆</span><span>|</span><span>留言時間:@paretitem.paretCommentDate</span>
-                                                                </div>
-                                                            </div>
-                                                            <div style="display:flex;margin-left:2px;border-left:solid;">
-                                                                <ul>
-                                                                    @{
+                        <li>
+                            <div class="itemCommentContent" data-id="@paretitem.paretCommentID" data-name="paret">
+                                <div>
+                                    <p class="itemName">會員:@paretitem.paretCommentGuestName</p>
+                                    <p class="itemMessage">內容:@paretitem.paretComment</p>
+                                </div>
+                                <div>
+                                    <span class="itemreport">回覆</span><span>|</span><span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
+                                </div>
+                            </div>
+                            <div style="display:flex;margin-left:2px;border-left:solid;">
+                                <ul>
+                                    @{
                                         foreach (var childitem in Model.childCommentlist)
                                         {
                                             if (paretitem.paretCommentID == childitem.childCommentParet && childitem.childCommentchildid == null)
                                             {
-                                                                                                                <div style="display:flex;" class="itemCommentContent" data-id="@childitem.childCommentID" data-name="child">
-                                                                                                                    <div class="itemdivborder"></div>
-                                                                                                                <li>
-                                                                                                                    <div>
-                                                                                                                        <p class="itemName">會員:@childitem.childCommentGuestName</p>
-                                                                                                                        <p class="itemMessage">內容:@childitem.childComment</p>
-                                                                                                                    </div>
-                                                                                                                    <div>
-                                                                                                                        <span class="itemreport">回覆</span><span>|</span><span>留言時間:@childitem.childCommentDate</span>
-                                                                                                                    </div>
-                                                                                                                    <div style="display:flex;margin-left:28px;border-left:solid;">
-                                                                                                                        <ul>
-                                                                                                                                @{
+                                                <div style="display:flex;" class="itemCommentContent" data-id="@childitem.childCommentID" data-name="child">
+                                                    <div class="itemdivborder"></div>
+                                                <li>
+                                                    <div>
+                                                        <p class="itemName">會員:@childitem.childCommentGuestName</p>
+                                                        <p class="itemMessage">內容:@childitem.childComment</p>
+                                                    </div>
+                                                    <div>
+                                                        <span class="itemreport">回覆</span><span>|</span><span>留言時間:@childitem.childCommentDate</span>
+                                                    </div>
+                                                    <div style="display:flex;margin-left:28px;border-left:solid;">
+                                                        <ul>
+                                                                @{
                                                                     foreach (var childitemchildid in Model.childCommentlist)
                                                                     {
                                                                         if (childitem.childCommentID == childitemchildid.childCommentchildid)
                                                                         {
-                                                                                                                                                                        <div style="display:flex;" class="itemCommentContent">
-                                                                                                                                                                            <div class="itemdivborder"></div>
-                                                                                                                                                                        <li>
-                                                                                                                                                                            <div>
-                                                                                                                                                                                <p class="itemName">會員:@childitemchildid.childCommentGuestName</p>
-                                                                                                                                                                                <p class="itemMessage">內容:@childitemchildid.childComment</p>
-                                                                                                                                                                            </div>
-                                                                                                                                                                            <span class="itemreport">回覆</span><span>|</span><span>留言時間:@childitemchildid.childCommentDate</span>
-                                                                                                                                                                        </li>
-                                                                                                                                                                </div>
+                                                                        <div style="display:flex;" class="itemCommentContent">
+                                                                            <div class="itemdivborder"></div>
+                                                                        <li>
+                                                                            <div>
+                                                                                <p class="itemName">會員:@childitemchildid.childCommentGuestName</p>
+                                                                                <p class="itemMessage">內容:@childitemchildid.childComment</p>
+                                                                            </div>
+                                                                            <span class="itemreport">回覆</span><span>|</span><span>留言時間:@childitemchildid.childCommentDate</span>
+                                                                        </li>
+                                                                </div>
                                                                         }
                                                                     }
-                                                                                                                                }
-                                                                                                            </ul>
-                                                                                                        </div>
-                                                                                                    </li>
-                                                                                            </div>
+                                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                            </div>
                                             }
                                         }
-                                                                    }
-                                                </ul>
-                                            </div>
-                                            </li>
+                                    }
+                </ul>
+            </div>
+            </li>
                     }
                 }
     </ul>
@@ -250,7 +250,7 @@
 
 @section Scripts{
     <script>
-        let count = 1;
+        //let count = 1;
         let sizecheck = null;
         let login = false;
         let userdata = null;
@@ -282,7 +282,7 @@
         $(`.itemreport`).on("click", function () {
             $(this).closest(`div`).after($(`.userreport`));
         });
-        
+
 
 
         connection.on('UpdMessage', function (response) {
@@ -307,6 +307,7 @@
                         FD.append('productid', productid)
                         FD.append('colorid', colorid)
                         FD.append('userdata', userdata)
+                        FD.append('count', 1)
                         let data = await fetch(`@Url.Content("~/ProductWall/CreateComment")`, {
                             method: "POST",
                             body: FD
@@ -327,37 +328,99 @@
                 //回復主題
                 else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "paret") {
                     let comment = $(`.userreportinput`).val();
+                    let productid = @Model.pro商品編號;
+                    let colorid = @Model.商品顏色ID;
                     let paretID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
-                    console.log(paretID);
+                    (async function () {
+                        let FD = new FormData();
+                        FD.append('comment', comment)
+                        FD.append('productid', productid)
+                        FD.append('colorid', colorid)
+                        FD.append('userdata', userdata)
+                        FD.append('paretID', paretID)
+                        FD.append('count', 2)
+                        let data = await fetch(`@Url.Content("~/ProductWall/CreateComment")`, {
+                            method: "POST",
+                            body: FD
+                        })
+                        let response = await data.text();
 
-                    connection.invoke("SendComment", comment, paretID, userdata).catch(function () {
-                        console.log("傳送錯誤");
-                    })
+                        if (response != null) {
+                            connection.invoke("SendComment", response).catch(function () {
+                                console.log("傳送錯誤");
+                            });
+                        }
+                        else {
+                            $('#error').css("display", "block");
+                            $('.modal-text').text("傳送訊息失敗");
+                        }
+                    }());//加上小括號立即執行
                 }
-
                 //回復子題
                 else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "child") {
                     let comment = $(`.userreportinput`).val();
                     let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().siblings('div').data('id');
-                    console.log(paretID);
                     let childID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
-                    console.log(childID);
+                    let productid = @Model.pro商品編號;
+                    let colorid = @Model.商品顏色ID;
+                    (async function () {
+                        let FD = new FormData();
+                        FD.append('comment', comment)
+                        FD.append('productid', productid)
+                        FD.append('colorid', colorid)
+                        FD.append('userdata', userdata)
+                        FD.append('paretID', paretID)
+                        FD.append('childID', childID)
+                        FD.append('count', 3)
+                        let data = await fetch(`@Url.Content("~/ProductWall/CreateComment")`, {
+                            method: "POST",
+                            body: FD
+                        })
+                        let response = await data.text();
 
-                    connection.invoke('SendComment', comment, paretID, childID, userdata).catch(function () {
-                        console.log("傳送錯誤");
-                    })
+                        if (response != null) {
+                            connection.invoke("SendComment", response).catch(function () {
+                                console.log("傳送錯誤");
+                            });
+                        }
+                        else {
+                            $('#error').css("display", "block");
+                            $('.modal-text').text("傳送訊息失敗");
+                        }
+                    }());
                 }
                 //最後
                 else {
                     let comment = $(`.userreportinput`).val();
                     let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().parent().parent().parent().siblings('div').data('id');
-                    console.log(paretID);
                     let childID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().closest(`.itemCommentContent`).data('id');
-                    console.log(childID);
+                    let productid = @Model.pro商品編號;
+                    let colorid = @Model.商品顏色ID;
+                    (async function () {
+                        let FD = new FormData();
+                        FD.append('comment', comment)
+                        FD.append('productid', productid)
+                        FD.append('colorid', colorid)
+                        FD.append('userdata', userdata)
+                        FD.append('paretID', paretID)
+                        FD.append('childID', childID)
+                        FD.append('count', 3)
+                        let data = await fetch(`@Url.Content("~/ProductWall/CreateComment")`, {
+                            method: "POST",
+                            body: FD
+                        })
+                        let response = await data.text();
 
-                    connection.invoke('SendComment', comment, paretID, childID, userdata).catch(function () {
-                        console.log("傳送錯誤");
-                    });
+                        if (response != null) {
+                            connection.invoke("SendComment", response).catch(function () {
+                                console.log("傳送錯誤");
+                            });
+                        }
+                        else {
+                            $('#error').css("display", "block");
+                            $('.modal-text').text("傳送訊息失敗");
+                        }
+                    }());
                 }
             }
         });
@@ -505,7 +568,7 @@
             }
         }
 
-        
+
 
 
 
