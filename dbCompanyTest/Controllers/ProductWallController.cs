@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.Xml;
 using System.Text.Json;
 using X.PagedList;
@@ -356,14 +357,14 @@ namespace dbCompanyTest.Controllers
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
             {
                 string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
-                return Json(json);
+                return Content(json);
 
             }
             else if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION)) 
             {
                 string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
                 json = $"{{\"name\":\"{json}\"}}";//將string 組成 Json字串
-                return Json(json);
+                return Content(json);
             }
             else
             {
@@ -373,7 +374,8 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult CreateComment(string comment,int productid,int colorid ,string userdata) 
         {
-            var user = _context.TestClients.FirstOrDefault(x => x.客戶編號 == userdata);
+            TestClient TC = JsonSerializer.Deserialize<TestClient>(userdata);
+            var user = _context.TestClients.FirstOrDefault(x => x.客戶編號 == TC.客戶編號);
             if (user != null)
             {
                 ParentComment PC = new ParentComment();
@@ -383,14 +385,17 @@ namespace dbCompanyTest.Controllers
                 PC.建立日期 = DateTime.Now;
                 PC.客戶編號 = user.客戶編號;
                 PC.客戶姓名 = user.客戶姓名;
+                //PC.客戶編號Navigation = new TestClient { 客戶編號 = "sss" , Email ="sss" };
+                
                 _context.ParentComments.Add(PC);
-                _context.SaveChanges();
-                string json = JsonSerializer.Serialize(PC);
-
-                return Json(json);
+                var a = JsonSerializer.Serialize<ParentComment>(PC);
+                //_context.SaveChanges();
+                //return Json(new { PC.商品顏色id , PC.客戶姓名 });
+                return Json(a);
             }
             else {
-                return Json(null);
+                //return Json(null);
+                return new JsonResult(null);
             }
             
         }

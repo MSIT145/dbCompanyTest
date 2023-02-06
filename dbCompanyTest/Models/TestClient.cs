@@ -9,7 +9,6 @@ namespace dbCompanyTest.Models
         {
             Offers = new HashSet<Offer>();
             Orders = new HashSet<Order>();
-            ParentComments = new HashSet<ParentComment>();
             會員商品暫存s = new HashSet<會員商品暫存>();
         }
 
@@ -27,7 +26,6 @@ namespace dbCompanyTest.Models
 
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
-        public virtual ICollection<ParentComment> ParentComments { get; set; }
         public virtual ICollection<會員商品暫存> 會員商品暫存s { get; set; }
     }
 }

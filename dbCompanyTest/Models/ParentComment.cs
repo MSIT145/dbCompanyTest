@@ -18,7 +18,6 @@ namespace dbCompanyTest.Models
         public string? 內容 { get; set; }
         public DateTime? 建立日期 { get; set; }
 
-        public virtual TestClient? 客戶編號Navigation { get; set; }
         public virtual ICollection<ChildComment> ChildComments { get; set; }
     }
 }
