@@ -146,34 +146,35 @@ namespace dbCompanyTest.Controllers
                         if (System.IO.File.Exists(_environment.WebRootPath + "/File/" + thislist.附件))
                         {
                             string oldpath = _environment.WebRootPath + "/File/" + thislist.附件;
-                            string NewFileNamePath = $"{_environment.WebRootPath}/File/{Guid.NewGuid().ToString()}.pdf";
+                            string NewFileName = $"{Guid.NewGuid().ToString()}.pdf";
+                            string NewFileNamePath = $"{_environment.WebRootPath}/File/{NewFileName}";
 
 
                             if (cToDoListViewModels.部門主管簽核 != thislist.部門主管簽核 && cToDoListViewModels.部門主管簽核 == "敬陳")
                             {
                                 AddImg(oldpath, NewFileNamePath, $"{_environment.WebRootPath}/Sign/{thislist.部門主管}.jpg", 158, 545);
-                                thislist.附件 = NewFileNamePath;
+                                thislist.附件 = NewFileName;
                                 if (System.IO.File.Exists(oldpath))
                                     System.IO.File.Delete(oldpath);
                             }
                             if (cToDoListViewModels.協辦部門簽核 != thislist.協辦部門簽核 && cToDoListViewModels.協辦部門簽核 == "敬陳")
                             {
                                 AddImg(oldpath, NewFileNamePath, $"{_environment.WebRootPath}/Sign/{thislist.協辦部門簽核人員}.jpg", 262, 545);
-                                thislist.附件 = NewFileNamePath;
+                                thislist.附件 = NewFileName;
                                 if (System.IO.File.Exists(oldpath))
                                     System.IO.File.Delete(oldpath);
                             }
                             if (cToDoListViewModels.老闆簽核 != thislist.老闆簽核 && cToDoListViewModels.老闆簽核 == "敬陳")
                             {
                                 AddImg(oldpath, NewFileNamePath, $"{_environment.WebRootPath}/Sign/ST2-0010170.jpg", 366, 545);
-                                thislist.附件 = NewFileNamePath;
+                                thislist.附件 = NewFileName;
                                 if (System.IO.File.Exists(oldpath))
                                     System.IO.File.Delete(oldpath);
                             }
                             if (cToDoListViewModels.執行人簽核 != thislist.執行人簽核 && cToDoListViewModels.執行人簽核 == "完成")
                             {
                                 AddImg(oldpath, NewFileNamePath, $"{_environment.WebRootPath}/Sign/{thislist.執行人}.jpg", 470, 545);
-                                thislist.附件 = NewFileNamePath;
+                                thislist.附件 = NewFileName;
                                 if (System.IO.File.Exists(oldpath))
                                     System.IO.File.Delete(oldpath);
                             }
@@ -484,13 +485,6 @@ namespace dbCompanyTest.Controllers
 
         }
 
-        public IActionResult test()
-        {
-            //AddImg($"{_environment.WebRootPath}/File/e1b8e992-3661-4b0f-9ccd-0c01575cde0d.pdf", $"{_environment.WebRootPath}/File/new.pdf", $"{_environment.WebRootPath}/Sign/ST1-00837.jpg", 158 ,545);//部門主管
-            //AddImg($"{_environment.WebRootPath}/File/e1b8e992-3661-4b0f-9ccd-0c01575cde0d.pdf", $"{_environment.WebRootPath}/File/new.pdf", $"{_environment.WebRootPath}/Sign/ST1-00837.jpg", 262, 545);//協辦部門
-            //AddImg($"{_environment.WebRootPath}/File/e1b8e992-3661-4b0f-9ccd-0c01575cde0d.pdf", $"{_environment.WebRootPath}/File/new.pdf", $"{_environment.WebRootPath}/Sign/ST1-00837.jpg", 366, 545);//老闆
-            //AddImg($"{_environment.WebRootPath}/File/e1b8e992-3661-4b0f-9ccd-0c01575cde0d.pdf", $"{_environment.WebRootPath}/File/new.pdf", $"{_environment.WebRootPath}/Sign/ST1-00837.jpg", 470, 545);
-            return RedirectToAction("logout");
-        }
+       
     }
 }
