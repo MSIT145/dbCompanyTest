@@ -297,7 +297,11 @@ namespace dbCompanyTest.Controllers
 
         }
         //----繳費API結束--------------
-
+        public IActionResult store(IFormCollection data)
+        {
+            string storeid = data["storeid"];
+            return View();
+        }
 
         public IActionResult CreateOrder(Order order)
         {
