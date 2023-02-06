@@ -137,6 +137,38 @@
         public List<Back_clsseries> series { get; set; }
     }
 
+    //Bar圖使用的類別
+    public class Bar_chart_info
+    {
+        public string topcolor { get; set; }
+        public string title { get; set; }
+        public string subtitle { get; set; }
+        public List<string> categories { get; set; }
+        public string yAxis_title_text { get; set; }
+        public string tooltip_valueSuffix { get; set; }
+        public int plotOptions_bar_pontwidth { get; set; }
+
+        public Bar_series series { get; set; }
+    }
+    public class Bar_series_data
+    {
+        public decimal y { get; set; }
+        public string color { get; set; }
+    }
+
+    public class Bar_series
+    {
+        public string name { get; set; }
+        public List<Bar_series_data> data { get; set; }
+    }
+
+    public class Bar_chart_tempSell
+    {
+        public string name { get; set; }
+        public decimal sellsum { get; set; }
+
+    }
+
     #endregion ProductRelevant 使用類別
 
 

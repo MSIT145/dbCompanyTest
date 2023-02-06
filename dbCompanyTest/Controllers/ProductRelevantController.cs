@@ -129,41 +129,11 @@ namespace dbCompanyTest.Controllers
 
         }
 
-        public class Bar_chart_info
-        {
-            public string topcolor { get; set; }
-            public string title { get; set; }
-            public string subtitle { get; set; }
-            public List<string> categories { get; set; }
-            public string yAxis_title_text { get; set; }
-            public string tooltip_valueSuffix { get; set; }
-            public int plotOptions_bar_pontwidth { get; set; }
-
-            public Bar_series series { get; set; }
-        }
-        public class Bar_series_data
-        {
-            public decimal y { get; set; }
-            public string color { get; set; }
-        }
-
-        public class Bar_series
-        {
-            public string name { get; set; }
-            public List<Bar_series_data> data { get; set; }
-        }
-
-        public class Bar_chart_tempSell
-        { 
-            public string name { get; set; }
-            public decimal sellsum { get; set; }
-
-        }
-
         //組成Bar圖所需的資料
         string[] colorlist = { "#C8ECFA", "#A9A9AE", "#DCFAC9", "#FFFFC2", "#E6EBFF", "#FFC2E6", "#F8F4A0", "#91F6F5", "#FFC1C1", "#F7FFFF" };
         
         //建構Bar圖
+        //Bar_顏色
         public IActionResult color_Barchart()
         {
             var temp = SellJoinProDetail();
@@ -179,8 +149,82 @@ namespace dbCompanyTest.Controllers
                                  };
             return Json(Build_Bar_chart_info_Top10(temp_colorSell.ToList(), "Top10 色彩銷售表", "受歡迎的色彩Top10"));
         }
+        //Bar_尺寸
+        public IActionResult size_Barchart()
+        {
+            var temp = SellJoinProDetail();
+            //group by 取得尺寸總價
+            var temp_colorSell = from t in temp
+                                 join c in db.ProductsSizeDetails
+                                 on t.商品尺寸id equals c.商品尺寸id
+                                 group t by new { t.商品尺寸id, c.尺寸種類 } into g
+                                 select new Bar_chart_tempSell
+                                 {
+                                     name = g.Key.尺寸種類,
+                                     sellsum = g.Sum(g => g.sell)
+                                 };
+            return Json(Build_Bar_chart_info_Top10(temp_colorSell.ToList(), "Top10 尺寸銷售表", "受歡迎的尺寸Top10"));
+        }
 
+        public IActionResult type_Barchart()
+        {
+            var temp = SellJoinProDetail();
+            //要先與商品編號id group by 取得 每項商品的總銷售
+            var ProSumsell = temp.GroupBy(t => t.商品編號id).Select(g => new { 商品編號id = g.Key, sellsum = g.Sum(g => g.sell) });
+            //再與Product join 才能與 種類表單group by 
+            var tempPro = from t in ProSumsell
+                          join c in db.Products
+                          on t.商品編號id equals c.商品編號id
+                          select new
+                          {
+                              商品編號id = t.商品編號id,
+                              sell = t.sellsum,
+                              name = c.商品名稱,
+                              商品分類id = c.商品分類id,
+                              商品鞋種id = c.商品鞋種id
+                          };
+            //group by 取得類別總價
+            var temp_colorSell = from t in tempPro
+                                 join c in db.ProductsTypeDetails
+                                 on t.商品分類id equals c.商品分類id
+                                 group t by new { t.商品分類id, c.商品分類名稱 } into g
+                                 select new Bar_chart_tempSell
+                                 {
+                                     name = g.Key.商品分類名稱,
+                                     sellsum = g.Sum(g => g.sell)
+                                 };
+            return Json(Build_Bar_chart_info_Top10(temp_colorSell.ToList(), "Top10 類別銷售表", "受歡迎的類別Top10"));
+        }
 
+        public IActionResult shose_Barchart()
+        {
+            var temp = SellJoinProDetail();
+            //要先與商品編號id group by 取得 每項商品的總銷售
+            var ProSumsell = temp.GroupBy(t => t.商品編號id).Select(g => new { 商品編號id = g.Key, sellsum = g.Sum(g => g.sell) });
+            //再與Product join 才能與 種類表單group by 
+            var tempPro = from t in ProSumsell
+                          join c in db.Products
+                          on t.商品編號id equals c.商品編號id
+                          select new
+                          {
+                              商品編號id = t.商品編號id,
+                              sell = t.sellsum,
+                              name = c.商品名稱,
+                              商品分類id = c.商品分類id,
+                              商品鞋種id = c.商品鞋種id
+                          };
+            //group by 取得類別總價
+            var temp_colorSell = from t in tempPro
+                                 join c in db.商品鞋種s
+                                 on t.商品鞋種id equals c.商品鞋種id
+                                 group t by new { t.商品鞋種id, c.鞋種 } into g
+                                 select new Bar_chart_tempSell
+                                 {
+                                     name = g.Key.鞋種,
+                                     sellsum = g.Sum(g => g.sell)
+                                 };
+            return Json(Build_Bar_chart_info_Top10(temp_colorSell.ToList(), "Top10 鞋種銷售表", "受歡迎的鞋種Top10"));
+        }
 
 
         //組成氣泡圖所需資料

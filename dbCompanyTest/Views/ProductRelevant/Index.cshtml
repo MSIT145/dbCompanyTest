@@ -36,7 +36,7 @@
                 <div class="row">
                     <div class="col-md-3">     
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_ColorForm"> 新增</button>
-                        <button type="button" class="btn btn-primary" name="show_chart" >銷售圖表</button>
+                        <button type="button" class="btn btn-primary" data-bubble-url="@Url.Content("~/ProductRelevant/color_bubblechart")" data-bar-url="@Url.Content("~/ProductRelevant/color_Barchart")" name="show_chart">銷售圖表</button>
                     </div>
             </div>
                 <hr style='background-color:white; height:1px; border:none;'>
@@ -61,6 +61,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_SizeForm"> 新增</button>
+                        <button type="button" class="btn btn-primary" data-bubble-url="@Url.Content("~/ProductRelevant/size_bubblechart")" data-bar-url="@Url.Content("~/ProductRelevant/size_Barchart")" name="show_chart">銷售圖表</button>
                     </div>
                 </div>
                 <hr style='background-color:white; height:1px; border:none;'>
@@ -83,6 +84,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_TypeForm"> 新增</button>
+                        <button type="button" class="btn btn-primary" data-bubble-url="@Url.Content("~/ProductRelevant/type_bubblechart")" data-bar-url="@Url.Content("~/ProductRelevant/type_Barchart")" name="show_chart">銷售圖表</button>
                     </div>
                 </div>
                 <hr style='background-color:white; height:1px; border:none;'>
@@ -105,6 +107,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Moda" id="btn_shoesForm"> 新增</button>
+                        <button type="button" class="btn btn-primary" data-bubble-url="@Url.Content("~/ProductRelevant/shoes_bubblechart")" data-bar-url="@Url.Content("~/ProductRelevant/shose_Barchart")" name="show_chart">銷售圖表</button>
                     </div>
                 </div>
                 <hr style='background-color:white; height:1px; border:none;'>
@@ -594,8 +597,12 @@
         //按鈕開圖表圖事件
         $("#collapse_group").on('click', "button[name='show_chart']",function(){
             $("#heightchart_bubble").slideToggle(500);
-          Split_Packed_bubble("SP_bubble_container", '@Url.Content("~/ProductRelevant/color_bubblechart")');
-            Bar_chart('container_bar', '@Url.Content("~/ProductRelevant/color_Barchart")');
+            const bubbleUrl = $(this).attr("data-bubble-url");
+             const barUrl = $(this).attr("data-bar-url");
+            // console.log(bubbleUrl);
+           //  console.log(barUrl);
+          Split_Packed_bubble("SP_bubble_container", bubbleUrl);
+          Bar_chart('container_bar', barUrl);
         })
              
         //檢查錯誤圖檔
