@@ -154,27 +154,150 @@ namespace dbCompanyTest.Controllers
 
             return Json(userSession);
         }
-
-
-
-        // GET: Shopping/Details/5
-        public async Task<IActionResult> Details(int? id)
+        //----訂單API----------------------
+        public IActionResult TestForAPI(Order data)
         {
-            if (id == null || _context.會員商品暫存s == null)
-            {
-                return NotFound();
-            }
+            var orderId = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
 
-            var 會員商品暫存 = await _context.會員商品暫存s
-                .Include(會 => 會.客戶編號Navigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (會員商品暫存 == null)
-            {
-                return NotFound();
-            }
+            //需填入 你的網址
+            var website = $"https://localhost:7013";
+            var order = new Dictionary<string, string>
+        {
+            //特店交易編號
+            { "MerchantTradeNo",  data.訂單編號},
 
-            return View(會員商品暫存);
+            //特店交易時間 yyyy/MM/dd HH:mm:ss
+            { "MerchantTradeDate",  DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")},
+
+            //超商取貨
+            { "LogisticsType",  "CVS"},
+
+            //選擇超商
+            { "LogisticsSubType",  "UNIMART"},
+
+            //自訂名稱欄位3
+            { "GoodsAmount",  data.總金額.Value.ToString()},//
+
+            //自訂名稱欄位3
+            { "SenderName",  "ALANANDLU"},
+
+            //自訂名稱欄位3
+            { "SenderPhone",  "0977123456"},
+
+            //自訂名稱欄位3
+            { "SenderCellPhone",  "0977123456"},
+
+            //自訂名稱欄位3
+            { "ReceiverName",  data.收件人名稱},//
+
+            //自訂名稱欄位3
+            { "ReceiverPhone",  data.收件人電話},//
+
+            //自訂名稱欄位3
+            { "ReceiverCellPhone",  data.收件人電話},//
+
+            //自訂名稱欄位3
+            { "ReceiverStoreID",  "131386"},
+
+            //自訂名稱欄位4
+            { "ServerReplyURL",  $"{website}/Home/Index"},
+
+            //特店編號， 2000132 測試綠界編號
+            { "MerchantID",  "2000132"},
+
+            //CheckMacValue 加密類型 固定填入 1 (SHA256)
+            { "EncryptType",  "1"}
+        };
+            order["CheckMacValue"] = (new APIViewModels()).GetCheckMacValueForOrder(order);
+            var HttpContent = new FormUrlEncodedContent(order);
+            string response = "";
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://logistics-stage.ecpay.com.tw/Express/Create");
+                client.DefaultRequestHeaders.Accept.Clear();
+                HttpResponseMessage httpResponse = client.PostAsync("", HttpContent).Result;
+                return Json(httpResponse.Content.ReadAsStringAsync().Result);
+            }
         }
+        //----訂單API結束-------------------
+
+
+        //----繳費API-------------------
+        public IActionResult TestforPay(Order data)
+        {
+            var orderId = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
+
+            //需填入 你的網址
+            var website = $"https://localhost:7100";
+
+            var order = new Dictionary<string, string>
+        {
+            //特店交易編號
+            { "MerchantTradeNo",  data.訂單編號},
+
+            //特店交易時間 yyyy/MM/dd HH:mm:ss
+            { "MerchantTradeDate",  DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")},
+
+            //交易金額
+            { "TotalAmount",  data.總金額.Value.ToString()},
+
+            //交易描述
+            { "TradeDesc",  "無"},
+
+            //商品名稱
+            { "ItemName",  data.訂單編號},
+
+            //允許繳費有效天數(付款方式為 ATM 時，需設定此值)
+            { "ExpireDate",  "3"},
+
+            //自訂名稱欄位1
+            { "CustomField1",  ""},
+
+            //自訂名稱欄位2
+            { "CustomField2",  ""},
+
+            //自訂名稱欄位3
+            { "CustomField3",  ""},
+
+            //自訂名稱欄位4
+            { "CustomField4",  ""},
+
+            //綠界回傳付款資訊的至 此URL
+            { "ReturnURL",  $"{website}/api/API/AddPayInfo"},
+
+            //使用者於綠界 付款完成後，綠界將會轉址至 此URL
+            { "OrderResultURL", $"{website}/Shopping/Index"},
+
+            //付款方式為 ATM 時，當使用者於綠界操作結束時，綠界回傳 虛擬帳號資訊至 此URL
+            { "PaymentInfoURL",  $"{website}/api/Ecpay/AddAccountInfo"},
+
+            //付款方式為 ATM 時，當使用者於綠界操作結束時，綠界會轉址至 此URL。
+            { "ClientRedirectURL",  $"{website}/Ecpay/AccountInfo/{orderId}"},
+
+            //特店編號， 2000132 測試綠界編號
+            { "MerchantID",  "2000132"},
+
+            //忽略付款方式
+            { "IgnorePayment",  "GooglePay#WebATM#CVS#BARCODE"},
+
+            //交易類型 固定填入 aio
+            { "PaymentType",  "aio"},
+
+            //選擇預設付款方式 固定填入 ALL
+            { "ChoosePayment",  "ALL"},
+
+            //CheckMacValue 加密類型 固定填入 1 (SHA256)
+            { "EncryptType",  "1"},
+        };
+
+            //檢查碼
+            order["CheckMacValue"] = (new APIViewModels()).GetCheckMacValuecon(order);
+
+            return View(order);
+
+        }
+        //----繳費API結束--------------
+
 
         public IActionResult CreateOrder(Order order)
         {
@@ -209,123 +332,6 @@ namespace dbCompanyTest.Controllers
             
             return Content("成功");
         }
-
-        //GET: Shopping/Create
-        public IActionResult Create()
-        {
-            ViewData["客戶編號"] = new SelectList(_context.TestClients, "客戶編號", "客戶編號");
-            return View();
-        }
-
-        //POST: Shopping/Create
-        //To protect from overposting attacks, enable the specific properties you want to bind to.
-        //For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-
-       [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,客戶編號,商品編號,商品名稱,尺寸種類,商品顏色種類,訂單數量,商品價格,購物車或我的最愛")] 會員商品暫存 會員商品暫存)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(會員商品暫存);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["客戶編號"] = new SelectList(_context.TestClients, "客戶編號", "客戶編號", 會員商品暫存.客戶編號);
-            return View(會員商品暫存);
-        }
-
-        // GET: Shopping/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.會員商品暫存s == null)
-            {
-                return NotFound();
-            }
-
-            var 會員商品暫存 = await _context.會員商品暫存s.FindAsync(id);
-            if (會員商品暫存 == null)
-            {
-                return NotFound();
-            }
-            ViewData["客戶編號"] = new SelectList(_context.TestClients, "客戶編號", "客戶編號", 會員商品暫存.客戶編號);
-            return View(會員商品暫存);
-        }
-
-        // POST: Shopping/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,客戶編號,商品編號,商品名稱,尺寸種類,商品顏色種類,訂單數量,商品價格,購物車或我的最愛")] 會員商品暫存 會員商品暫存)
-        {
-            if (id != 會員商品暫存.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(會員商品暫存);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!會員商品暫存Exists(會員商品暫存.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["客戶編號"] = new SelectList(_context.TestClients, "客戶編號", "客戶編號", 會員商品暫存.客戶編號);
-            return View(會員商品暫存);
-        }
-
-        // GET: Shopping/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.會員商品暫存s == null)
-            {
-                return NotFound();
-            }
-
-            var 會員商品暫存 = await _context.會員商品暫存s
-                .Include(會 => 會.客戶編號Navigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (會員商品暫存 == null)
-            {
-                return NotFound();
-            }
-
-            return View(會員商品暫存);
-        }
-
-        // POST: Shopping/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.會員商品暫存s == null)
-            {
-                return Problem("Entity set 'dbCompanyTestContext.會員商品暫存s'  is null.");
-            }
-            var 會員商品暫存 = await _context.會員商品暫存s.FindAsync(id);
-            if (會員商品暫存 != null)
-            {
-                _context.會員商品暫存s.Remove(會員商品暫存);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
         private bool 會員商品暫存Exists(int id)
         {
             return _context.會員商品暫存s.Any(e => e.Id == id);

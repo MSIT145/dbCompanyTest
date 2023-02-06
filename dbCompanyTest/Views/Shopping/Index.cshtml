@@ -140,10 +140,12 @@
 
     <div id="clientDital" style="visibility: hidden">
 
-        <form name="userInfo">
+        <form id="orderForm" name="userInfo" action="@Url.Content("~/Shopping/TestforPay")">
             <input type="text" id="pay" name="總金額"/>
             <input type="text" id="userID"name="客戶編號"/>
             <input type="text" id="howToPay"name="付款方式" value="ATM"/>
+            <input type="text" id="orderID" name="訂單編號" />
+            <input type="text" id="orderTime" name="下單時間" />
             <fieldset>
                 <legend>訂購資訊</legend>
                 <hr />
@@ -209,7 +211,7 @@
 
         </form>
     </div>
-
+@*
     <div id="finish" style="visibility: hidden;">
         <h2 style="text-align:center;">訂購完成</h2>
         <br />
@@ -217,7 +219,7 @@
             <a href="@Url.Content("~/ProductWall/Index/2")">繼續購買</a>
             <a href="@Url.Content("~/Home")">返回首頁</a>
         </div>
-    </div>
+    </div>*@
 </div>
 
 
@@ -277,13 +279,17 @@
             $('.step3').addClass("active")
             $('#btn_slectCar').attr("style", "display:none;");
             $('#clientDital').attr("style", "display:none;");
-            $('#finish').attr("style", "display:biock;");
+            //$('#finish').attr("style", "display:biock;");
            var mydate = new Date();
             ordertime=mydate.toLocaleString( );
             orderId=mydate.getTime();
+            $('#orderID').val(orderId)
+            $('#orderTime').val(ordertime)
             console.log(orderId)
+            TestForAPI();
             addToOrderSQL();
             addToOrderDitalSQL()
+            $('#orderForm').submit();
         })
 
 
@@ -351,6 +357,17 @@
                 $('#OrderDitalText').val(data.地址);
             }
         }
+
+
+        async function TestForAPI() {
+            const FD = new FormData(document.userInfo)
+            const data = await fetch("@Url.Content("~/Shopping/TestForAPI")", {
+                method: "POST",
+                body: FD
+            });
+            const response = await data.json();
+        }
+
         async function addToOrderSQL() {
                 const FD = new FormData(document.userInfo)
                 FD.append('下單時間', ordertime)
