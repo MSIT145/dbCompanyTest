@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography.Xml;
 using System.Text.Json;
 using X.PagedList;
@@ -385,19 +386,79 @@ namespace dbCompanyTest.Controllers
                 PC.建立日期 = DateTime.Now;
                 PC.客戶編號 = user.客戶編號;
                 PC.客戶姓名 = user.客戶姓名;
-                //PC.客戶編號Navigation = new TestClient { 客戶編號 = "sss" , Email ="sss" };
-                
                 _context.ParentComments.Add(PC);
-                var a = JsonSerializer.Serialize<ParentComment>(PC);
-                //_context.SaveChanges();
-                //return Json(new { PC.商品顏色id , PC.客戶姓名 });
-                return Json(a);
+                _context.SaveChanges();
+
+                ProductDetailViewModels pdm = new ProductDetailViewModels();
+                //ParetComment
+                pdm.paretCommentslist = new List<paretCommentclass>();
+                ////ChildComment
+                pdm.childCommentlist = new List<childCommentclass>();
+                var ParetCommentList = from item in _context.ParentComments
+                                       where item.商品編號id == productid && item.商品顏色id == colorid
+                                       select new
+                                       {
+                                           paretCommentID = item.訊息id,
+                                           paretCommentDateList = (DateTime)item.建立日期,
+                                           paretCommentGuestIDList = item.客戶編號,
+                                           paretCommentGuestNameList = item.客戶姓名,
+                                           paretCommentList = item.內容,
+                                       };
+                foreach (var item in ParetCommentList)
+                {
+                    paretCommentclass partlist = new paretCommentclass();
+                    //加入partlist
+                    partlist.paretCommentID = item.paretCommentID;
+                    partlist.paretCommentDate = item.paretCommentDateList;
+                    partlist.paretComment = item.paretCommentList;
+                    partlist.paretCommentGuestID = item.paretCommentGuestIDList;
+                    partlist.paretCommentGuestName = item.paretCommentGuestNameList;
+                    pdm.paretCommentslist.Add(partlist);
+                    pdm.paretCommentslist = pdm.paretCommentslist.Distinct().ToList();
+                }
+                var ChildCommentList = from item in _context.ParentComments
+                                       join childcomment in _context.ChildComments on item.訊息id equals childcomment.父訊息id
+                                       where item.商品編號id == productid && item.商品顏色id == colorid
+                                       select new
+                                       {
+                                           childCommentID = childcomment.訊息id,
+                                           childCommentDateList = (DateTime)childcomment.建立日期,
+                                           childCommentList = childcomment.內容,
+                                           childCommentGuestIDList = childcomment.客戶編號,
+                                           childCommentGuestNameList = childcomment.客戶姓名,
+                                           childCommentParet = childcomment.父訊息id,
+                                           childCommentchildid = childcomment.子訊息id
+                                       };
+                foreach (var item in ChildCommentList)
+                {
+                    childCommentclass childlist = new childCommentclass();
+                    //加入childlist
+                    childlist.childCommentID = item.childCommentID;
+                    childlist.childComment = item.childCommentList;
+                    childlist.childCommentDate = item.childCommentDateList;
+                    childlist.childCommentGuestName = item.childCommentGuestNameList;
+                    childlist.childCommentGuestID = item.childCommentGuestIDList;
+                    //父訊息ID
+                    childlist.childCommentParet = item.childCommentParet;
+                    //子訊息ID
+                    childlist.childCommentchildid = item.childCommentchildid;
+                    pdm.childCommentlist.Add(childlist);
+                    pdm.childCommentlist = pdm.childCommentlist.Distinct().ToList();
+                }
+                pdm.商品顏色ID = colorid;
+                pdm.pro商品編號 = productid;
+
+                return Json(pdm);
             }
             else {
-                //return Json(null);
-                return new JsonResult(null);
+                return Json(null);
             }
             
+        }
+        public IActionResult resetdisplay(string datas) 
+        {
+            ProductDetailViewModels data = JsonSerializer.Deserialize<ProductDetailViewModels>(datas);
+            return PartialView(data);
         }
     }
 }

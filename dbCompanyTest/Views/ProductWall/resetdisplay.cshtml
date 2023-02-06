@@ -1,0 +1,186 @@
+﻿@model dbCompanyTest.ViewModels.ProductDetailViewModels
+    <p>評論</p>
+    <ul>
+        @{
+            foreach (var paretitem in Model.paretCommentslist)
+            {
+                    <li>
+                        <div class="itemCommentContent" data-id="@paretitem.paretCommentID" data-name="paret">
+                            <div>
+                                <p class="itemName">會員:@paretitem.paretCommentGuestName</p>
+                                <p class="itemMessage">內容:@paretitem.paretComment</p>
+                            </div>
+                            <div>
+                                <span class="itemreport">回覆</span><span>|</span><span>留言時間:@paretitem.paretCommentDate</span>
+                            </div>
+                        </div>
+                        <div style="display:flex;margin-left:2px;border-left:solid;">
+                            <ul>
+                                @{
+                                foreach (var childitem in Model.childCommentlist)
+                                {
+                                    if (paretitem.paretCommentID == childitem.childCommentParet && childitem.childCommentchildid == null)
+                                    {
+                                                <div style="display:flex;" class="itemCommentContent" data-id="@childitem.childCommentID" data-name="child">
+                                                    <div class="itemdivborder"></div>
+                                                <li>
+                                                    <div>
+                                                        <p class="itemName">會員:@childitem.childCommentGuestName</p>
+                                                        <p class="itemMessage">內容:@childitem.childComment</p>
+                                                    </div>
+                                                    <div>
+                                                        <span class="itemreport">回覆</span><span>|</span><span>留言時間:@childitem.childCommentDate</span>
+                                                    </div>
+                                                    <div style="display:flex;margin-left:28px;border-left:solid;">
+                                                        <ul>
+                                                                @{
+                                                            foreach (var childitemchildid in Model.childCommentlist)
+                                                            {
+                                                                if (childitem.childCommentID == childitemchildid.childCommentchildid)
+                                                                {
+                                                                            <div style="display:flex;" class="itemCommentContent">
+                                                                                <div class="itemdivborder"></div>
+                                                                            <li>
+                                                                                <div>
+                                                                                    <p class="itemName">會員:@childitemchildid.childCommentGuestName</p>
+                                                                                    <p class="itemMessage">內容:@childitemchildid.childComment</p>
+                                                                                </div>
+                                                                                <span class="itemreport">回覆</span><span>|</span><span>留言時間:@childitemchildid.childCommentDate</span>
+                                                                            </li>
+                                                                    </div>
+                                                                }
+                                                            }
+                                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                            </div>
+                                    }
+                                }
+                                }
+                                                        </ul>
+                                                    </div>
+                                                    </li>
+            }
+        }
+    </ul>
+    @*回覆視窗*@
+<hr />
+<div class="reportmain" data-name="reportmain"></div>
+<div class="userreport">
+    <input class="userreportinput" type="text" placeholder="留言..." /><br />
+    <input type="submit" id="userreportSubmit" class="btn btn-primary" value="送出" />
+    <input type="button" id="userreportCancel" class="btn btn-secondary" value="取消" />
+</div>
+
+    <script>
+         async function checkuser() {
+                let data = await fetch("@Url.Content("~/ProductWall/checkuser")");
+                let response = await data.json();
+                //console.log(response);
+                if (response == null) {
+                    $('#error').css("display", "block");
+                    $('.modal-text').text(`請登入會員`);
+                }
+                else {
+                    userdata = JSON.stringify(response);
+                }
+
+            }
+            //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+            ////與Server建立連線
+            //connection.start().then(function () {
+            //    console.log("Hub 連線完成");
+            //}).catch(function (err) {
+            //    alert('連線錯誤: ' + err.toString());
+            //});
+            $(`.itemreport`).on("click", function () {
+                $(this).closest(`div`).after($(`.userreport`));
+            });
+
+
+
+            connection.on('UpdMessage', function (response) {
+                //datas = JSON.parse(response);
+                //console.log(datas);
+                $('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
+            });
+
+            $(`#userreportSubmit`).on(`click`, async function () {
+                //e.preventdefault();
+                await checkuser();
+                //console.log(userdata);//string
+                if (userdata != null) {
+                    //回復商品
+                    if ($(`.userreport`).siblings(`.reportmain`).data('name') === "reportmain") {
+                        let comment = $(`.userreportinput`).val();//使用者輸入內容
+                        let productid = @Model.pro商品編號;
+                        let colorid = @Model.商品顏色ID;
+                        (async function () {
+                            let FD = new FormData();
+                            FD.append('comment', comment)
+                            FD.append('productid', productid)
+                            FD.append('colorid', colorid)
+                            FD.append('userdata', userdata)
+                            let data = await fetch(`@Url.Content("~/ProductWall/CreateComment")`, {
+                            method: "POST",
+                            body: FD
+                        })
+                        let response = await data.text();
+
+                        if (response != null) {
+                            connection.invoke("SendComment", response).catch(function () {
+                                console.log("傳送錯誤");
+                            });
+                        }
+                        else {
+                            $('#error').css("display", "block");
+                            $('.modal-text').text("傳送訊息失敗");
+                        }
+                    }());//加上小括號立即執行
+                }
+                //回復主題
+                else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "paret") {
+                    let comment = $(`.userreportinput`).val();
+                    let paretID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
+                    console.log(paretID);
+
+                    connection.invoke("SendComment", comment, paretID, userdata).catch(function () {
+                        console.log("傳送錯誤");
+                    })
+                }
+
+                //回復子題
+                else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "child") {
+                    let comment = $(`.userreportinput`).val();
+                    let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().siblings('div').data('id');
+                    console.log(paretID);
+                    let childID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
+                    console.log(childID);
+
+                    connection.invoke('SendComment', comment, paretID, childID, userdata).catch(function () {
+                        console.log("傳送錯誤");
+                    })
+                }
+                //最後
+                else {
+                    let comment = $(`.userreportinput`).val();
+                    let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().parent().parent().parent().siblings('div').data('id');
+                    console.log(paretID);
+                    let childID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().closest(`.itemCommentContent`).data('id');
+                    console.log(childID);
+
+                    connection.invoke('SendComment', comment, paretID, childID, userdata).catch(function () {
+                        console.log("傳送錯誤");
+                    });
+                }
+            }
+        });
+        $(`#userreportCancel`).on("click", function () {
+            $(`.reportmain`).after($(`.userreport`));
+            $(`.userreportinput`).val("");
+        });
+
+    </script>
+
+
