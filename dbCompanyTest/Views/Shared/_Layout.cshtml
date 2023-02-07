@@ -156,8 +156,10 @@
         <div class="chatBBody">
         </div>
         <div class="chatFooter">
-            <input type="text" id="message" />
-            <img src="~/images/send.png" id="send" style="width:30px;height:30px;cursor:pointer" />
+            <div style="margin-top:3px">
+                <input type="text" id="message" placeholder="請輸入文字......" />
+                <img src="~/images/send.png" id="send" style="width:30px;height:30px;cursor:pointer" />
+            </div>
             <p>由戴浩宇製作</p>
         </div>
     </div>
@@ -191,11 +193,11 @@
                 alert('傳送錯誤: ' + err.toString());
             });
             $(`.chatBBody`).append(`<div class="chat">
-                                                                                                <div class="otherName">系統</div>
-                                                                                                <div class="otherChat">
-                                                                                                     親愛的${uesrName},我們很高興為您服務
-                                                                                                </div>
-                                                                                            </div>`);
+                                                                                                        <div class="otherName">系統</div>
+                                                                                                        <div class="otherChat">
+                                                                                                             親愛的${uesrName},我們很高興為您服務
+                                                                                                        </div>
+                                                                                                    </div>`);
             $(`#userName`).val(userName);
         })
 
@@ -217,12 +219,12 @@
         });
 
         $(`#message`).on('keyup', async function (evt) {
-            if(evt.keyCode ===13){
+            if (evt.keyCode === 13) {
                 sendclick();
             }
         })
 
-        async function sendclick(){
+        async function sendclick() {
             let message = $('#message').val();
             if (message.substr(0, 7) == "setting") {
                 $(`#openaikey`).val(message.substr(7, message.length - 1));
@@ -254,11 +256,11 @@
 
         function UpdSystem(user, msg) {
             $(`.chatBBody`).append(`<div class="chat">
-                                                                                                <div class="otherName">${user}</div>
-                                                                                                <div class="otherChat">
-                                                                                                            ${msg}
-                                                                                                </div>
-                                                                                            </div>`);
+                                                                                                        <div class="otherName">${user}</div>
+                                                                                                        <div class="otherChat">
+                                                                                                                    ${msg}
+                                                                                                        </div>
+                                                                                                    </div>`);
             resetScrollSite();
         }
         function AIBOT(msg) {
@@ -293,11 +295,11 @@
         };
         function UpdContent(msg) {
             $(`.chatBBody`).append(`<div class="chat">
-                                                                                                                       <div class="myName">我</div>
-                                                                                                                    <div class="myChat">
-                                                                                                                         ${msg}
-                                                                                                                  </div>
-                                                                                                             </div>`);
+                                                                                                                               <div class="myName">我</div>
+                                                                                                                            <div class="myChat">
+                                                                                                                                 ${msg}
+                                                                                                                          </div>
+                                                                                                                     </div>`);
             $(`#message`).val("");
             resetScrollSite();
         }
@@ -335,22 +337,22 @@
                     countM += x
                     return (
                         `<div class="row" id="${id}">
-                                                                            <div class="col-3">
-                                                            <img  src="@Url.Content("~/images/${a}")" width="70" />
-                                                  </div>
-                                                                          <div class="col-8">
-                                                                                       <div>品名:<a>${value.商品名稱}</a></div>
-                                                                                     <div>尺寸:<a>${value.尺寸種類}</a></div>
-                                                                                       <div>顏色:<a>${value.商品顏色種類}</a></div>
-                                                                                <div>數量:<a>${value.訂單數量}</a></div>
-                                                                        <div>價格:<a class="m">${value.商品價格}</a></div>
+                                                                                    <div class="col-3">
+                                                                    <img  src="@Url.Content("~/images/${a}")" width="70" />
+                                                          </div>
+                                                                                  <div class="col-8">
+                                                                                               <div>品名:<a>${value.商品名稱}</a></div>
+                                                                                             <div>尺寸:<a>${value.尺寸種類}</a></div>
+                                                                                               <div>顏色:<a>${value.商品顏色種類}</a></div>
+                                                                                        <div>數量:<a>${value.訂單數量}</a></div>
+                                                                                <div>價格:<a class="m">${value.商品價格}</a></div>
 
-                                                                      </div>
-                                                                       <div class="purchase-icon-car col-1">
-                                                                                                <input type="hidden" value="${id}" />
-                                                                                  </div>
-                                                                    <br/>
-                                                         </div>  `
+                                                                              </div>
+                                                                               <div class="purchase-icon-car col-1">
+                                                                                                        <input type="hidden" value="${id}" />
+                                                                                          </div>
+                                                                            <br/>
+                                                                 </div>  `
                     );
                 })
                 TOTAL_TWD = `TOTAL TWD $${countM}`
