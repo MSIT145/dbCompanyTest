@@ -218,6 +218,10 @@
                 if (message != "") {
                     UpdContent(message);
                     AIBOT(message);
+                    let response = await fetch(`@Url.Content("~/OpenAI/Index/?question=${message}")`);
+                    let data =await response.json();
+                    console.log(data);
+                    UpdSystem("OpenAI",data);
                 }
             } else {
                 let selfID = $('#SelfID').html();
