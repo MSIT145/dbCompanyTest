@@ -216,7 +216,7 @@
             let message = $('#message').val();
             if (message.substr(0, 7) == "setting") {
                 $(`#openaikey`).val(message.substr(7, message.length - 1));
-                UpdSystem("系統","OpenAI's Api keys settin done");
+                UpdSystem("系統","OpenAI's Api keys setting done");
                 $(`#message`).val("");
             } else {
                 if (!$(`#userName`).val()) {
