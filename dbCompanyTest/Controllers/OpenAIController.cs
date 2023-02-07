@@ -7,16 +7,18 @@ namespace dbCompanyTest.Controllers
 {
     public class OpenAIController : Controller
     {
-        public IActionResult Index(string question)
+        public IActionResult Index(string question,string? OpenAIKey)
         {
-            string answer = callOpenAI(1000, question, "text-davinci-003", 0.7, 1, 0, 0);
+            if (OpenAIKey == null)
+                return Json("請提供你的OpenAI's API keys");
+            string answer = callOpenAI(1000, question, "text-davinci-003", 0.7, 1, 0, 0, OpenAIKey);
             return Json(answer);
         }
 
         static string callOpenAI(int tokens, string input, string engine,
-          double temperature, int topP, int frequencyPenalty, int presencePenalty)
+          double temperature, int topP, int frequencyPenalty, int presencePenalty, string OpenAIKey)
         {
-            var openAiKey = "";
+            var openAiKey = OpenAIKey;
             var apiCall = "https://api.openai.com/v1/engines/" + engine + "/completions";
             try
             {
