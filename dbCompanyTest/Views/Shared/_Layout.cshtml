@@ -213,10 +213,20 @@
         });
 
         $(`#send`).on(`click`, async function () {
+            sendclick();
+        });
+
+        $(`#message`).on('keyup', async function (evt) {
+            if(evt.keyCode ===13){
+                sendclick();
+            }
+        })
+
+        async function sendclick(){
             let message = $('#message').val();
             if (message.substr(0, 7) == "setting") {
                 $(`#openaikey`).val(message.substr(7, message.length - 1));
-                UpdSystem("系統","OpenAI's Api keys setting done");
+                UpdSystem("系統", "OpenAI's Api keys setting done");
                 $(`#message`).val("");
             } else {
                 if (!$(`#userName`).val()) {
@@ -240,8 +250,7 @@
                     });
                 }
             }
-
-        });
+        }
 
         function UpdSystem(user, msg) {
             $(`.chatBBody`).append(`<div class="chat">
@@ -326,22 +335,22 @@
                     countM += x
                     return (
                         `<div class="row" id="${id}">
-                                                                                                    <div class="col-3">
-                                                                                                                        <img  src="@Url.Content("~/images/${a}")" width="70" />
-                                                                                                    </div>
-                                                                                                    <div class="col-8">
-                                                                                                                <div>品名:<a>${value.商品名稱}</a></div>
-                                                                                                                <div>尺寸:<a>${value.尺寸種類}</a></div>
-                                                                                                                <div>顏色:<a>${value.商品顏色種類}</a></div>
-                                                                                                                <div>數量:<a>${value.訂單數量}</a></div>
-                                                                                                                <div>價格:<a class="m">${value.商品價格}</a></div>
+                                                                            <div class="col-3">
+                                                            <img  src="@Url.Content("~/images/${a}")" width="70" />
+                                                  </div>
+                                                                          <div class="col-8">
+                                                                                       <div>品名:<a>${value.商品名稱}</a></div>
+                                                                                     <div>尺寸:<a>${value.尺寸種類}</a></div>
+                                                                                       <div>顏色:<a>${value.商品顏色種類}</a></div>
+                                                                                <div>數量:<a>${value.訂單數量}</a></div>
+                                                                        <div>價格:<a class="m">${value.商品價格}</a></div>
 
-                                                                                                    </div>
-                                                                                                            <div class="purchase-icon-car col-1">
-                                                                                                                                        <input type="hidden" value="${id}" />
-                                                                                                                     </div>
-                                                                                                            <br/>
-                                                                                                            </div>  `
+                                                                      </div>
+                                                                       <div class="purchase-icon-car col-1">
+                                                                                                <input type="hidden" value="${id}" />
+                                                                                  </div>
+                                                                    <br/>
+                                                         </div>  `
                     );
                 })
                 TOTAL_TWD = `TOTAL TWD $${countM}`
