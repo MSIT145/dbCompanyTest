@@ -116,7 +116,7 @@
                 </div>
                 @*============== 搜尋,我的最愛,會員中心,購物車 =================*@
 
-                @*<div class=" R-Top-tool">
+                <div class=" R-Top-tool">
                     <div class="tool-box ">
                         <div class="tool-p ">
                             <a id="web-search-btn" href=""><img src="~/homeImg/search_header_pc.png"></a>
@@ -126,15 +126,30 @@
                 </div>
 
 
-                <div class="search-box container" style="left: 0.2rem; right: 1.5rem;">
-                    <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box1" style="display:none;">
-                </div>*@
+                <div class="search-box container" id="sb">
+                    <div class="row">
+                        <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box" disabled="disabled">
+                    </div>
+                </div>
 
 
             </div>
 
         </div>
+        <div class="shop-bot fixed-bottom">
+            <ul>
+                <li><a asp-controller="MemberCenter" asp-action="Index"><img src="~/homeImg/sign_bot (1).png"></a></li>
+                <li>
+                    <a href="@Url.Content("~/Shopping")" >
+@*                        <span class="g-nums" id="cart_num">0</span>*@
+                        <img src="~/homeimg/shopping_cart (1).png" />
+                    </a>
 
+                </li>
+                <li><a class="tool-item flex-fill" asp-controller="MyLove" asp-action="Index"><img src="~/homeImg/collect_bot (1).png"></a></li>
+                <li><a asp-controller="MemberCenter" asp-action="orderinfo"><img src="~/homeimg/vip_manage_bot (1).png" /></a></li>
+            </ul>
+        </div>
     </header>
 
 
