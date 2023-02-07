@@ -1,8 +1,10 @@
 ﻿using dbCompanyTest.Models;
+using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using System.Text.Json;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace dbCompanyTest.Hubs
 {
@@ -127,7 +129,14 @@ namespace dbCompanyTest.Hubs
         //回復商品
         public async Task SendComment(string response) 
         {
-            await Clients.All.SendAsync("UpdMessage", response);
+            var data = JsonSerializer.Deserialize<ProductDetailViewModels>(response);
+            data.客戶編號 = null;
+            data.員工編號 =null;
+            string json = JsonSerializer.Serialize(data);
+            //傳給使用者
+            await Clients.Others.SendAsync("UpdMessage", json);
+            await Clients.Clients(Context.ConnectionId).SendAsync("UpdMessage", response);
+            //await Clients.
         }
     }
 }

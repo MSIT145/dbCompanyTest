@@ -11,6 +11,7 @@ using System.Text.Json;
 using X.PagedList;
 using static dbCompanyTest.Controllers.ProductController;
 using static dbCompanyTest.ViewModels.ProductDetailViewModels;
+using Microsoft.AspNetCore.SignalR;
 
 namespace dbCompanyTest.Controllers
 {
@@ -506,8 +507,7 @@ namespace dbCompanyTest.Controllers
             else if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
             {
                 string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
-                var userdata = JsonSerializer.Deserialize<string>(json);
-                pdm.員工編號 = userdata;
+                pdm.員工編號 = json;
             }
             return pdm;
         }
@@ -525,6 +525,7 @@ namespace dbCompanyTest.Controllers
                 _context.ParentComments.Remove(parentdata);
                 _context.SaveChanges();
                 ProductDetailViewModels pdm = selectData(data);
+                
                 return Json(pdm);
             }
             else if (Convert.ToInt32(data["order"]) == 2)

@@ -347,6 +347,7 @@
         let deleteid = null;
         let deleteorder = null;
 
+        
 
 
         //警示視窗
@@ -425,7 +426,7 @@
                 $('.modal-text').text("傳送訊息失敗");
             }
         };
-
+        //呼叫resetdisplay
         connection.on('UpdMessage', function (response) {
             $('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
         });

@@ -20,6 +20,7 @@ namespace dbCompanyTest.ViewModels
         public string? pro商品圖片3 { get; set; }
         public string? 客戶編號 { get; set; }
         public string? 員工編號 { get; set; }
+        public string? connectionid { get; set; }
         public List<string>? pro商品顏色圖片list { get; set; }
         public List<string>? pro商品尺寸list { get; set; }
         public List<int>? pro商品DetailIDlist { get; set; }

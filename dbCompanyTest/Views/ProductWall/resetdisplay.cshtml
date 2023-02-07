@@ -11,7 +11,7 @@
                         <p class="itemMessage">內容:@paretitem.paretComment</p>
                     </div>
                     <div>
-                        @if (paretitem.paretCommentGuestID.Equals(Model.客戶編號))
+                        @if (paretitem.paretCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
                         {
                             <span class="itemreport">回覆</span>
 
@@ -52,7 +52,7 @@
                                             <p class="itemMessage">內容:@childitem.childComment</p>
                                         </div>
                                         <div>
-                                                @if (childitem.childCommentGuestID.Equals(Model.客戶編號))
+                                                @if (childitem.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
                                                 {
                                                 <span class="itemreport">回覆</span>
 
@@ -91,7 +91,7 @@
                                                                     <p class="itemName">會員:@childitemchildid.childCommentGuestName</p>
                                                                     <p class="itemMessage">內容:@childitemchildid.childComment</p>
                                                                 </div>
-                                                                        @if (childitemchildid.childCommentGuestID.Equals(Model.客戶編號))
+                                                                        @if (childitemchildid.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
                                                                         {
                                                                     <span class="itemreport">回覆</span>
 
@@ -128,8 +128,8 @@
                             }
                         }
         </ul>
-                                                            </div>
-                                                            </li>
+                    </div>
+                    </li>
         }
     }
     </ul>
@@ -147,7 +147,6 @@
 
 <script>
 
-    ////Signalr評論
     async function checkuser() {
         let data = await fetch("@Url.Content("~/ProductWall/checkuser")");
         let response = await data.json();
@@ -160,6 +159,8 @@
             userdata = JSON.stringify(response);
         }
     }
+
+
 
     //回覆
     $(`.itemreport`).on("click", function () {
@@ -196,11 +197,8 @@
             $('#error').css("display", "block");
             $('.modal-text').text("傳送訊息失敗");
         }
-        //let responsedelete = await data.text();
-        //$('#error').css("display", "block");
-        //$('.modal-text').text(responsedelete);
     };
-
+    //呼叫resetdisplay
     connection.on('UpdMessage', function (response) {
         $('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
     });
