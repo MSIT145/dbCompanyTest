@@ -178,6 +178,13 @@ namespace dbCompanyTest.Controllers
                                 if (System.IO.File.Exists(oldpath))
                                     System.IO.File.Delete(oldpath);
                             }
+                            if(cToDoListViewModels.表單狀態 == "退回起單人")
+                            {
+                                AddImgAllBack(oldpath, NewFileNamePath, $"{_environment.WebRootPath}/Sign/空白.jpg");
+                                thislist.附件 = NewFileName;
+                                if (System.IO.File.Exists(oldpath))
+                                    System.IO.File.Delete(oldpath);
+                            }
                         }
                     }
                     //_context.Update(toDoList/*cToDoListViewModels.toDoList*/);
@@ -482,9 +489,31 @@ namespace dbCompanyTest.Controllers
                 pdfContentByte.AddImage(image);
                 stamper.Close();
             }
-
         }
+        protected void AddImgAllBack(string oldP, string newP, string imP)
+        {
+            using (Stream inputPdfStream = new FileStream(oldP, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (Stream inputImageStream = new FileStream(imP, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (Stream outputPdfStream = new FileStream(newP, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                var reader = new iTextSharp.text.pdf.PdfReader(inputPdfStream);
+                var stamper = new PdfStamper(reader, outputPdfStream);
+                var pdfContentByte = stamper.GetOverContent(1);
+                iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(inputImageStream);
+                image.ScalePercent(75);
 
-       
+                image.SetAbsolutePosition(158, 545);
+                pdfContentByte.AddImage(image);
+                image.SetAbsolutePosition(158, 545);
+                pdfContentByte.AddImage(image);
+                image.SetAbsolutePosition(262, 545);
+                pdfContentByte.AddImage(image);
+                image.SetAbsolutePosition(366, 545);
+                pdfContentByte.AddImage(image);
+                image.SetAbsolutePosition(470, 545);
+                pdfContentByte.AddImage(image);
+                stamper.Close();
+            }
+        }
     }
 }

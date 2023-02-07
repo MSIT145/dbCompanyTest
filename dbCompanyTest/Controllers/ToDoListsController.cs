@@ -78,7 +78,7 @@ namespace dbCompanyTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CToDoListViewModels cToDoListViewModels)
+        public async Task<IActionResult> Create(CToDoListViewModels cToDoListViewModels)
         //public async Task<IActionResult> Create(CToDoListViewModels cToDoListViewModels)
         /*[Bind("交辦事項id,員工編號,表單類型,表單內容,回覆,表單狀態,起單時間,起單人,部門主管,部門主管簽核,部門主管簽核意見,部門主管簽核時間,協辦部門,協辦部門簽核,協辦部門簽核人員,協辦部門簽核意見,協辦部門簽核時間,老闆簽核,老闆簽核意見,老闆簽核時間,執行人,執行時間,執行人簽核,附件,附件path")] ToDoList toDoList*/
         {
@@ -97,7 +97,7 @@ namespace dbCompanyTest.Controllers
                 //if (match != null && match.Value.Length > start.Length + end.Length)
                 //{
                 var template = match.Value.Substring(start.Length, match.Value.Length - start.Length - end.Length);
-                var sb = new StringBuilder(start);
+                //var sb = new StringBuilder(start);
 
 
                 Dictionary<String, String> dic = new Dictionary<String, String> { ["{{Avatar}}"] = $"{_environment.WebRootPath}/Sign/{cToDoListViewModels.起單人}.jpg" };
@@ -122,10 +122,17 @@ namespace dbCompanyTest.Controllers
 
                 var provider = new DefaultFontProvider(true, true, true);//系統字體 中文
                 properties.SetFontProvider(provider);
-                using (FileStream file1 = new FileStream(_environment.WebRootPath + "\\File\\" + pdfName, FileMode.Create))
+              
+
+                Task subThread1 = new Task(async () =>
                 {
-                    HtmlConverter.ConvertToPdf(html, file1, properties);
-                }
+                    await using (FileStream file1 = new FileStream(_environment.WebRootPath + "\\File\\" + pdfName, FileMode.Create))
+                    {
+                        HtmlConverter.ConvertToPdf(html, file1, properties);
+                    }
+                });
+                subThread1.Start();
+
             }
 
             if (ModelState.IsValid)

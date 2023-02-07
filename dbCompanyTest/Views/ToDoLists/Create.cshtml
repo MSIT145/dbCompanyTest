@@ -9,7 +9,10 @@
     else if (ViewBag.dep == "人事")
         Layout = "_Back_Layout_Sneat_HR";
 }
-
+<div class="loading">
+    <div class="mask"></div>
+    <div class="animation"></div>
+</div>
 <input type="hidden" id="StaffNumpath" value="@Url.Content("~/Staff_Home/StaffNum")" />
 <div style="width:80%;margin:20px auto;">
     <h1>建立表單</h1>
@@ -146,7 +149,7 @@
                 <div class="form-group" id="div_Attached_File">
                     <label class="control-label" id="lab_File">附件</label>
                     <input class="form-control" id="File" type="file" name="File" />
-                    
+
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" id="inp_start" />
@@ -167,6 +170,7 @@
         var split = $(`#stf_info`).text().split(' ');
         var stf = split[1];
         var Send_To_num = $("#inp_super_vs").val();
+        document.querySelector('.loading').style.display = 'none';
         $("#lab_stfId,#lab_whostart,#lab_Attached_path").css("display", 'none');
         $("#stfId").val(stf);
         ragular();
@@ -249,7 +253,12 @@
 
         $("#inp_start").on('click', function () {
             let dt = new Date();
-            $("#inp_starttime").val(dt);
+            let datestring = `${dt.getFullYear()}/${dt.getMonth() + 1}/${dt.getDate()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`
+            $("#inp_starttime").val(datestring);
+            if ($("#inp_cont").val()) {
+                document.querySelector('.loading').style.display ="";
+            }
+
         })
 
         function ragular() {

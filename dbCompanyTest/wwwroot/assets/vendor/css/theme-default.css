@@ -211,12 +211,14 @@ button.list-group-item-primary.active {
     border-color: #D5BCA7;
     box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4);
 }
-.btn-primary:hover {
-  color: #fff;
-  background-color: #5f61e6;
-  border-color: #5f61e6;
-  transform: translateY(-1px);
-}
+
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #d2b48c;
+        border-color: #d2b48c;
+        transform: translateY(-1px);
+    }
+    /*預設按鈕*/
 .btn-check:focus + .btn-primary, .btn-primary:focus, .btn-primary.focus {
   color: #fff;
   background-color: #5f61e6;
