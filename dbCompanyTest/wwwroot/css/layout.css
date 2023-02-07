@@ -53,6 +53,9 @@
         font-size: 12px;
         overflow: hidden;
     }
+    .shop-bot {
+        display:none;
+    }
 
     .shortcut-box {
         position: absolute;
