@@ -136,7 +136,7 @@
                                     <p class="itemMessage">內容:@paretitem.paretComment</p>
                                 </div>
                                 <div>
-                                    @if (paretitem.paretCommentGuestID.Equals(Model.客戶編號))
+                                    @if (paretitem.paretCommentGuestID.Equals(Model.客戶編號)|| Model.員工編號!=null)
                                     {
                                         <span class="itemreport">回覆</span>
 
@@ -177,7 +177,7 @@
                                                         <p class="itemMessage">內容:@childitem.childComment</p>
                                                     </div>
                                                     <div>
-                                                            @if (childitem.childCommentGuestID.Equals(Model.客戶編號))
+                                                            @if (childitem.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
                                                             {
                                                             <span class="itemreport">回覆</span>
 
@@ -216,7 +216,7 @@
                                                                                 <p class="itemName">會員:@childitemchildid.childCommentGuestName</p>
                                                                                 <p class="itemMessage">內容:@childitemchildid.childComment</p>
                                                                             </div>
-                                                                                    @if (childitemchildid.childCommentGuestID.Equals(Model.客戶編號))
+                                                                                    @if (childitemchildid.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
                                                                                     {
                                                                                 <span class="itemreport">回覆</span>
 
@@ -301,20 +301,17 @@
         <div class="modal-content">
             <div class="modal-header"><div class="modal-close"></div></div>
             <div class="content-box">
-
-                <div class="modal-text">
-                    <input type="button" class="btn btn-primary alertsubmit" value="確認" />
-                    <input type="button" class="btn btn-danger alertcancel" value="取消" />
-                </div>
+                <div class="modal-text"></div>
                 <div style="display:flex; justify-content:center;">
                     <input type="button" class="btn btn-primary alertsubmit me-2" value="確認" />
-                    <input type="button" class="btn btn-danger alertcancel ms-2" value="取消" />
+                    <input type="button" class="btn btn-secondary alertcancel ms-2" value="取消" />
                 </div>
 
             </div>
         </div>
     </div>
 </div>
+
 
 
 @*分享視窗*@
@@ -342,16 +339,41 @@
 
 @section Scripts{
     <script>
-        //let count = 1;
         let sizecheck = null;
         let login = false;
         let userdata = null;
         let datas = null;
         let checkdelete = false;
+        let deleteid = null;
+        let deleteorder = null;
 
+
+
+        //警示視窗
+        $(`.alertcancel`).on(`click`, function () {
+            checkdelete = false;
+            $('#alert').css("display", "none");
+        });
+
+        $(`.alertsubmit`).on(`click`, function () {
+            checkdelete = true;
+            $('#alert').css("display", "none");
+
+            console.log(checkdelete)
+            if (checkdelete) {
+                console.log(checkdelete)
+                deletecomment(deleteid, deleteorder);
+                checkdelete = false;
+            }
+        });
+        $('.modal-close').on('click', function () {
+            checkdelete = false;
+            //$('#share').css("display", "none");
+            $('#error').css("display", "none");
+            $('#alert').css("display", "none");
+        });
 
         ////Signalr評論
-        //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
         async function checkuser() {
             let data = await fetch("@Url.Content("~/ProductWall/checkuser")");
             let response = await data.json();
@@ -363,39 +385,33 @@
             else {
                 userdata = JSON.stringify(response);
             }
-
         }
-        //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-        ////與Server建立連線
-        //connection.start().then(function () {
-        //    console.log("Hub 連線完成");
-        //}).catch(function (err) {
-        //    alert('連線錯誤: ' + err.toString());
-        //});
+
+
+
+        //回覆
         $(`.itemreport`).on("click", function () {
             $(this).closest(`div`).after($(`.userreport`));
         });
-        $(`.itemreportDelete`).on("click", async function () {
-            $('.modal-text').text("請問確認要刪除嗎?");
-            const id = $(this).data('id');
-            const order = $(this).data('order');
-            $('#alert').css('display', 'block');
-            
-            if (await checkdelete) {
-                deletecomment(id,order);
-            }
 
+        //刪除
+        $(`.itemreportDelete`).on("click", function () {
+            $('#alert').css('display', 'block');
+            $('.modal-text').text("請問確認要刪除嗎?");
+            deleteid = $(this).data('id');
+            deleteorder = $(this).data('order');
         });
+        //刪除Post
         async function deletecomment(id, order) {
             let productid = @Model.pro商品編號;
             let colorid = @Model.商品顏色ID;
             let FD = new FormData();
-            FD.append('id',id)
+            FD.append('id', id)
             FD.append('order', order)
             FD.append('productid', productid)
             FD.append('colorid', colorid)
-            var data = await fetch(`@Url.Content("~/ProductWall/DeleteComment")`,{
-                method:"POST",
+            var data = await fetch(`@Url.Content("~/ProductWall/DeleteComment")`, {
+                method: "POST",
                 body: FD
             });
             let response = await data.text();
@@ -408,21 +424,14 @@
                 $('#error').css("display", "block");
                 $('.modal-text').text("傳送訊息失敗");
             }
-            //let response = await data.text();
-            //$('#error').css("display", "block");
-            //$('.modal-text').text(response);
         };
 
         connection.on('UpdMessage', function (response) {
-            //datas = JSON.parse(response);
-            //console.log(datas);
             $('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
         });
-
+        //新增
         $(`#userreportSubmit`).on(`click`, async function () {
-            //e.preventdefault();
             await checkuser();
-            //console.log(userdata);//string
             if (userdata != null) {
                 //回復商品
                 if ($(`.userreport`).siblings(`.reportmain`).data('name') === "reportmain") {
@@ -561,22 +570,7 @@
 
 
         //以上評論
-        //警示視窗
-        $(`.alertcancel`).on(`click`, function () {
-            $('#alert').css("display", "none");
-            checkdelete = false;
-        });
-        $(`.alertsubmit`).on(`click`, function () {
-            $('#alert').css("display", "none");
-            checkdelete = true;
-        });
 
-        $('.modal-close').on('click', function () {
-            //$('#share').css("display", "none");
-            $('#error').css("display", "none");
-            $('#alert').css("display", "none");
-            checkdelete = false;
-        });
 
 
 
@@ -592,11 +586,9 @@
         $(window).on("resize", function (e) {
             if ($(window).width() < 500) {
                 $("#carouselExampleDark").append($(".d-right-detail"));
-
             }
             else {
                 $(".content").append($(".d-right-detail"));
-
             }
         });
 

@@ -128,8 +128,8 @@
                             }
                         }
         </ul>
-                    </div>
-                    </li>
+                                                            </div>
+                                                            </li>
         }
     }
     </ul>
@@ -143,11 +143,11 @@
 </div>
 
 </div>
+</div>
 
 <script>
 
     ////Signalr評論
-    //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
     async function checkuser() {
         let data = await fetch("@Url.Content("~/ProductWall/checkuser")");
         let response = await data.json();
@@ -159,28 +159,21 @@
         else {
             userdata = JSON.stringify(response);
         }
-
     }
-    //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-    ////與Server建立連線
-    //connection.start().then(function () {
-    //    console.log("Hub 連線完成");
-    //}).catch(function (err) {
-    //    alert('連線錯誤: ' + err.toString());
-    //});
+
+    //回覆
     $(`.itemreport`).on("click", function () {
         $(this).closest(`div`).after($(`.userreport`));
     });
-    $(`.itemreportDelete`).on("click", function () {
-        $('.modal-text').text("請問確認要刪除嗎?");
-        const id = $(this).data('id');
-        const order = $(this).data('order');
-        $('#alert').css('display', 'block');
-        if (checkdelete) {
-            deletecomment(id, order);
-        }
 
+    //刪除
+    $(`.itemreportDelete`).on("click", function () {
+        $('#alert').css('display', 'block');
+        $('.modal-text').text("請問確認要刪除嗎?");
+        deleteid = $(this).data('id');
+        deleteorder = $(this).data('order');
     });
+    //刪除Post
     async function deletecomment(id, order) {
         let productid = @Model.pro商品編號;
         let colorid = @Model.商品顏色ID;
@@ -203,21 +196,17 @@
             $('#error').css("display", "block");
             $('.modal-text').text("傳送訊息失敗");
         }
-        //let response = await data.text();
+        //let responsedelete = await data.text();
         //$('#error').css("display", "block");
-        //$('.modal-text').text(response);
+        //$('.modal-text').text(responsedelete);
     };
 
     connection.on('UpdMessage', function (response) {
-        //datas = JSON.parse(response);
-        //console.log(datas);
         $('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
     });
-
+    //新增
     $(`#userreportSubmit`).on(`click`, async function () {
-        //e.preventdefault();
         await checkuser();
-        //console.log(userdata);//string
         if (userdata != null) {
             //回復商品
             if ($(`.userreport`).siblings(`.reportmain`).data('name') === "reportmain") {
@@ -353,7 +342,6 @@
         $(`.reportmain`).after($(`.userreport`));
         $(`.userreportinput`).val("");
     });
-
     </script>
 
 

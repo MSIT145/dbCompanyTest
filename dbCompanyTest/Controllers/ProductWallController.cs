@@ -355,8 +355,7 @@ namespace dbCompanyTest.Controllers
                 else if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
                 {
                     string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
-                    var data = JsonSerializer.Deserialize<string>(json);
-                    pdm.員工編號 = data;
+                    pdm.員工編號 = json;
                 }
                 return View(pdm);
             }
@@ -377,7 +376,7 @@ namespace dbCompanyTest.Controllers
             {
                 string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
                 json = $"{{\"name\":\"{json}\"}}";//將string 組成 Json字串
-                return Content(json);
+                return Json(null);
             }
             else
             {
@@ -442,14 +441,12 @@ namespace dbCompanyTest.Controllers
             }
             
         }
-
         private ProductDetailViewModels selectData(IFormCollection data)
         {
             ProductDetailViewModels pdm = new ProductDetailViewModels();
-            //ParetComment
             pdm.paretCommentslist = new List<paretCommentclass>();
-            ////ChildComment
             pdm.childCommentlist = new List<childCommentclass>();
+
             var ParetCommentList = from item in _context.ParentComments
                                    where item.商品編號id == Convert.ToInt32(data["productid"]) && item.商品顏色id == Convert.ToInt32(data["colorid"])
                                    select new
@@ -458,7 +455,7 @@ namespace dbCompanyTest.Controllers
                                        paretCommentDateList = (DateTime)item.建立日期,
                                        paretCommentGuestIDList = item.客戶編號,
                                        paretCommentGuestNameList = item.客戶姓名,
-                                       paretCommentList = item.內容,
+                                       paretCommentList = item.內容
                                    };
             foreach (var item in ParetCommentList)
             {
@@ -494,15 +491,26 @@ namespace dbCompanyTest.Controllers
                 childlist.childCommentDate = item.childCommentDateList;
                 childlist.childCommentGuestName = item.childCommentGuestNameList;
                 childlist.childCommentGuestID = item.childCommentGuestIDList;
-                //父訊息ID
                 childlist.childCommentParet = item.childCommentParet;
-                //子訊息ID
                 childlist.childCommentchildid = item.childCommentchildid;
                 pdm.childCommentlist.Add(childlist);
                 pdm.childCommentlist = pdm.childCommentlist.Distinct().ToList();
             }
+
             pdm.商品顏色ID = Convert.ToInt32(data["colorid"]);
             pdm.pro商品編號 = Convert.ToInt32(data["productid"]);
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+            {
+                string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                var userdata = JsonSerializer.Deserialize<TestClient>(json);
+                pdm.客戶編號 = userdata.客戶編號;
+            }
+            else if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+            {
+                string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
+                var userdata = JsonSerializer.Deserialize<string>(json);
+                pdm.員工編號 = userdata;
+            }
             return pdm;
         }
 

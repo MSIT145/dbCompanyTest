@@ -123,9 +123,7 @@ namespace dbCompanyTest.Hubs
                 Send_To_ID = userList.FirstOrDefault(x => x.userName == Send_To_num).connectionId;
                 await Clients.Client(Send_To_ID).SendAsync("receive", msg, listtype, listnum);
             }
-
         }
-
         //回復商品
         public async Task SendComment(string response) 
         {
