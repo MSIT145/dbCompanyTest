@@ -891,16 +891,15 @@ namespace dbCompanyTest.Controllers
         public IActionResult DeleteProDetail(string id)
         {
             int _id = 0;
+            //判斷同時用TryPase回傳已轉為int的id給_id
             if (string.IsNullOrEmpty(id) || !(Int32.TryParse(id, out _id)))
                 return Json("錯誤_傳輸id資料異常");
-
+            //查詢是否有訂單在使用此細項商品
+            int odCount = db.OrderDetails.Where(od => od.Id == _id).Count();
+            if(odCount >0)
+                return Json("錯誤_有訂單明細在使用此商品細項");
             //查詢圖檔位置     
             var ProDdata = db.ProductDetails.FirstOrDefault(pd => pd.Id == _id);
-            
-            
-            
-            
-            
             if (ProDdata == null)
                 return Json("錯誤_沒有此項商品");
             var imgData = db.圖片位置s.FirstOrDefault(i => i.圖片位置id == ProDdata.圖片位置id);
