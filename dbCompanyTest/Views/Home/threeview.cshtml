@@ -54,6 +54,30 @@
 *@	@*gsap*@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
 
+    @*shader*@
+    <script id="fragment_shader4" type="x-shader/x-fragment">
+			uniform float time;
+			uniform vec2 resolution;
+			varying vec2 vUv;
+			void main( void ) {
+				vec2 position = -1.0 + 2.0 * vUv;
+				float red = abs( sin( position.x * position.y + time / 5.0 ) );
+				float green = abs( sin( position.x * position.y + time / 4.0 ) );
+				float blue = abs( sin( position.x * position.y + time / 3.0 ) );
+				gl_FragColor = vec4( red, green, blue, 1.0 );
+			}
+		</script>
+
+        <script id="vertexShader" type="x-shader/x-vertex">
+			varying vec2 vUv;
+			void main()
+			{
+				vUv = uv;
+				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+				gl_Position = projectionMatrix * mvPosition;
+			}
+		</script>
+
 	<script >
 
 
@@ -170,6 +194,38 @@
             const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
             scene.add(overlay)
 
+        var uniforms1;
+
+        uniforms1 = {
+            time: {
+                type: "f",
+                value: 1.0
+            },
+            resolution: {
+                type: "v2",
+                value: new THREE.Vector2()
+            }
+        };
+        var params = [
+
+            ['fragment_shader4', uniforms1]
+        ];
+
+        let spGeometry = new THREE.BoxGeometry(1000, 1000, 1000);
+        var bkmaterial = new THREE.ShaderMaterial({
+            uniforms: params[0][1],
+            vertexShader: document.getElementById('vertexShader').textContent,
+            fragmentShader: document.getElementById(params[0][0]).textContent
+        });
+        let bk = new THREE.Mesh(spGeometry, bkmaterial);
+        bk.position.set(0, 0, 0)
+        //scene.add(bk)
+
+        let pGeometry = new THREE.PlaneGeometry(10000, 10000, 1, 1);
+        let bkp = new THREE.Mesh(pGeometry, bkmaterial);
+        bkp.position.set(0, 0, -1000)
+        scene.add(bkp)
+
 
             /**
              * GLTF Model
@@ -178,7 +234,6 @@
             let shiba = null
             let shoes = null
             let converse = null
-            let muestra = null
             let rocket = null
             let base = new THREE.Object3D()
             let mixer;
@@ -277,29 +332,7 @@
             }
         )
 
-        //gltfLoader.load(
-        //    'https://rawcdn.githack.com/th9716/3dglb/a9d13909b8f815f49d397e12e2d2f11314403606/muestra/scene.gltf',
-        //    (gltf) => {
-        //        muestra = gltf.scene
-        //        muestra.position.x = 550;
-        //        muestra.position.y = -60;
-        //        muestra.position.z = 400;
 
-        //        muestra.rotation.x=0;
-        //        muestra.rotation.y=23.6;
-        //        muestra.rotation.z=0;
-
-        //        muestra.scale.set(80, 80, 80)
-
-        //        scene.add(muestra)
-        //    },
-        //    (progress) => {
-        //        console.log(progress);
-        //    },
-        //    (error) => {
-        //        console.error(error);
-        //    }
-        //)
 
 
 
@@ -632,6 +665,12 @@
                 lastElapsedTime = elapsedTime
 
 
+            //console.log(deltaTime)
+            uniforms1.time.value += deltaTime * 1;
+                //bk.rotation.y += deltaTime * 0.5 * (1 % 2 ? 1 : -1);
+                //bk.rotation.x += deltaTime * 0.5 * (1 % 2 ? -1 : 1);
+
+
                 if (!!shiba) {
                     shiba.position.y = Math.sin(elapsedTime * .5) * .1 - 0.1
                     sphereShadow.material.opacity = (1 - Math.abs(shiba.position.y)) * 0.3
@@ -647,10 +686,6 @@
 
             world.step(timeStep)
 
-            //if (sphere) {
-            //    sphere.position.copy(sphereBody.position)
-            //    sphere.quaternion.copy(sphereBody.quaternion)
-            //}
             if (shiba1) {
                 shibaBody.position.copy(rocket.position)
                 shibaBody.quaternion.copy(rocket.quaternion)
