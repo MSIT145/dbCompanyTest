@@ -361,10 +361,7 @@ namespace dbCompanyTest.Controllers
             }
 
         }
-
-
-
-        public IActionResult checkuser() 
+        public IActionResult checkuser()
         {
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
             {
@@ -372,7 +369,7 @@ namespace dbCompanyTest.Controllers
                 return Content(json);
 
             }
-            else if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION)) 
+            else if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
             {
                 string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
                 json = $"{{\"name\":\"{json}\"}}";//將string 組成 Json字串
@@ -382,9 +379,9 @@ namespace dbCompanyTest.Controllers
             {
                 return Json(null);
             }
-        
+
         }
-        public IActionResult CreateComment(IFormCollection data) 
+        public IActionResult CreateComment(IFormCollection data)
         {
             TestClient TC = JsonSerializer.Deserialize<TestClient>(data["userdata"]);
             var user = _context.TestClients.FirstOrDefault(x => x.客戶編號 == TC.客戶編號);
@@ -421,7 +418,7 @@ namespace dbCompanyTest.Controllers
                     return Json(pdm);
 
                 }
-                else 
+                else
                 {
                     ChildComment CC = new ChildComment();
                     CC.內容 = data["comment"];
@@ -436,10 +433,11 @@ namespace dbCompanyTest.Controllers
                     return Json(pdm);
                 }
             }
-            else {
+            else
+            {
                 return Json(null);
             }
-            
+
         }
         private ProductDetailViewModels selectData(IFormCollection data)
         {
@@ -514,12 +512,12 @@ namespace dbCompanyTest.Controllers
             return pdm;
         }
 
-        public IActionResult resetdisplay(string datas) 
+        public IActionResult resetdisplay(string datas)
         {
             ProductDetailViewModels data = JsonSerializer.Deserialize<ProductDetailViewModels>(datas);
             return PartialView(data);
         }
-        public IActionResult DeleteComment(IFormCollection data) 
+        public IActionResult DeleteComment(IFormCollection data)
         {
             if (Convert.ToInt32(data["order"]) == 1)
             {
@@ -537,7 +535,8 @@ namespace dbCompanyTest.Controllers
                 ProductDetailViewModels pdm = selectData(data);
                 return Json(pdm);
             }
-            else {
+            else
+            {
                 return Content("失敗請聯繫客服");
             }
         }
