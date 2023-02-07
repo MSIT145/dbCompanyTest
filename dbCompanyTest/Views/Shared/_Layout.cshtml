@@ -26,9 +26,9 @@
 
                 <div class="d-flex justify-content-end R-Top-tool">
                     <div class="tool-box d-flex">
-                        <div class="search-box container">
+                        <div class="search-box container" id="sb">
                             <div class="row">
-                                <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box">
+                                <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box" disabled="disabled">
                             </div>
 
                         </div>
@@ -116,7 +116,7 @@
                 </div>
                 @*============== 搜尋,我的最愛,會員中心,購物車 =================*@
 
-                <div class=" R-Top-tool">
+                @*<div class=" R-Top-tool">
                     <div class="tool-box ">
                         <div class="tool-p ">
                             <a id="web-search-btn" href=""><img src="~/homeImg/search_header_pc.png"></a>
@@ -127,8 +127,8 @@
 
 
                 <div class="search-box container" style="left: 0.2rem; right: 1.5rem;">
-                    <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box" style="display:none;">
-                </div>
+                    <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box1" style="display:none;">
+                </div>*@
 
 
             </div>
@@ -419,8 +419,10 @@
             let searchBox = _this.closest('.R-Top-tool').find('.search-box');
             if (searchBox.hasClass('show')) {
                 searchBox.removeClass('show')
+                $('#search-box').attr('disabled', 'disabled');
             } else {
-                searchBox.addClass('show').find('input').focus();
+                $('#search-box').removeAttr('disabled');
+                searchBox.addClass('show')/*.find('input').focus();*/
             }
             return false;
         })
@@ -430,13 +432,11 @@
             let _this = $(this);
             if (!_this.hasClass('clicked')) {
                 _this.addClass('clicked');
-                $('#search-box').css("display", "block");
                 $('.search-box').animate({
                     left: '0.2rem', right: "1.5rem",
                 }, 100);
             } else {
                 _this.removeClass('clicked');
-                $('#search-box').css("display", "none");
                 $('.search-box').animate({
                     left: '7.5rem', right: '7.5rem',
                 }, 100);
@@ -445,14 +445,22 @@
         })
 
         $('body').on('keyup', '.search_keyword', function (e) {
-            if (13 == e.keyCode) {
-                let value = $(this).val().trim();
-                if ('' == value) {
-                    return;
-                }
+            let sb=$('#sb');
+            if (sb.hasClass('show')){
+                if (13 == e.keyCode) {
+                    let value = $(this).val().trim();
+                    if ('' == value) {
+                        return;
+                    }
 
-                location.href = '/ProductWall/search?keyword=' + $('#search-box').val();
+                    location.href = '/ProductWall/search?keyword=' + $('#search-box').val();
+                }
+            }else{
+                if (13 == e.keyCode) {
+                        return;
+                }
             }
+            
         });
 
         //TOP
