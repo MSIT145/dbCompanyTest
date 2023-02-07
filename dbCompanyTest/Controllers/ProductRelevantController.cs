@@ -408,9 +408,9 @@ namespace dbCompanyTest.Controllers
         int _id = Int32.TryParse(id, out int temp) ? temp : -1;
         if (_id == -1)
             return Content("錯誤_資料格式錯誤", "text/plain", Encoding.UTF8);            
-        var data = db.ProductsColorDetails.FirstOrDefault(pd => pd.商品顏色id == _id);
+        var data = db.ProductsColorDetails.ToList().FirstOrDefault(pd => pd.商品顏色id == _id);
         if (data == null) return Content($"錯誤_沒有此筆資料", "text/plain", Encoding.UTF8);
-        var ProData = db.ProductDetails.Where(p => p.商品顏色id == _id);
+        var ProData = db.ProductDetails.ToList().Where(p => p.商品顏色id == _id);
         if(ProData.Count()>0)return Content($"錯誤_還有ProductDetail使用此顏色，不能刪除", "text/plain", Encoding.UTF8);
         //刪除圖片
         if (data.商品顏色圖片 == null)return Content($"錯誤_沒有此圖片資料!", "text/plain", Encoding.UTF8);

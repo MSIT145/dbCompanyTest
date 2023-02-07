@@ -15,6 +15,7 @@ using System.Text;
 using NPOI.OpenXmlFormats.Dml;
 using static NPOI.HSSF.UserModel.HeaderFooter;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NPOI.HPSF;
 
 namespace dbCompanyTest.Controllers
 {
@@ -791,16 +792,7 @@ namespace dbCompanyTest.Controllers
                 SavePhotoMethod(photo3, $"{imgeName}_3", imgdata.商品圖片3);
                 imgdata.商品圖片3 = $"{imgeName}_3.jpg";
             }
-              
-
-
-         
-           
-          
             db.SaveChanges();
-
-
-
             FL.Id = data.Id;
             FL.商品編號id = data.商品編號id;
             FL.商品尺寸id = data.商品尺寸id;
@@ -821,10 +813,14 @@ namespace dbCompanyTest.Controllers
         {
             string photoName = $"{proname}.jpg";
             string oldPath = _eviroment.WebRootPath + "/images/" + oldname;
-            if (oldname !="")           
-            System.IO.File.Delete(oldPath);   //刪掉圖片
-            //string photoName = $"{Guid.NewGuid().ToString()}.jpg";                   
-
+            if (oldname != "")
+            {//要先確認這Path是否有檔案    
+                if (System.IO.File.Exists(oldPath))
+                {
+                    System.IO.File.Delete(oldPath);   //刪掉圖片
+                    //string photoName = $"{Guid.NewGuid().ToString()}.jpg";      
+                }
+            }
             string path01 = _eviroment.WebRootPath + "/images/" + photoName;  //用環境變數取得 IIS路徑(wwwroot)
             using (FileStream fs = new FileStream(path01, FileMode.Create))
             {
@@ -895,16 +891,17 @@ namespace dbCompanyTest.Controllers
             if (string.IsNullOrEmpty(id) || !(Int32.TryParse(id, out _id)))
                 return Json("錯誤_傳輸id資料異常");
             //查詢是否有訂單在使用此細項商品
-            int odCount = db.OrderDetails.Where(od => od.Id == _id).Count();
+            int odCount = db.OrderDetails.ToList().Where(od => od.Id == _id).Count();
             if(odCount >0)
                 return Json("錯誤_有訂單明細在使用此商品細項");
             //查詢圖檔位置     
-            var ProDdata = db.ProductDetails.FirstOrDefault(pd => pd.Id == _id);
+            var ProDdata = db.ProductDetails.ToList().FirstOrDefault(pd => pd.Id == _id);
             if (ProDdata == null)
                 return Json("錯誤_沒有此項商品");
             var imgData = db.圖片位置s.FirstOrDefault(i => i.圖片位置id == ProDdata.圖片位置id);
+            
             //刪除images內的相關圖片
-            if(imgData==null)
+            if (imgData==null)
                 return Json("錯誤_沒有此筆圖片位置資料");
             //刪除相應圖片
             DeleteImg(imgData.商品圖片1);
@@ -913,9 +910,8 @@ namespace dbCompanyTest.Controllers
 
             //刪除圖片位置s內此筆資料
             db.圖片位置s.Remove(imgData);
-            db.ProductDetails.Remove(ProDdata);
+            db.ProductDetails.Remove(ProDdata);           
             db.SaveChanges();
-
             return Json($"商品明細刪除成功");
         }
 
@@ -943,7 +939,7 @@ namespace dbCompanyTest.Controllers
                                商品圖片3 = i.商品圖片3,
                                商品是否上架 = pd.商品是否上架.ToString(),
                                商品是否有貨 = pd.商品是否有貨.ToString()
-                           };
+                           };                
                 return Json(new { data });
             }
             return View();
