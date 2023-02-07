@@ -10,7 +10,6 @@
                         <p class="itemName">會員:@paretitem.paretCommentGuestName</p>
                         <p class="itemMessage">內容:@paretitem.paretComment</p>
                     </div>
-                    <div>
                         @if (paretitem.paretCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
                         {
                             <span class="itemreport">回覆</span>
@@ -35,7 +34,6 @@
 
                             <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
                         }
-                    </div>
                 </div>
                 <div style="display:flex;margin-left:2px;border-left:solid;">
                     <ul>

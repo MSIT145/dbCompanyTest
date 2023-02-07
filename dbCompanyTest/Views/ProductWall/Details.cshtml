@@ -135,14 +135,13 @@
                                     <p class="itemName">會員:@paretitem.paretCommentGuestName</p>
                                     <p class="itemMessage">內容:@paretitem.paretComment</p>
                                 </div>
-                                <div>
                                     @if (paretitem.paretCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
                                     {
                                         <span class="itemreport">回覆</span>
 
                                         <span>|</span>
 
-                                        <span class="itemreportEdit">編輯</span>
+                                        <span class="itemreportEdit" data-id="@paretitem.paretCommentID" data-order="1">編輯</span>
 
                                         <span>|</span>
 
@@ -160,7 +159,6 @@
 
                                         <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
                                     }
-                                </div>
                             </div>
                             <div style="display:flex;margin-left:2px;border-left:solid;">
                                 <ul>
@@ -183,7 +181,7 @@
 
                                                             <span>|</span>
 
-                                                            <span class="itemreportEdit">編輯</span>
+                                                            <span class="itemreportEdit" data-id="@childitem.childCommentID" data-order="2">編輯</span>
 
                                                             <span>|</span>
 
@@ -222,7 +220,7 @@
 
                                                                                 <span>|</span>
 
-                                                                                <span class="itemreportEdit">編輯</span>
+                                                                                <span class="itemreportEdit" data-id="@childitemchildid.childCommentID" data-order="2">編輯</span>
 
                                                                                 <span>|</span>
 
@@ -266,6 +264,16 @@
         <input type="submit" id="userreportSubmit" class="btn btn-primary" value="送出" />
         <input type="button" id="userreportCancel" class="btn btn-secondary" value="取消" />
     </div>
+
+            @*編輯訊息*@
+    <div class="reportEdit" style="display:none;">
+        <input class="userEditinput" type="text" /><br />
+        <input type="submit" id="userEditSubmit" class="btn btn-primary" value="送出" />
+        <input type="button" id="userEditCancel" class="btn btn-secondary" value="取消" />
+    </div>
+
+
+
 
 </div>
 </div>
@@ -311,6 +319,7 @@
         </div>
     </div>
 </div>
+
 
 
 
@@ -369,7 +378,6 @@
         });
         $('.modal-close').on('click', function () {
             checkdelete = false;
-            //$('#share').css("display", "none");
             $('#error').css("display", "none");
             $('#alert').css("display", "none");
         });
@@ -389,12 +397,25 @@
         }
 
 
-
+        //修改
+        $(`.itemreportEdit`).on("click", function () {
+            console.log($(this).siblings(`div`).find(".itemMessage").text());
+            let str =  $(this).siblings(`div`).find(".itemMessage").text();
+            let strEdit = str.substring(3,str.length);
+            console.log($(this).siblings(`.itemreport`));
+            $(`.reportEdit`).find('.userEditinput').val(strEdit);
+            $(`.reportEdit`).css('display','block')
+            $(this).siblings(`div`).append($(".reportEdit"));
+            $(this).siblings(`div`).find('p').css('display',"none");
+        });
+        $('#userEditCancel').on('click',function(){
+            $(`.reportEdit`).css('display','none');
+            $(this).closest('div').siblings('p').css('display',"block")
+        })
         //回覆
         $(`.itemreport`).on("click", function () {
             $(this).closest(`div`).after($(`.userreport`));
         });
-
         //刪除
         $(`.itemreportDelete`).on("click", function () {
             $('#alert').css('display', 'block');
@@ -561,6 +582,7 @@
                     }());
                 }
             }
+            
         });
 
 
