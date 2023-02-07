@@ -16,7 +16,7 @@ namespace dbCompanyTest.Controllers
         static string callOpenAI(int tokens, string input, string engine,
           double temperature, int topP, int frequencyPenalty, int presencePenalty)
         {
-            var openAiKey = "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";
+            var openAiKey = "";
             var apiCall = "https://api.openai.com/v1/engines/" + engine + "/completions";
             try
             {
