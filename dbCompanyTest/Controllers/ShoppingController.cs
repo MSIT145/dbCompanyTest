@@ -25,9 +25,13 @@ namespace dbCompanyTest.Controllers
         //}
 
         // GET: Shopping
-        public IActionResult Index()
+        public IActionResult Index(string? ifRe)
         {
             List<會員商品暫存>? carSession = null;
+            if (ifRe != null)
+            {
+                ViewBag.IfRe = ifRe;
+            }
             string json = "";
             //判斷是否登入
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
@@ -58,6 +62,8 @@ namespace dbCompanyTest.Controllers
                 }
             }
             else return RedirectToAction("Login", "Login");
+
+
             return View(carSession);
         }
         public IActionResult joinSQLToSession()
@@ -98,7 +104,7 @@ namespace dbCompanyTest.Controllers
                     }
                 }
             }
-                return Content("加入");
+            return Content("加入");
         }
         public IActionResult GetCarJson()
         {
@@ -160,7 +166,7 @@ namespace dbCompanyTest.Controllers
             var orderId = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
 
             //需填入 你的網址
-            var website = $"https://localhost:7013";
+            var website = $"https://localhost:7100";
             var order = new Dictionary<string, string>
         {
             //特店交易編號
@@ -297,6 +303,17 @@ namespace dbCompanyTest.Controllers
 
         }
         //----繳費API結束--------------
+
+        //----門市API---------------------------
+        public IActionResult SlectShop(IFormCollection ShopDetail)
+        {
+            ViewBag.storeid = ShopDetail["storeid"];
+            ViewBag.storename = ShopDetail["storename"];
+            var storeaddress = ShopDetail["storeaddress"];
+            return RedirectToAction("Index", "Shopping", new { ifRe = storeaddress });
+        }
+        //----門市API結束------------------------
+
         public IActionResult store(IFormCollection data)
         {
             string storeid = data["storeid"];
@@ -326,14 +343,14 @@ namespace dbCompanyTest.Controllers
                 data.商品數量 = x.訂單數量;
                 //----因為是垃圾資料所以先用4
                 //data.Id= x.商品編號;
-                data.Id=4;
+                data.Id = 4;
                 //----
-                data.商品價格=x.商品價格;
-                data.無用id=0;
+                data.商品價格 = x.商品價格;
+                data.無用id = 0;
                 _context.OrderDetails.AddRange(data);
-            _context.SaveChanges();
+                _context.SaveChanges();
             }
-            
+
             return Content("成功");
         }
         private bool 會員商品暫存Exists(int id)
