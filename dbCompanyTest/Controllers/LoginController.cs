@@ -2,19 +2,45 @@
 using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
 using Google.Apis.Auth;
+using iText.Html2pdf.Attach;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using NPOI.SS.Formula.Functions;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Text.Json;
+using System.Web;
 
 namespace dbCompanyTest.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly string _appId = "1657826204";
+        private readonly string _appSecret = "dfc3f645938564091911eb6782f905bd";
+        private string RedirectUrl => "https://localhost:7100/Login/Line";
+        private readonly IHttpClientFactory _clientFactory;
+        public LoginController(IHttpClientFactory clientFactory)
+        {
+            _clientFactory = clientFactory;
+        }
+
+        [TempData]
+        public Guid State { get; set; }
         public IActionResult Login()
         {
             if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+            {
+                State = Guid.NewGuid();
+                ViewData["LineAuth"] = $"https://access.line.me/oauth2/v2.1/authorize?" +
+                    $"client_id={_appId}" +
+                    $"&response_type=code" +
+                    $"&redirect_uri={RedirectUrl}" +
+                    $"&scope={HttpUtility.UrlEncode("profile openid email")}" +
+                    $"&state={State}";
                 return View();
+            }
             else
                 return RedirectToAction("Index", "Home");
         }
@@ -130,7 +156,7 @@ namespace dbCompanyTest.Controllers
         {
             if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
             {
-                string json = JsonSerializer.Serialize(x);
+                string json = System.Text.Json.JsonSerializer.Serialize(x);
                 HttpContext.Session.SetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION, json);
             }
         }
@@ -153,13 +179,13 @@ namespace dbCompanyTest.Controllers
             {
                 dbCompanyTestContext _context = new dbCompanyTestContext();
                 string userjson = HttpContext.Session.GetString(usersession);
-                var userdata = JsonSerializer.Deserialize<TestClient>(userjson);
+                var userdata = System.Text.Json.JsonSerializer.Deserialize<TestClient>(userjson);
                 var del = _context.會員商品暫存s.Select(x => x).Where(y => y.客戶編號 == userdata.客戶編號 && y.購物車或我的最愛 == MyloveOrShoppingcar);
                 _context.會員商品暫存s.RemoveRange(del);
                 _context.SaveChanges();
                 //讀取我的最愛Session
                 string lovejson = HttpContext.Session.GetString(session);
-                var lovedata = JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson).ToArray();
+                var lovedata = System.Text.Json.JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson).ToArray();
                 foreach (var item in lovedata)
                 {
                     item.Id = 0;
@@ -178,7 +204,7 @@ namespace dbCompanyTest.Controllers
                 userName = "訪客";
             else
             {
-                TestClient? x = JsonSerializer.Deserialize<TestClient>(json);
+                TestClient? x = System.Text.Json.JsonSerializer.Deserialize<TestClient>(json);
                 userName = x.客戶姓名;
             }
             return Content(userName);
@@ -249,5 +275,100 @@ namespace dbCompanyTest.Controllers
             _context.SaveChanges();
             return Content("");
         }
+
+        public async Task<IActionResult> Line(string code, Guid state, string error, string error_description)
+        {
+            // 有錯誤訊息(未授權等)、State遺失、State不相同、沒有code
+            if (!string.IsNullOrEmpty(error) || state == null || State != state || string.IsNullOrEmpty(code))
+                return RedirectToAction(nameof(Login));
+
+            // 使用代碼交換存取權杖 與Facebook 和 Google不同，是使用 application/x-www-form-urlencoded
+            var url = "https://api.line.me/oauth2/v2.1/token";
+            var postData = new Dictionary<string, string>()
+        {
+            {"client_id",_appId},
+            {"client_secret",_appSecret},
+            {"code",code},
+            {"grant_type","authorization_code"},
+            {"redirect_uri",RedirectUrl}
+        };
+
+            var contentPost = new FormUrlEncodedContent(postData);
+
+            var client = _clientFactory.CreateClient();
+            var response = await client.PostAsync(url, contentPost);
+
+            string responseContent;
+            if (response.IsSuccessStatusCode)
+                responseContent = await response.Content.ReadAsStringAsync();
+            else
+                return RedirectToAction(nameof(Login));
+
+            var lineLoginResource = JsonConvert.DeserializeObject<LINELoginResource>(responseContent);
+
+            // 因為Line API 可以同時取得ClientId Token 和 Access Token，所以這邊有兩種選擇
+            // 1. 使用JWT解析Id Token, Nuget > System.IdentityModel.Tokens.Jwt
+            var userInfo = new JwtSecurityToken(lineLoginResource.IDToken).Payload;
+            dbCompanyTestContext _context = new dbCompanyTestContext();
+            TestClient? dbclient = _context.TestClients.FirstOrDefault(x => x.Email == userInfo["email"]);
+            if (dbclient == null)
+            {
+                TestClient newclient = new TestClient();
+                newclient.客戶編號 = "CLL-"+userInfo["sub"].ToString().Substring(0,7);
+                newclient.客戶姓名 = userInfo["name"].ToString();
+                newclient.Email = userInfo["email"].ToString();
+                _context.TestClients.Add(newclient);
+                _context.SaveChanges();
+                useSession(newclient);
+            }
+            else
+                useSession(dbclient);
+            // 2. https://developers.line.biz/en/reference/social-api/#profile
+            //url = $"https://api.line.me/v2/profile";
+            //client.DefaultRequestHeaders.Add("authorization", $"Bearer {lineLoginResource.AccessToken}");
+            //response = await client.GetAsync(url);
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    responseContent = await response.Content.ReadAsStringAsync();
+            //    var user = JsonConvert.DeserializeObject<LINEUser>(responseContent);
+            //}
+            return RedirectToAction("index", "Home");
+        }
+        public class LINELoginResource
+        {
+            [JsonProperty("access_token")]
+            public string AccessToken { get; set; }
+
+            [JsonProperty("token_type")]
+            public string TokenType { get; set; }
+
+            [JsonProperty("expires_in")]
+            public string ExpiresIn { get; set; }
+
+            [JsonProperty("scope")]
+            public string Scope { get; set; }
+
+            [JsonProperty("refresh_token")]
+            public string RefreshToken { get; set; }
+
+            // 這邊跟一般的TokenResponse不同，多了使用者的Id Token
+            [JsonProperty("id_token")]
+            public string IDToken { get; set; }
+        }
+
+        //public class LINEUser
+        //{
+        //    [JsonProperty("userId")]
+        //    public string Id { get; set; }
+
+        //    [JsonProperty("displayName")]
+        //    public string Name { get; set; }
+
+        //    [JsonProperty("pictureUrl")]
+        //    public string PictureUrl { get; set; }
+
+        //    [JsonProperty("statusMessage")]
+        //    public string StatusMessage { get; set; }
+        //}
     }
 }

@@ -12,6 +12,8 @@
         <div id="loginPage">
 
             <div id="otherLogin">
+                <br/>
+                <br />
                 <div id="g_id_onload"
                      data-client_id="1097400727922-rjchl3ubr8r1mtjpirchq6v7dl9vfcb2.apps.googleusercontent.com"
                      data-login_uri="https://localhost:7100/Login/loginSussess"
@@ -25,6 +27,8 @@
                      data-shape="rectangular"
                      data-logo_alignment="left">
                 </div>
+                    
+                <p id="sp"><a href="@ViewData["LineAuth"]" class="btn btn-success" title="Log in your account" id="linelogin">Line</a></p>
             </div>
             <hr style="width:50%;margin:20px auto;" />
             <div id="selfLogin">
@@ -43,7 +47,7 @@
                 @*<a asp-action="Create" asp-controller="TestClients" style="color:white">註冊新會員</a>*@
                 <span id="create">註冊新會員</span>
             </p>
-            <hr/>
+            <hr />
             <button id="sheep">sheep</button>
             <button id="lu">lu</button>
             <button id="gary">gary</button>
@@ -130,7 +134,7 @@
         $(`#gary`).on(`click`, function () {
             $(`#account`).val(`gary@gmail.com`);
         });
-        $(`#sheep`).on(`click`,function(){
+        $(`#sheep`).on(`click`, function () {
             $(`#account`).val(`sheep@gmail.com`);
         });
         $(`#lu`).on(`click`, function () {

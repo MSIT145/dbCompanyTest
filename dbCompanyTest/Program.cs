@@ -6,6 +6,7 @@ using System.Text.Unicode;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<HtmlEncoder>(
      HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin,
