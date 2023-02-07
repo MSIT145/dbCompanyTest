@@ -194,6 +194,10 @@
             const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
             scene.add(overlay)
 
+
+        /**
+         * background color
+         */
         var uniforms1;
 
         uniforms1 = {
@@ -217,14 +221,26 @@
             vertexShader: document.getElementById('vertexShader').textContent,
             fragmentShader: document.getElementById(params[0][0]).textContent
         });
-        let bk = new THREE.Mesh(spGeometry, bkmaterial);
-        bk.position.set(0, 0, 0)
-        //scene.add(bk)
 
-        let pGeometry = new THREE.PlaneGeometry(10000, 10000, 1, 1);
-        let bkp = new THREE.Mesh(pGeometry, bkmaterial);
-        bkp.position.set(0, 0, -1000)
-        scene.add(bkp)
+
+        //let pGeometry = new THREE.PlaneGeometry(1000000, 1000000);
+        //let bkp = new THREE.Mesh(pGeometry, bkmaterial);
+        //bkp.position.set(0, 0, -10000)
+
+
+        const shadertoyCamera = new THREE.OrthographicCamera(
+            -1, // left
+            1, // right
+            1, // top
+            -1, // bottom
+            -1, // near,
+            0, // far
+        );
+        const shadertoyScene = new THREE.Scene();
+        const bkplane = new THREE.PlaneBufferGeometry(3, 3);
+        shadertoyScene.add(new THREE.Mesh(bkplane, bkmaterial));
+
+
 
 
             /**
@@ -441,9 +457,10 @@
              */
             const renderer = new THREE.WebGLRenderer({
                 canvas: canvas,
-                antialias: true,
-                alpha: true
+                //antialias: true,
+                //alpha: true
             })
+            renderer.autoClear = false;
             renderer.shadowMap.enabled = true
             renderer.shadowMap.type = THREE.PCFSoftShadowMap
             renderer.setSize(sizes.width, sizes.height)
@@ -697,10 +714,8 @@
 
             
 
-                
 
-                //mixer.update(clock.getDelta);
-
+                renderer.render(shadertoyScene, shadertoyCamera);
                 // Render
                 renderer.render(scene, camera)
 
