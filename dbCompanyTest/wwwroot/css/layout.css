@@ -57,6 +57,11 @@
         display:none;
     }
 
+    .shop-bot li{
+        display: none;
+        list-style: none;
+    }
+
     .shortcut-box {
         position: absolute;
         width: 170px;
