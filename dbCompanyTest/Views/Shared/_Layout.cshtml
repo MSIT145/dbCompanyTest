@@ -12,6 +12,16 @@
     <link href="~/css/layout.css" rel="stylesheet" />
     <link href="~/css/mychat.css" rel="stylesheet" />
     <link href="~/css/car.css" rel="stylesheet" />
+    <style>
+        .LineFriend{
+            margin:0 auto;
+            width: 100px;
+        }
+        .LineFriend iframe {
+            width: 100px !important;
+            height: 20px !important;
+        }
+    </style>
     @await RenderSectionAsync("Style", required: false)
 </head>
 <body class="pc-model">
@@ -140,8 +150,8 @@
             <ul>
                 <li><a asp-controller="MemberCenter" asp-action="Index"><img src="~/homeImg/sign_bot (1).png"></a></li>
                 <li>
-                    <a href="@Url.Content("~/Shopping")" >
-@*                        <span class="g-nums" id="cart_num">0</span>*@
+                    <a href="@Url.Content("~/Shopping")">
+                        @*                        <span class="g-nums" id="cart_num">0</span>*@
                         <img src="~/homeimg/shopping_cart (1).png" />
                     </a>
 
@@ -166,6 +176,9 @@
     </div>
     <div class="chatBody" style="z-index:10;">
         <div class="chatHeader"><div id="connection">連線客服</div><p id="errorstring" style="color:red"></p></div>
+        <div class="LineFriend">
+            <div class="line-it-button" data-lang="zh_Hant" data-type="friend" data-env="REAL" data-count="true" data-home="true" data-lineId="@@401jvrga" style="display:block;width:100px;height:100px;"></div>
+        </div>
         <input id="userName" type="hidden">
         <input id="openaikey" type="hidden" />
         <div class="chatBBody">
@@ -183,7 +196,7 @@
             &copy; 2023 - dbCompanyTest - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-
+    <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -208,11 +221,11 @@
                 alert('傳送錯誤: ' + err.toString());
             });
             $(`.chatBBody`).append(`<div class="chat">
-                                                                                                        <div class="otherName">系統</div>
-                                                                                                        <div class="otherChat">
-                                                                                                             親愛的${uesrName},我們很高興為您服務
-                                                                                                        </div>
-                                                                                                    </div>`);
+                                                                                                                        <div class="otherName">系統</div>
+                                                                                                                        <div class="otherChat">
+                                                                                                                             親愛的${uesrName},我們很高興為您服務
+                                                                                                                        </div>
+                                                                                                                    </div>`);
             $(`#userName`).val(userName);
         })
 
@@ -271,11 +284,11 @@
 
         function UpdSystem(user, msg) {
             $(`.chatBBody`).append(`<div class="chat">
-                                                                                                        <div class="otherName">${user}</div>
-                                                                                                        <div class="otherChat">
-                                                                                                                    ${msg}
-                                                                                                        </div>
-                                                                                                    </div>`);
+                                                                                                                        <div class="otherName">${user}</div>
+                                                                                                                        <div class="otherChat">
+                                                                                                                                    ${msg}
+                                                                                                                        </div>
+                                                                                                                    </div>`);
             resetScrollSite();
         }
         function AIBOT(msg) {
@@ -310,11 +323,11 @@
         };
         function UpdContent(msg) {
             $(`.chatBBody`).append(`<div class="chat">
-                                                                                                                               <div class="myName">我</div>
-                                                                                                                            <div class="myChat">
-                                                                                                                                 ${msg}
-                                                                                                                          </div>
-                                                                                                                     </div>`);
+                                                                                                                                               <div class="myName">我</div>
+                                                                                                                                            <div class="myChat">
+                                                                                                                                                 ${msg}
+                                                                                                                                          </div>
+                                                                                                                                     </div>`);
             $(`#message`).val("");
             resetScrollSite();
         }
@@ -352,22 +365,22 @@
                     countM += x
                     return (
                         `<div class="row" id="${id}">
-                                                                                    <div class="col-3">
-                                                                    <img  src="@Url.Content("~/images/${a}")" width="70" />
-                                                          </div>
-                                                                                  <div class="col-8">
-                                                                                               <div>品名:<a>${value.商品名稱}</a></div>
-                                                                                             <div>尺寸:<a>${value.尺寸種類}</a></div>
-                                                                                               <div>顏色:<a>${value.商品顏色種類}</a></div>
-                                                                                        <div>數量:<a>${value.訂單數量}</a></div>
-                                                                                <div>價格:<a class="m">${value.商品價格}</a></div>
+                                                                                                    <div class="col-3">
+                                                                                    <img  src="@Url.Content("~/images/${a}")" width="70" />
+                                                                          </div>
+                                                                                                  <div class="col-8">
+                                                                                                               <div>品名:<a>${value.商品名稱}</a></div>
+                                                                                                             <div>尺寸:<a>${value.尺寸種類}</a></div>
+                                                                                                               <div>顏色:<a>${value.商品顏色種類}</a></div>
+                                                                                                        <div>數量:<a>${value.訂單數量}</a></div>
+                                                                                                <div>價格:<a class="m">${value.商品價格}</a></div>
 
-                                                                              </div>
-                                                                               <div class="purchase-icon-car col-1">
-                                                                                                        <input type="hidden" value="${id}" />
-                                                                                          </div>
-                                                                            <br/>
-                                                                 </div>  `
+                                                                                              </div>
+                                                                                               <div class="purchase-icon-car col-1">
+                                                                                                                        <input type="hidden" value="${id}" />
+                                                                                                          </div>
+                                                                                            <br/>
+                                                                                 </div>  `
                     );
                 })
                 TOTAL_TWD = `TOTAL TWD $${countM}`
@@ -460,8 +473,8 @@
         })
 
         $('body').on('keyup', '.search_keyword', function (e) {
-            let sb=$('#sb');
-            if (sb.hasClass('show')){
+            let sb = $('#sb');
+            if (sb.hasClass('show')) {
                 if (13 == e.keyCode) {
                     let value = $(this).val().trim();
                     if ('' == value) {
@@ -470,12 +483,12 @@
 
                     location.href = '/ProductWall/search?keyword=' + $('#search-box').val();
                 }
-            }else{
+            } else {
                 if (13 == e.keyCode) {
-                        return;
+                    return;
                 }
             }
-            
+
         });
 
         //TOP

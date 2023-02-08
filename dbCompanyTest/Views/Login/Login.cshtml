@@ -16,7 +16,7 @@
                 <br />
                 <div id="g_id_onload"
                      data-client_id="1097400727922-rjchl3ubr8r1mtjpirchq6v7dl9vfcb2.apps.googleusercontent.com"
-                     data-login_uri="https://localhost:7100/Login/loginSussess"
+                     data-login_uri="@ViewData[" localUrl"]/Login/loginSussess"
                      data-auto_prompt="false">
                 </div>
                 <div class="g_id_signin" style="width:200px;margin:50px auto;height:60px"
@@ -87,8 +87,9 @@
         var xhr = new XMLHttpRequest();
         xhr.addEventListener(`load`, () => {
             var result = xhr.responseText;
-            if (result == `成功`) {
-                window.location.assign("https://localhost:7100/Home/Index");
+            if (result != `失敗`) {
+                //window.location.assign("https://localhost:7100/Home/Index");
+                window.location.assign(result+"/Home/Index");
                 joinCarSession();
             } else {
                 if (result == "Nopassword")
