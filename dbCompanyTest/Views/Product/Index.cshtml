@@ -663,6 +663,14 @@
             $("#Moda_D_C .modal-body").load(`@Url.Content("~/Product/_CreateDetail")/?id=${id}`);
         })
 
+    //加入按鈕事件(明細展開與關閉)Btn_Pro_Show_list
+    $('#tableAll').on('click', 'button[name="Btn_Pro_Show_list"]', function () {
+      
+        const value = $(this).attr("data-value");
+       // console.log(value);       
+        $(`#tableDetail tr[data-color='${value}']`).toggle();
+        });
+
         //加入按鈕事件(明細刪除) P_btnDel
         $('#tableAll').on('click', 'button[name="PD_btnDelete"]', function () {
             const row = $(this).parents("tr[name='tr_de']");
@@ -780,6 +788,14 @@
             }
         });
 
+        //取得json數量
+        function JSONLength(obj) {
+        var size = 0, key;
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) size++;
+        }
+        return size;
+        };
         //子表單 details
         function details(d) {
             //使用資料庫存取
@@ -791,6 +807,7 @@
             let dUrl = '@Url.ActionLink("showDetail","Product")';
             let appH = "";
             let gg="";
+            let Json_count=0;
             //console.log(dUrl);
             //console.log(CDataID)
             //用ajax抓Detail的資料
@@ -804,51 +821,74 @@
                         data: {
                         "id" : `${CDataID}`     
                       }
-                    }).done(function (data) {
-                               console.log(data);
-                                 for(var item  of data.data)
+                    }).done(function (data) {                              
+                                 for(var item  of data)
                                  {
-                                        let temptr = `<tr name="tr_de">` +
-                        `<td>${item.明細編號}</td>` +
-                                        `<td>${item.明細尺寸}</td>` +
-                                        `<td>${item.顏色}</td>` +
-                                        `<td>${item.數量}</td>` +
-                                        `<td><img src="@Url.Content("~/images")/${item.商品圖片1}" width="100" name="P_D_img" '/></td>`+
-                                        `<td><img src="@Url.Content("~/images")/${item.商品圖片2}" width="100" name="P_D_img" '/></td>` +
-                                        `<td><img src="@Url.Content("~/images")/${item.商品圖片3}" width="100" name="P_D_img" '/></td>` +
-                                        `<td>${item.商品是否上架}</td>` +
-                                        `<td>${item.商品是否有貨}</td>` +
-                                       `<td><button type="submit" class="btn btn-primary" id="E_${item.明細編號}"  name="PD_btnEdit" title="修改"  data-bs-toggle="modal" data-bs-target="#Moda_D_C"><i class="fas fa-edit">修改</i></button></td>` +
-                        `<td><button type="submit" class="btn btn-primary" id="D_${item.明細編號}" name="PD_btnDelete" title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"> 刪除</i></button></td>` +
+                console.log(item.name);
+                                    let mast_temptr = `<tr name="tr_de" >` +
+                                        `<td colspan="2"><button class="btn btn-primary" data-value="${item.name}" name="Btn_Pro_Show_list" title="開關"><i class="fas fa-edit">+</i></button></td>` +
+                                        `<td>${item.name}</td>` +
+                                        `<td colspan="6"><div style="display:flex">`+
+                                        `<img src="@Url.Content("~/images")/${item.img1}" width = "100" name = "P_D_img" '/>`+
+                                        `<img src="@Url.Content("~/images")/${item.img2}" width = "100" name = "P_D_img" '/>`+
+                                        `<img src="@Url.Content("~/images")/${item.img3}" width = "100" name = "P_D_img" '/>`+                                   
                                         `</tr>`;
-                    appH += temptr;
+                                    for(var item2 of item.thisdata)
+                                    {
+                    let temptr = `<tr name="tr_de" data-color="${item2.顏色}" style="display: none;">` +
+                                        `<td>${item2.明細編號}</td>` +
+                                        `<td>${item2.明細尺寸}</td>` +
+                                        `<td>${item2.顏色}</td>` +
+                                        `<td>${item2.數量}</td>` +
+                                        `<td>${item2.圖片位置id}</td>` +
+                                        //`<td><img src="@Url.Content("~/images")/${item.商品圖片1}" width="100" name="P_D_img" '/></td>`+
+                                        //`<td><img src="@Url.Content("~/images")/${item.商品圖片2}" width="100" name="P_D_img" '/></td>` +
+                                        //`<td><img src="@Url.Content("~/images")/${item.商品圖片3}" width="100" name="P_D_img" '/></td>` +
+                                        `<td>${item2.商品是否上架}</td>` +
+                                        `<td>${item2.商品是否有貨}</td>` +
+                                        `<td><button type="submit" class="btn btn-primary" id="E_${item2.明細編號}"  name="PD_btnEdit" title="修改"  data-bs-toggle="modal" data-bs-target="#Moda_D_C"><i class="fas fa-edit">修改</i></button></td>` +
+                                        `<td><button type="submit" class="btn btn-primary" id="D_${item2.明細編號}" name="PD_btnDelete" title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"> 刪除</i></button></td>` +
+                                        `</tr>`;
+                                    mast_temptr += temptr;
+                                    }
+                                  appH += mast_temptr;
+                                 // console.log(appH);
+                                  //計算data筆數
+                                   Json_count = JSONLength(data);
                                  }
                        // alert("成功");   
                     }).fail(function () {
                         alert("失敗");                  
                     });
-            //console.log(appH)
+
+                    let DE_table =  
+                    '<table id="tableDetail" class="table table-borded tabale-info">' +
+                    '<thead>' +
+                    '<tr >' +
+                    '<th >明細編號</th>' +               
+                    '<th >尺寸</th>' +
+                    '<th >顏色</th>' +
+                    '<th >數量</th>' +    
+                    '<th >圖組編號</th>' +    
+                    //'<th >圖1</th>' +
+                    //'<th >圖2</th>' +
+                    //'<th >圖3</th>' +
+                    '<th >上架</th>' +
+                    '<th >有貨</th>' +
+                    '<th >修改</th>' +
+                    '<th >刪除</th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>'+
+                    appH
+                    '</tbody>' +
+                    '</table>'
+                    ;
+        if (Json_count == 0)
+                    DE_table = "<div>沒有細項商品</div>";
+            console.log(DE_table)
             //cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;
-            return '<table id="tableDetail" class="table table-borded tabale-info">' +
-                '<thead>' +
-                '<tr>' +
-                '<th >明細編號</th>' +               
-                '<th >尺寸</th>' +
-                '<th >顏色</th>' +
-                '<th >數量</th>' +    
-                '<th >圖1</th>' +
-                '<th >圖2</th>' +
-                '<th >圖3</th>' +
-                '<th >上架</th>' +
-                '<th >有貨</th>' +
-                '<th >修改</th>' +
-                '<th >刪除</th>' +
-                '</tr>' +
-                '</thead>' +
-                '<tbody>'+
-                appH
-                '</tbody>' +
-                '</table>';
+            return DE_table;
         }
         function showphoto(detailsRecord) {
             if (detailsRecord.Photo != null) {

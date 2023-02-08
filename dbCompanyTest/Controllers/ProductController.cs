@@ -16,6 +16,7 @@ using NPOI.OpenXmlFormats.Dml;
 using static NPOI.HSSF.UserModel.HeaderFooter;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NPOI.HPSF;
+using Org.BouncyCastle.Crypto.Macs;
 
 namespace dbCompanyTest.Controllers
 {
@@ -935,13 +936,23 @@ namespace dbCompanyTest.Controllers
 
 
         //顯示ProductDetail
+        public class Back_Pro_Detail_data_ColorImg
+        {
+           public string? name { get; set; }
+           public string? img1 { get; set; }
+          public  string? img2 { get; set; }
+         public  string? img3 { get; set; }
+        
+          public List<Back_ProducDetail>? thisdata { get; set; }
+        }
+      
         [HttpGet]
         public IActionResult showDetail(string id) 
         {
             if (!string.IsNullOrEmpty(id))
             {
                 int PDid = Convert.ToInt32(id);
-                var data = from pd in db.ProductDetails.ToList()
+                var _data = from pd in db.ProductDetails.ToList()
                            join z in db.ProductsSizeDetails on pd.商品尺寸id equals z.商品尺寸id
                            join c in db.ProductsColorDetails on pd.商品顏色id equals c.商品顏色id
                            join i in db.圖片位置s on pd.圖片位置id equals i.圖片位置id
@@ -952,16 +963,31 @@ namespace dbCompanyTest.Controllers
                                明細尺寸 = z.尺寸種類,
                                顏色 = c.商品顏色種類,
                                數量 = (pd.商品數量).ToString(),
+                               圖片位置id = i.圖片位置id.ToString(),
                                商品圖片1 = i.商品圖片1,
                                商品圖片2 = i.商品圖片2,
                                商品圖片3 = i.商品圖片3,
                                商品是否上架 = pd.商品是否上架.ToString(),
                                商品是否有貨 = pd.商品是否有貨.ToString()
-                           };                
-                return Json(new { data });
+                           };
+                //將data資料做group by
+                var data = from d in _data.ToList()
+                              group d by d.顏色 into g
+                              select new Back_Pro_Detail_data_ColorImg
+                              {
+                                  name = g.Key,
+                                  img1 = (from p1 in _data where p1.顏色 == g.Key select p1).FirstOrDefault().商品圖片1,
+                                  img2 = (from p1 in _data where p1.顏色 == g.Key select p1).FirstOrDefault().商品圖片2,
+                                  img3 = (from p1 in _data where p1.顏色 == g.Key select p1).FirstOrDefault().商品圖片3,
+                                  thisdata = (from p1 in _data where p1.顏色 == g.Key select p1).ToList()
+                              };
+                
+                return Json(data);
             }
             return View();
         }
+
+        
 
         #endregion ProductDetail所有事件
     }
