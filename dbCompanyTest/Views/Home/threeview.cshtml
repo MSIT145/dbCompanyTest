@@ -239,7 +239,7 @@
         const shadertoyScene = new THREE.Scene();
         const bkplane = new THREE.PlaneBufferGeometry(3, 3);
         shadertoyScene.add(new THREE.Mesh(bkplane, bkmaterial));
-
+ 
 
 
 
@@ -249,7 +249,8 @@
 
             let shiba = null
             let shoes = null
-            let converse = null
+            let shoes2 = null
+            let tv = null
             let rocket = null
             let base = new THREE.Object3D()
             let mixer;
@@ -268,8 +269,8 @@
                     shiba.position.y = -450;
                     shiba.position.z = 200;
 
-                    shiba.rotation.y =Math.PI * 0.18
-                    shiba.rotation.z =  Math.PI * 0.15
+                    shiba.rotation.y = 0.5;
+                    //shiba.rotation.z =  Math.PI * 0.15
 
                     shiba.scale.set(radius, radius, radius)
 
@@ -297,7 +298,7 @@
             )
 
         gltfLoader.load(
-            'https://rawcdn.githack.com/th9716/3dglb/9860c31bd60230875766a370224e1ad8a3ef4197/shoes.glb',
+            'https://rawcdn.githack.com/th9716/3dglb/2019abf682a579d259c44690ab16149f61993cb0/shoes1.glb',
             (gltf) => {
                 shoes = gltf.scene
                 shoes.position.x = 0;
@@ -320,24 +321,21 @@
                 console.error(error);
             }
         )
-
-
         gltfLoader.load(
-            'https://rawcdn.githack.com/th9716/3dglb/a9d13909b8f815f49d397e12e2d2f11314403606/converse/scene.gltf',
+            'https://rawcdn.githack.com/th9716/3dglb/2019abf682a579d259c44690ab16149f61993cb0/shoes2.glb',
             (gltf) => {
-                converse = gltf.scene
-                converse.position.x = 300;
-                converse.position.y = -160;
-                converse.position.z = 250;
+                shoes2 = gltf.scene
+                shoes2.position.x = 0;
+                shoes2.position.y = -300;
+                shoes2.position.z = 120;
 
-                converse.rotation.x=0;
-                converse.rotation.y=84.6;
-                converse.rotation.z=0;
+                shoes2.rotation.x = 0;
+                shoes2.rotation.y = 89.6;
+                shoes2.rotation.z = 0;
 
-                converse.scale.set(90, 90, 90)
+                shoes2.scale.set(10, 10, 10)
 
-                scene.add(converse)
-
+                scene.add(shoes2)
 
             },
             (progress) => {
@@ -348,6 +346,29 @@
             }
         )
 
+        gltfLoader.load(
+            'https://rawcdn.githack.com/th9716/3dglb/0e06df2fbf5a10997326dff89b34f19a847cf177/tv/scene.gltf',
+            (gltf) => {
+                tv = gltf.scene
+                //tv.position.x = 0;
+                tv.position.y = 1000;
+                //tv.position.z = 200;
+
+                //tv.rotation.y = 89.6;
+
+                tv.scale.set(15, 15, 15)
+
+                scene.add(tv)
+
+            },
+            (progress) => {
+                console.log(progress);
+            },
+            (error) => {
+                console.error(error);
+            }
+        )
+        
 
 
 
@@ -362,7 +383,7 @@
             scene.add(ambientLight)
 
             const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
-            directionalLight.position.set(1, 2, 0)
+            directionalLight.position.set(1, 1000, 0)
 
             directionalLight.castShadow = true
             scene.add(directionalLight)
@@ -442,7 +463,7 @@
              */
             // Base camera
             const camera = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 100000) //視野角度 長寬比 近截角 遠截角
-            camera.position.z = 1200
+            camera.position.z = 1500
             scene.add(camera)
 
             // controls
@@ -467,7 +488,9 @@
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 
-
+            /**
+             * 滑鼠點擊模型
+             */
         //mouse move
         let plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -2)
         let pointOfIntersection = new THREE.Vector3()
@@ -476,7 +499,7 @@
         var raycaster = new THREE.Raycaster();
         var mouse = new THREE.Vector2();
         var Clickmouse = new THREE.Vector2();
-        let objects=[shiba,shoes,converse];
+        let objects=[shiba,shoes,shoes2];
 
 
         const cursorPos = new THREE.Vector2()
@@ -498,7 +521,12 @@
             Clickmouse.x=(event.clientX/window.innerWidth)*2-1;
             Clickmouse.y=-(event.clientY/window.innerHeight)*2+1;
 
-            let name="Object_2002";
+            let bkboots="Object_2002";
+            let grayshoes="defaultMaterial";
+            let disney="Object_3";
+            let lv = "Bag_low__0";
+            let mask="Plane_lambert1_0";
+            let bag="Object_5";
             // 透過滑鼠點的位置和當前相機的矩陣計算出 raycaster值
             raycaster.setFromCamera(mouse, camera);
 
@@ -509,8 +537,171 @@
 
                 //intersects[i].object.material.color.set(0xff0000);
                 console.log(intersects[i].object.name)
-                if(intersects[i].object.name == name){
-                    alert("Object_2002 click")
+                if (intersects[i].object.name == bkboots) {
+                    gsap.to(
+                        camera.position, {
+                            x:0,
+                            y:1000,
+                            z:80,
+                            duration: 1.5,
+                            onUpdate:function(){
+                                camera.lookAt(tv.position);
+                            }
+                    });
+                    gsap.to(
+                        camera.rotation, {
+                            x:0,
+                            y:0,
+                            z:0,
+                            duration: 1.5,
+                            onUpdate: function () {
+                            camera.lookAt(tv.position);
+                        }
+                    });
+                    setTimeout(function(){
+                        location.href = (`@Url.Content("~/ProductWall/index?id=2")`);
+                    },2000)
+                }else if(intersects[i].object.name == grayshoes){
+                    gsap.to(
+                        camera.position, {
+                            x:0,
+                            y:1000,
+                            z:80,
+                            duration: 1.5,
+                            onUpdate:function(){
+                                camera.lookAt(tv.position);
+                            }
+                    });
+                    gsap.to(
+                        camera.rotation, {
+                            x:0,
+                            y:0,
+                            z:0,
+                            duration: 1.5,
+                            onUpdate: function () {
+                            camera.lookAt(tv.position);
+                        }
+                    });
+                    setTimeout(function(){
+                        location.href = (`@Url.Content("~/ProductWall/index?id=1")`);
+                    },2000)
+                } else if (intersects[i].object.name == disney) {
+                    gsap.to(
+                        camera.position, {
+                            x:0,
+                            y:1000,
+                            z:80,
+                            duration: 1.5,
+                            onUpdate:function(){
+                                camera.lookAt(tv.position);
+                            }
+                    });
+                    gsap.to(
+                        camera.rotation, {
+                            x:0,
+                            y:0,
+                            z:0,
+                            duration: 1.5,
+                            onUpdate: function () {
+                            camera.lookAt(tv.position);
+                        }
+                    });
+                    setTimeout(function(){
+                        location.href = (`@Url.Content("~/ProductWall/index?id=4")`);
+                    },2000)
+                }else if(intersects[i].object.name == lv){
+                    gsap.to(
+                        camera.position, {
+                            x:0,
+                            y:1000,
+                            z:80,
+                            duration: 1.5,
+                            onUpdate:function(){
+                                camera.lookAt(tv.position);
+                            }
+                    });
+                    gsap.to(
+                        camera.rotation, {
+                            x:0,
+                            y:0,
+                            z:0,
+                            duration: 1.5,
+                            onUpdate: function () {
+                            camera.lookAt(tv.position);
+                        }
+                    });
+                    setTimeout(function(){
+                        location.href = (`@Url.Content("~/ProductWall/index?id=3")`);
+                    },2000)
+                }else if(intersects[i].object.name == mask){
+                    gsap.to(
+                        camera.position, {
+                            x:0,
+                            y:1000,
+                            z:80,
+                            duration: 1.5,
+                            onUpdate:function(){
+                                camera.lookAt(tv.position);
+                            }
+                    });
+                    gsap.to(
+                        camera.rotation, {
+                            x:0,
+                            y:0,
+                            z:0,
+                            duration: 1.5,
+                            onUpdate: function () {
+                            camera.lookAt(tv.position);
+                        }
+                    });
+                    setTimeout(function(){
+                        location.href = (`@Url.Content("~/ProductWall/index?id=6")`);
+                    },2000)
+                } else if (intersects[i].object.name == bag) {
+                    gsap.to(
+                        camera.position, {
+                            x:0,
+                            y:1000,
+                            z:80,
+                            duration: 1.5,
+                            onUpdate:function(){
+                                camera.lookAt(tv.position);
+                            }
+                    });
+                    gsap.to(
+                        camera.rotation, {
+                            x:0,
+                            y:0,
+                            z:0,
+                            duration: 1.5,
+                            onUpdate: function () {
+                            camera.lookAt(tv.position);
+                        }
+                    });
+                    setTimeout(function(){
+                        location.href = (`@Url.Content("~/ProductWall/index?id=5")`);
+                    },2000)
+                }else{
+                    gsap.to(
+                        camera.position, {
+                            x:0,
+                            y:0,
+                            z:1500,
+                            duration: 1.5,
+                            onUpdate:function(){
+                                camera.lookAt(scene.position);
+                            }
+                    });
+                    gsap.to(
+                        camera.rotation, {
+                            x:0,
+                            y:0,
+                            z:0,
+                            duration: 1.5,
+                        onUpdate: function () {
+                            camera.lookAt(scene.position);
+                        }
+                    });
                 }
 
             }
@@ -528,7 +719,7 @@
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
-            rocket.position.set(cursorPos.x, cursorPos.y,200)
+            //rocket.position.set(cursorPos.x, cursorPos.y,200)
         }
 
 
@@ -627,35 +818,35 @@
             //scene.add(shiba1)
 
             //rocket
-            gltfLoader.load(
-                "https://rawcdn.githack.com/th9716/3dglb/57d0aa3d7b2b54e4f74bcbf50e672bf50b259a2e/rocket.gltf",
-                (gltf1) => {
-                    console.log(gltf1);
+            //gltfLoader.load(
+            //    "https://rawcdn.githack.com/th9716/3dglb/57d0aa3d7b2b54e4f74bcbf50e672bf50b259a2e/rocket.gltf",
+            //    (gltf1) => {
+            //        console.log(gltf1);
 
-                    rocket = gltf1.scene
+            //        rocket = gltf1.scene
 
-                    const radius = 1
-
-
-                    rocket.scale.set(radius, radius, radius)
-
-                    base.add(rocket)
-                    console.log(rocket.size)
+            //        const radius = 1
 
 
-                    //const clips=gltf.animations;
-                    //const clip = THREE.AnimationClip.findByName(clips, 'Armature|ArmatureAction.002');
-                    //const action=mixer.clipAction(clip);
-                    //action.play();
+            //        rocket.scale.set(radius, radius, radius)
 
-                },
-                (progress) => {
-                    console.log(progress);
-                },
-                (error) => {
-                    console.error(error);
-                }
-            )
+            //        base.add(rocket)
+            //        console.log(rocket.size)
+
+
+            //        //const clips=gltf.animations;
+            //        //const clip = THREE.AnimationClip.findByName(clips, 'Armature|ArmatureAction.002');
+            //        //const action=mixer.clipAction(clip);
+            //        //action.play();
+
+            //    },
+            //    (progress) => {
+            //        console.log(progress);
+            //    },
+            //    (error) => {
+            //        console.error(error);
+            //    }
+            //)
 
         }
 
@@ -686,6 +877,13 @@
             uniforms1.time.value += deltaTime * 1;
                 //bk.rotation.y += deltaTime * 0.5 * (1 % 2 ? 1 : -1);
                 //bk.rotation.x += deltaTime * 0.5 * (1 % 2 ? -1 : 1);
+                if(shoes&&shoes2){
+                shoes.rotation.y += deltaTime * 0.3 * (1 % 2 ? 1 : -1);
+                shoes2.rotation.y += deltaTime * 0.3 * (1 % 2 ? 1 : -1);
+
+                }
+
+
 
 
                 if (!!shiba) {
