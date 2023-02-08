@@ -6,6 +6,7 @@
     width:80%;
     height:800px;
     margin:5px 15%;
+    transition:all 0.3s;
     /*background-color:aquamarine;*/
 }
 #callback {
