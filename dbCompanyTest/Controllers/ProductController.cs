@@ -724,6 +724,14 @@ namespace dbCompanyTest.Controllers
                                          };
             return Json(data);
         }
+        //提取圖片id
+        //抓取圖片id建立select
+        public IActionResult Get_img_select()
+        {
+            IEnumerable<圖片位置> data = db.圖片位置s.ToList();
+            return Json(data);
+        }
+
         //提取顏色
         public IActionResult GetColor()
         {
@@ -740,6 +748,7 @@ namespace dbCompanyTest.Controllers
 
 
         #region ProductDetail所有事件
+
         public IActionResult _CreateDetail(string id)
         {
             ViewBag.id = id;
@@ -838,13 +847,16 @@ namespace dbCompanyTest.Controllers
             //建立8位數亂碼
             string cold = (new Back_Product_library()).RandomString(8);
             string imgeName = $"{Pro.商品編號id}_{cold}";
-            if (photo1 == null || photo2 == null || photo3 == null)
-            return Content("錯誤_請輸入圖片!", "text/plain", Encoding.UTF8);
+          
 
-            //先建立圖片資料
-                SavePhotoMethod(photo1,$"{imgeName}_1","" );
-                SavePhotoMethod(photo2,$"{imgeName}_2","");
-                SavePhotoMethod(photo3,$"{imgeName}_3","");
+          if(Pro.新建圖片==true)
+            {
+                if (photo1 == null || photo2 == null || photo3 == null)
+                return Content("錯誤_請輸入圖片!", "text/plain", Encoding.UTF8);
+                //先建立圖片資料
+                SavePhotoMethod(photo1, $"{imgeName}_1", "");
+                SavePhotoMethod(photo2, $"{imgeName}_2", "");
+                SavePhotoMethod(photo3, $"{imgeName}_3", "");
 
                 圖片位置 img = new 圖片位置();
                 img.商品圖片1 = $"{imgeName}_1.jpg";
@@ -853,17 +865,18 @@ namespace dbCompanyTest.Controllers
 
                 db.圖片位置s.Add(img);
                 db.SaveChanges();
-            
-            
-
-            var pd = db.圖片位置s.FirstOrDefault(p=>p.商品圖片1.Contains(imgeName));
+                //新建商品得到圖片位置id
+                var pd = db.圖片位置s.FirstOrDefault(p => p.商品圖片1.Contains(imgeName));
+                Pro.圖片位置id = pd.圖片位置id.ToString();
+            }
+           
             ProductDetail data = new ProductDetail();
             data.商品編號id = Convert.ToInt32(Pro.商品編號id) ;
             data.商品尺寸id = Convert.ToInt32(Pro.明細尺寸);
             data.商品顏色id = Convert.ToInt32(Pro.顏色);
             data.商品數量 = Convert.ToInt32(Pro.數量);
             data.商品編號 = Pro.商品編號id;
-            data.圖片位置id = pd.圖片位置id;
+            data.圖片位置id = Convert.ToInt32(Pro.圖片位置id);
             data.商品是否上架 = bool.Parse(Pro.商品是否上架);
             data.商品是否有貨 = bool.Parse(Pro.商品是否有貨);
             db.ProductDetails.Add(data);
@@ -899,17 +912,22 @@ namespace dbCompanyTest.Controllers
             if (ProDdata == null)
                 return Json("錯誤_沒有此項商品");
             var imgData = db.圖片位置s.FirstOrDefault(i => i.圖片位置id == ProDdata.圖片位置id);
-            
-            //刪除images內的相關圖片
-            if (imgData==null)
-                return Json("錯誤_沒有此筆圖片位置資料");
-            //刪除相應圖片
-            DeleteImg(imgData.商品圖片1);
-            DeleteImg(imgData.商品圖片2);
-            DeleteImg(imgData.商品圖片3);
 
-            //刪除圖片位置s內此筆資料
-            db.圖片位置s.Remove(imgData);
+
+            //判斷使用此圖片位置的ProductDetail是否只剩一筆
+            if (db.圖片位置s.Where(g => g.圖片位置id == ProDdata.圖片位置id).Count() == 1)
+            {
+                //刪除images內的相關圖片
+                if (imgData == null)
+                    return Json("錯誤_沒有此筆圖片位置資料");
+                //刪除相應圖片
+                DeleteImg(imgData.商品圖片1);
+                DeleteImg(imgData.商品圖片2);
+                DeleteImg(imgData.商品圖片3);
+
+                //刪除圖片位置s內此筆資料
+                db.圖片位置s.Remove(imgData);
+            }
             db.ProductDetails.Remove(ProDdata);           
             db.SaveChanges();
             return Json($"商品明細刪除成功");

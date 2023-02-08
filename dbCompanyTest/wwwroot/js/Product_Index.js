@@ -85,22 +85,26 @@ function check_ProDetail_Edit() {
 
 //產品明細
 function check_ProDetail_Create() {
+   
     let form = $("#Form_ProDe_C");
-    let errorstr = "";
+    let errorstr = "";  
     //商品數量
     let 商品數量 = form.find("input[name='數量']");
     errorstr += check_null_number(商品數量, "商品數量")
-    //photo1
-    let photo1 = form.find("input[name='photo1']");
-  /*  console.log(photo1);*/
-    errorstr += check_file_null(photo1, "照片1")
-    //photo2
-    let photo2 = form.find("input[name='photo2']");
-    errorstr += check_file_null(photo2, "照片2")
-    //photo3
-    let photo3 = form.find("input[name='photo3']");
-    errorstr += check_file_null(photo3, "照片3")
-
+    //先判斷創建圖片是否被勾選
+    if (form.find("#create_image").prop("checked"))
+    {
+        //photo1
+        let photo1 = form.find("input[name='photo1']");
+        /*  console.log(photo1);*/
+        errorstr += check_file_null(photo1, "照片1")
+        //photo2
+        let photo2 = form.find("input[name='photo2']");
+        errorstr += check_file_null(photo2, "照片2")
+        //photo3
+        let photo3 = form.find("input[name='photo3']");
+        errorstr += check_file_null(photo3, "照片3")
+    }  
     return errorstr;
 }
 

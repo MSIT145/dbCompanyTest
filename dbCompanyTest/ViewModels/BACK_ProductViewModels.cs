@@ -41,7 +41,10 @@
         public string? 圖片位置id { get; set; }
         public string? 商品是否有貨 { get; set; }
         public string? 商品是否上架 { get; set; }
-      
+
+        public bool? 新建圖片 { get; set; }
+
+
     }
 
     public class Product_CDictionary

@@ -33,7 +33,7 @@
                 <select id="_商品顏色id" class="form-select" aria-label="商品顏色id">
                     <option selected>ajax_select顏色id+顏色名稱</option>
                 </select>
-                <input asp-for="商品顏色id" class="form-control" />
+                <input asp-for="商品顏色id" class="form-control" id="商品顏色id" />
                 <span asp-validation-for="商品顏色id" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -64,7 +64,8 @@
                 <img src="@Url.Content("~/images")/404.jpg"  height="100"  id="img3"/>
             </div>
             <div class="form-group" id="LocationID" style="display:display">
-                <label asp-for="圖片位置id" class="control-label"></label>
+                <lable class="control-label">圖片位置編號</lable>
+                <label asp-for="圖片位置id" class="control-label" style="display:none"></label>
                 <input asp-for="圖片位置id" class="form-control" readonly="readonly" />
                 <span asp-validation-for="圖片位置id" class="text-danger"></span>
             </div>
@@ -74,7 +75,7 @@
             <div class="form-group">
                 <label asp-for="商品是否有貨" class="control-label"></label>
                 <input type="checkbox" id="_商品是否有貨" >
-                <input asp-for="商品是否有貨" class="form-control"  />
+                        <input asp-for="商品是否有貨" class="form-control" id="商品是否有貨" />
                 <span asp-validation-for="商品是否有貨" class="text-danger"></span>
             </div>
             </div>
@@ -82,7 +83,7 @@
                 <div class="form-group">
                 <label asp-for="商品是否上架" class="control-label"></label>
                 <input type="checkbox" id="_商品是否上架" >
-                <input asp-for="商品是否上架" class="form-control" />
+                <input asp-for="商品是否上架" class="form-control" id="商品是否上架"/>
                 <span asp-validation-for="商品是否上架" class="text-danger"></span>
             </div>
             </div>
@@ -122,8 +123,6 @@
                 $("#Form_ProDe_E").find("#img1").prop('src', `@Url.Content("~/images")/${data.商品圖片1}`);
                 $("#Form_ProDe_E").find("#img2").prop('src', `@Url.Content("~/images")/${data.商品圖片2}`);
                 $("#Form_ProDe_E").find("#img3").prop('src', `@Url.Content("~/images")/${data.商品圖片3}`);
-              
-          
         });
 
         //取得產品Id
