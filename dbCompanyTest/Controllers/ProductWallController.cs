@@ -12,6 +12,8 @@ using X.PagedList;
 using static dbCompanyTest.Controllers.ProductController;
 using static dbCompanyTest.ViewModels.ProductDetailViewModels;
 using Microsoft.AspNetCore.SignalR;
+using iText.StyledXmlParser.Jsoup.Nodes;
+using NPOI.OpenXmlFormats.Spreadsheet;
 
 namespace dbCompanyTest.Controllers
 {
@@ -234,6 +236,7 @@ namespace dbCompanyTest.Controllers
                                         pro商品圖片1 = prophoto.商品圖片1,
                                         pro商品圖片2 = prophoto.商品圖片2,
                                         pro商品圖片3 = prophoto.商品圖片3,
+                                        
                                     };
                 foreach (var item in productdetail.Distinct())
                 {
@@ -541,6 +544,35 @@ namespace dbCompanyTest.Controllers
                 return Content("失敗請聯繫客服");
             }
         }
+        public IActionResult EditComment(IFormCollection data) 
+        {
+            if (Convert.ToInt32(data["order"]) == 1 && data["comment"] !="")
+            {
+                var parentdata = _context.ParentComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
+                parentdata.內容 = data["comment"];
+                _context.Update(parentdata);
+                _context.SaveChanges();
+                ProductDetailViewModels pdm = selectData(data);
+
+                return Json(pdm);
+            }
+            else if (Convert.ToInt32(data["order"]) == 2 && data["comment"] != "")
+            {
+                var childdata = _context.ChildComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
+                childdata.內容 = data["comment"];
+                _context.Update(childdata);
+                _context.SaveChanges();
+                ProductDetailViewModels pdm = selectData(data);
+                return Json(pdm);
+            }
+            else
+            {
+                return Content("失敗請聯繫客服");
+            }
+
+        }
+
+
     }
 }
 
