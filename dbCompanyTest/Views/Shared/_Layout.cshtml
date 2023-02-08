@@ -115,10 +115,11 @@
         </div>
 
         <div class="shops">
-            <div class=" d-flex justify-content-between shop-header">
+            <div class=" shop-header1 "></div>
+            <div class=" d-flex justify-content-between shop-header fixed-top">
                 @*============== Menu =================*@
-                <div class="ms-4">
-                    <a id="menu" href=""><img src="~/homeImg/menu.png"></a>
+                <div class="ms-4 head-left">
+                    <a class="sidebar-btn-l" id="menu" ><img src="~/homeImg/menu.png"></a>
                 </div>
                 @*============== LOGO =================*@
                 <div class="logo">
@@ -161,6 +162,35 @@
             </ul>
         </div>
     </header>
+    <div class="sidebar-left" style="left: -100%;">
+        <div class="channel-menu">
+            <div class="menu-item">
+                <a class="m-1 mobile-left-nav" asp-controller="ProductWall" asp-action="Index" asp-route-id="1">男鞋</a>
+            </div>        
+            <div class="menu-item">
+                <a class="m-1 mobile-left-nav" asp-controller="ProductWall" asp-action="Index" asp-route-id="2">女鞋</a>
+            </div>                
+            <div class="menu-item">
+                <a class="m-1 mobile-left-nav" asp-controller="ProductWall" asp-action="Index" asp-route-id="3">KOL聯名</a>
+            </div>        
+            <div class="menu-item">
+                <a  class="m-1 mobile-left-nav" asp-controller="ProductWall" asp-action="Index" asp-route-id="4">迪士尼</a>
+            </div>           
+            <div class="menu-item">
+                <a  class="m-1 mobile-left-nav" asp-controller="ProductWall" asp-action="Index" asp-route-id="5">服飾包袋</a>
+            </div>        
+            <div class="menu-item">
+                <a class="m-1 mobile-left-nav" asp-controller="ProductWall" asp-action="Index" asp-route-id="6">口罩</a>
+            </div>        
+        </div>
+        <div class="sign-out mobile-sign-out"  id="l-log1">
+            <a asp-controller="Login" asp-action="Login"><img src="~/homeimg/sign_pc.png" /> 登入</a>
+        </div>
+        <div class="sign-out mobile-sign-out" id="l-log2">
+            <a href="@Url.Content("~/Login/Logout")" ><img src="~/homeimg/login_out.png" /> 登出</a>
+        </div>
+    </div>
+
 
 
     <div @*class="container"*@>
@@ -422,7 +452,7 @@
             }
         })
 
-        //判斷登入狀態
+        //pc判斷登入狀態
         const memHtml = document.querySelector('.memclick');
         memHtml.addEventListener('click', () => {
             checklog();
@@ -437,6 +467,24 @@
             else {
                 $("#log").css("display", "flex");
                 $("#log2").css("display", "none");
+            }
+        }
+
+        //mob判斷登入狀態
+        const sbl = document.querySelector('.sidebar-btn-l');
+        sbl.addEventListener('click', () => {
+            checklog1();
+        })
+        async function checklog1() {
+            const reb = await fetch(`@Url.Content("~/Home/checkmem")`)
+            const data = await reb.json();
+            if (data != null) {
+                $("#l-log1").css("display", "none");
+                $("#l-log2").css("display", "flex");
+            }
+            else {
+                $("#l-log1").css("display", "flex");
+                $("#l-log2").css("display", "none");
             }
         }
 
@@ -502,13 +550,61 @@
         });
 
         $(window).scroll(function () {
-            if ($(window).scrollTop() > 800) {
+            if ($(window).scrollTop() > 700) {
                 $(".web-top").css("display", "block");
             }
             else {
                 $(".web-top").css("display", "none");
             }
         });
+
+
+        // 調起左側邊欄目
+        $('body').delegate('.sidebar-btn-l', 'click', function () {
+            let _this = $(this);
+            if ($('.sidebar-btn-l').hasClass('showSide')){
+                _this.removeClass('showSide');
+                $('body').removeClass('showSidebar');
+                $('.sidebar-left').animate({
+                    left: '-100%',
+                }, 500)
+            }else{
+                _this.addClass('showSide');
+                $('body').addClass('showSidebar');
+                $('.sidebar-left').animate({
+                    left: 0
+                }, 300)
+                return false;
+
+            }
+        })
+        // 收起側邊欄
+        $("html").delegate(".showSidebar", "click", function (e) {
+            console.log("sss")
+            let _con = null;
+            let diff = 0; //0為左側邊欄  1位關鍵詞篩選側邊欄
+            if ($('.sidebar-btn-l').hasClass('showSide')) {
+                _con = $('.sidebar-left'); // 目标不隐藏区域
+            } else {
+                _con = $('.sidebar-words');
+                diff = 1;
+            }
+            if (!_con.is(e.target) && _con.has(e.target).length === 0) {
+                if (diff == 0) {
+                    _con.animate({
+                        left: '-100%',
+                    }, 500);
+                    $('.sidebar-btn-l').removeClass('showSide')
+                } else {
+                    _con.animate({
+                        right: '-100%',
+                    }, 500);
+                }
+                $('body').removeClass('showSidebar');
+
+            }
+            return;
+        })
 
     </script>
     @await RenderSectionAsync("Scripts", required: false)
