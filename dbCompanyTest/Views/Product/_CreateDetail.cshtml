@@ -3,7 +3,7 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <form name="proInfo" id="Form_ProDe_C">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" style="display: none;">
@@ -50,9 +50,23 @@
                 <input asp-for="商品編號" class="form-control" name="明細編號" />
                 <span asp-validation-for="商品編號" class="text-danger"></span>
             </div>
+            <div class="form-group" style="display:display">
+                <lable class="control-label">圖片位置編號</lable>                
+                <div class="row">
+                    <div class="col-md-6">
+                        <select id="_圖片位置id" class="form-select" aria-label="圖片位置id">
+                            <option selected>ajax_select商品編號+名稱</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <lable class="control-label">新建圖片</lable><input type="checkbox" id="create_image" >
+                        <input class="form-control" name="新建圖片" id="新建圖片" type="hidden">
+                    </div>
+                </div>  
+            </div>
             <div>
                 <label for="formFile" class="form-label">照片1</label>
-                <input class="form-control" type="file" id="formFile1" name="photo1">
+                <input class="form-control" type="file" id="formFile1" name="photo1" >
                 <div class="invalid-feedback">
                     <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
                 </div>
@@ -60,7 +74,7 @@
             </div>
             <div>
                 <label for="formFile" class="form-label">照片2</label>
-                <input class="form-control" type="file" id="formFile2" name="photo2">
+                <input class="form-control" type="file" id="formFile2" name="photo2" >
                 <div class="invalid-feedback">
                     <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
                 </div>
@@ -68,7 +82,7 @@
             </div>
             <div>
                 <label for="formFile" class="form-label">照片3</label>
-                <input class="form-control" type="file" id="formFile3" name="photo3">
+                <input class="form-control" type="file" id="formFile3" name="photo3" >
                 <div class="invalid-feedback">
                     <i class="align-middle me-2" data-feather="alert-circle"></i> <span class="align-middle"></span>
                 </div>
@@ -76,7 +90,7 @@
             </div>
             <div class="form-group" style="display:none">
                 <label asp-for="圖片位置id" class="control-label"></label>
-                <input asp-for="圖片位置id" class="form-control" name="圖片位置id" />
+                <input asp-for="圖片位置id" class="form-control" name="圖片位置id" id="圖片位置id" />
                 <span asp-validation-for="圖片位置id" id="圖片位置id" class="text-danger"></span>
             </div>
             <br>
@@ -85,16 +99,14 @@
                     <div class="form-group">
                         <label asp-for="商品是否有貨" class="control-label"></label>
                         <input type="checkbox" id="_有貨" checked>
-                        <input asp-for="商品是否有貨" id="商品是否有貨" class="form-control" name="商品是否有貨" type="hidden" />
-                        
+                        <input asp-for="商品是否有貨" id="商品是否有貨" class="form-control" name="商品是否有貨" type="hidden" />                        
                     </div>
                 </div>
                 <div class="col-md-6">         
                     <div class="form-group">
                         <label asp-for="商品是否上架" class="control-label"></label>
                         <input type="checkbox" id="_上架" checked>
-                        <input asp-for="商品是否上架" id="商品是否上架" class="form-control" name="商品是否上架" type="hidden" />
-                        
+                        <input asp-for="商品是否上架" id="商品是否上架" class="form-control" name="商品是否上架" type="hidden" />                        
                     </div>
                 </div>
             </div>
@@ -110,21 +122,35 @@
         //HTML載完才會執行
      $(document).ready(function () {
                                     //清空警告
-                                    //let form = $("#Form_ProDe_C");
+                                    let form00 = $("#Form_ProDe_C");
                                     //clear_check(form);
-                                    //圖片預覽
-                                    $("input[type='file']").on('change', function (event) {
-            const img = $(this).parent().find("img");
-                                        var input = event.target; //取得上傳檔案
-                                        var reader = new FileReader(); //建立FileReader物件
-                                        reader.readAsDataURL(input.files[0]); //以.readAsDataURL將上傳檔案轉換為base64字串
+                                    //綁定file與圖片
+                                 bind_file_img();
 
-                                        reader.onload = function () { //FileReader取得上傳檔案後執行以下內容
-                                            var dataURL = reader.result; //設定變數dataURL為上傳圖檔的base64字串
-                                            img.prop('src', dataURL); //將img的src設定為dataURL並顯示
+                                 //隱藏所有的type = file
+                                 form00.find("input[type='file']").toggle();
+                               
 
-                                        };
-                                    });
+                                $("#create_image").on("click",function(){
+                                //用toggle()來實現 hide 與 show 互換
+                                let form01 = $("#Form_ProDe_C");
+            //_圖片位置id
+            form01.find("#_圖片位置id").toggle();
+                                form01.find("#formFile1").toggle();
+                                form01.find("#formFile2").toggle();
+                                form01.find("#formFile3").toggle();
+                                clearfile("formFile1");
+                                clearfile("formFile2");
+                                clearfile("formFile3");
+                                //重新綁定
+                                bind_file_img();
+                                })
+
+                                //請空file 的方法
+                                let clearfile =(id)=>{
+                               var file = document.getElementById(id);
+                                file.outerHTML = file.outerHTML;                   
+                                }
 
 
                                 //綁定checkbox按鈕
@@ -159,9 +185,8 @@
                             const { 商品顏色id, 商品顏色種類 } = data;
                             //console.log(商品編號id)
                             return (`<option value="${商品顏色id}" data-text="${商品顏色種類}">${商品顏色id} ${商品顏色種類}</option>`);
-                            });                           
-                            $("#_商品顏色id").html(options);
-
+                            });
+                           $("#_商品顏色id").html(options);
                             });
 
                             //提取尺寸
@@ -177,6 +202,27 @@
                             $("#_商品尺寸id").html(options);
                             });
 
+                            //提取圖片
+                           $.get("@Url.Content("~/Product/Get_img_select")", (datas) => {
+                                //console.log(datas);
+                                //新增產品類別select
+                                var options = datas.map(data => {
+                               const { 圖片位置id, 商品圖片1, 商品圖片2, 商品圖片3 } = data;
+                                    //console.log(商品編號id)
+                                return (`<option value="${圖片位置id}" data-img1="${商品圖片1}" data-img2="${商品圖片2}" data-img3="${商品圖片3}">${圖片位置id}</option>`);
+                                });
+                              $("#_圖片位置id").html(options);
+                            });
+
+                          $("#_圖片位置id").on('change',function(){
+                            // console.log($('#_圖片位置id option:selected').attr("data-img1"));
+                                const img1 = $('#_圖片位置id option:selected').attr("data-img1");
+                                const img2 = $('#_圖片位置id option:selected').attr("data-img2");
+                                const img3 = $('#_圖片位置id option:selected').attr("data-img3");
+                                $("#img1").prop("src", `@Url.Content("~/images")/${img1}`);
+                                $("#img2").prop("src", `@Url.Content("~/images")/${img2}`);
+                                $("#img3").prop("src", `@Url.Content("~/images")/${img3}`);          
+                          });
                             //送出按鈕事件
                             const btn = document.querySelector('#btn_submit');
                             //console.log(btn);
@@ -215,8 +261,26 @@
         form.find("#商品編號id").val(form.find("#_商品編號id").val());
         form.find("#商品尺寸id").val(form.find("#_商品尺寸id").val());
         form.find("#商品顏色id").val(form.find("#_商品顏色id").val());
+        form.find("#圖片位置id").val(form.find("#_圖片位置id").val());
         form.find("#商品是否有貨").val(form.find("#_有貨").prop("checked"));
         form.find("#商品是否上架").val(form.find("#_上架").prop("checked"));
+        form.find("#新建圖片").val(form.find("#create_image").prop("checked"));
+    }
+
+    function bind_file_img()
+    {
+        //圖片預覽
+        $("input[type='file']").on('change', function (event) {
+            const img = $(this).parent().find("img");
+            var input = event.target; //取得上傳檔案
+            var reader = new FileReader(); //建立FileReader物件
+            reader.readAsDataURL(input.files[0]); //以.readAsDataURL將上傳檔案轉換為base64字串
+
+            reader.onload = function () { //FileReader取得上傳檔案後執行以下內容
+                var dataURL = reader.result; //設定變數dataURL為上傳圖檔的base64字串
+                img.prop('src', dataURL); //將img的src設定為dataURL並顯示
+            };
+        });
     }
 
       
