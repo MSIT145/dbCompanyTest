@@ -2,13 +2,13 @@
 {
     public class Environment
     {
-        private bool changeEnvironment = false;
+        private bool changeEnvironment = true;
         internal string useEnvironment
         {
             get
             {
                 if (changeEnvironment)
-                    return "";
+                    return "https://fd9d-1-162-236-203.jp.ngrok.io";
                 else
                     return "https://localhost:7100";
             }

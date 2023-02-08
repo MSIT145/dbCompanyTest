@@ -52,18 +52,22 @@ namespace dbCompanyTest.Controllers
             dbCompanyTestContext db = new dbCompanyTestContext();
             if (password == null)
             {
-                return Content("Nopassword");
+                TestClient client = db.TestClients.FirstOrDefault(x=>x.Email== account);
+                if (client.客戶編號.Substring(0, 3) == "CLG")
+                    return Content("請使用Google登入");
+                else if (client.客戶編號.Substring(0, 3) == "CLL")
+                    return Content("請使用Line登入");
+                else
+                    return Content("沒有密碼");
             }
             var a = db.TestClients.FirstOrDefault(c => c.Email == account && c.密碼 == password);
             if (a != null)
             {
                 useSession(a);
-                return Content(new Environment.Environment().useEnvironment);
+                return Content("成功"+new Environment.Environment().useEnvironment);
             }
             else
-            {
                 return Content("失敗");
-            }
         }
 
         public IActionResult loginSussess()

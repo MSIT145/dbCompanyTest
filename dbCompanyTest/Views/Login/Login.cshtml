@@ -87,15 +87,15 @@
         var xhr = new XMLHttpRequest();
         xhr.addEventListener(`load`, () => {
             var result = xhr.responseText;
-            if (result != `失敗`) {
+            if (result.substring(0,2) == `成功`) {
                 //window.location.assign("https://localhost:7100/Home/Index");
-                window.location.assign(result+"/Home/Index");
+                window.location.assign(result.substring(2, result.length) + "/Home/Index");
                 joinCarSession();
             } else {
-                if (result == "Nopassword")
-                    $(`#result`).html(`請輸入密碼`);
-                else
+                if (result == "失敗")
                     $(`#result`).html(`帳號或密碼錯誤`);
+                else
+                    $(`#result`).html(result);
             }
         });
 
