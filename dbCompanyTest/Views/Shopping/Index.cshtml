@@ -4,225 +4,257 @@
     ViewData["Title"] = "Index";
 }
 <link href="~/css/shopping.css" rel="stylesheet" />
-<div class="car d-flex flex-column justify-content-center align-content-lg-center">
-    <div class="shopping-step">
-        <div class="step step1 active"> 1 購物清單</div>
-        <div class="stepRow"></div>
-        <div class="step step2"> 2 填寫資料</div>
-        <div class="stepRow"></div>
-        <div class="step step3"> 3 訂購完成</div>
-    </div>
-    <input id="btn_slectCar" type="button" value="購物清單" style="visibility: hidden" />
-    <hr />
-    <table class="table car_table hidaing">
-        <thead>
-            <tr>
-            <tr>
-                <th>
-
-                </th>
-                <th>
-                    商品資訊
-                </th>
-                <th>
-                        @Html.DisplayNameFor(model => model.訂單數量)
-                </th>
-                <th>
-                        @Html.DisplayNameFor(model => model.商品價格)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        <img src="~/images/@item.圖片1檔名" width="200" />
-                    </td>
-                    <td>
-                        <dl class="row">
-                            <dt class="col-sm-2">
-                                品名:
-                            </dt>
-                            <dd class="col-sm-10">
-                                @Html.DisplayFor(modelItem => item.商品名稱)
-                            </dd>
-                            <dt class="col-sm-2">
-                                尺寸:
-                            </dt>
-                            <dd class="col-sm-10">
-                                @Html.DisplayFor(modelItem => item.尺寸種類)
-                            </dd>
-                            <dt class="col-sm-2">
-                                顏色:
-                            </dt>
-                            <dd class="col-sm-10">
-                                @Html.DisplayFor(modelItem => item.商品顏色種類)
-                            </dd>
-                        </dl>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.訂單數量)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.商品價格)
-                    </td>
-
-                    <td>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-
-    <dl class="row" id="ChoosePay">
-        <dt class="col-sm-2">付款方式</dt>
-        <dd class="col-sm-10">
-
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="信用卡">
-                <label class="form-check-label" for="flexRadioDefault1">
-                    信用卡
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="ATM" checked>
-                <label class="form-check-label" for="flexRadioDefault2">
-                    ATM
-                </label>
-            </div>
-
-        </dd>
-
-        <dt class="col-sm-2">配送方式</dt>
-        <dd class="col-sm-10">
-            <select class="form-select" aria-label="Default select example" id="delivery">
-                <option selected disabled>請選擇配送方式</option>
-                <option value="60">7-11取貨</option>
-                <option value="100">宅配</option>
-                <option value="60">全家取貨</option>
-            </select>
-        </dd>
-        <hr />
-    </dl>
-
-    @{
-        decimal totomony = 0;
-        foreach (var item in Model)
-        {
-            totomony += (decimal)item.商品價格;
-        }
-        <div class="hidaing">
-            <div>
-                <div>
-                    <span>總金額</span>
-                    <span>TWD $@totomony</span>
-                </div>
-                <div>
-                    <span>運費</span>
-                    <span id="TxtDeliverymony">TWD $0</span>
-                </div>
-                <hr />
-                <div>
-                    <span>結帳金額</span>
-                    <span id="paymony">TWD $0</span>
-                </div>
-            </div>
-            <hr />
+<div class="shopping">
+    <div class="car d-flex flex-column justify-content-center align-content-lg-center">
+        <div class="shopping-step">
+            <div class="step step1 active"> 1 購物清單</div>
+            <div class="stepRow"></div>
+            <div class="step step2"> 2 填寫資料</div>
+            <div class="stepRow"></div>
+            <div class="step step3"> 3 訂購完成</div>
         </div>
-    }
-    <br />
-    <input id="btn_page1" type="button" value="結帳" disabled />
-    <br />
+        <input id="btn_slectCar" type="button" value="購物清單" style="display:none" />
+        <hr />
+        <div class="out_of_cartable">
+            <table class="table car_table hidaing">
+                <thead>
+                    <tr>
+                    <tr>
+                        <th>
 
-    <div id="clientDital" style="visibility: hidden">
+                        </th>
+                        <th>
+                            商品資訊
+                        </th>
+                        <th>
+                                @Html.DisplayNameFor(model => model.訂單數量)
+                        </th>
+                        <th>
+                                @Html.DisplayNameFor(model => model.商品價格)
+                        </th>
+                        @*<th></th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="~/images/@item.圖片1檔名" width="200" />
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        品名:
+                                    </div>
+                                    <div class="col-sm-10">
+                                        @Html.DisplayFor(modelItem => item.商品名稱)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        尺寸:
+                                    </div>
+                                    <div class="col-sm-10">
+                                        @Html.DisplayFor(modelItem => item.尺寸種類)
+                                    </div>
+                                    <div class="col-sm-2">
+                                        顏色:
+                                    </div>
+                                    <div class="col-sm-10">
+                                        @Html.DisplayFor(modelItem => item.商品顏色種類)
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.訂單數量)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.商品價格)
+                            </td>
 
-        <form id="orderForm" name="userInfo" action="@Url.Content("~/Shopping/TestforPay")">
-            <input type="text" id="pay" name="總金額" style="visibility: hidden" />
-            <input type="text" id="userID" name="客戶編號" style="visibility: hidden" />
-            <input type="text" id="howToPay" name="付款方式" value="信用卡" style="visibility: hidden" />
-            <input type="text" id="orderID" name="訂單編號" style="visibility: hidden"/>
-            <input type="text" id="orderTime" name="下單時間" style="visibility: hidden" />
-            <fieldset>
-                <legend>訂購資訊</legend>
-                <hr />
-                <div class="setMargin">
-                    <label>姓名</label>
-                    <input type="text" class="userName" id="OrderNameText" />
-                </div>
-                <div class="setMargin">
-                    <label>手機號碼</label>
-                    <input type="text" class="userPhone" id="OrderPhoneText" />
-                </div>
-                <div class="setMargin">
-                    <label>電子郵件</label>
-                    <input type="text" class="userEmail" id="OrderEmailText" />
-                </div>
-                <div class="setMargin">
-                    <label>地址</label>
-                    <select class="userAddress" id="city">
-                    </select>
-                    <select class="userAddress" id="town">
-                    </select>
-                    <input type="text" class="userAddress" id="OrderDitalText" />
-                </div>
-            </fieldset>
-            <fieldset>
-                <legend>收件資訊</legend>
-                <hr />
-                <div class="setMargin">
-                    <input type="checkbox" class="copyCheckbox" id="copyCkBox" />
-                    <label>同訂購人</label>
-                </div>
-                <div class="setMargin">
-                    <label>姓名</label>
-                    <input type="text" name="收件人名稱" class="userName" id="RrceiveNameText" />
-                </div>
-                <div class="setMargin">
-                    <label>手機號碼</label>
-                    <input type="text" name="收件人電話" class="userPhone" id="RrceivePhoneText" />
-                </div>
-                <div class="setMargin">
-                    <label>電子郵件</label>
-                    <input type="text" name="收件人email" class="userEmail" id="RrceiveEmailText" />
-                </div>
-                <div class="setMargin" id="SelectAdd">
-                    <label>地址</label>
-                    <select class="userAddress" id="city2">
-                    </select>
-                    <select class="userAddress" id="town2">
-                    </select>
-                    <input type="text" class="userAddress" id="RrceiveDitalText" />
-                    <input type="text" id="Address" name="送貨地址" />
-                </div>
-                <div class="setMargin" id="pickUp">
-                    <label class="whoToGet">7-11取貨</label>
-                    <a href="https://emap.presco.com.tw/c2cemap.ashx?eshopid=870&&servicetype=1&url=https://localhost:7100/Shopping/SlectShop" id="selectStoreAddress">選擇門市</a>
-                    @*<input type="button" value="選擇門市" id="SelectShop" />*@
-                    <input type="text" style="visibility: hidden" value="@ViewBag.IfRe" id="storeaddress" />
-                </div>
-            </fieldset>
+                            @*<td>
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="car_dital" >
+                @{
+                    foreach (var item in Model)
+                    {
+                        <div class="g-item" id="@item.Id">
+                            <div class="item-cont">
+                                @{
+                                    if (item.圖片1檔名 == null || item.圖片1檔名 == "")
+                                    {
+                                        <div><img src="@Url.Content("~/images/404.jpg")" width="111" height="148" /></div>
+                                    }
+                                    else
+                                    {
+                                        <div><img src="@Url.Content("~/images/"+item.圖片1檔名)" width="111" height="148" /></div>
+                                    }
+                                }
+                                <div class="g-detail">
+                                    @{
+                                        string name = item.商品名稱 + " " + item.商品顏色種類;
+                                    }
+                                    <div><p>@name</p></div>
+                                    <div><span class="val">數量: </span><span>@item.訂單數量</span></div>
+                                    <div><span class="val">顏色: </span><span>@item.商品顏色種類</span></div>
+                                    <div><span class="val">尺寸: </span><span>@item.尺寸種類</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
 
-            <div class="setMargin">
-                <input type="button" value="確認購買" id="btn_page2" />
+                }
             </div>
 
-        </form>
-    </div>
-    @*
-    <div id="finish" style="visibility: hidden;">
-    <h2 style="text-align:center;">訂購完成</h2>
-    <br />
-    <div>
-    <a href="@Url.Content("~/ProductWall/Index/2")">繼續購買</a>
-    <a href="@Url.Content("~/Home")">返回首頁</a>
-    </div>
-    </div>*@
-</div>
+            <dl class="row" id="ChoosePay">
+                <dt class="col-sm-2">付款方式</dt>
+                <dd class="col-sm-10">
 
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="信用卡">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            信用卡
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="ATM" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            ATM
+                        </label>
+                    </div>
+
+                </dd>
+
+                <dt class="col-sm-2">配送方式</dt>
+                <dd class="col-sm-10">
+                    <select class="form-select" aria-label="Default select example" id="delivery">
+                        <option selected disabled>請選擇配送方式</option>
+                        <option value="60">7-11取貨</option>
+                        <option value="100">宅配</option>
+                        <option value="60">全家取貨</option>
+                    </select>
+                </dd>
+                <hr />
+            </dl>
+
+            @{
+                decimal totomony = 0;
+                foreach (var item in Model)
+                {
+                    totomony += (decimal)item.商品價格;
+                }
+                <div class="hidaing">
+                    <div>
+                        <div>
+                            <span>總金額</span>
+                            <span>TWD $@totomony</span>
+                        </div>
+                        <div>
+                            <span>運費</span>
+                            <span id="TxtDeliverymony">TWD $0</span>
+                        </div>
+                        <hr />
+                        <div>
+                            <span>結帳金額</span>
+                            <span id="paymony">TWD $0</span>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+            }
+            <br />
+            <input id="btn_page1" type="button" value="結帳" disabled />
+            <br />
+        </div>
+        <div id="clientDital" style="visibility: hidden">
+
+            <form id="orderForm" name="userInfo" action="@Url.Content("~/Shopping/TestforPay")">
+                <input type="text" id="pay" name="總金額" style="visibility: hidden" />
+                <input type="text" id="userID" name="客戶編號" style="visibility: hidden" />
+                <input type="text" id="howToPay" name="付款方式" value="信用卡" style="visibility: hidden" />
+                <input type="text" id="orderID" name="訂單編號" style="visibility: hidden" />
+                <input type="text" id="orderTime" name="下單時間" style="visibility: hidden" />
+                <fieldset>
+                    <legend>訂購資訊</legend>
+                    <hr />
+                    <div class="setMargin">
+                        <label>姓名</label>
+                        <input type="text" class="userName" id="OrderNameText" />
+                    </div>
+                    <div class="setMargin">
+                        <label>手機號碼</label>
+                        <input type="text" class="userPhone" id="OrderPhoneText" />
+                    </div>
+                    <div class="setMargin">
+                        <label>電子郵件</label>
+                        <input type="text" class="userEmail" id="OrderEmailText" />
+                    </div>
+                    <div class="setMargin">
+                        <label>地址</label>
+                        <select class="userAddress" id="city">
+                        </select>
+                        <select class="userAddress" id="town">
+                        </select>
+                        <input type="text" class="userAddress" id="OrderDitalText" />
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>收件資訊</legend>
+                    <hr />
+                    <div class="setMargin">
+                        <input type="checkbox" class="copyCheckbox" id="copyCkBox" />
+                        <label>同訂購人</label>
+                    </div>
+                    <div class="setMargin">
+                        <label>姓名</label>
+                        <input type="text" name="收件人名稱" class="userName" id="RrceiveNameText" />
+                    </div>
+                    <div class="setMargin">
+                        <label>手機號碼</label>
+                        <input type="text" name="收件人電話" class="userPhone" id="RrceivePhoneText" />
+                    </div>
+                    <div class="setMargin">
+                        <label>電子郵件</label>
+                        <input type="text" name="收件人email" class="userEmail" id="RrceiveEmailText" />
+                    </div>
+                    <div class="setMargin" id="SelectAdd">
+                        <label>地址</label>
+                        <select class="userAddress" id="city2">
+                        </select>
+                        <select class="userAddress" id="town2">
+                        </select>
+                        <input type="text" class="userAddress" id="RrceiveDitalText" />
+                        <input type="text" id="Address" name="送貨地址" />
+                    </div>
+                    <div class="setMargin" id="pickUp">
+                        <label class="whoToGet">7-11取貨</label>
+                        <a href="https://emap.presco.com.tw/c2cemap.ashx?eshopid=870&&servicetype=1&url=https://localhost:7100/Shopping/SlectShop" id="selectStoreAddress">選擇門市</a>
+                        @*<input type="button" value="選擇門市" id="SelectShop" />*@
+                        <input type="text" style="visibility: hidden" value="@ViewBag.IfRe" id="storeaddress" />
+                    </div>
+                </fieldset>
+
+                <div class="setMargin">
+                    <input type="button" value="確認購買" id="btn_page2" />
+                </div>
+
+            </form>
+        </div>
+        @*
+        <div id="finish" style="visibility: hidden;">
+        <h2 style="text-align:center;">訂購完成</h2>
+        <br />
+        <div>
+        <a href="@Url.Content("~/ProductWall/Index/2")">繼續購買</a>
+        <a href="@Url.Content("~/Home")">返回首頁</a>
+        </div>
+        </div>*@
+    </div>
+</div>
 
 @section Scripts{
     <script src="~/datas/taiwan_districts.js"></script>
@@ -392,7 +424,7 @@
                 $('#town').val(data.區);
                 $('#OrderDitalText').val(data.地址);
             }
-            if ($('#storeaddress').val() != ''){
+            if ($('#storeaddress').val() != '') {
                 $('#RrceiveNameText').val($('#OrderNameText').val())
                 $('#RrceivePhoneText').val($('#OrderPhoneText').val())
                 $('#RrceiveEmailText').val($('#OrderEmailText').val())
