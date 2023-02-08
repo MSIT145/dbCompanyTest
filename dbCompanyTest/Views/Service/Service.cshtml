@@ -7,7 +7,7 @@
     <h1 style="margin:5px 5%;">客戶服務中心</h1>
     <div id="Main">
         <div class="row">
-            <div class="list-group col-2">
+            <div class="list-group col-2" id="userList">
             </div>
 
             <div class="col-6" id="callback">
@@ -57,23 +57,26 @@
         //$(window).ready(function(){
         $(window).ready(function(){
             if ($(window).width() < 1000) {
-                $(`#callback`).addClass(`col-10`).removeClass(`col-6`);
+                $(`#callback`).addClass(`col-9`).removeClass(`col-6`);
                 $(`#video`).removeClass(`col-4`);
-                $(`#Main`).css("width","98%");
-                $(`#Main`).css("margin","5px 0");
+                $(`#userList`).addClass(`col-3`).removeClass(`col-2`);
+                $(`#Main`).css("width","95%");
+                $(`#Main`).css("margin","5px 1%");
             }
         });
 
         $(window).on("resize", function (e) {
             if ($(window).width() < 1000) {
-                $(`#callback`).addClass(`col-10`).removeClass(`col-6`);
+                $(`#callback`).addClass(`col-9`).removeClass(`col-6`);
                 $(`#video`).removeClass(`col-4`);
-                $(`#Main`).css("width", "98%");
-                $(`#Main`).css("margin", "5px 0");
+                $(`#userList`).addClass(`col-3`).removeClass(`col-2`);
+                $(`#Main`).css("width", "95%");
+                $(`#Main`).css("margin", "5px 1%");
             }
             else {
-                $(`#callback`).addClass(`col-6`).removeClass(`col-10`);
+                $(`#callback`).addClass(`col-6`).removeClass(`col-9`);
                 $(`#video`).addClass(`col-4`);
+                $(`#userList`).addClass(`col-2`).removeClass(`col-3`);
                 $(`#Main`).css("width","80%");
                 $(`#Main`).css("margin", "5px 15%");
             }
