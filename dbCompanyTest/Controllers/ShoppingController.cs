@@ -10,6 +10,7 @@ using dbCompanyTest.ViewModels;
 using System.Text.Json;
 using System.Text;
 using System.Data;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace dbCompanyTest.Controllers
 {
@@ -307,8 +308,6 @@ namespace dbCompanyTest.Controllers
         //----門市API---------------------------
         public IActionResult SlectShop(IFormCollection ShopDetail)
         {
-            ViewBag.storeid = ShopDetail["storeid"];
-            ViewBag.storename = ShopDetail["storename"];
             var storeaddress = ShopDetail["storeaddress"];
             return RedirectToAction("Index", "Shopping", new { ifRe = storeaddress });
         }
@@ -339,12 +338,17 @@ namespace dbCompanyTest.Controllers
             carSession = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
             foreach (會員商品暫存 x in carSession)
             {
+                var PdDt = from c in _context.ProductDetails
+                           join c2 in _context.ProductsColorDetails on c.商品顏色id equals c2.商品顏色id
+                           join c3 in _context.ProductsSizeDetails on c.商品尺寸id equals c3.商品尺寸id
+                           where c.商品編號id == x.商品編號
+                           where c2.商品顏色種類 == x.商品顏色種類
+                           where c3.尺寸種類 == x.尺寸種類
+                           select c;
+                var aa =PdDt.ToList();
                 data.總金額 = x.商品價格;
                 data.商品數量 = x.訂單數量;
-                //----因為是垃圾資料所以先用4
-                //data.Id= x.商品編號;
-                data.Id = 4;
-                //----
+                data.Id = aa[0].Id;
                 data.商品價格 = x.商品價格;
                 data.無用id = 0;
                 _context.OrderDetails.AddRange(data);
