@@ -34,7 +34,7 @@
         <input asp-for="交辦事項id" type="hidden" id="listnumber" value="@Model.交辦事項id" />
         <input asp-for="表單類型" type="hidden" id="list_type" value="@Model.表單類型" />
         <input asp-for="表單狀態" type="hidden" value="@Model.表單狀態" id="inp_stu" />
-        <input asp-for="附件" type="hidden"value="@Model.附件" />
+        <input asp-for="附件" type="hidden" value="@Model.附件" />
         <input asp-for="附件path" type="hidden" value="@Model.附件path" />
         <input asp-for="員工編號" type="hidden" value="@Model.員工編號" />
         <table class="table table-striped-columns" id="GR_table">
@@ -55,6 +55,7 @@
                     <td id="dpm_str">@Model.起單部門</td>
                     <td id="man_str">@Model.起單人</td>
                     <td id="time_str">@Model.起單時間</td>
+                    <input asp-for="起單時間" class="form-control" value="@Model.起單時間" type="hidden" />
                     <td id="com_str">
                         <span id="span_com_str">@Model.表單內容</span>
                         <input asp-for="表單內容" class="form-control" id="inp_com_str" value="@Model.表單內容" />
@@ -73,6 +74,7 @@
                     <td id="dpm_spv">@Model.起單部門</td>
                     <td id="man_spv">@Model.部門主管</td>
                     <td id="time_spv">@Model.部門主管簽核時間</td>
+                    <input asp-for="部門主管簽核時間" class="form-control" value="@Model.部門主管簽核時間" type="hidden" />
                     <td id="com_spv">
                         <input asp-for="部門主管簽核意見" class="form-control" id="inp_com_spv" value="@Model.部門主管簽核意見" />
                         <span id="span_com_spv">@Model.部門主管簽核意見</span>
@@ -93,6 +95,7 @@
                     <td id="dpm_cod">@Model.協辦部門</td>
                     <td id="man_cod">@Model.協辦部門簽核人員</td>
                     <td id="time_cod">@Model.協辦部門簽核時間</td>
+                    <input asp-for="協辦部門簽核時間" class="form-control" value="@Model.協辦部門簽核時間" type="hidden" />
                     <td id="com_cod">
                         <input asp-for="協辦部門簽核意見" class="form-control" id="inp_com_cod" value="@Model.協辦部門簽核意見"/>
                         <span id="span_com_cod">@Model.協辦部門簽核意見</span>
@@ -114,6 +117,7 @@
                     <td id="dpm_bos">@Model.老闆部門</td>
                     <td id="man_bos">@Model.老闆</td>
                     <td id="time_bos">@Model.老闆簽核時間</td>
+                    <input asp-for="老闆簽核時間" class="form-control" value="@Model.老闆簽核時間" type="hidden" />
                     <td id="com_bos">
                         <input asp-for="老闆簽核意見" class="form-control" id="inp_com_bos" value="@Model.老闆簽核意見"/>
                         <span id="span_com_bos">@Model.老闆簽核意見</span>
@@ -135,6 +139,7 @@
                     <td id="dpm_ecu">@Model.執行部門</td>
                     <td id="man_ecu">@Model.執行人</td>
                     <td id="time_ecu">@Model.執行時間</td>
+                    <input asp-for="執行時間" class="form-control" value="@Model.執行時間" type="hidden" />
                     <td id="com_ecu">
                         <input asp-for="回覆" class="form-control" id="inp_com_ecu" value="@Model.回覆"/>
                         <span id="span_com_ecu">@Model.回覆</span>

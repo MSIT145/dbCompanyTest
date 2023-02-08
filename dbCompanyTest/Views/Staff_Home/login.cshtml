@@ -9,41 +9,49 @@
 
 <link href="~/css/staff_login.css" rel="stylesheet" />
 
-
-<form>
-    @Html.AntiForgeryToken()
-    <div class="box1">
-        <div class="containerr">
-            <div class="top">
-                <header>員工登入</header>
+<div class="out">
+    <div class="right">
+        <form>
+            @Html.AntiForgeryToken()
+            <div class="box1">
+                <div class="containerr">
+                    <div class="top">
+                        <header class="no">員工登入</header>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" asp-controller="Staff_Home" asp-action="login" name="txtAccount" value="ST1-0008797" class="input no" placeholder="Username" id="Username" />
+                    </div>
+                    <div class="input-field">
+                        <input type="password" asp-controller="Staff_Home" asp-action="login" name="txtPassword" value="123456" class="input no" placeholder="Password" id="Password" />
+                    </div>
+                    <div class="input-field">
+                        <botton type="submit" class="submit no" id="Login">登入</botton>
+                        <botton class="Back no" id="Login"><a asp-action="Index" asp-controller="Home">返回</a></botton>
+                    </div>
+                    <div class="two">
+                        <botton id="forget" class="submit1 no">忘記密碼?</botton>
+                        <p id="response" class="no"></p>
+                    </div>
+                </div>
             </div>
-            <div class="input-field">
-                <input type="text" asp-controller="Staff_Home" asp-action="login" name="txtAccount" value="ST1-0008797" class="input" placeholder="Username" id="Username" />
-            </div>
-            <div class="input-field">
-                <input type="password" asp-controller="Staff_Home" asp-action="login" name="txtPassword" value="123456" class="input" placeholder="Password" id="Password" />
-            </div>
-            <div class="input-field">
-                <botton type="submit" class="submit" id="Login">登入</botton>
-                <botton class="Back" id="Login"><a asp-action="Index" asp-controller="Home">返回</a></botton>
-            </div>
-            <div class="two">
-                <botton id="forget" class="submit1">忘記密碼?</botton>
-                <p id="response"></p>
-            </div>
-        </div>
+        </form>
     </div>
-</form>
-<botton class="submit1" id="spv_ad">spv_ad</botton>
-<botton class="submit1" id="spv_hr">spv_hr ST1-00668</botton>
-<botton class="submit1" id="hr1">hr ST1-00628</botton>
-<botton class="submit1" id="hr2">hr ST1-00597</botton>
-<botton class="submit1" id="bos">bo ST2-0010170</botton>
+    <div class="left">
+        <botton class="submit1" id="spv_ad">spv_ad</botton>
+        <botton class="submit1" id="spv_hr">spv_hr ST1-00668</botton>
+        <botton class="submit1" id="hr1">hr ST1-00628</botton>
+        <botton class="submit1" id="hr2">hr ST1-00597</botton>
+        <botton class="submit1" id="bos">bo ST2-0010170</botton>
+
+    </div>
+
+</div>
 
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script>
+    //$("#out").css("height", `${height}px`)
     $("#response").css("display", "none");
     var xhr = new XMLHttpRequest();
     xhr.addEventListener(`load`, () => {

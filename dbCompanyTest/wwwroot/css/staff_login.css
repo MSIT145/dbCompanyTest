@@ -1,5 +1,7 @@
 ﻿* {
     font-family: 'poppins',sans-serif;
+    margin:0px;
+    padding:0px;
 }
 
 body {
@@ -8,6 +10,7 @@ body {
     background-position: center;
     background-attachment: fixed;
     background-repeat: no-repeat;
+    background-image: url('https://localhost:7100/homeImg/h2.png')
 }
 
 .box1 {
@@ -127,4 +130,30 @@ label a {
 botton a {
     text-decoration: none;
     color: black;
+}
+
+.out {
+    display: flex;
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+}
+
+.left {
+    width:55%;
+    height:100%;
+    margin:0px;
+    padding:0px
+}
+
+.right {
+   width: 45%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background: rgba(0, 0, 0, 0.6)
+}
+.no {
+    z-index: 20;
+    opacity: 0.9;
 }
