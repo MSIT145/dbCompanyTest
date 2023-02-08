@@ -652,22 +652,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.js" integrity="sha512-mgZL3SZ/vIooDg2mU2amX6NysMlthFl/jDbscSRgF/k3zmICLe6muAs7YbITZ+61FeUoo1plofYAocoR5Sa1rQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
-
+     <script src="~/js/signalr/dist/browser/signalr.js"></script>
 
 
     <script>
-        //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-        //connection.start().then(async function () {
-        //    const data = await fetch("@Url.Content("~/Staff_Home/StaffNum")");
-        //    const StaffNum = await data.text();
-        //    if (StaffNum == "fales")
-        //        alert("連線逾時請重新登入");
-        //    else
-        //        connection.invoke("getName", StaffNum).catch(function (err) {
-        //            alert('傳送錯誤: ' + err.toString());
-        //        });
-        //});
+        connection.start().then(async function () {
+            var Staff_Home_StaffNum = $("#StaffNumpath").val();
+            if (!Staff_Home_StaffNum) {
+                Staff_Home_StaffNum = "@Url.Content("~/Staff_Home/StaffNum")";
+            }
+            const data = await fetch(`${Staff_Home_StaffNum}`);
+            const StaffNum = await data.text();
+            if (StaffNum == "fales")
+                alert("連線逾時請重新登入");
+            else
+                connection.invoke("getName", StaffNum).catch(function (err) {
+                    alert('傳送錯誤: ' + err.toString());
+                });
+        });
         //------------------------------------------------------------------------------------------------------
         $("li .menu-item").children("a").on("click", function () {
             consoel.log($(this));
@@ -675,21 +679,25 @@
             $(this).parent().siblings.removeClass("active");
         });
 
-                //$("#test").on("click", () => {
-                //    test();
-                //})
+        $("#test").on("click", () => {
+            test();
+        })
 
-                //function test() {
-                //    console.log(`531`)
-                //    new Noty({
-                //        //alert,success,warning,error,info
-                //        type: 'success',
-                //        text: '資料更新完成',
-                //        timeout: 3000,
-                //        closeWith: ['click', 'button']
-                //    }).show();
-                //}
-
+        $("#hb").on("click", () => {
+            $("html").addClass("layout-transitioning")
+        });
+        function test() {
+            new Noty({
+                //alert,success,warning,error,info
+                type: 'success',
+                text: '資料更新完成',
+                timeout: 3000,
+                //closeWith: ['click', 'button'],
+                //dismissQueue: false,
+                layout: 'topCenter',
+                //modal: true
+            }).show();
+        }
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

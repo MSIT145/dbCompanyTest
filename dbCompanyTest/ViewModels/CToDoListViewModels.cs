@@ -12,7 +12,7 @@ namespace dbCompanyTest.ViewModels
             _toDoList = new ToDoList();
         }
 
-        public ToDoList toDoList
+        public ToDoList? toDoList
         {
             get { return _toDoList; }
             set { _toDoList = value; }
@@ -146,5 +146,11 @@ namespace dbCompanyTest.ViewModels
         }
 
         public IFormFile? File{ get; set; }
+
+
+        public string? 起單部門 { get; set; }
+        public string? 老闆部門 { get; set; }
+        public string? 執行部門 { get; set; }
+        public string? 老闆 { get; set; }
     }
 }

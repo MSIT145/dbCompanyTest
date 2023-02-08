@@ -20,7 +20,7 @@ $.ajax({
                                         <td class="col-1">${i_val.表單類型}</td>
                                         <td class="col-3">${i_val.表單內容}</td>
                                         <td class="col-1">${i_val.表單狀態}</td>
-                                        <td class="col-1"><a href = "${TDL_DTpath}/?listNum=${i_val.交辦事項id}"><button class= "btn btn-primary mb-3 btnTDL_DT">詳細資料
+                                        <td class="col-1"><a href = "${TDL_DTpath}/?listNum=${i_val.交辦事項id}&listType=${i_val.表單類型}"><button class= "btn btn-primary mb-3 btnTDL_DT">詳細資料
                                         </button></a></td>`
                 );
                 docFrag.append(eleT);
@@ -30,7 +30,7 @@ $.ajax({
                                         <td class="col-1">${i_val.表單類型}</td>
                                         <td class="col-3">${i_val.表單內容}</td>
                                         <td class="col-1">${i_val.表單狀態}</td>
-                                        <td class="col-1"><a href = "${TDL_DTpath}/?listNum=${i_val.交辦事項id}"><button class= "btn btn-primary mb-3 btnTDL_DT">詳細資料
+                                        <td class="col-1"><a href = "${TDL_DTpath}/?listNum=${i_val.交辦事項id}&listType=${i_val.表單類型}"><button class= "btn btn-primary mb-3 btnTDL_DT">詳細資料
                                         </button></a></td>`
                 );
                 docFrag_sec.append(eleT_sec);

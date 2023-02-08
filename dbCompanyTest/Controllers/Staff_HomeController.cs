@@ -103,14 +103,93 @@ namespace dbCompanyTest.Controllers
             return View();
         }
 
-        public IActionResult DT_TDL(int listNum)
+        public IActionResult DT_TDL(int listNum, string listType)
+        {
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
+            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
+            ViewBag.dep = stf.部門;
+
+            if (listType == "人事表單")
+            {
+                return RedirectToAction("DT_TDL_HR", new { listNum = listNum });
+            }
+            else
+            {
+                var data = _context.ToDoLists.FirstOrDefault(c => c.交辦事項id == listNum);
+                //return RedirectToAction("DT_TDL_RG", new { listNum = listNum });
+                return View(data);
+            }
+
+        }
+        public IActionResult DT_TDL_HR(int listNum)
+        {
+            CToDoListViewModels cToDoListViewModels = new CToDoListViewModels();
+
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
+            //var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+            var data = _context.ToDoLists.FirstOrDefault(c => c.交辦事項id == listNum);
+
+            var datas = from c in _context.TestStaffs select c;
+            var str_dep = datas.FirstOrDefault(c => c.員工編號 == stfNum).部門;/*from t in datas where t.員工編號 == stfNum select t.部門*/;
+            var bos_dep = datas.FirstOrDefault(c => c.員工編號 == "ST2-0010170").部門;/*from b in datas where b.員工編號 == "ST2-0010170" select b.部門*/;
+            var exc_dep = datas.FirstOrDefault(c => c.員工編號 == data.執行人).部門;/*from d in datas where d.員工編號 == data.執行人 select d.部門;*/
+            var strName = datas.FirstOrDefault(c => c.員工編號 == data.起單人).員工姓名;
+            var spvName = datas.FirstOrDefault(c => c.員工編號 == data.部門主管).員工姓名;
+            var codName = datas.FirstOrDefault(c => c.員工編號 == data.協辦部門簽核人員).員工姓名;
+            var bosName = datas.FirstOrDefault(c => c.員工編號 == "ST2-0010170").員工姓名;
+            var ecuName = datas.FirstOrDefault(c => c.員工編號 == data.執行人).員工姓名;
+            var stf = datas.FirstOrDefault(c => c.員工編號 == stfNum);
+
+            cToDoListViewModels.交辦事項id = listNum;
+            cToDoListViewModels.員工編號 = data.員工編號;
+
+
+            cToDoListViewModels.起單人 = $"{data.起單人} {strName}";
+            cToDoListViewModels.部門主管 = $"{data.部門主管} {spvName}";
+            cToDoListViewModels.部門主管簽核 = data.部門主管簽核;
+            cToDoListViewModels.部門主管簽核意見 = data.部門主管簽核意見;
+            cToDoListViewModels.部門主管簽核時間 = data.部門主管簽核時間;
+
+            cToDoListViewModels.協辦部門簽核人員 = $"{data.協辦部門簽核人員} {codName}";
+            cToDoListViewModels.協辦部門簽核 = data.協辦部門簽核;
+            cToDoListViewModels.協辦部門簽核意見 = data.協辦部門簽核意見;
+            cToDoListViewModels.協辦部門簽核時間 = data.協辦部門簽核時間;
+
+            cToDoListViewModels.老闆 = $"ST2-0010170 {bosName}";
+            cToDoListViewModels.老闆簽核 = data.老闆簽核;
+            cToDoListViewModels.老闆簽核意見 = data.老闆簽核意見;
+            cToDoListViewModels.老闆簽核時間 = data.老闆簽核時間;
+
+            cToDoListViewModels.執行人 = $"{data.執行人} {ecuName}";
+            cToDoListViewModels.執行人簽核 = data.執行人簽核;
+            cToDoListViewModels.回覆 = data.回覆;
+            cToDoListViewModels.執行時間 = data.執行時間;
+
+            cToDoListViewModels.表單狀態 = data.表單狀態;
+            cToDoListViewModels.表單內容 = data.表單內容;
+            cToDoListViewModels.起單時間 = data.起單時間;
+            cToDoListViewModels.表單類型 = data.表單類型;
+
+            cToDoListViewModels.起單部門 = str_dep.ToString();
+            cToDoListViewModels.老闆部門 = bos_dep.ToString();
+            cToDoListViewModels.執行部門 = exc_dep.ToString();
+            cToDoListViewModels.協辦部門 = data.協辦部門;
+
+            cToDoListViewModels.附件 = data.附件;
+            cToDoListViewModels.附件path = data.附件path;
+
+            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
+            ViewBag.dep = stf.部門;
+            return View(cToDoListViewModels);
+        }
+        public IActionResult DT_TDL_RG(int listNum)
         {
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
             var data = _context.ToDoLists.FirstOrDefault(c => c.交辦事項id == listNum);
-
             return View(data);
         }
         [HttpPost]
@@ -178,7 +257,7 @@ namespace dbCompanyTest.Controllers
                                 if (System.IO.File.Exists(oldpath))
                                     System.IO.File.Delete(oldpath);
                             }
-                            if(cToDoListViewModels.表單狀態 == "退回起單人")
+                            if (cToDoListViewModels.表單狀態 == "退回起單人")
                             {
                                 AddImgAllBack(oldpath, NewFileNamePath, $"{_environment.WebRootPath}/Sign/空白.jpg");
                                 thislist.附件 = NewFileName;

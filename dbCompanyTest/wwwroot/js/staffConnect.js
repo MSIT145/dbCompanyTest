@@ -1,4 +1,5 @@
 ﻿var Staff_Home_StaffNum = $("#StaffNumpath").val();
+console.log(Staff_Home_StaffNum)
 //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 //connection.start().then(async function () {
@@ -21,6 +22,12 @@ $("#inp_start").on("click", function () {
     let come_from_num = split_name_num[1];
     console.log(come_from_num);
     let msg = `您有來自${name_num}的新表單待簽`;
+    console.log(come_from_num);
+    console.log(Send_To_num);
+    console.log(msg);
+    console.log(listtype);
+    console.log(listnum)
+    console.log(`************************`)
     connection.invoke("SendNotice", come_from_num, Send_To_num, msg, listtype, listnum).catch(function (err) {
         alert('傳送錯誤: ' + err.toString());
     });
@@ -30,6 +37,10 @@ $("#inp_start").on("click", function () {
 
 
 connection.on("receive", function (msg, listtype, listnum) {
+    console.log(msg);
+    console.log(listtype);
+    console.log(listnum);
+
     note_newlist(msg);
     let TDL_DTpath = $(`#TDL_DTpath1`).val();
     $("#online").addClass("avatar-online");
@@ -42,7 +53,7 @@ connection.on("receive", function (msg, listtype, listnum) {
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="${TDL_DTpath}/?listNum=${listnum}">
+                                        <a class="dropdown-item" href="${TDL_DTpath}/?listNum=${listnum}&listType=${listtype}">
                                             <span class="align-middle">${listtype}${listnum}</span>
                                         </a>
                                     </li>`)
