@@ -65,6 +65,14 @@
     
 }
 
+@media screen and (max-width:500px) {
+    .chatBody {
+        bottom: 185px;
+        right: 0;
+        width: 100%;
+    }
+}
+
 .chatHeader {
     border-radius: 15px 15px 0 0;
     width: 100%;

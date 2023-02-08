@@ -55,7 +55,29 @@
         //    //console.log("連線成功");
         //});
         //$(window).ready(function(){
+        $(window).ready(function(){
+            if ($(window).width() < 1000) {
+                $(`#callback`).addClass(`col-10`).removeClass(`col-6`);
+                $(`#video`).removeClass(`col-4`);
+                $(`#Main`).css("width","98%");
+                $(`#Main`).css("margin","5px 0");
+            }
+        });
 
+        $(window).on("resize", function (e) {
+            if ($(window).width() < 1000) {
+                $(`#callback`).addClass(`col-10`).removeClass(`col-6`);
+                $(`#video`).removeClass(`col-4`);
+                $(`#Main`).css("width", "98%");
+                $(`#Main`).css("margin", "5px 0");
+            }
+            else {
+                $(`#callback`).addClass(`col-6`).removeClass(`col-10`);
+                $(`#video`).addClass(`col-4`);
+                $(`#Main`).css("width","80%");
+                $(`#Main`).css("margin", "5px 15%");
+            }
+        });
         
         connection.on(`userList`, function (data) {
             const userList = JSON.parse(data);
@@ -124,6 +146,21 @@
                 alert("請選擇要服務的客戶");
             }
         });
+
+        $(`#msg`).on(`keyup`,function(evn){
+            if (evn.keyCode === 13 && $(`#msg`).val()) {
+                let msg = $(`#msg`).val();
+                let clientID = $(`#connectionUserID`).val();
+
+                if (clientID) {
+                    connection.invoke("SendMessage", clientID, msg);
+                    $(`#msg`).val("");
+                }
+                else {
+                    alert("請選擇要服務的客戶");
+                }
+            }
+        })
 
         connection.on("UpdContent", function (msg) {
             $(`#msgArea`).append(`<div class="chat">
