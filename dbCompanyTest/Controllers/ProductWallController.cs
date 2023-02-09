@@ -51,6 +51,7 @@ namespace dbCompanyTest.Controllers
                                 尺寸名稱 = h.尺寸種類,
                                 材質名稱 = c.商品材質
                             };
+                            
                 List<ProductWallViewModel> list = datas.ToList();
                 List<ProductWallViewModel> newlist = new List<ProductWallViewModel>();
                 foreach (var item in list)
