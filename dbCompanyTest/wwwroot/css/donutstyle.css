@@ -155,3 +155,7 @@ p {
     transform-origin: 100% 0;
     transition: transform 1.5s ease-in-out;
 }
+
+.hero1 {
+    color: transparent;
+}
