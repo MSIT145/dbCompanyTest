@@ -15,7 +15,7 @@ builder.Services.AddSingleton<HtmlEncoder>(
 builder.Services.AddCors(option =>
 {
     option.AddPolicy("AllowAll",
-        builder=>builder.SetIsOriginAllowed(a=>true).AllowAnyHeader().AllowAnyMethod().AllowCredentials() );
+        builder=>builder.SetIsOriginAllowed(a=>true).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 });
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(op =>
