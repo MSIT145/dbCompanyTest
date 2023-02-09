@@ -29,7 +29,10 @@ namespace dbCompanyTest.Controllers
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
             ViewBag.acc = $"{stfNum} {stf.員工姓名} {stf.部門}";
-            return View();
+            if (stf.部門 == "行政" || stf.部門 == "執行長室")
+                return View();
+            else
+                return RedirectToAction("Index_HR");
         }
         public async Task<IActionResult> Index_HR()
         {
@@ -37,7 +40,9 @@ namespace dbCompanyTest.Controllers
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
 
             ViewBag.HR = $"{stfNum} {stf.員工姓名} {stf.部門}";
-            return View(await _context.TestStaffs.ToListAsync());
+            if (stf.部門 == "人事")
+                return View(await _context.TestStaffs.ToListAsync());
+            else return RedirectToAction("Index");
         }
 
         public IActionResult login()

@@ -45,7 +45,36 @@
             $.getScript("@Url.Content("~/js/LoadToDoList.js")");
         }
 
-
+        $(window).ready(function () {
+            if ($(window).width() < 500) {
+                console.log(`1`)
+                $(".tds").removeClass("col-1");
+                $(".tds").addClass("col-12");
+                $(".tdl").removeClass("col-3");
+                $(".tdl").addClass("col-12");
+                $(".tr-border").addClass("border-rwd");
+                $(".tr-border").after(`<p></p>`)
+            }
+        });
+        $(window).on("resize", function (e) {
+            if ($(window).width() < 500) {
+                console.log(`2`)
+                $(".tds").removeClass("col-1");
+                $(".tds").addClass("col-12");
+                $(".tdl").removeClass("col-3");
+                $(".tdl").addClass("col-12");
+                $(".tr-border").addClass("border-rwd");
+                $(".tr-border").after(`<p></p>`)
+            }
+            else {
+                console.log(`3`)
+                $(".tds").removeClass("col-12");
+                $(".tds").addClass("col-1");
+                $(".tdl").removeClass("col-12");
+                $(".tdl").addClass("col-3");//border-rwd
+                $(".tr-border").removeClass("border-rwd");
+            }
+        });
 
     </script>
 

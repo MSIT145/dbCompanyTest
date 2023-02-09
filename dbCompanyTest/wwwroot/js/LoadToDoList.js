@@ -13,24 +13,24 @@ $.ajax({
         let docFrag = $(document.createDocumentFragment());
         let docFrag_sec = $(document.createDocumentFragment());
         $.each(data, function (i, i_val) {
-            let eleT ="";
-            let eleT_sec ="";
+            let eleT = "";
+            let eleT_sec = "";
             if (i <= 4) {
-                eleT = $(`<tr></tr>`).append(`<td class="col-1">${i_val.交辦事項id}</td>
-                                        <td class="col-1">${i_val.表單類型}</td>
-                                        <td class="col-3">${i_val.表單內容}</td>
-                                        <td class="col-1">${i_val.表單狀態}</td>
-                                        <td class="col-1"><a href = "${TDL_DTpath}/?listNum=${i_val.交辦事項id}&listType=${i_val.表單類型}"><button class= "btn btn-primary mb-3 btnTDL_DT">詳細資料
+                eleT = $(`<tr class="tr-border"></tr>`).append(`<td class="col-1 tds">${i_val.交辦事項id}</td>
+                                        <td class="col-1 tds">${i_val.表單類型}</td>
+                                        <td class="col-3 tdl">${i_val.表單內容}</td>
+                                        <td class="col-1 tds">${i_val.表單狀態}</td>
+                                        <td class="col-1 tds"><a href = "${TDL_DTpath}/?listNum=${i_val.交辦事項id}&listType=${i_val.表單類型}"><button class= "btn btn-primary mb-3 btnTDL_DT">詳細資料
                                         </button></a></td>`
                 );
                 docFrag.append(eleT);
             }
             else {
-                eleT_sec = $(`<tr></tr>`).append(`<td class="col-1">${i_val.交辦事項id}</td>
-                                        <td class="col-1">${i_val.表單類型}</td>
-                                        <td class="col-3">${i_val.表單內容}</td>
-                                        <td class="col-1">${i_val.表單狀態}</td>
-                                        <td class="col-1"><a href = "${TDL_DTpath}/?listNum=${i_val.交辦事項id}&listType=${i_val.表單類型}"><button class= "btn btn-primary mb-3 btnTDL_DT">詳細資料
+                eleT_sec = $(`<tr class="tr-border"></tr>`).append(`<td class="col-1 tds">${i_val.交辦事項id}</td>
+                                        <td class="col-1 tds">${i_val.表單類型}</td>
+                                        <td class="col-3 tdl">${i_val.表單內容}</td>
+                                        <td class="col-1 tds">${i_val.表單狀態}</td>
+                                        <td class="col-1 tds"><a href = "${TDL_DTpath}/?listNum=${i_val.交辦事項id}&listType=${i_val.表單類型}"><button class= "btn btn-primary mb-3 btnTDL_DT">詳細資料
                                         </button></a></td>`
                 );
                 docFrag_sec.append(eleT_sec);
