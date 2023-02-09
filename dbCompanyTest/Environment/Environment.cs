@@ -2,7 +2,7 @@
 {
     public class Environment
     {
-        private bool changeEnvironment = true;
+        private bool changeEnvironment = false;
         internal string useEnvironment
         {
             get
