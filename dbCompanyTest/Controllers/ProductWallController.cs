@@ -134,7 +134,14 @@ namespace dbCompanyTest.Controllers
                             };
                 ViewBag.tid = tid;
                 ViewBag.type = type;
-                return View(datas.ToPagedList(page, 8));
+
+                List<ProductWallViewModel> list = datas.ToList();
+                List<ProductWallViewModel> newlist = new List<ProductWallViewModel>();
+                foreach (var item in list)
+                    if (newlist.Count<ProductWallViewModel>(z => z.商品名稱 == item.商品名稱 && z.顏色名稱 == item.顏色名稱) == 0)
+                        newlist.Add(item);
+                return View(newlist.ToPagedList(page, 8));
+
             }
         }
 
@@ -160,7 +167,13 @@ namespace dbCompanyTest.Controllers
                             顏色名稱 = g.商品顏色種類
                         };
             ViewBag.keyword = keyword;
-            return View(datas.ToPagedList(page, 8));
+            List<ProductWallViewModel> list = datas.ToList();
+            List<ProductWallViewModel> newlist = new List<ProductWallViewModel>();
+            foreach (var item in list)
+                if (newlist.Count<ProductWallViewModel>(z => z.商品名稱 == item.商品名稱 && z.顏色名稱 == item.顏色名稱) == 0)
+                    newlist.Add(item);
+            return View(newlist.ToPagedList(page, 8));
+
 
         }
 
