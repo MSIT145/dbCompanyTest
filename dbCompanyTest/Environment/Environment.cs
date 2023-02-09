@@ -27,7 +27,7 @@ namespace dbCompanyTest.Environment
                                 return myurl;
                             }
                             else
-                                return "https://localhost:7100";
+                                return "";
                         }
                     }
                 else
