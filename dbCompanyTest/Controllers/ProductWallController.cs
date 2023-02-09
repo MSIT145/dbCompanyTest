@@ -51,8 +51,12 @@ namespace dbCompanyTest.Controllers
                                 尺寸名稱 = h.尺寸種類,
                                 材質名稱 = c.商品材質
                             };
-
-                return View(datas.ToPagedList(page, 8));
+                List<ProductWallViewModel> list = datas.ToList();
+                List<ProductWallViewModel> newlist = new List<ProductWallViewModel>();
+                foreach (var item in list)
+                    if (newlist.Count<ProductWallViewModel>(z => z.商品名稱 == item.商品名稱 && z.顏色名稱 == item.顏色名稱) == 0)
+                        newlist.Add(item);
+                return View(newlist.ToPagedList(page, 8));
             }
         }
         [HttpPost]
@@ -236,7 +240,7 @@ namespace dbCompanyTest.Controllers
                                         pro商品圖片1 = prophoto.商品圖片1,
                                         pro商品圖片2 = prophoto.商品圖片2,
                                         pro商品圖片3 = prophoto.商品圖片3,
-                                        
+
                                     };
                 foreach (var item in productdetail.Distinct())
                 {
@@ -528,7 +532,7 @@ namespace dbCompanyTest.Controllers
                 _context.ParentComments.Remove(parentdata);
                 _context.SaveChanges();
                 ProductDetailViewModels pdm = selectData(data);
-                
+
                 return Json(pdm);
             }
             else if (Convert.ToInt32(data["order"]) == 2)
@@ -544,9 +548,9 @@ namespace dbCompanyTest.Controllers
                 return Content("失敗請聯繫客服");
             }
         }
-        public IActionResult EditComment(IFormCollection data) 
+        public IActionResult EditComment(IFormCollection data)
         {
-            if (Convert.ToInt32(data["order"]) == 1 && data["comment"] !="")
+            if (Convert.ToInt32(data["order"]) == 1 && data["comment"] != "")
             {
                 var parentdata = _context.ParentComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
                 parentdata.內容 = data["comment"];

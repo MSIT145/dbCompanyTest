@@ -19,7 +19,7 @@
         <input class="form-control ms-1 w-25" id="keyPoint" type="search" placeholder="Search" aria-label="Search">
     </p>
     <div>
-        <table class="table">
+        <table class="table table-rwd">
             <thead>
                 <tr>
                     <th>
@@ -61,7 +61,7 @@
             <tbody id="clientTB">
                 @foreach (var item in Model)
                 {
-                    <tr id="@item.訂單編號">
+                    <tr class="Istr" id="@item.訂單編號">
                         <td>
                             @Html.DisplayFor(modelItem => item.訂單編號)
                         </td>
@@ -98,9 +98,7 @@
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.訂單編號" class="btn btn-primary mb-3 btnView" style="color:aliceblue">修改</a>
                             <a class="btn btn-primary mb-3 btnView" style="color:aliceblue" data-bs-toggle="modal" data-bs-target="#addModal">細節</a>
-                            @* <a asp-action="Details" asp-route-id="@item.訂單編號">Details</a>*@
                             <a class="btn btn-primary mb-3 btnView  delete_btn" name="@item.訂單編號" style="color:aliceblue">刪除</a>
-                            @*<a asp-action="DeleteOrder" asp-route-id="@item.訂單編號" class="btn btn-primary mb-3 btnView" style="color:aliceblue">刪除</a>*@
                         </td>
                     </tr>
                 }
@@ -162,17 +160,17 @@
                     });
                     for (j = SIDIndex; j < SIDCount + SIDIndex; j++) {
                         const eleODT = $(`<tr id="${data[j].無用ID}"></tr>`).append(`
-                                                                 <td>${data[j].訂單編號}</td>
-                                                                 <td>${data[j].商品名稱}</td>
-                                                                 <td>${data[j].色碼}</td>
-                                                                 <td>${data[j].尺寸種類}</td>
-                                                                 <td>${data[j].商品數量}</td>
-                                                                 <td>${data[j].商品價格}</td>
-                                                                 <td>${data[j].總金額}</td>
-                                                                 <td>
-                                                                         <a  href="@Url.Content("~/Orders/EditDetail/?id=${data[j].無用ID}")" class="btn btn-primary mb-3 btnView  EditDetail_btn" name="${data[j].id}" style="color:aliceblue">修改</a>
-                                                                 <a class="btn btn-primary mb-3 btnView  deleteDetail_btn" name="${data[j].無用ID}" style="color:aliceblue">刪除</a>
-                                                                 </td>`)
+                                                                                         <td>${data[j].訂單編號}</td>
+                                                                                         <td>${data[j].商品名稱}</td>
+                                                                                         <td>${data[j].色碼}</td>
+                                                                                         <td>${data[j].尺寸種類}</td>
+                                                                                         <td>${data[j].商品數量}</td>
+                                                                                         <td>${data[j].商品價格}</td>
+                                                                                         <td>${data[j].總金額}</td>
+                                                                                         <td>
+                                                                                                 <a  href="@Url.Content("~/Orders/EditDetail/?id=${data[j].無用ID}")" class="btn btn-primary mb-3 btnView  EditDetail_btn" name="${data[j].id}" style="color:aliceblue">修改</a>
+                                                                                         <a class="btn btn-primary mb-3 btnView  deleteDetail_btn" name="${data[j].無用ID}" style="color:aliceblue">刪除</a>
+                                                                                         </td>`)
                         docFrag.append(eleODT);
                     }
                     $("#SDT_tbody").html(docFrag);
@@ -226,49 +224,47 @@
             }
             else {
                 let newuserdata = data.map((value, index) => {
-                    return(
+                    return (
                         ` <tr id="${value.訂單編號}">
-                        <td>
-                            ${value.訂單編號}
-                        </td>
-                        <td>
-                            ${value.付款方式}
-                        </td>
-                        <td>
-                            ${value.送貨地址}
-                        </td>
-                        <td>
-                            ${value.總金額}
-                        </td>
-                        <td>
-                            ${value.下單時間}
-                        </td>
-                        <td>
-                            ${value.訂單狀態}
-                        </td>
-                        <td>
-                            ${value.付款狀態}
-                        </td>
-                        <td>
-                            ${value.收件人名稱}
-                        </td>
-                        <td>
-                            ${value.收件人電話}
-                        </td>
-                        <td>
-                            ${value.收件人email}
-                        </td>
-                        <td>
-                           ${value.客戶編號}
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="${value.訂單編號}" class="btn btn-primary mb-3 btnView" style="color:aliceblue">修改</a>
-                            <a class="btn btn-primary mb-3 btnView" style="color:aliceblue" data-bs-toggle="modal" data-bs-target="#addModal">細節</a>
-                            @* <a asp-action="Details" asp-route-id="@item.訂單編號">Details</a>*@
-                            <a class="btn btn-primary mb-3 btnView  delete_btn" name="${value.訂單編號}" style="color:aliceblue">刪除</a>
-                            @*<a asp-action="DeleteOrder" asp-route-id="@item.訂單編號" class="btn btn-primary mb-3 btnView" style="color:aliceblue">刪除</a>*@
-                        </td>
-                    </tr>`
+                                                <td>
+                                                    ${value.訂單編號}
+                                                </td>
+                                                <td>
+                                                    ${value.付款方式}
+                                                </td>
+                                                <td>
+                                                    ${value.送貨地址}
+                                                </td>
+                                                <td>
+                                                    ${value.總金額}
+                                                </td>
+                                                <td>
+                                                    ${value.下單時間}
+                                                </td>
+                                                <td>
+                                                    ${value.訂單狀態}
+                                                </td>
+                                                <td>
+                                                    ${value.付款狀態}
+                                                </td>
+                                                <td>
+                                                    ${value.收件人名稱}
+                                                </td>
+                                                <td>
+                                                    ${value.收件人電話}
+                                                </td>
+                                                <td>
+                                                    ${value.收件人email}
+                                                </td>
+                                                <td>
+                                                   ${value.客戶編號}
+                                                </td>
+                                                <td>
+                                                    <a asp-action="Edit" asp-route-id="${value.訂單編號}" class="btn btn-primary mb-3 btnView" style="color:aliceblue">修改</a>
+                                                    <a class="btn btn-primary mb-3 btnView" style="color:aliceblue" data-bs-toggle="modal" data-bs-target="#addModal">細節</a>
+                                                    <a class="btn btn-primary mb-3 btnView  delete_btn" name="${value.訂單編號}" style="color:aliceblue">刪除</a>
+                                                </td>
+                                            </tr>`
                     )
                 })
                 $(`#clientTB`).html(newuserdata.join(""));
@@ -276,5 +272,29 @@
 
             }
         })
+
+        $(window).ready(function () {
+            if ($(window).width() < 510) {
+                $('.Istr').addClass("border-rwd")
+                $('.Istr').after('<p class="useless"></ p>')
+            }
+
+
+        })
+
+        $(window).on('resize', function () {
+            if ($(window).width() < 510) {
+                $('.Istr').addClass("border-rwd")
+                $('.Istr').after('<p class="useless"></ p>')
+            }
+            else {
+                $('.Istr').removeClass("border-rwd")
+                $('.useless').remove()
+            }
+
+        })
+
+
+
     </script>
 }
