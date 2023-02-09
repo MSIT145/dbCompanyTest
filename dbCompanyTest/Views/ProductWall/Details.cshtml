@@ -372,7 +372,7 @@
             //checkdelete = true;
             $('#alert').css("display", "none");
 
-            console.log(checkdelete)
+            //console.log(checkdelete)
             //if (checkdelete) {
                 //console.log(checkdelete)
                 deletecomment(deleteid, deleteorder);
@@ -520,11 +520,11 @@
                     }());//加上小括號立即執行
                 }
                 //回復主題
-                else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "paret") {
+                else if ($(`.userreport`).siblings(`.itemCommentContent`).data('name') === "paret") {
                     let comment = $(`.userreportinput`).val();
                     let productid = @Model.pro商品編號;
                     let colorid = @Model.商品顏色ID;
-                    let paretID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
+                    let paretID = $(`.userreport`).siblings(`.itemCommentContent`).data('id');
                     (async function () {
                         let FD = new FormData();
                         FD.append('comment', comment)

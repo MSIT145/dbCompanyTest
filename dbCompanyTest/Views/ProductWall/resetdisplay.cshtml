@@ -5,7 +5,7 @@
         foreach (var paretitem in Model.paretCommentslist)
         {
             <li>
-                <div class="itemCommentContent" data-id="@paretitem.paretCommentID" data-name="paret">
+                <div class="itemCommentContent" data-id="@paretitem.paretCommentID" data-name="paret" data-order="1">
                     <div>
                         <p class="itemName">會員:@paretitem.paretCommentGuestName</p>
                         <p class="itemMessage">內容:@paretitem.paretComment</p>
@@ -20,7 +20,7 @@
 
                         <span>|</span>
 
-                        <span class="itemreportDelete" data-id="@paretitem.paretCommentID" data-order="1">刪除</span>
+                        <span class="itemreportDelete" data-id="@paretitem.paretCommentID">刪除</span>
 
                         <span>|</span>
 
@@ -126,8 +126,8 @@
                             }
                         }
         </ul>
-                                </div>
-                                </li>
+                                    </div>
+                                    </li>
         }
     }
     </ul>
@@ -288,11 +288,11 @@
                 }());//加上小括號立即執行
             }
             //回復主題
-            else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "paret") {
+            else if ($(`.userreport`).siblings(`.itemCommentContent`).data('name') === "paret") {
                 let comment = $(`.userreportinput`).val();
                 let productid = @Model.pro商品編號;
                 let colorid = @Model.商品顏色ID;
-                let paretID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
+                let paretID = $(`.userreport`).siblings(`.itemCommentContent`).data('id');
                 (async function () {
                     let FD = new FormData();
                     FD.append('comment', comment)
