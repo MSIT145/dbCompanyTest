@@ -1,33 +1,38 @@
-﻿namespace dbCompanyTest.Environment
+﻿using System.Security.Policy;
+using System.Text.Json;
+
+namespace dbCompanyTest.Environment
 {
     public class Environment
     {
-        private bool changeEnvironment = false;
+        string apiKey = "2LU0i8A48bax1cQNKoRH5OFwfOG_43RaqcDa3yYViTPCgHtG7";
+        bool open = false;
         internal string useEnvironment
         {
             get
             {
-                if (changeEnvironment)
-                {
+                if (open)
                     using (HttpClient client = new HttpClient())
                     {
-                        using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("Get"), "https://ngrok.hmi.tw/2LU0i8A48bax1cQNKoRH5OFwfOG_43RaqcDa3yYViTPCgHtG7"))
+                        using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("Get"), "https://api.ngrok.com/endpoints"))
                         {
-                            //request.Headers.TryAddWithoutValidation("Authorization", "Bearer" + ApiKey);
-                            //request.Headers.TryAddWithoutValidation("Ngrok-Version", "2");
+                            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + apiKey);
+                            client.DefaultRequestHeaders.Add("Ngrok-Version", "2");
                             var response = client.SendAsync(request).Result;
-                            var x = response.Content.ReadAsStringAsync().Result;
-                            int site = x.IndexOf(":");
-                            string myUrl = "https://" + x.Substring(0, site);
-                            return myUrl;
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var x = response.Content.ReadAsStringAsync().Result;
+                                Root root = JsonSerializer.Deserialize<Root>(x);
+                                string myurl = root.endpoints[0].public_url;
+                                return myurl;
+                            }
+                            else
+                                return "https://localhost:7100";
                         }
                     }
-                }
                 else
                     return "https://localhost:7100";
             }
         }
-
-
     }
 }
