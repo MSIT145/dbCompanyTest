@@ -28,6 +28,27 @@ namespace dbCompanyTest.Controllers
             return View(await dbCompanyTestContext.ToListAsync());
         }
 
+        public IActionResult Search(string keyPoint)
+        {
+            List<Order> queryList = _context.Orders.ToList();
+            if (keyPoint == null)
+            {
+                return Json(queryList);
+            }
+            else
+            {
+                List<Order> clients = queryList.Where(x => x.下單時間.Contains(keyPoint)||x.收件人名稱.Contains(keyPoint)||x.訂單編號.Contains(keyPoint)||x.客戶編號.Contains(keyPoint)||x.送貨地址.Contains(keyPoint)||x.付款狀態.Contains(keyPoint)).ToList();
+                if (clients.Count() == 0)
+                {
+                    return Json("沒有找到資料");
+                }
+                else
+                {
+                    return Json(clients);
+                }
+            }
+        }
+
         public IActionResult getOrderDetails()
         {
             var datas = from c in _context.Orders
@@ -53,35 +74,6 @@ namespace dbCompanyTest.Controllers
             var test = datas.ToList();
             return Json(datas);
         }
-        //public IActionResult getOrderDetails(string id)
-        //{
-        //    List < OrderDetail > orderDetail = null;
-        //    var order = _context.OrderDetails.Select(x => x).Where(c => c.訂單編號 == id).ToList();
-        //    foreach (OrderDetail x in order)
-        //    {
-        //        orderDetail.Add(x);
-        //    }
-        //    return Json(orderDetail);
-        //}
-
-        // GET: Orders/Details/5
-        //public async Task<IActionResult> Details(string id)
-        //{
-        //    if (id == null || _context.Orders == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var order = _context.OrderDetails.Select(x => x).Where(c => c.訂單編號 == id ).ToList();
-        //    //var order = await _context.OrderDetails
-        //    //    //.Include(o => o.客戶編號Navigation)
-        //    //    .FirstOrDefaultAsync(m => m.訂單編號 == id);
-        //    if (order == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(order);
-        //}
 
         // GET: Orders/Create
         public IActionResult Create()

@@ -13,8 +13,10 @@
 <div style="width:80%;margin:20px auto;">
     <h3>訂單管理</h3>
 
-    <p>
+    <p id="myaaaa">
         <a asp-action="Create" class="btn btn-primary">Create New</a>
+        <button class="btn btn-primary ms-1" id="search">搜尋</button>
+        <input class="form-control ms-1 w-25" id="keyPoint" type="search" placeholder="Search" aria-label="Search">
     </p>
     <div>
         <table class="table">
@@ -56,7 +58,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="clientTB">
                 @foreach (var item in Model)
                 {
                     <tr id="@item.訂單編號">
@@ -160,17 +162,17 @@
                     });
                     for (j = SIDIndex; j < SIDCount + SIDIndex; j++) {
                         const eleODT = $(`<tr id="${data[j].無用ID}"></tr>`).append(`
-                                                         <td>${data[j].訂單編號}</td>
-                                                         <td>${data[j].商品名稱}</td>
-                                                         <td>${data[j].色碼}</td>
-                                                         <td>${data[j].尺寸種類}</td>
-                                                         <td>${data[j].商品數量}</td>
-                                                         <td>${data[j].商品價格}</td>
-                                                         <td>${data[j].總金額}</td>
-                                                         <td>
-                                                                 <a  href="@Url.Content("~/Orders/EditDetail/?id=${data[j].無用ID}")" class="btn btn-primary mb-3 btnView  EditDetail_btn" name="${data[j].id}" style="color:aliceblue">修改</a>
-                                                         <a class="btn btn-primary mb-3 btnView  deleteDetail_btn" name="${data[j].無用ID}" style="color:aliceblue">刪除</a>
-                                                         </td>`)
+                                                                 <td>${data[j].訂單編號}</td>
+                                                                 <td>${data[j].商品名稱}</td>
+                                                                 <td>${data[j].色碼}</td>
+                                                                 <td>${data[j].尺寸種類}</td>
+                                                                 <td>${data[j].商品數量}</td>
+                                                                 <td>${data[j].商品價格}</td>
+                                                                 <td>${data[j].總金額}</td>
+                                                                 <td>
+                                                                         <a  href="@Url.Content("~/Orders/EditDetail/?id=${data[j].無用ID}")" class="btn btn-primary mb-3 btnView  EditDetail_btn" name="${data[j].id}" style="color:aliceblue">修改</a>
+                                                                 <a class="btn btn-primary mb-3 btnView  deleteDetail_btn" name="${data[j].無用ID}" style="color:aliceblue">刪除</a>
+                                                                 </td>`)
                         docFrag.append(eleODT);
                     }
                     $("#SDT_tbody").html(docFrag);
@@ -182,20 +184,11 @@
                         if (yes)
                             deleDetail(a);
                     });
-                    //$('.EditDetail_btn').on('click', () => {
-                    //    console.log("123");
-                    //    var a = $(event.currentTarget).attr("name");
-                    //    editDetail(a);
-                    //});
                     async function deleDetail(id) {
                         console.log(id);
                         const data = await fetch(`@Url.Content("~/Orders/DeleteOrderDitail/?id=${id}")`);
                         $(`.table`).find(`#${id}`).remove();
                     }
-                    //async function editDetail(id) {
-                    //    console.log(id);
-                    //    const data = await fetch(`@Url.Content("~/Orders/EditDetail/?id=${id}")`);
-                    //}
                 });
             })
 
@@ -213,5 +206,75 @@
             const data = await fetch(`@Url.Content("~/Orders/DeleteOrder/?id=${id}")`);
             $(`.table`).find(`#${id}`).remove();
         }
+
+        $(`#search`).on(`click`, async function () {
+            let keyPoint = $(`#keyPoint`).val();
+            console.log(keyPoint);
+            let user = new FormData();
+            user.append("keyPoint", keyPoint);
+            let response = await fetch("@Url.Content("~/Orders/Search")", {
+                method: "POST",
+                body: user
+            });
+            let data = await response.json();
+            if (data == "沒有找到資料") {
+                $(`#myaaaa`).after(`<div class="alert">${data}</div>`)
+
+                setTimeout(function () {
+                    $(`#myaaaa`).next(".alert").remove();
+                }, 1000)
+            }
+            else {
+                let newuserdata = data.map((value, index) => {
+                    return(
+                        ` <tr id="${value.訂單編號}">
+                        <td>
+                            ${value.訂單編號}
+                        </td>
+                        <td>
+                            ${value.付款方式}
+                        </td>
+                        <td>
+                            ${value.送貨地址}
+                        </td>
+                        <td>
+                            ${value.總金額}
+                        </td>
+                        <td>
+                            ${value.下單時間}
+                        </td>
+                        <td>
+                            ${value.訂單狀態}
+                        </td>
+                        <td>
+                            ${value.付款狀態}
+                        </td>
+                        <td>
+                            ${value.收件人名稱}
+                        </td>
+                        <td>
+                            ${value.收件人電話}
+                        </td>
+                        <td>
+                            ${value.收件人email}
+                        </td>
+                        <td>
+                           ${value.客戶編號}
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="${value.訂單編號}" class="btn btn-primary mb-3 btnView" style="color:aliceblue">修改</a>
+                            <a class="btn btn-primary mb-3 btnView" style="color:aliceblue" data-bs-toggle="modal" data-bs-target="#addModal">細節</a>
+                            @* <a asp-action="Details" asp-route-id="@item.訂單編號">Details</a>*@
+                            <a class="btn btn-primary mb-3 btnView  delete_btn" name="${value.訂單編號}" style="color:aliceblue">刪除</a>
+                            @*<a asp-action="DeleteOrder" asp-route-id="@item.訂單編號" class="btn btn-primary mb-3 btnView" style="color:aliceblue">刪除</a>*@
+                        </td>
+                    </tr>`
+                    )
+                })
+                $(`#clientTB`).html(newuserdata.join(""));
+
+
+            }
+        })
     </script>
 }
