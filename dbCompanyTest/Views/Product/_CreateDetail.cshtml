@@ -130,12 +130,12 @@
                                  //隱藏所有的type = file
                                  form00.find("input[type='file']").toggle();
                                
-
+                                 //判斷是否要新建圖片
                                 $("#create_image").on("click",function(){
                                 //用toggle()來實現 hide 與 show 互換
                                 let form01 = $("#Form_ProDe_C");
-            //_圖片位置id
-            form01.find("#_圖片位置id").toggle();
+                                //_圖片位置id
+                                form01.find("#_圖片位置id").toggle();
                                 form01.find("#formFile1").toggle();
                                 form01.find("#formFile2").toggle();
                                 form01.find("#formFile3").toggle();
@@ -144,6 +144,8 @@
                                 clearfile("formFile3");
                                 //重新綁定
                                 bind_file_img();
+                                //清空檢查警告
+                                clear_check(form01);
                                 })
 
                                 //請空file 的方法
@@ -172,8 +174,7 @@
                             const { 商品編號id, 商品名稱 } = data;
                             //console.log(商品編號id)
                             return (`<option value="${商品編號id}" data-text="${商品名稱}">${商品編號id} ${商品名稱}</option>`);
-                            });
-                           
+                            });                           
                             $("#_商品編號id").html(options);
                            $("#_商品編號id").val($("#商品編號id").val());
                             });
@@ -221,7 +222,9 @@
                                 const img3 = $('#_圖片位置id option:selected').attr("data-img3");
                                 $("#img1").prop("src", `@Url.Content("~/images")/${img1}`);
                                 $("#img2").prop("src", `@Url.Content("~/images")/${img2}`);
-                                $("#img3").prop("src", `@Url.Content("~/images")/${img3}`);          
+                                $("#img3").prop("src", `@Url.Content("~/images")/${img3}`);      
+                                //與#圖片位置id連動
+                                $("#圖片位置id").val($(this).val());
                           });
                             //送出按鈕事件
                             const btn = document.querySelector('#btn_submit');
@@ -241,7 +244,7 @@
                                         if (xhr.status == 200) {
                                             alert(xhr.responseText);
                                             //console.log('新建成功');
-                        $("#Moda_D_C").find("#btn_Close_D").click();
+                                 $("#Moda_D_C").find("#btn_Close_D").click();
                                         }
                                         else {
                                             console.log(xhr.staus);

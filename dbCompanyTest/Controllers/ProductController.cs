@@ -17,6 +17,7 @@ using static NPOI.HSSF.UserModel.HeaderFooter;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NPOI.HPSF;
 using Org.BouncyCastle.Crypto.Macs;
+using System.Collections.Generic;
 
 namespace dbCompanyTest.Controllers
 {
@@ -769,7 +770,7 @@ namespace dbCompanyTest.Controllers
             return PartialView(data);
         }
         [HttpPost]
-        public IActionResult _EditDetial(ProductDetail data,IFormFile photo1, IFormFile photo2, IFormFile photo3)
+        public IActionResult _EditDetial(ProductDetail data, bool? 新建圖片, IFormFile photo1, IFormFile photo2, IFormFile photo3)
         {
             
             var FL = db.ProductDetails.FirstOrDefault(pd => pd.Id == data.Id);
@@ -785,31 +786,46 @@ namespace dbCompanyTest.Controllers
             if(imgdata==null)
                 return Content("錯誤_圖片位置錯誤!", "text/plain", Encoding.UTF8);
             //先建立圖片資料
-            if (photo1 != null)
+            if (新建圖片 == true)
             {
-                SavePhotoMethod(photo1, $"{imgeName}_1", imgdata.商品圖片1);
-                imgdata.商品圖片1 = $"{imgeName}_1.jpg";
+                if (photo1 == null || photo2 == null || photo3 == null)
+                    return Content("錯誤_請輸入圖片!", "text/plain", Encoding.UTF8);
+                //photo包成List<IFormFile>傳給建檔方法
+                List<IFormFile> photo = new List<IFormFile>() { photo1, photo2, photo3 };
+                Method_Create_Img(imgeName, photo);
+                //新建商品得到圖片位置id
+                var pd = db.圖片位置s.FirstOrDefault(p => p.商品圖片1.Contains(imgeName));
+                FL.圖片位置id = pd.圖片位置id;
+            }
+            else
+            {
+                if (photo1 != null)
+                {
+                    SavePhotoMethod(photo1, $"{imgeName}_1", imgdata.商品圖片1);
+                    imgdata.商品圖片1 = $"{imgeName}_1.jpg";
+                }
+
+                if (photo2 != null)
+                {
+                    SavePhotoMethod(photo2, $"{imgeName}_2", imgdata.商品圖片2);
+                    imgdata.商品圖片2 = $"{imgeName}_2.jpg";
+                }
+
+                if (photo3 != null)
+                {
+                    SavePhotoMethod(photo3, $"{imgeName}_3", imgdata.商品圖片3);
+                    imgdata.商品圖片3 = $"{imgeName}_3.jpg";
+                }
+                FL.圖片位置id = data.圖片位置id;
             }
 
-            if (photo2 != null)
-            {
-                SavePhotoMethod(photo2, $"{imgeName}_2", imgdata.商品圖片2);
-                imgdata.商品圖片2 = $"{imgeName}_2.jpg";
-            }
-                
-            if (photo3 != null)
-            {
-                SavePhotoMethod(photo3, $"{imgeName}_3", imgdata.商品圖片3);
-                imgdata.商品圖片3 = $"{imgeName}_3.jpg";
-            }
-            db.SaveChanges();
             FL.Id = data.Id;
             FL.商品編號id = data.商品編號id;
             FL.商品尺寸id = data.商品尺寸id;
             FL.商品顏色id = data.商品顏色id;
             FL.商品數量 = data.商品數量;
             FL.商品編號 = data.商品編號;
-            FL.圖片位置id = data.圖片位置id;
+           
             FL.商品是否有貨 = data.商品是否有貨;
             FL.商品是否上架 = data.商品是否上架;
             db.SaveChanges();
@@ -848,29 +864,19 @@ namespace dbCompanyTest.Controllers
             //建立8位數亂碼
             string cold = (new Back_Product_library()).RandomString(8);
             string imgeName = $"{Pro.商品編號id}_{cold}";
-          
 
-          if(Pro.新建圖片==true)
-            {
+            if (Pro.新建圖片==true)
+            {               
                 if (photo1 == null || photo2 == null || photo3 == null)
-                return Content("錯誤_請輸入圖片!", "text/plain", Encoding.UTF8);
-                //先建立圖片資料
-                SavePhotoMethod(photo1, $"{imgeName}_1", "");
-                SavePhotoMethod(photo2, $"{imgeName}_2", "");
-                SavePhotoMethod(photo3, $"{imgeName}_3", "");
-
-                圖片位置 img = new 圖片位置();
-                img.商品圖片1 = $"{imgeName}_1.jpg";
-                img.商品圖片2 = $"{imgeName}_2.jpg";
-                img.商品圖片3 = $"{imgeName}_3.jpg";
-
-                db.圖片位置s.Add(img);
-                db.SaveChanges();
+                    return Content("錯誤_請輸入圖片!", "text/plain", Encoding.UTF8);
+                //photo包成List<IFormFile>傳給建檔方法
+                List<IFormFile> photo = new List<IFormFile>() { photo1, photo2, photo3 };
+                Method_Create_Img(imgeName, photo);
                 //新建商品得到圖片位置id
                 var pd = db.圖片位置s.FirstOrDefault(p => p.商品圖片1.Contains(imgeName));
                 Pro.圖片位置id = pd.圖片位置id.ToString();
             }
-           
+
             ProductDetail data = new ProductDetail();
             data.商品編號id = Convert.ToInt32(Pro.商品編號id) ;
             data.商品尺寸id = Convert.ToInt32(Pro.明細尺寸);
@@ -883,6 +889,24 @@ namespace dbCompanyTest.Controllers
             db.ProductDetails.Add(data);
             db.SaveChanges();
             return Content("商品明細建檔成功!", "text/plain", Encoding.UTF8);
+        }
+
+        //新建圖片位置s的方法
+        public int Method_Create_Img(string imgeName, List<IFormFile> photo)
+        {
+            int id = 0;
+            //先建立圖片資料
+            for (int i = 0; i < photo.Count(); i++)
+            {
+                SavePhotoMethod(photo[i], $"{imgeName}_{i+1}", "");
+            }
+            圖片位置 img = new 圖片位置();
+            img.商品圖片1 = $"{imgeName}_1.jpg";
+            img.商品圖片2 = $"{imgeName}_2.jpg";
+            img.商品圖片3 = $"{imgeName}_3.jpg";
+            db.圖片位置s.Add(img);
+            db.SaveChanges();
+            return id; 
         }
 
         //刪除圖片位置資料表的相應圖片

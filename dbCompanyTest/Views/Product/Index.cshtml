@@ -4,9 +4,6 @@
     Layout = "~/Views/Shared/_Back_Layout_Sneat.cshtml";
     //Layout = "~/Views/Shared/_Back_Layout.cshtml";
     /*
-     * 尚缺
-     * 1.產品表單驗證 新增與修改 欄位驗證
-     * 2.細項商品CRUD
      */
 }
 @*//內部模板的icon 與bootstrap5 CDN*@
@@ -640,7 +637,47 @@
             //$("#Moda_P_C #P_Edit ").show();
             $("#Moda_P_C").find('[id^="P_Edit"]').show();
             //console.log(row.find('td:eq(3)').text().trim());
+            //修改moda的title
+           $("#Moda_P_C #myModal-label").text("修改商品");
         })
+
+    //新增產品 Form表單顯示按鈕事件
+    $("#btn_ProForm").on('click', () => {
+
+        ClearPro_Edit_Creater_form(); //清空欄位
+        //顯示新增按鈕
+        //$("#Moda_P_C #P_Create ").show();
+        $("#Moda_P_C").find("[id^='P_Create']").show();
+        //隱藏Edit按鈕
+        //$("#Moda_P_C #P_Edit ").hide();
+        $("#Moda_P_C").find("[id^='P_Edit']").hide();
+        //產品id顯示
+        $("#Moda_P_C input[name='id']").parent().hide();
+
+        //修改moda的title
+        $("#Moda_P_C #myModal-label").text("新增商品");
+
+        $.ajaxSettings.async = false;
+        $.get("@Url.Content("~/Product/GetTyteD")", (datas) => {
+            //console.log(datas);
+            //新增產品類別select
+            var options = datas.map(data => {
+                const { 商品分類id, 商品分類名稱 } = data;
+                return (`<option value="${商品分類id}" data-text="${商品分類名稱}">${商品分類名稱}</option>`);
+            });
+            $("#_商品分類id").html(options);
+        });
+
+        $.get("@Url.Content("~/Product/GetShoe")", (datas) => {
+            //新增鞋種select
+            var S_options = datas.map(data => {
+                const { 商品鞋種id, 鞋種 } = data;
+                return (`<option value="${商品鞋種id}" data-text="${鞋種}">${鞋種}</option>`);
+            });
+            $("#_商品鞋種id").html(S_options);
+        });
+        $.ajaxSettings.async = true;
+    });
 
         //=============產品明細事件S=========================
         //明細新建_關閉重整
@@ -658,8 +695,8 @@
         $('#tableAll').on('click', 'button[name="DetailCreate"]', function () {
             const row =$(this).parents('tr');            
             const id = row.find('td:eq(1)').text().trim();
-            console.log(row.find('td:eq(1)'));            
-            $("#Moda_D_C .modal-body").find("#myModal - label").val("新增細項商品")
+            console.log(row.find('td:eq(1)'));
+            $("#Moda_D_C #myModal-label").text("新增細項商品");
             $("#Moda_D_C .modal-body").load(`@Url.Content("~/Product/_CreateDetail")/?id=${id}`);
         })
 
@@ -667,8 +704,9 @@
     $('#tableAll').on('click', 'button[name="Btn_Pro_Show_list"]', function () {
       
         const value = $(this).attr("data-value");
-       // console.log(value);       
-        $(`#tableDetail tr[data-color='${value}']`).toggle();
+     // console.log(value);
+     //   console.log($(this).parent().parent().parent().find(` tr[data-color='${value}']`));
+        $(this).parent().parent().parent().find(` tr[data-color='${value}']`).toggle(300);
         });
 
         //加入按鈕事件(明細刪除) P_btnDel
@@ -682,7 +720,7 @@
         $('#tableAll').on('click', 'button[name="PD_btnEdit"]', function () {             
             const row = $(this).parents("tr[name='tr_de']");
             const id = row.find('td:eq(0)').text().trim();
-            $("#Moda_D_C .modal-body").find("#myModal - label").val("修改細項商品");
+        $("#Moda_D_C #myModal-label").text("修改細項商品");
               //顯示Moda_D_C相應資料load _EditDetial
             $("#Moda_D_C .modal-body").load(`@Url.Content("~/Product/_EditDetial")/?id=${id}`);
         });
@@ -697,40 +735,7 @@
         //=============產品明細事件End=======================
 
 
-        //新增產品 Form表單顯示按鈕事件
-        $("#btn_ProForm").on('click', () => {
-
-            ClearPro_Edit_Creater_form(); //清空欄位
-            //顯示新增按鈕
-            //$("#Moda_P_C #P_Create ").show();
-            $("#Moda_P_C").find("[id^='P_Create']").show();
-             //隱藏Edit按鈕
-            //$("#Moda_P_C #P_Edit ").hide();
-            $("#Moda_P_C").find("[id^='P_Edit']").hide();
-            //產品id顯示
-            $("#Moda_P_C input[name='id']").parent().hide();
-           
-            $.ajaxSettings.async = false;
-            $.get("@Url.Content("~/Product/GetTyteD")", (datas) => {
-                //console.log(datas);
-                //新增產品類別select
-                var options = datas.map(data => {
-                    const { 商品分類id, 商品分類名稱 } = data;
-                    return (`<option value="${商品分類id}" data-text="${商品分類名稱}">${商品分類名稱}</option>`);
-                });
-                $("#_商品分類id").html(options);
-            });
-
-            $.get("@Url.Content("~/Product/GetShoe")", (datas) => {
-                //新增鞋種select
-                var S_options = datas.map(data => {
-                    const { 商品鞋種id, 鞋種 } = data;
-                    return (`<option value="${商品鞋種id}" data-text="${鞋種}">${鞋種}</option>`);
-                });
-                $("#_商品鞋種id").html(S_options);
-            });
-             $.ajaxSettings.async = true;
-        });
+       
 
 
 
@@ -824,7 +829,7 @@
                     }).done(function (data) {                              
                                  for(var item  of data)
                                  {
-                console.log(item.name);
+                //console.log(item.name);
                                     let mast_temptr = `<tr name="tr_de" >` +
                                         `<td colspan="2"><button class="btn btn-primary" data-value="${item.name}" name="Btn_Pro_Show_list" title="開關"><i class="fas fa-edit">+</i></button></td>` +
                                         `<td>${item.name}</td>` +
@@ -886,7 +891,7 @@
                     ;
         if (Json_count == 0)
                     DE_table = "<div>沒有細項商品</div>";
-            console.log(DE_table)
+            //console.log(DE_table)
             //cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;
             return DE_table;
         }
