@@ -101,8 +101,6 @@
 }*/
 .border-rwd {
     border: solid 1px gray;
-    margin: 5px;
-    padding-bottom: 1em;
 }
 
 @media (max-width: 510px) {

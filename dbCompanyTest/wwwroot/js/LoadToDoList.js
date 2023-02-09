@@ -14,7 +14,7 @@ $.ajax({
         let docFrag_sec = $(document.createDocumentFragment());
         $.each(data, function (i, i_val) {
             let eleT = "";
-            let eleT_sec = "";
+            let eleT_sec = "";//tr=> .tr-border;    td=> tds
             if (i <= 4) {
                 eleT = $(`<tr class="tr-border"></tr>`).append(`<td class="col-1 tds">${i_val.交辦事項id}</td>
                                         <td class="col-1 tds">${i_val.表單類型}</td>
