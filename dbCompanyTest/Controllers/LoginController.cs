@@ -40,7 +40,7 @@ namespace dbCompanyTest.Controllers
                     $"&redirect_uri={RedirectUrl}" +
                     $"&scope={HttpUtility.UrlEncode("profile openid email")}" +
                     $"&state={State}";
-                ViewData["localUrl"] = RedirectUrl;
+                ViewData["localUrl"] = new Environment.Environment().useEnvironment;
                 return View();
             }
             else
