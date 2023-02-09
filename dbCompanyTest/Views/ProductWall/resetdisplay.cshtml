@@ -5,7 +5,7 @@
         foreach (var paretitem in Model.paretCommentslist)
         {
             <li>
-                <div class="itemCommentContent" data-id="@paretitem.paretCommentID" data-name="paret" data-order="1">
+                <div class="itemCommentContent" data-id="@paretitem.paretCommentID" data-name="paret">
                     <div>
                         <p class="itemName">會員:@paretitem.paretCommentGuestName</p>
                         <p class="itemMessage">內容:@paretitem.paretComment</p>
@@ -20,7 +20,7 @@
 
                         <span>|</span>
 
-                        <span class="itemreportDelete" data-id="@paretitem.paretCommentID">刪除</span>
+                        <span class="itemreportDelete" data-id="@paretitem.paretCommentID" data-order="1">刪除</span>
 
                         <span>|</span>
 
@@ -154,6 +154,7 @@
 </div>
 <script>
 
+    ////Signalr評論
     async function checkuser() {
         let data = await fetch("@Url.Content("~/ProductWall/checkuser")");
         let response = await data.json();
@@ -206,12 +207,9 @@
         let response = await data.text();
         if (response != null) {
             connection.invoke("SendComment", response).catch(function () {
-                console.log("傳送錯誤");
+                $('#error').css("display", "block");
+                $('.modal-text').text("傳送訊息失敗");
             });
-        }
-        else {
-            $('#error').css("display", "block");
-            $('.modal-text').text("傳送訊息失敗");
         }
     };
 
@@ -242,12 +240,9 @@
         let response = await data.text();
         if (response != null) {
             connection.invoke("SendComment", response).catch(function () {
-                console.log("傳送錯誤");
+                $('#error').css("display", "block");
+                $('.modal-text').text("操作失敗");
             });
-        }
-        else {
-            $('#error').css("display", "block");
-            $('.modal-text').text("傳送訊息失敗");
         }
     };
     //呼叫resetdisplay
@@ -278,12 +273,9 @@
 
                     if (response != null) {
                         connection.invoke("SendComment", response).catch(function () {
-                            console.log("傳送錯誤");
+                            $('#error').css("display", "block");
+                            $('.modal-text').text("傳送訊息失敗");
                         });
-                    }
-                    else {
-                        $('#error').css("display", "block");
-                        $('.modal-text').text("傳送訊息失敗");
                     }
                 }());//加上小括號立即執行
             }
@@ -309,12 +301,9 @@
 
                     if (response != null) {
                         connection.invoke("SendComment", response).catch(function () {
-                            console.log("傳送錯誤");
+                            $('#error').css("display", "block");
+                            $('.modal-text').text("傳送訊息失敗");
                         });
-                    }
-                    else {
-                        $('#error').css("display", "block");
-                        $('.modal-text').text("傳送訊息失敗");
                     }
                 }());//加上小括號立即執行
             }
@@ -342,12 +331,9 @@
 
                     if (response != null) {
                         connection.invoke("SendComment", response).catch(function () {
-                            console.log("傳送錯誤");
+                            $('#error').css("display", "block");
+                            $('.modal-text').text("傳送訊息失敗");
                         });
-                    }
-                    else {
-                        $('#error').css("display", "block");
-                        $('.modal-text').text("傳送訊息失敗");
                     }
                 }());
             }
@@ -375,12 +361,9 @@
 
                     if (response != null) {
                         connection.invoke("SendComment", response).catch(function () {
-                            console.log("傳送錯誤");
+                            $('#error').css("display", "block");
+                            $('.modal-text').text("傳送訊息失敗");
                         });
-                    }
-                    else {
-                        $('#error').css("display", "block");
-                        $('.modal-text').text("傳送訊息失敗");
                     }
                 }());
             }
