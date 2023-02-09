@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Text;
 using System.Data;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using dbCompanyTest.Environment;
 
 namespace dbCompanyTest.Controllers
 {
@@ -42,6 +43,7 @@ namespace dbCompanyTest.Controllers
                 var user = JsonSerializer.Deserialize<TestClient>(login);
 
                 var dbCompanyTestContext = _context.會員商品暫存s.Select(x => x).Where(c => c.購物車或我的最愛 == true && c.客戶編號.Contains(user.客戶編號)).ToList();
+                ViewBag.MAP = "https://emap.presco.com.tw/c2cemap.ashx?eshopid=870&&servicetype=1&url="+new Environment.Environment().useEnvironment+"/Shopping/SlectShop";
                 //是否有car session
                 if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
                 {
@@ -53,6 +55,10 @@ namespace dbCompanyTest.Controllers
                         json = JsonSerializer.Serialize(dbCompanyTestContext);
                         HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
                     }
+                    else
+                    {
+                        return RedirectToAction("Login", "Login");
+                    }
                 }
                 else
                 {
@@ -62,7 +68,7 @@ namespace dbCompanyTest.Controllers
                     carSession = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
                 }
             }
-            else return RedirectToAction("Login", "Login");
+            else return RedirectToAction("Index", "Home");
 
 
             return View(carSession);
@@ -167,7 +173,8 @@ namespace dbCompanyTest.Controllers
             var orderId = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
 
             //需填入 你的網址
-            var website = $"https://localhost:7100";
+            //var website = $"https://localhost:7100";
+            var website = new Environment.Environment().useEnvironment;
             var order = new Dictionary<string, string>
         {
             //特店交易編號
@@ -235,7 +242,8 @@ namespace dbCompanyTest.Controllers
             var orderId = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
 
             //需填入 你的網址
-            var website = $"https://localhost:7100";
+            //var website = $"https://localhost:7100";
+            var website = new Environment.Environment().useEnvironment;
 
             var order = new Dictionary<string, string>
         {

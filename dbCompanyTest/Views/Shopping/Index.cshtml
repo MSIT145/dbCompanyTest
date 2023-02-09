@@ -232,7 +232,7 @@
                     </div>
                     <div class="setMargin" id="pickUp">
                         <label class="whoToGet">7-11取貨</label>
-                        <a href="https://emap.presco.com.tw/c2cemap.ashx?eshopid=870&&servicetype=1&url=https://localhost:7100/Shopping/SlectShop" id="selectStoreAddress">選擇門市</a>
+                        <a href="@ViewBag.MAP" id="selectStoreAddress">選擇門市</a>
                         @*<input type="button" value="選擇門市" id="SelectShop" />*@
                         <input type="text" style="visibility: hidden" value="@ViewBag.IfRe" id="storeaddress" />
                     </div>
@@ -282,7 +282,6 @@
             xhr.open('GET', `/Shopping/GetDeliveryMony?OPvalue=${deliverymony.value}`);
             xhr.send();
         })
-
 
         //----載入門市位址後重新載入的頁面-----
         LoadClientDital()
