@@ -123,8 +123,22 @@
         <input asp-for="區" type="hidden" id="q2" />
         <input asp-for="性別" type="hidden" id="sexvalue" />
     </div>
-   
-        
+
+<div class="modal" id="alert" style="display:none;">
+    <div class="modal-box">
+        <div class="modal-content">
+            <div class="modal-header"><div class="modal-close"></div></div>
+            <div class="content-box">
+                <div class="modal-text"></div>
+                <div style="display:flex; justify-content:center;">
+                    <input type="button" class="btn btn-primary alertsubmit me-2" value="確認" />
+                    <input type="button" class="btn btn-secondary alertcancel ms-2" value="取消" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
     @section Scripts {
@@ -214,6 +228,9 @@
 
             $("#infobtn").click(function(){
                 alert("資料修改成功");
+                const myModal = new bootstrap.Modal('#exampleModal');
+                //顯示 Modal
+                myModal.show();
             })
                 $("#updateBtn").click( function () {
                     alert("密碼修改成功");

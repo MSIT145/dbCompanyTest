@@ -3,14 +3,20 @@
 	<link rel="stylesheet" href="~/css/donutstyle.css">
 }
 
+    
+
+
 <canvas class="webgl"></canvas>
 <div class="loading-bar"></div>
 
-<section class="one">
+
+
+<div id="txt">
+    <section class="one">
 	<div class="container">
 		<div class="hero">
-			<h2>Abs are Cool.</h2>
-			<h3>But have you ever tried donuts?</h3>
+			<h2>Gracegift is Cool.</h2>
+			<h3>But have you ever tried Shoespace?</h3>
 			<p>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque aliquid culpa, <br>
 				providentvoluptatem excepturi id in quasi ea hic voluptate dicta amet explicabo <br>
@@ -26,7 +32,7 @@
 	<div class="container">
 		<div class="hero">
 			<h2>How we do</h2>
-			<h3>Experiment width tasty <br>donuts recipe everytime</h3>
+			<h3>Experiment width tasty <br>Shoespace     recipe everytime</h3>
 			<p>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque aliquid culpa, <br>
 				providentvoluptatem excepturi id in quasi ea hic voluptate dicta amet explicabo <br>
@@ -39,9 +45,23 @@
 </section>
 
 <section class="three">
-	<h1>HAPPY DONUT.</h1>
+	<h1>SHOESPACE.</h1>
 </section>
 
+</div>
+
+
+    <div class="info" id="info" style="display:none;">
+        <div class="container">
+            <div class="hero">
+                <h3 id="title"></h3>
+                <div class="bt">
+                    <input type="button" class="btn btn-danger" value="NO" id="no"/>
+                    <input type="button" class="btn btn-primary" value="YES" id="yes"/>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -266,7 +286,7 @@
                     const radius =10
 
                     shiba.position.x = 0;
-                    shiba.position.y = -450;
+                    shiba.position.y = -1000;
                     shiba.position.z = 200;
 
                     shiba.rotation.y = 0.5;
@@ -302,7 +322,7 @@
             (gltf) => {
                 shoes = gltf.scene
                 shoes.position.x = 0;
-                shoes.position.y = -300;
+                shoes.position.y = -400;
                 shoes.position.z = 150;
 
                 shoes.rotation.x = 0;
@@ -321,30 +341,33 @@
                 console.error(error);
             }
         )
-        gltfLoader.load(
-            'https://rawcdn.githack.com/th9716/3dglb/2019abf682a579d259c44690ab16149f61993cb0/shoes2.glb',
-            (gltf) => {
-                shoes2 = gltf.scene
-                shoes2.position.x = 0;
-                shoes2.position.y = -300;
-                shoes2.position.z = 120;
+        //gltfLoader.load(
+        //    'https://rawcdn.githack.com/th9716/3dglb/2019abf682a579d259c44690ab16149f61993cb0/shoes2.glb',
+        //    (gltf) => {
+        //        shoes2 = gltf.scene
+        //        shoes2.position.x = 0;
+        //        shoes2.position.y = -400;
+        //        shoes2.position.z = 120;
 
-                shoes2.rotation.x = 0;
-                shoes2.rotation.y = 89.6;
-                shoes2.rotation.z = 0;
+        //        shoes2.rotation.x = 0;
+        //        shoes2.rotation.y = 89.6;
+        //        shoes2.rotation.z = 0;
 
-                shoes2.scale.set(10, 10, 10)
+        //        shoes2.scale.set(10, 10, 10)
 
-                scene.add(shoes2)
+        //        console.log(shoes2.children[0])
+        //        //shoes2.children[0].material.metalness = 0;
 
-            },
-            (progress) => {
-                console.log(progress);
-            },
-            (error) => {
-                console.error(error);
-            }
-        )
+        //        scene.add(shoes2)
+
+        //    },
+        //    (progress) => {
+        //        console.log(progress);
+        //    },
+        //    (error) => {
+        //        console.error(error);
+        //    }
+        //)
 
         gltfLoader.load(
             'https://rawcdn.githack.com/th9716/3dglb/0e06df2fbf5a10997326dff89b34f19a847cf177/tv/scene.gltf',
@@ -486,6 +509,7 @@
             renderer.shadowMap.type = THREE.PCFSoftShadowMap
             renderer.setSize(sizes.width, sizes.height)
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+            renderer.outputEncoding = THREE.sRGBEncoding;
 
 
             /**
@@ -532,10 +556,37 @@
 
             // 取得 raycaster 射線和所有物件相交的陣列集合
             var intersects = raycaster.intersectObjects(scene.children);
+
+            function goback(){
+                gsap.to(
+                    camera.position, {
+                    x: 0,
+                    y: 0,
+                    z: 1500,
+                    duration: 2,
+                    onUpdate: function () {
+                        camera.lookAt(scene.position);
+                    }
+                });
+                gsap.to(
+                    camera.rotation, {
+                    x: 0,
+                    y: 0,
+                    z: 0,
+                    duration: 2,
+                    onUpdate: function () {
+                        camera.lookAt(scene.position);
+                    }
+                });
+            }
+
             // 計算後，將所有有相交的物件的顏色改變為紅色，如果只需要將第一個觸發事件，那就陣列的第一個物件改變顏色即可
             for (var i = 0; i < 1; i++) {
 
+
                 //intersects[i].object.material.color.set(0xff0000);
+                console.log(shiba)
+                console.log(intersects[i].object)
                 console.log(intersects[i].object.name)
                 if (intersects[i].object.name == bkboots) {
                     gsap.to(
@@ -543,7 +594,7 @@
                             x:0,
                             y:1000,
                             z:80,
-                            duration: 1.5,
+                            duration: 2,
                             onUpdate:function(){
                                 camera.lookAt(tv.position);
                             }
@@ -553,13 +604,24 @@
                             x:0,
                             y:0,
                             z:0,
-                            duration: 1.5,
+                            duration: 2,
                             onUpdate: function () {
                             camera.lookAt(tv.position);
                         }
                     });
+                        $('#txt').css('color','transparent');
                     setTimeout(function(){
-                        location.href = (`@Url.Content("~/ProductWall/index?id=2")`);
+                        $('#info').css('display','block');
+                        $('#title').text('請問要進入女鞋分類嗎?');
+                        $("#yes").on('click',function(){
+                                location.href = (`@Url.Content("~/ProductWall/index/2")`);
+                        })
+                        $('#no').on('click',function(){
+                            $('#info').css('display','none');
+                            $('#txt').css('color', '#212529');
+                            goback();
+                        })
+                        
                     },2000)
                 }else if(intersects[i].object.name == grayshoes){
                     gsap.to(
@@ -567,7 +629,7 @@
                             x:0,
                             y:1000,
                             z:80,
-                            duration: 1.5,
+                            duration: 2,
                             onUpdate:function(){
                                 camera.lookAt(tv.position);
                             }
@@ -577,13 +639,24 @@
                             x:0,
                             y:0,
                             z:0,
-                            duration: 1.5,
+                            duration: 2,
                             onUpdate: function () {
                             camera.lookAt(tv.position);
                         }
                     });
+                    $('#txt').css('color','transparent');
                     setTimeout(function(){
-                        location.href = (`@Url.Content("~/ProductWall/index?id=1")`);
+                        $('#info').css('display','block');
+                        $('#title').text('請問要進入男鞋分類嗎?');
+                        $("#yes").on('click',function(){
+                                location.href = (`@Url.Content("~/ProductWall/index/1")`);
+                        })
+                        $('#no').on('click',function(){
+                            $('#info').css('display','none');
+                            $('#txt').css('color', '#212529');
+                            goback();
+                        })
+                        
                     },2000)
                 } else if (intersects[i].object.name == disney) {
                     gsap.to(
@@ -591,7 +664,7 @@
                             x:0,
                             y:1000,
                             z:80,
-                            duration: 1.5,
+                            duration: 2,
                             onUpdate:function(){
                                 camera.lookAt(tv.position);
                             }
@@ -601,13 +674,24 @@
                             x:0,
                             y:0,
                             z:0,
-                            duration: 1.5,
+                            duration: 2,
                             onUpdate: function () {
                             camera.lookAt(tv.position);
                         }
                     });
+                    $('#txt').css('color','transparent');
                     setTimeout(function(){
-                        location.href = (`@Url.Content("~/ProductWall/index?id=4")`);
+                        $('#info').css('display','block');
+                        $('#title').text('請問要進入迪士尼分類嗎?');
+                        $("#yes").on('click',function(){
+                                location.href = (`@Url.Content("~/ProductWall/index/4")`);
+                        })
+                        $('#no').on('click',function(){
+                            $('#info').css('display','none');
+                            $('#txt').css('color', '#212529');
+                            goback();
+                        })
+                        
                     },2000)
                 }else if(intersects[i].object.name == lv){
                     gsap.to(
@@ -615,7 +699,7 @@
                             x:0,
                             y:1000,
                             z:80,
-                            duration: 1.5,
+                            duration: 2,
                             onUpdate:function(){
                                 camera.lookAt(tv.position);
                             }
@@ -625,13 +709,24 @@
                             x:0,
                             y:0,
                             z:0,
-                            duration: 1.5,
+                            duration: 2,
                             onUpdate: function () {
                             camera.lookAt(tv.position);
                         }
                     });
+                    $('#txt').css('color','transparent');
                     setTimeout(function(){
-                        location.href = (`@Url.Content("~/ProductWall/index?id=3")`);
+                        $('#info').css('display','block');
+                        $('#title').text('請問要進入KOL聯名分類嗎?');
+                        $("#yes").on('click',function(){
+                                location.href = (`@Url.Content("~/ProductWall/index/3")`);
+                        })
+                        $('#no').on('click',function(){
+                            $('#info').css('display','none');
+                            $('#txt').css('color', '#212529');
+                            goback();
+                        })
+                        
                     },2000)
                 }else if(intersects[i].object.name == mask){
                     gsap.to(
@@ -639,7 +734,7 @@
                             x:0,
                             y:1000,
                             z:80,
-                            duration: 1.5,
+                            duration: 2,
                             onUpdate:function(){
                                 camera.lookAt(tv.position);
                             }
@@ -649,13 +744,24 @@
                             x:0,
                             y:0,
                             z:0,
-                            duration: 1.5,
+                            duration: 2,
                             onUpdate: function () {
                             camera.lookAt(tv.position);
                         }
                     });
+                    $('#txt').css('color','transparent');
                     setTimeout(function(){
-                        location.href = (`@Url.Content("~/ProductWall/index?id=6")`);
+                        $('#info').css('display','block');
+                        $('#title').text('請問要進入口罩分類嗎?');
+                        $("#yes").on('click',function(){
+                                location.href = (`@Url.Content("~/ProductWall/index/6")`);
+                        })
+                        $('#no').on('click',function(){
+                            $('#info').css('display','none');
+                            $('#txt').css('color', '#212529');
+                            goback();
+                        })
+                        
                     },2000)
                 } else if (intersects[i].object.name == bag) {
                     gsap.to(
@@ -663,7 +769,7 @@
                             x:0,
                             y:1000,
                             z:80,
-                            duration: 1.5,
+                            duration: 2,
                             onUpdate:function(){
                                 camera.lookAt(tv.position);
                             }
@@ -673,36 +779,48 @@
                             x:0,
                             y:0,
                             z:0,
-                            duration: 1.5,
+                            duration: 2,
                             onUpdate: function () {
                             camera.lookAt(tv.position);
                         }
                     });
+                    $('#txt').css('color','transparent');
                     setTimeout(function(){
-                        location.href = (`@Url.Content("~/ProductWall/index?id=5")`);
+                        $('#info').css('display','block');
+                        $('#title').text('請問要進入服飾包袋分類嗎?');
+                        $("#yes").on('click',function(){
+                                location.href = (`@Url.Content("~/ProductWall/index/5")`);
+                        })
+                        $('#no').on('click',function(){
+                            $('#info').css('display','none');
+                            $('#txt').css('color', '#212529');
+                            goback();
+                        })
+                        
                     },2000)
-                }else{
-                    gsap.to(
-                        camera.position, {
-                            x:0,
-                            y:0,
-                            z:1500,
-                            duration: 1.5,
-                            onUpdate:function(){
-                                camera.lookAt(scene.position);
-                            }
-                    });
-                    gsap.to(
-                        camera.rotation, {
-                            x:0,
-                            y:0,
-                            z:0,
-                            duration: 1.5,
-                        onUpdate: function () {
-                            camera.lookAt(scene.position);
-                        }
-                    });
                 }
+                //else{
+                //    gsap.to(
+                //        camera.position, {
+                //            x:0,
+                //            y:0,
+                //            z:1500,
+                //            duration: 2,
+                //            onUpdate:function(){
+                //                camera.lookAt(scene.position);
+                //            }
+                //    });
+                //    gsap.to(
+                //        camera.rotation, {
+                //            x:0,
+                //            y:0,
+                //            z:0,
+                //            duration: 2,
+                //        onUpdate: function () {
+                //            camera.lookAt(scene.position);
+                //        }
+                //    });
+                //}
 
             }
 
@@ -724,39 +842,39 @@
 
 
         function initCannonWorld() {
-            // 建立物理世界
-            world = new CANNON.World()
+        //    // 建立物理世界
+        //    world = new CANNON.World()
 
-            // 設定重力場為 y 軸 -9.8 m/s²
-            world.gravity.set(0, -9.8, 0)
+        //    // 設定重力場為 y 軸 -9.8 m/s²
+        //    world.gravity.set(0, -9.8, 0)
 
-            // 碰撞偵測
-            world.broadphase = new CANNON.NaiveBroadphase()
+        //    // 碰撞偵測
+        //    world.broadphase = new CANNON.NaiveBroadphase()
 
-            // 建立地板剛體
-            let groundShape = new CANNON.Plane()
-            let groundCM = new CANNON.Material()
-            groundBody = new CANNON.Body({
-                mass: 0,
-                shape: groundShape,
-                position: new CANNON.Vec3(5, -500, 0),
-                material: groundCM
-            })
-            // setFromAxisAngle 旋轉 x 軸 -90 度
-            groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
-            world.add(groundBody)
+        //    // 建立地板剛體
+        //    let groundShape = new CANNON.Plane()
+        //    let groundCM = new CANNON.Material()
+        //    groundBody = new CANNON.Body({
+        //        mass: 0,
+        //        shape: groundShape,
+        //        position: new CANNON.Vec3(5, -500, 0),
+        //        material: groundCM
+        //    })
+        //    // setFromAxisAngle 旋轉 x 軸 -90 度
+        //    groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2)
+        //    world.add(groundBody)
 
 
-            //建立圓柱
-            let shibashape = new CANNON.Cylinder(150, 150, 500, 16);
-            let shibaCM = new CANNON.Material();
-            shibaBody = new CANNON.Body({
-                mass: 0,
-                shape: shibashape,
-                //position: new CANNON.Vec3(5, 0, 0),
-                material: shibaCM
-            })
-            world.add(shibaBody)
+        //    //建立圓柱
+        //    let shibashape = new CANNON.Cylinder(150, 150, 500, 16);
+        //    let shibaCM = new CANNON.Material();
+        //    shibaBody = new CANNON.Body({
+        //        mass: 0,
+        //        shape: shibashape,
+        //        //position: new CANNON.Vec3(5, 0, 0),
+        //        material: shibaCM
+        //    })
+        //    world.add(shibaBody)
 
 
             //// 建立球剛體
@@ -779,11 +897,11 @@
             //world.addContactMaterial(sphereGroundContact)
 
             // 設定兩剛體碰撞時交互作用屬性
-            shibaGroundContact = new CANNON.ContactMaterial(groundCM, shibaCM, {
-                friction: 0.8, // 摩擦力
-                restitution: 1.5 // 恢復係數, 衡量兩個物體碰撞後反彈程度
-            })
-            world.addContactMaterial(shibaGroundContact)
+            //shibaGroundContact = new CANNON.ContactMaterial(groundCM, shibaCM, {
+            //    friction: 0.8, // 摩擦力
+            //    restitution: 1.5 // 恢復係數, 衡量兩個物體碰撞後反彈程度
+            //})
+            //world.addContactMaterial(shibaGroundContact)
 
             //// 設定兩剛體碰撞時交互作用屬性
             //let ballGroundContact = new CANNON.ContactMaterial(sphereCM, shibaCM, {
@@ -899,7 +1017,7 @@
             }
 
 
-            world.step(timeStep)
+            //world.step(timeStep)
 
             if (shiba1) {
                 shibaBody.position.copy(rocket.position)
@@ -921,7 +1039,7 @@
                 window.requestAnimationFrame(tick)
             }
 
-            initCannonWorld()
+            //initCannonWorld()
             tick()
 
             /**

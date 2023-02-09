@@ -35,6 +35,7 @@ section {
     width: 100vw;
     scroll-snap-align: start;
     position: relative;
+
 }
 
 section .container {
@@ -68,6 +69,31 @@ section.two .container {
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
+}
+
+.info {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 90px;
+    font-weight:bold;
+    line-height: 100px;
+    font-weight: 700;
+    height: 100px;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    color: white;
+}
+
+.bt {
+    line-height: 60px;
+    margin-bottom: 30px;
+    display: block;
+    width: 100%;
 }
 
 h1 {
