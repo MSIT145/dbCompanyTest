@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
 using System.Collections;
+using iText.Commons.Actions.Contexts;
 
 namespace dbCompanyTest.Controllers
 {
@@ -19,7 +20,7 @@ namespace dbCompanyTest.Controllers
         // GET: TestStaffs
         public async Task<IActionResult> Index()
         {
-              return View(await _context.TestStaffs.ToListAsync());
+            return View(await _context.TestStaffs.ToListAsync());
         }
 
         // GET: TestStaffs/Details/5
@@ -148,14 +149,20 @@ namespace dbCompanyTest.Controllers
             {
                 _context.TestStaffs.Remove(testStaff);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TestStaffExists(string id)
         {
-          return _context.TestStaffs.Any(e => e.員工編號 == id);
+            return _context.TestStaffs.Any(e => e.員工編號 == id);
+        }
+        public IActionResult spv(string dep)
+        {
+            var data = _context.TestStaffs.FirstOrDefault(c => c.部門== dep && (c.職稱 == "經理" || c.職稱 == "老闆")).員工編號;
+            return Json(data);
         }
     }
+
 }

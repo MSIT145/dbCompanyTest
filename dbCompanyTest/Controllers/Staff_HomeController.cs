@@ -144,7 +144,6 @@ namespace dbCompanyTest.Controllers
             cToDoListViewModels.交辦事項id = listNum;
             cToDoListViewModels.員工編號 = data.員工編號;
 
-
             cToDoListViewModels.起單人 = $"{data.起單人} {strName}";
             cToDoListViewModels.部門主管 = $"{data.部門主管} {spvName}";
             cToDoListViewModels.部門主管簽核 = data.部門主管簽核;

@@ -153,6 +153,19 @@
             allowsubmit();
         });
 
+        $("#sele_stfDep").on("change", function () {
+            var Dep = $("#sele_stfDep").val();
+            $.ajax({
+                url: `@Url.Content("~/TestStaffs/spv")`,
+                type: "GET",
+                data: { "dep": Dep },
+                dataType: "json"
+            })
+                .done(data => {
+                    $("#i_stfspv").val(data);
+                });
+        });
+
         $("#i_stfPasonalID").on("blur", function () {
             let IDstandard = /^[A-Z]{1}[1-2]{1}[0-9]{8}$/;
             let checkval = $(this).val();
