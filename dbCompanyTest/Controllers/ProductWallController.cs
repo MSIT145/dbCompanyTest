@@ -300,6 +300,7 @@ namespace dbCompanyTest.Controllers
                                join procolor in _context.ProductsColorDetails on prodetail.商品顏色id equals procolor.商品顏色id
                                //join childselfcomment in _context.ChildComments on childcomment.訊息id equals childselfcomment.子訊息id
                                where item.商品編號id == Key && procolor.商品顏色id == pdm.商品顏色ID
+                               orderby prosize.尺寸種類
                                select new
                                {
                                    pro商品尺寸list = prosize.尺寸種類,
