@@ -113,12 +113,12 @@
     }
 
     .table-rwd td {
-        display: block; /* 一定要下！ */
+        display: block;  一定要下！ 
         padding: 0;
     }
 
         .table-rwd td:before {
-            content: attr(data-title); /* 顯示 data-title */
+            content: attr(data-title);  顯示 data-title 
             display: inline-block;
             width: 100%;
             font-weight: 500;
