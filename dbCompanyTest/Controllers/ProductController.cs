@@ -938,9 +938,9 @@ namespace dbCompanyTest.Controllers
                 return Json("錯誤_沒有此項商品");
             var imgData = db.圖片位置s.FirstOrDefault(i => i.圖片位置id == ProDdata.圖片位置id);
 
-
+            int ProCount = db.ProductDetails.Where(g => g.圖片位置id == ProDdata.圖片位置id).Count();
             //判斷使用此圖片位置的ProductDetail是否只剩一筆
-            if (db.圖片位置s.Where(g => g.圖片位置id == ProDdata.圖片位置id).Count() == 1)
+            if (ProCount == 1)
             {
                 //刪除images內的相關圖片
                 if (imgData == null)
