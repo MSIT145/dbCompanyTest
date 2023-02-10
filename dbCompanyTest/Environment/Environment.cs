@@ -5,17 +5,12 @@ namespace dbCompanyTest.Environment
 {
     public class Environment
     {
-<<<<<<< Updated upstream
         string apiKey = "2LU0i8A48bax1cQNKoRH5OFwfOG_43RaqcDa3yYViTPCgHtG7";
         bool open = false;
-=======
-        private bool changeEnvironment = true;
->>>>>>> Stashed changes
         internal string useEnvironment
         {
             get
             {
-<<<<<<< Updated upstream
                 if (open)
                     using (HttpClient client = new HttpClient())
                     {
@@ -35,10 +30,6 @@ namespace dbCompanyTest.Environment
                                 return "";
                         }
                     }
-=======
-                if (changeEnvironment)
-                    return "https://d200-114-36-198-166.jp.ngrok.io";
->>>>>>> Stashed changes
                 else
                     return "https://localhost:7100";
             }
