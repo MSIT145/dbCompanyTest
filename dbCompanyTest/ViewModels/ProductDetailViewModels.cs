@@ -13,6 +13,7 @@ namespace dbCompanyTest.ViewModels
         public string? pro商品顏色 { get; set; }
         public string? pro商品顏色圖片 { get; set; }
         public string? pro商品分類 { get; set; }
+        public int? pro商品分類id { get; set; }
         public string? pro商品材質 { get; set; }
         public string? pro商品介紹 { get; set; }
         public string? pro商品圖片1 { get; set; }
@@ -25,6 +26,7 @@ namespace dbCompanyTest.ViewModels
         public List<int>? pro商品DetailIDlist { get; set; }
         public List<int>? pro商品顏色idlist { get; set; }
         public List<int>? pro商品尺寸idlist { get; set; }
+        public List<int>? pro商品分類idlist { get; set; }
         public List<paretCommentclass>? paretCommentslist { get; set; }
         public List<childCommentclass>? childCommentlist { get; set; }
         //ParetComment訊息

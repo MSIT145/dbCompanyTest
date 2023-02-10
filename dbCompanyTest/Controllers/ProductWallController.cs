@@ -224,6 +224,7 @@ namespace dbCompanyTest.Controllers
             pdm.pro商品尺寸list = new List<string>();
             pdm.pro商品尺寸idlist = new List<int>();
             pdm.pro商品顏色idlist = new List<int>();
+            pdm.pro商品分類idlist = new List<int>();
             //ParetComment
             pdm.paretCommentslist = new List<paretCommentclass>();
             ////ChildComment
@@ -248,6 +249,7 @@ namespace dbCompanyTest.Controllers
                                         pro商品金額 = product.商品價格,
                                         pro商品顏色 = procolor.商品顏色種類,
                                         pro商品分類 = pro分類.商品分類名稱,
+                                        pro商品分類id = product.商品分類id,
                                         pro商品名稱 = product.商品名稱,
                                         pro商品介紹 = product.商品介紹,
                                         pro商品材質 = product.商品材質,
@@ -264,6 +266,7 @@ namespace dbCompanyTest.Controllers
                     pdm.pro商品顏色 = item.pro商品顏色;
                     pdm.pro商品金額 = item.pro商品金額.ToString();
                     pdm.pro商品分類 = item.pro商品分類;
+                    pdm.pro商品分類id = item.pro商品分類id;
                     pdm.pro商品名稱 = item.pro商品名稱;
                     pdm.pro商品介紹 = item.pro商品介紹;
                     pdm.pro商品材質 = item.pro商品材質;
