@@ -44,7 +44,7 @@ namespace dbCompanyTest.Controllers
         public IActionResult ProSell_PowerBI_show()
         {
             return View();
-        
+
         }
 
         public IActionResult ProSell_PowerBI_member_Sell()
@@ -74,7 +74,7 @@ namespace dbCompanyTest.Controllers
         public IActionResult Pei_ProSell()
         {
             List<data> AllData = new List<data>();
-          
+
             //當前的日期
             DateTime thisDay = DateTime.Today;
             //當前年份
@@ -109,7 +109,7 @@ namespace dbCompanyTest.Controllers
             //計算總收益     
             decimal totalAll = _tempOD2.Sum(od => od.總金額).Value;
             //Left Join 要改成ProductDetail 的 ID 
-            var tempD = from p in db.Products                       
+            var tempD = from p in db.Products
                         join od in tempOD2 on p.商品編號id equals od.商品編號id
                        into EmployeeAddressGroup
                         from address in EmployeeAddressGroup.DefaultIfEmpty()
@@ -124,7 +124,7 @@ namespace dbCompanyTest.Controllers
 
             var ALLsellTop5 = AllData.OrderByDescending(o => o.y).Take(5).ToList();
 
-            List<decimal> _T5Sell = ALLsellTop5.Select(a =>  a.y ).ToList();
+            List<decimal> _T5Sell = ALLsellTop5.Select(a => a.y).ToList();
             //將前五名減去-得到其他收益
             decimal total = ALLsellTop5.Sum(a => a.y);
             decimal othersell = totalAll - total;
@@ -137,8 +137,8 @@ namespace dbCompanyTest.Controllers
             {
                 decimal max = top5.Max(t => t.y);
                 var model = top5.Where(t => t.y == max).FirstOrDefault();
-                if(model!=null)
-                model.y = model.y - (top5.Sum(d => d.y) - 100);
+                if (model != null)
+                    model.y = model.y - (top5.Sum(d => d.y) - 100);
             }
             //將其他加入TOP5的資料
             //top5.Add(new data { name = "其他", y = othersell  });
@@ -150,7 +150,7 @@ namespace dbCompanyTest.Controllers
                 allSell = totalAll,
                 year = "2023"
             };
-          
+
             return Json(Pie_D);
         }
         //立體柱狀圖 前10名商品
@@ -189,7 +189,7 @@ namespace dbCompanyTest.Controllers
                         into EmployeeAddressGroup
                         from address in EmployeeAddressGroup.DefaultIfEmpty()
                         group address by new { p.Id, p.明細商品名 } into g
-                        select new 
+                        select new
                         {
                             name = g.Key.明細商品名,
                             sell = g.Sum(o =>
@@ -200,7 +200,7 @@ namespace dbCompanyTest.Controllers
                                 }
 
                                 return o.總金額;
-                            }).Value 
+                            }).Value
                         };
             var ALLsellTop10 = tempD.OrderByDescending(o => o.sell).Take(10).ToList();
             List<string> _categories = ALLsellTop10.Select(t => t.name.ToString()).ToList();
@@ -211,7 +211,7 @@ namespace dbCompanyTest.Controllers
                 datas = _datas,
                 allSell = _tempOD.Sum(od => od.總金額).Value,
                 year = "2023"
-            };       
+            };
             return Json(colData);
         }
 
@@ -392,7 +392,7 @@ namespace dbCompanyTest.Controllers
                 //dr[8] 與 dr[9] 查詢相應table 回傳可存入的數值
                 if (!string.IsNullOrEmpty(dr[8].ToString()))
                 {
-                   var  temp = db.ProductsTypeDetails.FirstOrDefault(pd => pd.商品分類名稱 == dr[9].ToString());
+                    var temp = db.ProductsTypeDetails.FirstOrDefault(pd => pd.商品分類名稱 == dr[9].ToString());
                     if (temp != null)
                     {
                         _分類id = temp.商品分類id;
@@ -410,8 +410,8 @@ namespace dbCompanyTest.Controllers
 
 
                 Product x = new Product();
-                x.上架時間 = dr[1].ToString(); 
-                x.商品名稱 = dr[2].ToString(); 
+                x.上架時間 = dr[1].ToString();
+                x.商品名稱 = dr[2].ToString();
                 x.商品價格 = Convert.ToDecimal(double.TryParse(dr[3].ToString(), out double _price) ? _price : 0);
                 x.商品介紹 = dr[4].ToString();
                 x.商品材質 = dr[5].ToString();
@@ -424,7 +424,7 @@ namespace dbCompanyTest.Controllers
 
                 try
                 {
-                    
+
                     db.Products.Add(x);
                     db.SaveChanges();
                     //Response.BodyWriter("<script language=javascript>alert('檔案匯入成功');</" + "script>");
@@ -536,20 +536,20 @@ namespace dbCompanyTest.Controllers
         public IActionResult DeleteProduct(string? id)
         {
             int _id = 0;
-            if (string.IsNullOrEmpty(id)|| !(Int32.TryParse(id, out _id)))
+            if (string.IsNullOrEmpty(id) || !(Int32.TryParse(id, out _id)))
                 return Json("錯誤_傳輸id資料異常");
 
             IEnumerable<ProductDetail> data = db.ProductDetails.Where(pd => pd.商品編號id == _id).ToList();
-            if(data.Count() !=0)
+            if (data.Count() != 0)
                 return Json("警告_商品尚有明細,不能刪除");
 
             var Pro = db.Products.FirstOrDefault(p => p.商品編號id == _id);
-            if(Pro == null)
+            if (Pro == null)
                 return Json("錯誤_沒有此項商品");
             string name = Pro.商品名稱;
             db.Products.Remove(Pro);
             db.SaveChanges();
-        
+
             return Json($"商品{name}刪除成功");
         }
 
@@ -562,7 +562,7 @@ namespace dbCompanyTest.Controllers
             //檢查後可以寫入Product Model內存入資料庫
             int _id = 0;
 
-            if (string.IsNullOrEmpty(id)|| !(Int32.TryParse(id,out _id)))
+            if (string.IsNullOrEmpty(id) || !(Int32.TryParse(id, out _id)))
                 return Json("失敗!商品id沒資料!!");
 
             try
@@ -570,20 +570,20 @@ namespace dbCompanyTest.Controllers
                 var pro = db.Products.FirstOrDefault(p => p.商品編號id == _id);
                 if (pro == null)
                     return Json("失敗!找不到資料");
-                
-                    pro.上架時間 = time;
-                    pro.商品名稱 = name;
-                    pro.商品價格 = Convert.ToDecimal(double.TryParse(price, out double _price) ? _price : 0);
-                    pro.商品介紹 = introduce;
-                    pro.商品材質 = material;
-                    pro.商品重量 = Int32.TryParse(weight, out int _weight) ? _weight : 0;
-                    pro.商品成本 = Convert.ToDecimal(double.TryParse(cost, out double _cost) ? _cost : 0);
-                    pro.商品分類id = Int32.TryParse(typeid, out int _typeid) ? _typeid : 0;
-                    pro.商品鞋種id = Int32.TryParse(shoeid, out int _shoeid) ? _shoeid : 0;
-                    pro.商品是否有貨 = bool.TryParse(instock, out bool _instock) ? _instock : false;
-                    pro.商品是否上架 = bool.TryParse(onshelves, out bool _onshelves) ? _onshelves : false;
-                    db.SaveChanges();
-                    return Json("修改成功!");
+
+                pro.上架時間 = time;
+                pro.商品名稱 = name;
+                pro.商品價格 = Convert.ToDecimal(double.TryParse(price, out double _price) ? _price : 0);
+                pro.商品介紹 = introduce;
+                pro.商品材質 = material;
+                pro.商品重量 = Int32.TryParse(weight, out int _weight) ? _weight : 0;
+                pro.商品成本 = Convert.ToDecimal(double.TryParse(cost, out double _cost) ? _cost : 0);
+                pro.商品分類id = Int32.TryParse(typeid, out int _typeid) ? _typeid : 0;
+                pro.商品鞋種id = Int32.TryParse(shoeid, out int _shoeid) ? _shoeid : 0;
+                pro.商品是否有貨 = bool.TryParse(instock, out bool _instock) ? _instock : false;
+                pro.商品是否上架 = bool.TryParse(onshelves, out bool _onshelves) ? _onshelves : false;
+                db.SaveChanges();
+                return Json("修改成功!");
             }
             catch
             {
@@ -591,7 +591,7 @@ namespace dbCompanyTest.Controllers
             }
         }
 
-        public IActionResult CreateProduct(string id,string time,string name,string price,string introduce ,string material,string weight,string cost ,string typeid,string shoeid,string instock,string onshelves)
+        public IActionResult CreateProduct(string id, string time, string name, string price, string introduce, string material, string weight, string cost, string typeid, string shoeid, string instock, string onshelves)
         {
             //可以先做後端檢查(time、價格、成本不能亂填)
 
@@ -621,7 +621,7 @@ namespace dbCompanyTest.Controllers
                 return Json("失敗");
             }
         }
-        
+
         public IActionResult Pro_Edit(string id) {
             if (!string.IsNullOrEmpty(id))
             {
@@ -631,8 +631,8 @@ namespace dbCompanyTest.Controllers
                     return Json(pro);
                 }
                 return Json(null);
-            }             
-            return Json(null);        
+            }
+            return Json(null);
         }
 
         [HttpGet]
@@ -697,7 +697,7 @@ namespace dbCompanyTest.Controllers
             if (string.IsNullOrEmpty(id))
                 return Json("錯誤_資料傳輸錯誤");
             int _id = 0;
-            if(!Int32.TryParse(id, out  _id))
+            if (!Int32.TryParse(id, out _id))
                 return Json("錯誤_數值有誤");
             var data = db.圖片位置s.FirstOrDefault(im => im.圖片位置id == _id);
             return Json(data);
@@ -712,7 +712,7 @@ namespace dbCompanyTest.Controllers
         //提取鞋種
         public IActionResult GetShoe()
         {
-            IEnumerable<商品鞋種> data = db.商品鞋種s.ToList(); 
+            IEnumerable<商品鞋種> data = db.商品鞋種s.ToList();
             return Json(data);
         }
 
@@ -720,10 +720,10 @@ namespace dbCompanyTest.Controllers
         public IActionResult GetProName()
         {
             IEnumerable<Back_GetProName> data = from p in db.Products.ToList()
-                                         select new Back_GetProName { 
-                                          商品編號id = p.商品編號id,
-                                          商品名稱 = p.商品名稱
-                                         };
+                                                select new Back_GetProName {
+                                                    商品編號id = p.商品編號id,
+                                                    商品名稱 = p.商品名稱
+                                                };
             return Json(data);
         }
         //提取圖片id
@@ -750,10 +750,36 @@ namespace dbCompanyTest.Controllers
 
 
         #region ProductDetail所有事件
+        public class createkeydata
+       {
+           public string? id { get; set; }
 
-        public IActionResult _CreateDetail(string id)
+           public string? imgid { get; set; }
+
+            public string? colid { get; set; }
+       }
+
+        public IActionResult _CreateDetail(createkeydata key)
         {
-            ViewBag.id = id;
+            
+            ViewBag.id = key.id;
+            if (string.IsNullOrEmpty(key.imgid))
+            {
+                ViewBag.imgid = "";
+            }
+            else
+            {
+                ViewBag.imgid = key.imgid;
+            }
+            if (string.IsNullOrEmpty(key.colid))
+            {
+                ViewBag.colid = "";
+            }
+            else
+            {
+                ViewBag.colid = key.colid;
+            }
+            
             return PartialView();
         }
 
@@ -966,7 +992,9 @@ namespace dbCompanyTest.Controllers
            public string? img1 { get; set; }
           public  string? img2 { get; set; }
          public  string? img3 { get; set; }
-        
+         public string? Proid { get; set; }
+          public string? colid { get; set; }
+         public string? imgid { get; set; }
           public List<Back_ProducDetail>? thisdata { get; set; }
         }
       
@@ -977,13 +1005,14 @@ namespace dbCompanyTest.Controllers
             {
                 int PDid = Convert.ToInt32(id);
                 var _data = from pd in db.ProductDetails.ToList()
-                           join z in db.ProductsSizeDetails on pd.商品尺寸id equals z.商品尺寸id
-                           join c in db.ProductsColorDetails on pd.商品顏色id equals c.商品顏色id
-                           join i in db.圖片位置s on pd.圖片位置id equals i.圖片位置id
-                           where pd.商品編號id == PDid
-                           select new Back_ProducDetail
-                           {
+                            join z in db.ProductsSizeDetails on pd.商品尺寸id equals z.商品尺寸id
+                            join c in db.ProductsColorDetails on pd.商品顏色id equals c.商品顏色id
+                            join i in db.圖片位置s on pd.圖片位置id equals i.圖片位置id
+                            where pd.商品編號id == PDid
+                            select new Back_ProducDetail
+                           {                               
                                明細編號 = pd.Id.ToString(),
+                                商品編號id = pd.商品編號id.ToString(),
                                明細尺寸 = z.尺寸種類,
                                顏色 = c.商品顏色種類,
                                數量 = (pd.商品數量).ToString(),
@@ -996,14 +1025,17 @@ namespace dbCompanyTest.Controllers
                            };
                 //將data資料做group by
                 var data = from d in _data.ToList()
-                              group d by d.顏色 into g
+                              group d by new { d.顏色 , d.商品編號id } into g
                               select new Back_Pro_Detail_data_ColorImg
                               {
-                                  name = g.Key,
-                                  img1 = (from p1 in _data where p1.顏色 == g.Key select p1).FirstOrDefault().商品圖片1,
-                                  img2 = (from p1 in _data where p1.顏色 == g.Key select p1).FirstOrDefault().商品圖片2,
-                                  img3 = (from p1 in _data where p1.顏色 == g.Key select p1).FirstOrDefault().商品圖片3,
-                                  thisdata = (from p1 in _data where p1.顏色 == g.Key select p1).ToList()
+                                  Proid = g.Key.商品編號id,
+                                  name = g.Key.顏色,
+                                  colid =  (from p1 in db.ProductsColorDetails where p1.商品顏色種類 == g.Key.顏色 select p1).FirstOrDefault().商品顏色id.ToString(),
+                                  imgid = (from p1 in _data where p1.顏色 == g.Key.顏色 select p1).FirstOrDefault().圖片位置id,
+                                  img1 = (from p1 in _data where p1.顏色 == g.Key.顏色 select p1).FirstOrDefault().商品圖片1,
+                                  img2 = (from p1 in _data where p1.顏色 == g.Key.顏色 select p1).FirstOrDefault().商品圖片2,
+                                  img3 = (from p1 in _data where p1.顏色 == g.Key.顏色 select p1).FirstOrDefault().商品圖片3,
+                                  thisdata = (from p1 in _data where p1.顏色 == g.Key.顏色 select p1).ToList()
                               };
                 
                 return Json(data);

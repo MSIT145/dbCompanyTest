@@ -698,12 +698,22 @@
             const id = row.find('td:eq(1)').text().trim();
             console.log(row.find('td:eq(1)'));
             $("#Moda_D_C #myModal-label").text("新增細項商品");
-            $("#Moda_D_C .modal-body").load(`@Url.Content("~/Product/_CreateDetail")/?id=${id}`);
+            $("#Moda_D_C .modal-body").load(`@Url.Content("~/Product/_CreateDetail")/?id=${id}&imgid=&colid=`);
         })
 
+    //加入按鈕事件(新增尺寸)name=Btn_Creat_PD_Size
+    $('#tableAll').on('click', 'button[name="Btn_Creat_PD_Size"]', function () {
+            const colid= $(this).attr("data-color");
+            const id = $(this).attr("data-proid");
+            const imgid = $(this).attr("data-imgid");
+            console.log(`${id},${imgid},${colid}`);
+           $("#Moda_D_C #myModal-label").text("新增細項尺寸");
+          $("#Moda_D_C .modal-body").load(`@Url.Content("~/Product/_CreateDetail")/?id=${id}&imgid=${imgid}&colid=${colid}`);
+        })
+
+
     //加入按鈕事件(明細展開與關閉)Btn_Pro_Show_list
-    $('#tableAll').on('click', 'button[name="Btn_Pro_Show_list"]', function () {
-      
+    $('#tableAll').on('click', 'button[name="Btn_Pro_Show_list"]', function () {      
         const value = $(this).attr("data-value");
      // console.log(value);
      //   console.log($(this).parent().parent().parent().find(` tr[data-color='${value}']`));
@@ -834,10 +844,12 @@
                                     let mast_temptr = `<tr name="tr_de" >` +
                                         `<td colspan="2"><button class="btn btn-primary" data-value="${item.name}" name="Btn_Pro_Show_list" title="開關"><i class="fas fa-edit">+</i></button></td>` +
                                         `<td>${item.name}</td>` +
-                                        `<td colspan="6"><div style="display:flex">`+
+                                        `<td colspan="4"><div style="display:flex">`+
                                         `<img src="@Url.Content("~/images")/${item.img1}" width = "100" name = "P_D_img" '/>`+
                                         `<img src="@Url.Content("~/images")/${item.img2}" width = "100" name = "P_D_img" '/>`+
-                                        `<img src="@Url.Content("~/images")/${item.img3}" width = "100" name = "P_D_img" '/>`+                                   
+                                        `<img src="@Url.Content("~/images")/${item.img3}" width = "100" name = "P_D_img" '/>`+  
+                                        `</td>`+
+                                        `<td colspan="2"><button class="btn btn-primary" name="Btn_Creat_PD_Size" data-color="${item.colid}" data-proid="${item.proid}" data-imgid="${item.imgid}" data-bs-toggle="modal" data-bs-target="#Moda_D_C">新增尺寸</button></td>` +
                                         `</tr>`;
                                     for(var item2 of item.thisdata)
                                     {

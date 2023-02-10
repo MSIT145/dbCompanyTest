@@ -16,8 +16,9 @@
                 <label asp-for="商品編號id" class="control-label" style="display:none"></label>
                 <select id="_商品編號id"  class="form-select" aria-label="商品編號">
                     <option selected>ajax_select商品編號+名稱</option>
-                </select>
-                <input asp-for="商品編號id" id="商品編號id" name="商品編號id"  value="@ViewBag.id"  class="form-control" type="hidden" />
+                </select> 
+                <input class="form-control" id="t_商品編號id" value="@ViewBag.id" type="hidden">
+                <input asp-for="商品編號id" id="商品編號id" name="商品編號id"   class="form-control" type="hidden" />
                 <span asp-validation-for="商品編號id" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,7 +36,8 @@
                 <select id="_商品顏色id" class="form-select" aria-label="商品顏色id">
                     <option selected>ajax_select顏色id+顏色名稱</option>
                 </select>
-                <input asp-for="商品顏色id" id="商品顏色id" class="form-control" name="顏色" type="hidden" />
+                <input class="form-control" id="t_商品顏色id" value="@ViewBag.colid" type="hidden">
+                <input asp-for="商品顏色id" id="商品顏色id"  class="form-control" name="顏色" type="hidden" />
                 <span asp-validation-for="商品顏色id" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -88,9 +90,11 @@
                 </div>
                 <img src="@Url.Content("~/images")/404.jpg" height="100" id="img3" />
             </div>
+           
             <div class="form-group" style="display:none">
                 <label asp-for="圖片位置id" class="control-label"></label>
-                <input asp-for="圖片位置id" class="form-control" name="圖片位置id" id="圖片位置id" />
+                <input class="form-control" id="t_圖片位置id" value="@ViewBag.imgid">
+                <input asp-for="圖片位置id" class="form-control"  name="圖片位置id" id="圖片位置id" />
                 <span asp-validation-for="圖片位置id" id="圖片位置id" class="text-danger"></span>
             </div>
             <br>
@@ -176,7 +180,7 @@
                             return (`<option value="${商品編號id}" data-text="${商品名稱}">${商品編號id} ${商品名稱}</option>`);
                             });                           
                             $("#_商品編號id").html(options);
-                           $("#_商品編號id").val($("#商品編號id").val());
+                           $("#_商品編號id").val($("#t_商品編號id").val());
                             });
 
                             //提取顏色
@@ -188,6 +192,10 @@
                             return (`<option value="${商品顏色id}" data-text="${商品顏色種類}">${商品顏色id} ${商品顏色種類}</option>`);
                             });
                            $("#_商品顏色id").html(options);
+                            if ($("#t_商品顏色id").val()!="")
+                            {
+                                $("#_商品顏色id").val($("#t_商品顏色id").val());
+                            }
                             });
 
                             //提取尺寸
@@ -213,19 +221,33 @@
                                 return (`<option value="${圖片位置id}" data-img1="${商品圖片1}" data-img2="${商品圖片2}" data-img3="${商品圖片3}">${圖片位置id}</option>`);
                                 });
                               $("#_圖片位置id").html(options);
+                                if ($("#t_圖片位置id").val()!="")
+                                {
+                                $("#_圖片位置id").val($("#t_圖片位置id").val());
+                                selected_img_change();
+                                }
                             });
+                            //變更圖片
+
 
                           $("#_圖片位置id").on('change',function(){
-                            // console.log($('#_圖片位置id option:selected').attr("data-img1"));
+                              var tval = $(this).val();
+                              selected_img_change(tval);
+                          });
+                            
+                            function selected_img_change(val)
+                            {
+                                // console.log($('#_圖片位置id option:selected').attr("data-img1"));
                                 const img1 = $('#_圖片位置id option:selected').attr("data-img1");
                                 const img2 = $('#_圖片位置id option:selected').attr("data-img2");
                                 const img3 = $('#_圖片位置id option:selected').attr("data-img3");
                                 $("#img1").prop("src", `@Url.Content("~/images")/${img1}`);
                                 $("#img2").prop("src", `@Url.Content("~/images")/${img2}`);
-                                $("#img3").prop("src", `@Url.Content("~/images")/${img3}`);      
+                                $("#img3").prop("src", `@Url.Content("~/images")/${img3}`);
                                 //與#圖片位置id連動
-                                $("#圖片位置id").val($(this).val());
-                          });
+                                $("#圖片位置id").val(val);
+                            }
+                            
                             //送出按鈕事件
                             const btn = document.querySelector('#btn_submit');
                             //console.log(btn);
