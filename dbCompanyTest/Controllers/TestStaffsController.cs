@@ -63,6 +63,7 @@ namespace dbCompanyTest.Controllers
 
             if (ModelState.IsValid)
             {
+
                 string FileNameSub = mv.File.FileName;
                 string[] words = FileNameSub.Split('.');
                 int FileTypeIndex = words.Length;

@@ -12,7 +12,7 @@
         <div id="loginPage">
 
             <div id="otherLogin">
-                <br/>
+                <br />
                 <br />
                 <div id="g_id_onload"
                      data-client_id="1097400727922-rjchl3ubr8r1mtjpirchq6v7dl9vfcb2.apps.googleusercontent.com"
@@ -26,9 +26,15 @@
                      data-text="sign_in_with"
                      data-shape="rectangular"
                      data-logo_alignment="left">
+                    @**@
                 </div>
+<<<<<<< Updated upstream
                     
                 <p id="sp"><a href="@ViewData["LineAuth"]" class="btn btn-success" title="Log in your account" id="linelogin">Line</a></p>
+=======
+
+                @*<p id="sp"><a href="@ViewData["LineAuth"]" class="btn btn-success" title="Log in your account" id="linelogin">Line</a></p>*@
+>>>>>>> Stashed changes
             </div>
             <hr style="width:50%;margin:20px auto;" />
             <div id="selfLogin">
@@ -88,7 +94,7 @@
         var xhr = new XMLHttpRequest();
         xhr.addEventListener(`load`, () => {
             var result = xhr.responseText;
-            if (result.substring(0,2) == `成功`) {
+            if (result.substring(0, 2) == `成功`) {
                 //window.location.assign("https://localhost:7100/Home/Index");
                 window.location.assign(result.substring(2, result.length) + "/Home/Index");
                 joinCarSession();

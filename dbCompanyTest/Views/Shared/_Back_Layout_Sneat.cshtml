@@ -110,7 +110,8 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="app-brand-text demo menu-text fw-bolder ms-2">後台系統</span>
+                        <img src="~/homeimg/shoespace1.png" />
+                        @*<span class="app-brand-text demo menu-text fw-bolder ms-2">後台系統</span>*@
                     </a>
 
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block ">
@@ -118,10 +119,11 @@
                         <i class="bx bx-chevron-left bx-sm align-middle"></i>
                     </a>
                 </div>
-
+                <hr align="center" width="80%" style="margin:auto !important" />
+                @*-----------------------------------------------------------------------------------------------------------------------------------------------------------------*@
                 <div class="menu-inner-shadow"></div>
-
                 <ul class="menu-inner py-1">
+                <li class="menu-header small text-uppercase" style="margin:0"><span class="menu-header-text">首頁</span></li>
                     <!-- Dashboard -->
                     <li class="menu-item">
                         <a href="~/" class="menu-link">
@@ -129,13 +131,16 @@
                             <div data-i18n="Analytics">前台首頁</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                  @*  <li class="menu-item">
                         <a href="@Url.Content("~/Staff_Home/Index")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">後台首頁</div>
                         </a>
+                    </li>*@
+                    <li>
+                    <hr align="center" width="660%" style="margin-left:30px !important; margin-bottom:0px" />
                     </li>
-
+                    <li class="menu-header small text-uppercase" style="margin:0"><span class="menu-header-text">分類</span></li>
                     <!-- Layouts -->
                     <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle" id="test">
@@ -191,7 +196,12 @@
                             </li>*@
                         </ul>
                     </li>
-
+                    <li class="menu-item">
+                        <a href="@Url.Content("~/Service/Service")" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-collection"></i>
+                            <div data-i18n="Basic">客服</div>
+                        </a>
+                    </li>
                     @* <li class="menu-header small text-uppercase">
                     <span class="menu-header-text">Pages</span>
                     </li>*@
@@ -260,14 +270,9 @@
                     </ul>
                     </li>*@
                     <!-- Components -->
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li>
+                    @*<li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li>*@
                     <!-- Cards -->
-                    <li class="menu-item">
-                        <a href="@Url.Content("~/Service/Service")" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-collection"></i>
-                            <div data-i18n="Basic">Service</div>
-                        </a>
-                    </li>
+                    
                     <!-- User interface -->
                     @*<li class="menu-item">
                     <a href="javascript:void(0)" class="menu-link menu-toggle">
@@ -399,7 +404,7 @@
                     <div data-i18n="Boxicons">Boxicons</div>
                     </a>
                     </li>*@
-
+                    <hr align="center" width="80%" style="margin:auto !important; margin-bottom:0 !important; margin-top:0 !important"/>
                     <!-- Forms & Tables -->
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">表單 &amp; 圖表</span></li>
                     <!-- Forms -->
@@ -476,7 +481,7 @@
                         </a>
                     </li>
                     <!-- Misc -->
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
+                   @* <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
                     <li class="menu-item">
                         <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
                            target="_blank"
@@ -492,7 +497,7 @@
                             <i class="menu-icon tf-icons bx bx-file"></i>
                             <div data-i18n="Documentation">Documentation</div>
                         </a>
-                    </li>
+                    </li>*@
                 </ul>
             </aside>
             <!-- / Menu -->
@@ -514,11 +519,11 @@
                         <!-- Search -->
                         <div class="navbar-nav align-items-center">
                             <div class="nav-item d-flex align-items-center">
-                                <i class="bx bx-search fs-4 lh-0"></i>
+                              @*  <i class="bx bx-search fs-4 lh-0"></i>
                                 <input type="text"
                                        class="form-control border-0 shadow-none"
                                        placeholder="Search..."
-                                       aria-label="Search..." id="Search_layout" />
+                                       aria-label="Search..." id="Search_layout" />*@
                             </div>
                         </div>
                         <!-- /Search -->

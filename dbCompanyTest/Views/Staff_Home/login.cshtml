@@ -25,23 +25,27 @@
                         <input type="password" asp-controller="Staff_Home" asp-action="login" name="txtPassword" value="123456" class="input no" placeholder="Password" id="Password" />
                     </div>
                     <div class="input-field">
-                        <botton type="submit" class="submit no" id="Login">登入</botton>
-                        <botton class="Back no" id="Login"><a asp-action="Index" asp-controller="Home">返回</a></botton>
+                        <a href="javascript:void(0)" style=" text-decoration:none">
+                            <botton type="submit" class="submit no" id="Login" style="margin-right:7px;margin-left:2px">登入</botton>
+                        </a>
+                        <a asp-action="Index" asp-controller="Home" class="Back no" style="margin-right:7px">返回</a>
                     </div>
-                    <div class="two">
-                        <botton id="forget" class="submit1 no">忘記密碼?</botton>
+                    <div class="input-field"style="margin-top:17px;">
+                        <a id="forget" style="margin-top:17px;color:white">忘記密碼?</a>
+                        @*class="submit1 no"*@
                         <p id="response" class="no" style="color: #ffffff;"></p>
                     </div>
                 </div>
             </div>
         </form>
+        <botton class="submit2" id="spv_ad">sAd</botton>
+        <botton class="submit2" id="spv_hr">s 668</botton>
+        <botton class="submit2" id="hr1">h 628</botton>
+        <botton class="submit2" id="hr2">h 597</botton>
+        <botton class="submit2" id="bos">b 170</botton>
     </div>
     <div class="left">
-        <botton class="submit1" id="spv_ad">spv_ad</botton>
-        <botton class="submit1" id="spv_hr">spv_hr ST1-00668</botton>
-        <botton class="submit1" id="hr1">hr ST1-00628</botton>
-        <botton class="submit1" id="hr2">hr ST1-00597</botton>
-        <botton class="submit1" id="bos">bo ST2-0010170</botton>
+       
 
     </div>
 
