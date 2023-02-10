@@ -424,20 +424,21 @@
             }
         )
 
+        //tv
         gltfLoader.load(
-            'https://rawcdn.githack.com/th9716/3dglb/0e06df2fbf5a10997326dff89b34f19a847cf177/tv/scene.gltf',
+            'https://rawcdn.githack.com/th9716/3dglb/3b4777f3ff48ef55d85ba080a0e05359d85172bc/tv1/tv.glb',
             (gltf) => {
                 tv = gltf.scene
                 //tv.position.x = 0;
-                tv.position.y = 1000;
+                tv.position.y = 700;
                 //tv.position.z = 200;
 
-                //tv.rotation.y = 89.6;
+                tv.rotation.y = 4.7;
 
-                tv.scale.set(15, 15, 15)
+                tv.scale.set(4, 4, 6)
 
                 scene.add(tv)
-
+                
             },
             (progress) => {
                 console.log(progress);
@@ -564,7 +565,7 @@
             renderer.shadowMap.type = THREE.PCFSoftShadowMap
             renderer.setSize(sizes.width, sizes.height)
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-            renderer.outputEncoding = THREE.sRGBEncoding;
+            renderer.outputEncoding = THREE.sRGBEncoding; //修正模型暗沉
 
 
             /**
@@ -626,7 +627,7 @@
                 gsap.to(
                     camera.rotation, {
                     x: 0,
-                    y: 0,
+                    y: 100,
                     z: 0,
                     duration: 2,
                     onUpdate: function () {
@@ -642,27 +643,29 @@
                 //intersects[i].object.material.color.set(0xff0000);
                 console.log(shiba)
                 console.log(tv)
+                console.log(tv.getObjectByName('screen'));
+                tv.getObjectByName('screen').material.color .setHex(0x00FF00);
                 console.log(intersects[i].object)
                 console.log(intersects[i].object.name)
                 if (intersects[i].object.name == bkboots) {
                     gsap.to(
                         camera.position, {
                             x:0,
-                            y:1000,
-                            z:80,
+                            y:750,
+                            z:280,
                             duration: 2,
                             onUpdate:function(){
-                                camera.lookAt(tv.position);
+                            camera.lookAt(0, 750, 0);
                             }
                     });
                     gsap.to(
                         camera.rotation, {
                             x:0,
                             y:0,
-                            z:0,
+                            z:100,
                             duration: 2,
                             onUpdate: function () {
-                            camera.lookAt(tv.position);
+                            camera.lookAt(0,750,0);
                         }
                     });
                         $('#txt').css('color','transparent');
@@ -684,21 +687,21 @@
                     gsap.to(
                         camera.position, {
                             x:0,
-                            y:1000,
-                            z:80,
+                            y:750,
+                            z:280,
                             duration: 2,
                             onUpdate:function(){
-                                camera.lookAt(tv.position);
+                            camera.lookAt(0, 750, 0);
                             }
                     });
                     gsap.to(
                         camera.rotation, {
                             x:0,
                             y:0,
-                            z:0,
+                            z:100,
                             duration: 2,
                             onUpdate: function () {
-                            camera.lookAt(tv.position);
+                            camera.lookAt(0,750,0);
                         }
                     });
                     $('#txt').css('color','transparent');
@@ -719,21 +722,21 @@
                     gsap.to(
                         camera.position, {
                             x:0,
-                            y:1000,
-                            z:80,
+                            y:750,
+                            z:280,
                             duration: 2,
                             onUpdate:function(){
-                                camera.lookAt(tv.position);
+                            camera.lookAt(0, 750, 0);
                             }
                     });
                     gsap.to(
                         camera.rotation, {
                             x:0,
                             y:0,
-                            z:0,
+                            z:100,
                             duration: 2,
                             onUpdate: function () {
-                            camera.lookAt(tv.position);
+                            camera.lookAt(0,750,0);
                         }
                     });
                     $('#txt').css('color','transparent');
@@ -753,22 +756,22 @@
                 }else if(intersects[i].object.name == lv){
                     gsap.to(
                         camera.position, {
-                            x:0,
-                            y:1000,
-                            z:80,
-                            duration: 2,
-                            onUpdate:function(){
-                                camera.lookAt(tv.position);
-                            }
+                        x: 0,
+                        y: 750,
+                        z: 280,
+                        duration: 2,
+                        onUpdate: function () {
+                            camera.lookAt(0, 750, 0);
+                        }
                     });
                     gsap.to(
                         camera.rotation, {
-                            x:0,
-                            y:0,
-                            z:0,
-                            duration: 2,
-                            onUpdate: function () {
-                            camera.lookAt(tv.position);
+                        x: 0,
+                        y: 0,
+                        z: 100,
+                        duration: 2,
+                        onUpdate: function () {
+                            camera.lookAt(0, 750, 0);
                         }
                     });
                     $('#txt').css('color','transparent');
@@ -789,21 +792,21 @@
                     gsap.to(
                         camera.position, {
                             x:0,
-                            y:1000,
-                            z:80,
+                            y:750,
+                            z:280,
                             duration: 2,
                             onUpdate:function(){
-                                camera.lookAt(tv.position);
+                            camera.lookAt(0, 750, 0);
                             }
                     });
                     gsap.to(
                         camera.rotation, {
                             x:0,
                             y:0,
-                            z:0,
+                            z:100,
                             duration: 2,
                             onUpdate: function () {
-                            camera.lookAt(tv.position);
+                            camera.lookAt(0,750,0);
                         }
                     });
                     $('#txt').css('color','transparent');
@@ -824,21 +827,21 @@
                     gsap.to(
                         camera.position, {
                             x:0,
-                            y:1000,
-                            z:80,
+                            y:750,
+                            z:280,
                             duration: 2,
                             onUpdate:function(){
-                                camera.lookAt(tv.position);
+                            camera.lookAt(0, 750, 0);
                             }
                     });
                     gsap.to(
                         camera.rotation, {
                             x:0,
                             y:0,
-                            z:0,
+                        z: 100,
                             duration: 2,
                             onUpdate: function () {
-                            camera.lookAt(tv.position);
+                            camera.lookAt(0,750,0);
                         }
                     });
                     $('#txt').css('color','transparent');
