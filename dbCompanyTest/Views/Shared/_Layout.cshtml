@@ -14,11 +14,11 @@
     <link href="~/css/car.css" rel="stylesheet" />
     <style>
         .LineFriend{
-            margin:0 auto;
+            margin:0 30%;
             width: 100px;
         }
         .LineFriend iframe {
-            width: 100px !important;
+            width: 200px !important;
             height: 20px !important;
         }
     </style>
@@ -206,9 +206,9 @@
     </div>
     <div class="chatBody" style="z-index:10;">
         <div id="cchatClose"><p id="chatClose">X</p></div>
-        <div class="chatHeader"><div id="connection"></div><p id="errorstring" style="color:red"></p></div>
+        <div class="chatHeader"><div id="connection"></div><p id="errorstring" style="color:white;margin:0 auto;padding: 0 39%;">ShoeShop</p></div>
         <div class="LineFriend">
-            @*<div class="line-it-button" data-lang="zh_Hant" data-type="friend" data-env="REAL" data-count="true" data-home="true" data-lineId="@@401jvrga" style="display:block;width:100px;height:100px;"></div>*@
+            <div class="line-it-button" data-lang="zh_Hant" data-type="friend" data-env="REAL" data-count="true" data-home="true" data-lineId="@@401jvrga" style="display:block;width:100px;height:100px;"></div>
         </div>
         <input id="userName" type="hidden">
         <input id="openaikey" type="hidden" />
@@ -216,7 +216,7 @@
         </div>
         <div class="chatFooter">
             <div style="margin-top:3px">
-                <input type="text" id="message" placeholder="請輸入文字......" />
+                <input type="text" id="message" placeholder="請輸入文字......" style="border-radius:10px;border:0"/>
                 <img src="~/images/send.png" id="send" style="width:22px;height:22px;cursor:pointer" />
             </div>
             <p>ShoeShop</p>
