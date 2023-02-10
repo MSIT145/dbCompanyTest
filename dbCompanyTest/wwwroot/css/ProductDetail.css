@@ -182,13 +182,27 @@ html, body {
     }
 
     .d-right-detail .userreportinput {
-        border: 1px,solid,#F0F2F5;
-        border-radius: 5px;
+        border: 1px solid gray;
+        border-radius: 7px;
         margin-bottom: 5px;
         margin-top: 5px;
+        outline:none;
+    }
+    .d-right-detail .userEditinput {
+        border: 1px solid gray;
+        border-radius: 7px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        outline: none;
+    }
+    .d-right-detail .reportEdit input{
+       
     }
 
-    .d-right-detail .userreport {
+
+    .d-right-detail .userreport input{
+        margin-left:15px;
+
     }
     .d-right-detail .itemCommentContent span{
         font-size:x-small;
