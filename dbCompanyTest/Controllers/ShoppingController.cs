@@ -77,6 +77,7 @@ namespace dbCompanyTest.Controllers
         {
             List<會員商品暫存>? carSession = null;
             string json = "";
+            int? carCount = 0;
             //判斷是否登入
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
             {
@@ -95,6 +96,10 @@ namespace dbCompanyTest.Controllers
                         //有dbCompanyTestContext
                         json = JsonSerializer.Serialize(dbCompanyTestContext);
                         HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
+                        foreach (會員商品暫存 x in dbCompanyTestContext)
+                        {
+                            carCount = x.訂單數量;
+                        }
                     }
                 }
                 else
@@ -106,12 +111,14 @@ namespace dbCompanyTest.Controllers
                     foreach (會員商品暫存 x in dbCompanyTestContext)
                     {
                         carSession.Add(x);
+                        carCount = x.訂單數量;
                         json = JsonSerializer.Serialize(carSession);
                         HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
                     }
                 }
             }
-            return Content("加入");
+            var data = CarProductCount((int)carCount);
+            return Json(data.ToString());
         }
         public IActionResult GetCarJson()
         {

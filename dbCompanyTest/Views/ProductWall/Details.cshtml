@@ -743,6 +743,17 @@
             $('#error').css("display", "block");
             $('.modal-text').text(`${response}`);
         }
+
+
+        //----購物車記數
+        async function CountForCar() {
+            var carNumBox = $('.number-box').find('input').val()
+            const num = await fetch(`@Url.Content("~/Shopping/CarProductCount?num=${carNumBox}")`);
+            const nums = await num.json();
+            console.log(nums);
+            $('#cart_num_pc').text(nums)
+        }
+
         //確認商品數量
         async function checkCount() {
             const FD = new FormData();
@@ -758,6 +769,7 @@
             const reponse = await data.text();
             if (reponse === "true") {
                 AddtoMyLoveOrCart(sizecheck, true);
+                CountForCar();
             }
             else {
                 $('#error').css("display", "block");
