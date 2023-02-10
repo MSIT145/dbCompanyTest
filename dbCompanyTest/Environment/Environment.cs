@@ -15,6 +15,7 @@ namespace dbCompanyTest.Environment
         {
             get
             {
+<<<<<<< Updated upstream
                 if (open)
                     using (HttpClient client = new HttpClient())
                     {
