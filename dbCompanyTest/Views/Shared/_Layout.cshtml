@@ -205,7 +205,8 @@
         <div class="dot mouth"></div>
     </div>
     <div class="chatBody" style="z-index:10;">
-        <div class="chatHeader"><div id="connection">連線客服</div><p id="errorstring" style="color:red"></p></div>
+        <div id="cchatClose"><p id="chatClose">X</p></div>
+        <div class="chatHeader"><div id="connection"></div><p id="errorstring" style="color:red"></p></div>
         <div class="LineFriend">
             @*<div class="line-it-button" data-lang="zh_Hant" data-type="friend" data-env="REAL" data-count="true" data-home="true" data-lineId="@@401jvrga" style="display:block;width:100px;height:100px;"></div>*@
         </div>
@@ -216,9 +217,10 @@
         <div class="chatFooter">
             <div style="margin-top:3px">
                 <input type="text" id="message" placeholder="請輸入文字......" />
-                <img src="~/images/send.png" id="send" style="width:30px;height:30px;cursor:pointer" />
+                <a href="javascript:var emojiTop = 50, emojiRight = 10, getScript=function(d,f){var e=document.createElement('script');if(e.readyState){e.onreadystatechange=function(){if(e.readyState=='loaded'||e.readyState=='complete'){e.onreadystatechange=null;if(f){f()}}}}else{e.onload=function(){if(f){f()}}}e.src=d;document.documentElement.firstChild.appendChild(e)},callback=function(){jQuery.getScript('https://drive.google.com/file/d/0BykclfTTti-0WkNQRXZWQ1BUaDg/view')};getScript('https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js',callback);">將此連結拖曳到書籤列或加入書籤</a>
+                <img src="~/images/send.png" id="send" style="width:22px;height:22px;cursor:pointer" />
             </div>
-            <p>由戴浩宇製作</p>
+            <p>ShoeShop</p>
         </div>
     </div>
     <footer class="border-top footer text-muted">
@@ -236,7 +238,10 @@
     <script src="~/js/car.js"></script>
     <script src="~/js/aibot.js"></script>
     <script>
-
+        $(`#cchatClose`).on(`click`, function () {
+            $(`.chatBody`).hide(500);
+        })
+        $(`#connection`).css("background-image", "@Url.Content("~/images/dog.jpg")")
 
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
@@ -328,7 +333,7 @@
                 UpdSystem("系統", querydata[0].value);
             }
             else {
-                UpdSystem("系統", "我不知道這個問題，可以按上方按鈕與客服人員聯繫");
+                UpdSystem("系統", "我不知道這個問題，可以按上方吉祥物頭像與客服人員聯繫");
             }
         }
         function resetScrollSite() {

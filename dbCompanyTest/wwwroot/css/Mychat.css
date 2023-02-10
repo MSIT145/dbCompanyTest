@@ -133,16 +133,27 @@
     text-align:end;
 }
 
-#connection{
-    display:flex;
-    height:69%;
-    margin:0 auto;
-    padding:1%;
-    font-size:small;
-    background-color:darkgrey;
-    text-align:center;
-    align-items:center;
-    border:3px solid white;
-    border-radius:50px;
-    cursor:pointer;
+#connection {
+    display: flex;
+    height: 68%;
+    width: 16%;
+    margin: 0 auto;
+    padding: 1%;
+    font-size: small;
+    text-align: center;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 50px;
+    cursor: pointer;
+    background-image: url("https://localhost:7100/images/dog.jpg");
+    background-repeat: no-repeat;
+    background-size: 90px;
+}
+
+#chatClose {
+    margin-bottom: 0;
+    text-align: end;
+    margin-right: 10px;
+    color: white;
+    cursor: pointer;
 }
