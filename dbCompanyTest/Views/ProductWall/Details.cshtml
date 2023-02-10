@@ -320,6 +320,8 @@
     </div>
 </div>
 
+@*購物車記數用*@
+<input type="text" id="CarCount"value="" style="display:none"/>
 
 
 
@@ -346,6 +348,7 @@
     </div>
 </div>*@
 
+
 @section Scripts{
     <script>
         let sizecheck = null;
@@ -358,9 +361,11 @@
         let editorder = null;
         let editid = null;
         let count = 1;
-
-
-
+        var carCount=0
+        //----購物車記數
+        //$('#CarCount').change(function () {
+        //    carCount += $('#CarCount').val()
+        //})
 
         //警示視窗
         $(`.alertcancel`).on(`click`, function () {

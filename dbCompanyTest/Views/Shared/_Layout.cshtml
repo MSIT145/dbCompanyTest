@@ -387,7 +387,7 @@
             console.log(reb);
             console.log(data);
             countM = 0;
-            //var countNum= data.count()
+            var countP=0;
             if (data != null) {
                 const carOpts = data.map((value) => {
                     id = value.id
@@ -417,7 +417,6 @@
                 TOTAL_TWD = `TOTAL TWD $${countM}`
                 carjson.innerHTML = carOpts.join("")
                 TotoM.innerHTML = TOTAL_TWD
-                //const TrashCan = document.querySelector('.purchase-icon-car');
                 $('.purchase-icon-car').on('click', () => {
                     console.log("123");
                     var a = $(event.currentTarget).find("input").val();
