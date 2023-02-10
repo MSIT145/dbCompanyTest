@@ -52,7 +52,7 @@
 .g-item {
     font-size: 16px;
     line-height: 20px;
-    height: 40px;
+    height: 58px;
     display: -webkit-box;
 }
 .price-box {
@@ -149,3 +149,17 @@
         display:block;
     }
 
+    .sclass {
+        font-size:17px;
+        color: #d5baa5;
+        font-weight:500;
+    }
+
+.tree-menu li {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+a:hover {
+    color: #BDAC9F;
+}

@@ -51,6 +51,7 @@ namespace dbCompanyTest.Controllers
                                 尺寸名稱 = h.尺寸種類,
                                 材質名稱 = c.商品材質
                             };
+                            
                 List<ProductWallViewModel> list = datas.ToList();
                 List<ProductWallViewModel> newlist = new List<ProductWallViewModel>();
                 foreach (var item in list)
@@ -300,6 +301,7 @@ namespace dbCompanyTest.Controllers
                                join procolor in _context.ProductsColorDetails on prodetail.商品顏色id equals procolor.商品顏色id
                                //join childselfcomment in _context.ChildComments on childcomment.訊息id equals childselfcomment.子訊息id
                                where item.商品編號id == Key && procolor.商品顏色id == pdm.商品顏色ID
+                               orderby prosize.尺寸種類
                                select new
                                {
                                    pro商品尺寸list = prosize.尺寸種類,
@@ -406,57 +408,64 @@ namespace dbCompanyTest.Controllers
         {
             TestClient TC = JsonSerializer.Deserialize<TestClient>(data["userdata"]);
             var user = _context.TestClients.FirstOrDefault(x => x.客戶編號 == TC.客戶編號);
-            if (user != null)
+            if (data["comment"] == "")
             {
-                if (Convert.ToInt32(data["count"]) == 1)
-                {
-
-                    ParentComment PC = new ParentComment();
-                    PC.內容 = data["comment"];
-                    PC.商品顏色id = Convert.ToInt32(data["colorid"]);
-                    PC.商品編號id = Convert.ToInt32(data["productid"]);
-                    PC.建立日期 = DateTime.Now;
-                    PC.客戶編號 = user.客戶編號;
-                    PC.客戶姓名 = user.客戶姓名;
-                    _context.ParentComments.Add(PC);
-                    _context.SaveChanges();
-                    ProductDetailViewModels pdm = selectData(data);
-
-                    return Json(pdm);
-                }
-                else if (Convert.ToInt32(data["count"]) == 2)
-                {
-                    ChildComment CC = new ChildComment();
-                    CC.內容 = data["comment"];
-                    CC.客戶姓名 = user.客戶姓名;
-                    CC.客戶編號 = user.客戶編號;
-                    CC.建立日期 = DateTime.Now;
-                    CC.子訊息id = null;
-                    CC.父訊息id = Convert.ToInt32(data["paretID"]);
-                    _context.ChildComments.Add(CC);
-                    _context.SaveChanges();
-                    ProductDetailViewModels pdm = selectData(data);
-                    return Json(pdm);
-
-                }
-                else
-                {
-                    ChildComment CC = new ChildComment();
-                    CC.內容 = data["comment"];
-                    CC.客戶姓名 = user.客戶姓名;
-                    CC.客戶編號 = user.客戶編號;
-                    CC.建立日期 = DateTime.Now;
-                    CC.父訊息id = Convert.ToInt32(data["paretID"]);
-                    CC.子訊息id = Convert.ToInt32(data["childID"]);
-                    _context.ChildComments.Add(CC);
-                    _context.SaveChanges();
-                    ProductDetailViewModels pdm = selectData(data);
-                    return Json(pdm);
-                }
+                return Content(null);
             }
             else
             {
-                return Json(null);
+                if (user != null)
+                {
+                    if (Convert.ToInt32(data["count"]) == 1)
+                    {
+
+                        ParentComment PC = new ParentComment();
+                        PC.內容 = data["comment"];
+                        PC.商品顏色id = Convert.ToInt32(data["colorid"]);
+                        PC.商品編號id = Convert.ToInt32(data["productid"]);
+                        PC.建立日期 = DateTime.Now;
+                        PC.客戶編號 = user.客戶編號;
+                        PC.客戶姓名 = user.客戶姓名;
+                        _context.ParentComments.Add(PC);
+                        _context.SaveChanges();
+                        ProductDetailViewModels pdm = selectData(data);
+
+                        return Json(pdm);
+                    }
+                    else if (Convert.ToInt32(data["count"]) == 2)
+                    {
+                        ChildComment CC = new ChildComment();
+                        CC.內容 = data["comment"];
+                        CC.客戶姓名 = user.客戶姓名;
+                        CC.客戶編號 = user.客戶編號;
+                        CC.建立日期 = DateTime.Now;
+                        CC.子訊息id = null;
+                        CC.父訊息id = Convert.ToInt32(data["paretID"]);
+                        _context.ChildComments.Add(CC);
+                        _context.SaveChanges();
+                        ProductDetailViewModels pdm = selectData(data);
+                        return Json(pdm);
+
+                    }
+                    else
+                    {
+                        ChildComment CC = new ChildComment();
+                        CC.內容 = data["comment"];
+                        CC.客戶姓名 = user.客戶姓名;
+                        CC.客戶編號 = user.客戶編號;
+                        CC.建立日期 = DateTime.Now;
+                        CC.父訊息id = Convert.ToInt32(data["paretID"]);
+                        CC.子訊息id = Convert.ToInt32(data["childID"]);
+                        _context.ChildComments.Add(CC);
+                        _context.SaveChanges();
+                        ProductDetailViewModels pdm = selectData(data);
+                        return Json(pdm);
+                    }
+                }
+                else
+                {
+                    return Content(null);
+                }
             }
 
         }
@@ -558,7 +567,7 @@ namespace dbCompanyTest.Controllers
             }
             else
             {
-                return Content("失敗請聯繫客服");
+                return Content(null);
             }
         }
         public IActionResult EditComment(IFormCollection data)
@@ -584,7 +593,7 @@ namespace dbCompanyTest.Controllers
             }
             else
             {
-                return Content("失敗請聯繫客服");
+                return Content(null);
             }
 
         }

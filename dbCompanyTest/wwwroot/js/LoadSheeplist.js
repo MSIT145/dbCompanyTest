@@ -18,22 +18,22 @@ $.ajax({
             if (lastSID !== i_val.訂單編號) {
                 rowCound++;
                 if (rowCound <= 5) {
-                    eleT = $(`<tr></tr>`).append(`<td  class="col-1">${i_val.訂單編號}</td>
-                        <td  class="col-1">${i_val.客戶編號}</td>                       
-                        <td  class="col-1">${i_val.商品數量}</td>
-                        <td  class="col-3">${i_val.送貨地址}</td>
-                        <td  class="col-1">
+                    eleT = $(`<tr class="tr-border"></tr>`).append(`<td  class="col-1  tds">${i_val.訂單編號}</td>
+                        <td  class="col-1 tds">${i_val.客戶編號}</td>                       
+                        <td  class="col-1 tds ">${i_val.商品數量}</td>
+                        <td  class="col-3 tdl">${i_val.送貨地址}</td>
+                        <td  class="col-1 tds">
                         <button class="btn btn-primary mb-3 btnView" data-bs-toggle="modal" data-bs-target="#addModal">詳細資料</button> 
                         </td>`
                     );
                     docFrag.append(eleT);
                 }
                 else {
-                    eleT_sec = $(`<tr></tr>`).append(`<td  class="col-1">${i_val.訂單編號}</td>
-                        <td  class="col-1">${i_val.客戶編號}</td>                       
-                        <td  class="col-1">${i_val.商品數量}</td>
-                        <td  class="col-3">${i_val.送貨地址}</td>
-                        <td  class="col-1">
+                    eleT_sec = $(`<tr class="tr-border"></tr>`).append(`<td  class="col-1 tds">${i_val.訂單編號}</td>
+                        <td  class="col-1 tds">${i_val.客戶編號}</td>                       
+                        <td  class="col-1 tds">${i_val.商品數量}</td>
+                        <td  class="col-3 tdl">${i_val.送貨地址}</td>
+                        <td  class="col-1 tds">
                         <button class="btn btn-primary mb-3 btnView" data-bs-toggle="modal" data-bs-target="#addModal">詳細資料</button> 
                         </td>`
                     );

@@ -15,7 +15,11 @@ namespace dbCompanyTest.Controllers
     public class TestStaffsController : Controller
     {
         dbCompanyTestContext _context = new dbCompanyTestContext();
-
+        private IWebHostEnvironment _environment;
+        public TestStaffsController(IWebHostEnvironment p)
+        {
+            _environment = p;
+        }
 
         // GET: TestStaffs
         public async Task<IActionResult> Index()
@@ -52,19 +56,49 @@ namespace dbCompanyTest.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("員工編號,員工姓名,員工電話,身分證字號,縣市,區,地址,Email,緊急聯絡人,聯絡人關係,聯絡人電話,部門,主管,職稱,密碼,薪資,權限,在職")] TestStaff testStaff)
+        public async Task<IActionResult> Create(CTestStaffViewModels mv)
         {
             var count = _context.TestStaffs.Count() + 1;
-            testStaff.員工編號 = $"ST{testStaff.身分證字號.Substring(1, 1)}-{count.ToString("0000")}{testStaff.身分證字號.Substring(6, 3)}";
+            mv.員工編號 = $"ST{mv.身分證字號.Substring(1, 1)}-{count.ToString("0000")}{mv.身分證字號.Substring(6, 3)}";
 
             if (ModelState.IsValid)
             {
-                _context.Add(testStaff);
+                string FileNameSub = mv.File.FileName;
+                string[] words = FileNameSub.Split('.');
+                int FileTypeIndex = words.Length;
+                string FileType = words[FileTypeIndex - 1];
+
+                string FileName = $"{mv.員工編號}.jpg";
+                string path = _environment.WebRootPath + "\\Sign\\" + FileName;
+
+                using (FileStream file = new FileStream(path, FileMode.Create))
+                {
+                    mv.File.CopyTo(file);
+                }
+
+
+                _context.Add(mv.testStaff);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(testStaff);
+            return View(mv);
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("員工編號,員工姓名,員工電話,身分證字號,縣市,區,地址,Email,緊急聯絡人,聯絡人關係,聯絡人電話,部門,主管,職稱,密碼,薪資,權限,在職")] TestStaff testStaff)
+        //{
+        //    var count = _context.TestStaffs.Count() + 1;
+        //    testStaff.員工編號 = $"ST{testStaff.身分證字號.Substring(1, 1)}-{count.ToString("0000")}{testStaff.身分證字號.Substring(6, 3)}";
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(testStaff);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(testStaff);
+        //}
 
         // GET: TestStaffs/Edit/5
         public async Task<IActionResult> Edit(string id)

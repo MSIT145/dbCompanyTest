@@ -32,7 +32,8 @@
                 </ol>
             </nav>
         </div>
-            <div class="keywords-btn-pc col-lg-1 ">篩選條件</div>
+            @*<div class="keywords-btn-pc col-lg-1 ">篩選條件</div>*@
+            <div class="col-lg-1 "></div>
             <div class="col-lg-2 "></div>
 
     </div>
@@ -40,8 +41,18 @@
         <div class="col-lg-2"></div>
         <div class="col-lg-8 d-flex">
             <div class="col-md-2 row ">
-                <div class="col-md-6">
-                    <ul class="list-inline shop-top-menu pb-3 pt-1" id="sclass">
+                <div class="col-md-8">
+                    @{
+                        string type1 = "";
+                        int typeid1 = 0;
+                        foreach (var item in Model)
+                        {
+                            type1 = item.商品分類名稱;
+                            typeid1 = item.商品分類id;
+                        }
+                        <a class="list-inline-item sclass" asp-controller="ProductWall" asp-action="Index" asp-route-id="@typeid1">@type1</a>
+                    }
+                    <ul class="tree-menu list-inline shop-top-menu pb-3 pt-1" id="sclass">
 
                         @*@foreach (var item in Model)
                         {
@@ -87,6 +98,7 @@
                     </div>
                 }
                 <nav>
+                    <br />
                     <ul class="pagination justify-content-center ">
                         @*        <li class="page-item">
                         <a class="page-link" href="#" aria-label="Previous">
@@ -113,6 +125,7 @@
 </div>
 
 <br />
+
 
 @section Scripts{
     <script>$("#select").load("@Url.Content("~/ProductWall/selectview")")</script>

@@ -7,6 +7,41 @@
             font-weight:bold;
             color:white;
         }
+        .modal.show .modal-dialog {
+            transform: none;
+            top: 30%;
+            width: 400px;
+        }
+        .modal-body {
+            position: relative;
+            flex: 1 1 auto;
+            padding: 1rem;
+            text-align: center;
+        }
+        .modal-header {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1rem;
+            border-bottom: none;
+            border-top-left-radius: calc(0.3rem - 1px);
+            border-top-right-radius: calc(0.3rem - 1px);
+        }
+        .modal-footer {
+            display: flex;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem;
+            border-top: none;
+            border-bottom-right-radius: calc(0.3rem - 1px);
+            border-bottom-left-radius: calc(0.3rem - 1px);
+        }
+        a:hover {
+            color: #BDAC9F;
+        }
     </style>
 }
 
@@ -82,7 +117,7 @@
                     </div>
                     <br />
                     <div class="form-group">
-                        <input type="submit" value="確定修改" class="btn btncolor" asp-action="memberInfo" id="infobtn"/>
+                        <input type="button" value="確定修改" class="btn btncolor"  id="infobtn"/>
                     </div>
                 </div>
                 <div class="col-md-2"></div>
@@ -106,12 +141,47 @@
                     </div>
                     <br />
                     <div class="form-group ">
-                        <input type="submit" value="確定修改" class="btn  btncolor " asp-action="password" id="updateBtn" />
+                        <input type="button" value="確定修改" class="btn  btncolor "  id="updateBtn" />
                     </div>
                 </div>
                 <div class="col-md-1"></div>
 
 
+            </div>
+
+            <!-- Model模板 -->
+            <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+                        </div>
+                        <div class="modal-body">
+                            資料修改成功
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" value=" OK " class="btn btncolor" asp-action="memberInfo" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model模板 -->
+            <div class="modal fade" id="exampleModal1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+                        </div>
+                        <div class="modal-body">
+                            密碼修改成功
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" value=" OK " class="btn  btncolor " asp-action="password" id="updateBtn" />
+
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </form>
@@ -124,21 +194,7 @@
         <input asp-for="性別" type="hidden" id="sexvalue" />
     </div>
 
-<div class="modal" id="alert" style="display:none;">
-    <div class="modal-box">
-        <div class="modal-content">
-            <div class="modal-header"><div class="modal-close"></div></div>
-            <div class="content-box">
-                <div class="modal-text"></div>
-                <div style="display:flex; justify-content:center;">
-                    <input type="button" class="btn btn-primary alertsubmit me-2" value="確認" />
-                    <input type="button" class="btn btn-secondary alertcancel ms-2" value="取消" />
-                </div>
 
-            </div>
-        </div>
-    </div>
-</div>
 
 
     @section Scripts {
@@ -225,15 +281,20 @@
 
             })
 
+                let myModal = document.getElementById("myModal");
+                let exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                let exampleModal1 = new bootstrap.Modal(document.getElementById('exampleModal1'));
 
             $("#infobtn").click(function(){
-                alert("資料修改成功");
-                const myModal = new bootstrap.Modal('#exampleModal');
-                //顯示 Modal
-                myModal.show();
+                //alert("資料修改成功");
+
+                    exampleModal.show();
+            
             })
                 $("#updateBtn").click( function () {
-                    alert("密碼修改成功");
+                    //alert("密碼修改成功");
+                    exampleModal1.show();
+
                     //$.ajax({
                     //    type: "POST",
                     //    url: "/MemberCenter/password",

@@ -44,3 +44,7 @@
     .c2logout p {
         margin: 0px 0px 0px 10px;
     }
+
+a:hover {
+    color: #BDAC9F;
+}

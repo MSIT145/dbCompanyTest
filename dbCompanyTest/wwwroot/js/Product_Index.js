@@ -23,7 +23,8 @@ function check_ProSize() {
     let errorstr = "";
     //尺寸種類
     let 尺寸種類 = form.find("input[name='尺寸種類']");
-    errorstr += check_null_number(尺寸種類, "尺寸種類")
+  //  errorstr += check_null_number(尺寸種類, "尺寸種類")
+    errorstr += check_null_lenth(尺寸種類, "尺寸種類")
     return errorstr;
 }
 
