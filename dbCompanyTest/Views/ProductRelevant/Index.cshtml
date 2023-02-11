@@ -224,7 +224,7 @@
             TBcolor = $('#tableColor').DataTable(
                {
                     "language": lang,
-                   "searching":false,
+                   "searching":true,
                     "ajax": `@Url.Content("~/ProductRelevant/ColorList")`,
                     "type":'get',
                     "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
@@ -278,7 +278,7 @@
             TBsize = $('#tableSize').DataTable(
                 {
                     "language":lang,
-                    "searching": false,
+                    "searching": true,
                     "ajax": `@Url.Content("~/ProductRelevant/SizeList")`,
                     "type": 'get',
                     "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
@@ -318,7 +318,7 @@
             TBtype = $('#tableType').DataTable(
                 {
                     "language": lang,
-                    "searching": false,
+                    "searching": true,
                     "ajax": `@Url.Content("~/ProductRelevant/TypeList")`,
                     "type": 'get',
                     "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
@@ -358,7 +358,7 @@
             TBshoes = $('#tableShoes').DataTable(
                 {
                     "language": lang,
-                    "searching": false,
+                    "searching": true,
                     "ajax": `@Url.Content("~/ProductRelevant/ShoesList")`,
                     "type": 'get',
                     "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
