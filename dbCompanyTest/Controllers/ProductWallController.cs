@@ -14,6 +14,7 @@ using static dbCompanyTest.ViewModels.ProductDetailViewModels;
 using Microsoft.AspNetCore.SignalR;
 using iText.StyledXmlParser.Jsoup.Nodes;
 using NPOI.OpenXmlFormats.Spreadsheet;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace dbCompanyTest.Controllers
 {
@@ -51,7 +52,7 @@ namespace dbCompanyTest.Controllers
                                 尺寸名稱 = h.尺寸種類,
                                 材質名稱 = c.商品材質
                             };
-                            
+
                 List<ProductWallViewModel> list = datas.ToList();
                 List<ProductWallViewModel> newlist = new List<ProductWallViewModel>();
                 foreach (var item in list)
@@ -224,7 +225,7 @@ namespace dbCompanyTest.Controllers
             pdm.pro商品尺寸list = new List<string>();
             pdm.pro商品尺寸idlist = new List<int>();
             pdm.pro商品顏色idlist = new List<int>();
-            pdm.pro商品分類idlist = new List<int>();
+            pdm.pro商品分類list = new List<productrandom>();
             //ParetComment
             pdm.paretCommentslist = new List<paretCommentclass>();
             ////ChildComment
@@ -372,6 +373,26 @@ namespace dbCompanyTest.Controllers
                     pdm.childCommentlist.Add(childlist);
                     pdm.childCommentlist = pdm.childCommentlist.Distinct().ToList();
                 }
+                //隨機取出商品
+                var redomton = from item in _context.Products
+                               join prodetail in _context.ProductDetails on item.商品編號id equals prodetail.商品編號id
+                               join propictrue in _context.圖片位置s on prodetail.圖片位置id equals propictrue.圖片位置id
+                               where item.商品分類id == pdm.pro商品分類id
+                               orderby Guid.NewGuid()
+                               select new {
+                                   商品編號id = item.商品編號id,
+                                   商品顏色id = prodetail.商品顏色id,
+                                   商品圖片1 = propictrue.商品圖片1,
+                               };
+                foreach (var item in redomton.Take(4))
+                {
+                    productrandom prm = new productrandom();
+                    prm.pro商品編號 = item.商品編號id;
+                    prm.商品顏色ID = (int)item.商品顏色id;
+                    prm.商品圖片1 = item.商品圖片1;
+                    pdm.pro商品分類list.Add(prm);
+                };
+
                 if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
                 {
                     string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
