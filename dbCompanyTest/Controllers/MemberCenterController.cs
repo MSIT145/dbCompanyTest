@@ -109,6 +109,8 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult orderInfoDetail(string id)
         {
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+                return RedirectToAction("Login","Login");
             var data = from c in _context.Orders
                        join d in _context.OrderDetails on c.訂單編號 equals d.訂單編號
                        join e in _context.ProductDetails on d.Id equals e.Id
