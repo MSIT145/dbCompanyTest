@@ -31,12 +31,14 @@
         </div>
         <div id="nextSlide" class="slide_btn">
             <i class="fa-solid fa-caret-right"></i>
+
         </div>
-            @*<div class="d-carouse">
+
+            <div class="d-carouse">
                 <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" />
                 <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" />
                 <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" />
-            </div>*@
+            </div>
     </div>
     <div class="d-right-detail">
         <br/>
@@ -51,11 +53,11 @@
                     {
                         if (Model.pro商品顏色idlist[i] == Model.商品顏色ID)
                         {
-                                                                <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                           <div class="d-right-color-item  active"><div class="d-right-color-item-color"><a id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
                         }
                         else
                         {
-                                                                <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品編號+"&colorID="+Model.pro商品顏色idlist[i])" id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
+                           <div class="d-right-color-item"><div class="d-right-color-item-color"><a href="@Url.Content("~/ProductWall/Details?id="+Model.pro商品編號+"&colorID="+Model.pro商品顏色idlist[i])" id="@Model.pro商品顏色idlist[i]"><img src="@Url.Content("~/images/colorimg/"+Model.pro商品顏色圖片list[i])"></img></a></div></div>
                         }
 
                     }
@@ -68,7 +70,7 @@
                 @{
                     for (int i = 0; i < Model.pro商品尺寸list.Count; i++)
                     {
-                                                            <div class="size-item" id="@Model.pro商品尺寸idlist[i]">@Model.pro商品尺寸list[i]</div>
+                       <div class="size-item" id="@Model.pro商品尺寸idlist[i]">@Model.pro商品尺寸list[i]</div>
                     }
                 }
             </div>
@@ -271,24 +273,30 @@
 
 
         </div>
-    </div>    
-</div>
+    </div>
+
 <div>
     <div style="display:flex;justify-content:center;">
         <div>
             <div>YOU MAY ALSO LIKE</div>
             <div style="display:flex;" class="youmustlike">
-            @{
-                foreach (var item in Model.pro商品分類list)
-                {
-                    <div><a href="@Url.Content("~/ProductWall/Details?id="+item.pro商品編號+"&colorID="+item.商品顏色ID)"><img src="@Url.Content("~/images/"+item.商品圖片1)" /></a></div>
-                }
-            }
+                        @{
+                            foreach (var item in Model.pro商品分類list)
+                            {
+                        <div><a href="@Url.Content("~/ProductWall/Details?id="+item.pro商品編號+"&colorID="+item.商品顏色ID)"><img src="@Url.Content("~/images/"+item.商品圖片1)" /></a></div>
+                            }
+                        }
             </div>
         </div>
-        <br/>
+        <br />
     </div>
 </div>
+
+
+
+
+</div>
+
 
 @*返回頂部*@
 @*<div class="web-top">
@@ -370,12 +378,10 @@
         let slideCount = $(".slides li").length;
         let lastIndex = slideCount - 1;
         let ch = true;
-        //console.log(slideCount);
         $(".Carousedot li").eq(0).css("background-color", "#fff");
 
         $(".Carousedot li").hover(function () {
             slideNum = $(this).index();
-            //console.log(slideNum);
             show();
         });
 

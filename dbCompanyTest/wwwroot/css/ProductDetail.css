@@ -85,7 +85,7 @@ time, mark, audio, video {
 
 .detail-center {
     float: left;
-    max-width: 100%;
+    /*max-width: 100%;*/
 }
 
 
@@ -123,7 +123,7 @@ time, mark, audio, video {
     .d-carouse {
         /*width: 480px;*/
         /*max-height: 600px;*/
-        position: relative;
+        position: absolute;
         width: 480px;
         height: auto;
         overflow: hidden;
@@ -160,6 +160,7 @@ time, mark, audio, video {
     width: 3200px;
     left: 0px;
     transition: all .5s;
+    z-index:5;
 }
 
 .d-carouse ul.slides li {
@@ -259,7 +260,7 @@ time, mark, audio, video {
     float: right;
     max-width: 100%;
     width: 20%;
-    
+    z-index:6;
 }
     
     .d-right-detail .itemdivborder {
