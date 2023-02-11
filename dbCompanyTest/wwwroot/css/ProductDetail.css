@@ -121,8 +121,13 @@ time, mark, audio, video {
 
 @media screen and (max-width:500px) {
     .d-carouse {
-        width: 480px;
+        /*width: 480px;*/
         /*max-height: 600px;*/
+        position: relative;
+        width: 480px;
+        height: auto;
+        overflow: hidden;
+        margin: 0 auto;
     }
 
         .d-carouse img {
@@ -138,18 +143,107 @@ time, mark, audio, video {
     }
 }
 
-.d-carouse {
-    width: 600px;
+
+.d-carouse ul {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+}
+
+.d-carouse li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.d-carouse ul.slides {
+    width: 3200px;
+    left: 0px;
+    transition: all .5s;
+}
+
+.d-carouse ul.slides li {
+    width: 800px;
     height: auto;
+    overflow: hidden;
+    float: left;
+}
+
+.d-carouse ul.slides li img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.Carousedot {
+    bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+    .Carousedot li {
+        border: 1px solid #fff;
+        /*border-radius: 50%;*/
+        margin: 0 5px;
+        width: 24px;
+        height: 10px;
+    }
+/*.dot li:hover{
+            background: #fff;
+        }*/
+.d-carouse .slide_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    color: #fff;
+    position: absolute;
+    font-size: 24px;
+}
+
+.d-carouse #prevSlide {
+    left: 0;
+}
+
+.d-carouse #nextSlide {
+    right: 0;
+}
+
+.d-carouse .slide_btn i {
+    color: rgba(255,255,255,.6);
+    transition: .5s;
+}
+
+.d-carouse .slide_btn:hover i {
+    color: rgba(255,255,255,1);
+}
+
+
+
+
+
+
+.d-carouse {
+    /*width: 600px;
+    height: auto;
+    float: none;*/
+    position: relative;
+    width: 800px;
     float: none;
+    height: auto;
+    overflow: hidden;
+    margin: 0 auto;
 }
 
     .d-carouse img {
-        width: inherit;
+        /*width: inherit;
         height: inherit;
         transform: scale(1,1);
         transition: all 1s ease-out;
-        float: none;
+        float: none;*/
     }
 
 .d-carouse-pic {
@@ -662,3 +756,5 @@ img:hover{transform:scale(1.2,1.2);}
 .back-top {
     background-image: url(/images/top.jpg);
 }
+
+

@@ -13,42 +13,30 @@
 
             <span>@Model.pro商品名稱 @Model.pro商品顏色</span>
         </div>
-        @*輪播*@
-        <div id="carouselExampleDark" class="carousel carousel-dark slide d-carouse">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3" aria-label="Slide 4"></button>
-            </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active d-carouse-pic" data-bs-interval="2000">
-                    <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" class="d-block" alt="...">
-                </div>
-                <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
-                    <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" class="d-block" alt="...">
-                </div>
-                <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
-                    <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" class="d-block" alt="...">
-                </div>
-                <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
-                    <img src="@Url.Content("~/images/尺寸對照表.jpeg")" class="d-block" alt="...">
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
         <div class="d-carouse">
-            <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" />
-            <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" />
-            <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" />
+        <ul class="slides">
+            <li class="d-carouse-pic"><img src="@Url.Content("~/images/"+Model.pro商品圖片1)" alt=""></li>
+            <li class="d-carouse-pic"><img src="@Url.Content("~/images/"+Model.pro商品圖片2)" alt=""></li>
+            <li class="d-carouse-pic"><img src="@Url.Content("~/images/"+Model.pro商品圖片3)" alt=""></li>
+            <li class="d-carouse-pic"><img src="@Url.Content("~/images/尺寸對照表.jpeg")" alt=""></li>
+        </ul>
+            <ul class="Carousedot">
+            <li id="1"></li>
+            <li id="2"></li>
+            <li id="3"></li>
+            <li id="4"></li>
+        </ul>
+        <div id="prevSlide" class="slide_btn">
+            <i class="fa-solid fa-caret-left"></i>
         </div>
+        <div id="nextSlide" class="slide_btn">
+            <i class="fa-solid fa-caret-right"></i>
+        </div>
+            @*<div class="d-carouse">
+                <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" />
+                <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" />
+                <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" />
+            </div>*@
     </div>
     <div class="d-right-detail">
         <br/>
@@ -376,11 +364,47 @@
         let editorder = null;
         let editid = null;
         let count = 1;
-        var carCount=0
-        //----購物車記數
-        //$('#CarCount').change(function () {
-        //    carCount += $('#CarCount').val()
-        //})
+        var carCount=0;
+        //輪播
+        let slideNum = 0;
+        let slideCount = $(".slides li").length;
+        let lastIndex = slideCount - 1;
+        let ch = true;
+        //console.log(slideCount);
+        $(".Carousedot li").eq(0).css("background-color", "#fff");
+
+        $(".Carousedot li").hover(function () {
+            slideNum = $(this).index();
+            //console.log(slideNum);
+            show();
+        });
+
+        function show() {
+            $(".Carousedot li").siblings().css("background-color", "transparent").eq(slideNum).css("background-color", "#fff");
+            let slidemove = -800 * slideNum;
+            $("ul.slides").css("left", slidemove);
+        }
+        $("#prevSlide").hover(function () { ch = false; }, function () { ch = true; }).click(function () {
+            slideNum = --slideNum < 0 ? slideNum = lastIndex : slideNum;
+            show();
+
+        })
+        $("#nextSlide").hover(function () { ch = false; }, function () { ch = true; }).click(function () {
+            slideNum = ++slideNum > lastIndex ? slideNum = 0 : slideNum;
+            show();
+        })
+        let Carouselcount = window.setInterval(function () {
+            if (ch) {
+                slideNum = ++slideNum > lastIndex ? slideNum = 0 : slideNum;
+                show();
+            }
+        }, 2000);
+        $("ul.slides li img").hover(function () {
+            ch = false;
+        }
+            , function () {
+                ch = true;
+            })
 
         //警示視窗
         $(`.alertcancel`).on(`click`, function () {
