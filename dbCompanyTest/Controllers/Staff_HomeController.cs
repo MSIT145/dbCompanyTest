@@ -8,8 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NPOI.OpenXmlFormats.Wordprocessing;
 using System.Net.Mail;
+using System.Runtime.Intrinsics.Arm;
 using System.Security.Policy;
 using System.Security.Principal;
+using System.Text.Json;
+using System.Threading.Tasks.Dataflow;
 using static dbCompanyTest.Controllers.ProductController;
 using static NuGet.Packaging.PackagingConstants;
 
@@ -23,12 +26,26 @@ namespace dbCompanyTest.Controllers
         {
             _environment = p;
         }
-        public IActionResult Index()
+        public void Staff_Information() 
         {
+            string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_INFO_SESSION);
+            var data = JsonSerializer.Deserialize<TestStaff>(json);
+            CStaffInfo info = new CStaffInfo();
+            info.stfNum = data.員工編號;
+            info.stfName = data.員工姓名;
+            info.stfDep = data.部門;
+            ViewBag.inf = info;
+
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
-
             ViewBag.acc = $"{stfNum} {stf.員工姓名} {stf.部門}";
+            ViewBag.dep = stf.部門;
+        }
+        public IActionResult Index()
+        {
+            Staff_Information();
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
+            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             if (stf.部門 == "行政" || stf.部門 == "執行長室")
                 return View();
             else
@@ -36,10 +53,9 @@ namespace dbCompanyTest.Controllers
         }
         public async Task<IActionResult> Index_HR()
         {
+            Staff_Information();
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
-
-            ViewBag.HR = $"{stfNum} {stf.員工姓名} {stf.部門}";
             if (stf.部門 == "人事")
                 return View(await _context.TestStaffs.ToListAsync());
             else return RedirectToAction("Index");
@@ -71,8 +87,12 @@ namespace dbCompanyTest.Controllers
             {
                 if (x.密碼.Equals(password) && x.員工編號.Equals(account))
                 {
+                    string json = System.Text.Json.JsonSerializer.Serialize(x);
                     if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+                    {
                         HttpContext.Session.SetString(CDittionary.SK_STAFF_NUMBER_SESSION, account);
+                        HttpContext.Session.SetString(CDittionary.SK_STAFF_INFO_SESSION, json);
+                    }
                     return Content("success");
                 }
             }
@@ -89,6 +109,7 @@ namespace dbCompanyTest.Controllers
         public IActionResult logout()
         {
             HttpContext.Session.Remove(CDittionary.SK_STAFF_NUMBER_SESSION);
+            HttpContext.Session.Remove(CDittionary.SK_STAFF_INFO_SESSION);
             return RedirectToAction("login");
         }
         public IActionResult PartialSheeplist()
@@ -101,20 +122,14 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult Create_TDL()
         {
-            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
-            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
-
-            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
+            Staff_Information();
             return View();
         }
 
         public IActionResult DT_TDL(int listNum, string listType)
         {
-            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
-            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
-            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
-            ViewBag.dep = stf.部門;
-
+            
+            Staff_Information();
             if (listType == "人事表單")
             {
                 return RedirectToAction("DT_TDL_HR", new { listNum = listNum });
@@ -189,10 +204,7 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult DT_TDL_RG(int listNum)
         {
-            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
-            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
-            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
-            ViewBag.dep = stf.部門;
+            Staff_Information();
             var data = _context.ToDoLists.FirstOrDefault(c => c.交辦事項id == listNum);
             return View(data);
         }
@@ -483,12 +495,19 @@ namespace dbCompanyTest.Controllers
 
 
 
-        public void stfNum_and_inf0()
+        public IActionResult stfNum_and_inf0()
         {
-            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
-            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
-            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
-            ViewBag.dep = stf.部門;
+            string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_INFO_SESSION);
+            var data = JsonSerializer.Deserialize<TestStaff>(json);
+            CStaffInfo info = new CStaffInfo();
+            info.stfNum = data.員工編號;
+            info.stfName = data.員工姓名;
+            info.stfDep = data.部門;
+            info.stfpos = data.職稱;
+            //ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
+            //ViewBag.dep = stf.部門;
+
+            return Json(info);
         }
         public IActionResult ListWaiting()
         {
