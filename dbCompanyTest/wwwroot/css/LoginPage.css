@@ -1,9 +1,12 @@
 ﻿body {
 }
 
-
+hr {
+    width: 50%;
+    margin: 20px auto;
+}
 #LoginBack {
-    background-image: url("https://localhost:7100/images/LoginPage.png");
+    /*background-image: url("https://localhost:7100/images/LoginPage.png");*/
     /*background-size:contain;*/
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -12,6 +15,7 @@
     width: 100%;
     height: 800px;
     color: white;
+    transition:all 0.3s;
 }
 
     #LoginBack #loginPage {
@@ -20,6 +24,7 @@
         height: 100%;
         text-align: center;
         opacity: 1;
+        transition:all 0.3s;
     }
 
 #selfLogin {
@@ -94,4 +99,70 @@
 
 #create{
     cursor:pointer;
+}
+
+@media screen and (max-width:1000px){
+    #LoginBack #loginPage {
+        margin: 0 0 0 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        opacity: 1;
+        transition: all 0.3s;
+    }
+    .Linput {
+        margin: 3px auto;
+        width: 50%;
+        height: 36px;
+        border: 3px solid gray;
+        border-radius: 50px;
+        text-align: center;
+        transition: all 0.3s;
+        opacity: 0.5;
+    }
+        .Linput:hover {
+            width: 50%;
+        }
+    .login {
+        margin: 3px auto;
+        width: 50%;
+        border: 3px solid dimgray;
+        border-radius: 50px;
+        text-align: center;
+        transition: all 0.3s;
+        background-color: dimgray;
+        color: white;
+        cursor: pointer;
+    }
+}
+
+@media screen and (max-width:600px) {
+
+    .Linput {
+        margin: 3px auto;
+        width: 80%;
+        height: 36px;
+        border: 3px solid gray;
+        border-radius: 50px;
+        text-align: center;
+        transition: all 0.3s;
+        opacity: 0.5;
+    }
+        .Linput:hover {
+            width: 80%;
+        }
+    .login {
+        margin: 3px auto;
+        width: 80%;
+        border: 3px solid dimgray;
+        border-radius: 50px;
+        text-align: center;
+        transition: all 0.3s;
+        background-color: dimgray;
+        color: white;
+        cursor: pointer;
+    }
+    hr {
+        width: 80%;
+    }
 }

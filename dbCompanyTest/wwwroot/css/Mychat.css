@@ -145,7 +145,7 @@
     border: 1px solid white;
     border-radius: 50px;
     cursor: pointer;
-    background-image: url("https://localhost:7100/images/dog.jpg");
+    /*background-image: url("https://localhost:7100/images/dog.jpg");*/
     background-repeat: no-repeat;
     background-size: 90px;
 }
