@@ -18,6 +18,8 @@ time, mark, audio, video {
     font-weight: normal;
     /*vertical-align: baseline;*/
     list-style: none;
+    box-sizing: content-box;
+    /*font-family: sans-serif, "Arial", "Microsoft YaHei", "黑體", "宋體", "微軟雅黑";*/
 }
 
 @media screen and (max-width:500px) {
@@ -36,12 +38,13 @@ time, mark, audio, video {
     time, mark, audio, video {
         margin-left: 0.3px;
         list-style: none;
+        
     }
 }
 
 .youmustlike img {
-    width: 80px;
-    height: 90px;
+    width: 250px;
+    height: 350px;
     transform: scale(1,1);
     transition: all 1s ease-out;
     float: none;
@@ -50,11 +53,11 @@ time, mark, audio, video {
 
 
 
-html, body {
+/*html, body {
     width: 100%;
     font-family: sans-serif, "Arial", "Microsoft YaHei", "黑體", "宋體", "微軟雅黑";
 }
-
+*/
 /*a {
     text-decoration: none;*/
     /*z-index: -1;*/
@@ -118,13 +121,13 @@ html, body {
 
 @media screen and (max-width:500px) {
     .d-carouse {
-        max-width: 480px;
+        width: 480px;
         /*max-height: 600px;*/
     }
 
         .d-carouse img {
-            max-width: 480px;
-            max-height: 600px;
+            width: 480px;
+            height: 600px;
             transform: scale(1,1);
             transition: all 1s ease-out;
         }
@@ -137,7 +140,7 @@ html, body {
 
 .d-carouse {
     width: 600px;
-    /*height: 800px;*/
+    height: auto;
     float: none;
 }
 
@@ -207,7 +210,7 @@ html, body {
 
 
     .d-right-detail .userreport input{
-        margin-left:15px;
+        /*margin-left:15px;*/
 
     }
     .d-right-detail .itemCommentContent span{
@@ -549,6 +552,7 @@ img:hover{transform:scale(1.2,1.2);}
     justify-content: space-between;
     border: 1px solid #d3d3d5;
     margin-bottom: 10px;
+    width:100%;
     
 }
     .p-num-box .icon {
@@ -597,8 +601,8 @@ img:hover{transform:scale(1.2,1.2);}
 
 
 .p-details {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 14px;
+    margin-bottom: 14px;
 }
 
 .name {

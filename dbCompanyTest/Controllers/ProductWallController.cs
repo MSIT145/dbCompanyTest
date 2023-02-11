@@ -287,14 +287,14 @@ namespace dbCompanyTest.Controllers
                                     pro商品顏色圖片list = procolor.商品顏色圖片,
                                     pro商品顏色idlist = prodetail.商品顏色id,
                                 };
-                foreach (var CC in totallist)
+                foreach (var CC in totallist.Distinct())
                 {
 
                     pdm.pro商品顏色圖片list.Add(CC.pro商品顏色圖片list);
                     pdm.pro商品顏色idlist.Add((int)(CC.pro商品顏色idlist));
                     pdm.pro商品顏色圖片list = pdm.pro商品顏色圖片list.Distinct().ToList();
-                    pdm.pro商品顏色idlist = pdm.pro商品顏色idlist.Distinct().ToList();
                 }
+                //pdm.pro商品顏色idlist = pdm.pro商品顏色idlist.Distinct().ToList();
 
                 //取出此商品顏色有幾種size
                 //Comment撈取資料
@@ -310,17 +310,15 @@ namespace dbCompanyTest.Controllers
                                {
                                    pro商品尺寸list = prosize.尺寸種類,
                                    pro商品尺寸idlist = prosize.商品尺寸id,
-
-
                                };
-                foreach (var SS in listsize)
+                foreach (var SS in listsize.Distinct())
                 {
 
                     pdm.pro商品尺寸list.Add(SS.pro商品尺寸list);
                     pdm.pro商品尺寸list = pdm.pro商品尺寸list.Distinct().ToList();
                     pdm.pro商品尺寸idlist.Add(SS.pro商品尺寸idlist);
-                    pdm.pro商品尺寸idlist = pdm.pro商品尺寸idlist.Distinct().ToList();
                 }
+                //pdm.pro商品尺寸idlist = pdm.pro商品尺寸idlist.Distinct().ToList();
                 #endregion
                 var ParetCommentList = from item in _context.ParentComments
                                        where item.商品編號id == Key && item.商品顏色id == pdm.商品顏色ID
@@ -332,7 +330,7 @@ namespace dbCompanyTest.Controllers
                                            paretCommentGuestNameList = item.客戶姓名,
                                            paretCommentList = item.內容,
                                        };
-                foreach (var comment in ParetCommentList)
+                foreach (var comment in ParetCommentList.Distinct())
                 {
                     paretCommentclass partlist = new paretCommentclass();
                     //加入partlist
@@ -342,8 +340,8 @@ namespace dbCompanyTest.Controllers
                     partlist.paretCommentGuestID = comment.paretCommentGuestIDList;
                     partlist.paretCommentGuestName = comment.paretCommentGuestNameList;
                     pdm.paretCommentslist.Add(partlist);
-                    pdm.paretCommentslist = pdm.paretCommentslist.Distinct().ToList();
                 }
+                //pdm.paretCommentslist = pdm.paretCommentslist.Distinct().ToList();
                 var ChildCommentList = from item in _context.ParentComments
                                        join childcomment in _context.ChildComments on item.訊息id equals childcomment.父訊息id
                                        where item.商品編號id == Key && item.商品顏色id == pdm.商品顏色ID
@@ -357,7 +355,7 @@ namespace dbCompanyTest.Controllers
                                            childCommentParet = childcomment.父訊息id,
                                            childCommentchildid = childcomment.子訊息id
                                        };
-                foreach (var comment in ChildCommentList)
+                foreach (var comment in ChildCommentList.Distinct())
                 {
                     childCommentclass childlist = new childCommentclass();
                     //加入childlist
@@ -371,26 +369,28 @@ namespace dbCompanyTest.Controllers
                     //子訊息ID
                     childlist.childCommentchildid = comment.childCommentchildid;
                     pdm.childCommentlist.Add(childlist);
-                    pdm.childCommentlist = pdm.childCommentlist.Distinct().ToList();
                 }
+                //pdm.childCommentlist = pdm.childCommentlist.Distinct().ToList();
                 //隨機取出商品
                 var redomton = from item in _context.Products
                                join prodetail in _context.ProductDetails on item.商品編號id equals prodetail.商品編號id
                                join propictrue in _context.圖片位置s on prodetail.圖片位置id equals propictrue.圖片位置id
                                where item.商品分類id == pdm.pro商品分類id
                                orderby Guid.NewGuid()
-                               select new {
+                               select new 
+                               {
                                    商品編號id = item.商品編號id,
                                    商品顏色id = prodetail.商品顏色id,
                                    商品圖片1 = propictrue.商品圖片1,
                                };
-                foreach (var item in redomton.Take(4))
+                foreach (var item in redomton.Take(4).Distinct())
                 {
                     productrandom prm = new productrandom();
                     prm.pro商品編號 = item.商品編號id;
                     prm.商品顏色ID = (int)item.商品顏色id;
                     prm.商品圖片1 = item.商品圖片1;
                     pdm.pro商品分類list.Add(prm);
+                    
                 };
 
                 if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
@@ -519,8 +519,9 @@ namespace dbCompanyTest.Controllers
                 partlist.paretCommentGuestID = item.paretCommentGuestIDList;
                 partlist.paretCommentGuestName = item.paretCommentGuestNameList;
                 pdm.paretCommentslist.Add(partlist);
-                pdm.paretCommentslist = pdm.paretCommentslist.Distinct().ToList();
             }
+            pdm.paretCommentslist = pdm.paretCommentslist.Distinct().ToList();
+
             var ChildCommentList = from item in _context.ParentComments
                                    join childcomment in _context.ChildComments on item.訊息id equals childcomment.父訊息id
                                    where item.商品編號id == Convert.ToInt32(data["productid"]) && item.商品顏色id == Convert.ToInt32(data["colorid"])
@@ -546,8 +547,8 @@ namespace dbCompanyTest.Controllers
                 childlist.childCommentParet = item.childCommentParet;
                 childlist.childCommentchildid = item.childCommentchildid;
                 pdm.childCommentlist.Add(childlist);
-                pdm.childCommentlist = pdm.childCommentlist.Distinct().ToList();
             }
+            pdm.childCommentlist = pdm.childCommentlist.Distinct().ToList();
 
             pdm.商品顏色ID = Convert.ToInt32(data["colorid"]);
             pdm.pro商品編號 = Convert.ToInt32(data["productid"]);

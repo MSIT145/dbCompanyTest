@@ -14,21 +14,25 @@
             <span>@Model.pro商品名稱 @Model.pro商品顏色</span>
         </div>
         @*輪播*@
-        <div id="carouselExampleDark" class="carousel carousel-dark slide d-carouse carousel-fade">
+        <div id="carouselExampleDark" class="carousel carousel-dark slide d-carouse">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3" aria-label="Slide 4"></button>
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active d-carouse-pic" data-bs-interval="2000">
-                    <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" class="d-block " alt="...">
+                    <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" class="d-block" alt="...">
                 </div>
                 <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
-                    <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" class="d-block " alt="...">
+                    <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" class="d-block" alt="...">
                 </div>
                 <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
-                    <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" class="d-block " alt="...">
+                    <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" class="d-block" alt="...">
+                </div>
+                <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
+                    <img src="@Url.Content("~/images/尺寸對照表.jpeg")" class="d-block" alt="...">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
@@ -40,13 +44,15 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <div class="d-carouse aaa">
+        <div class="d-carouse">
             <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" />
             <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" />
             <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" />
         </div>
     </div>
     <div class="d-right-detail">
+        <br/>
+        <br />
         <div class="d-right-detail-item">@Model.pro商品名稱 @Model.pro商品顏色</div>
         <div class="d-right-detail-item">金額: @Convert.ToDouble(Model.pro商品金額).ToString("#")</div>
         <div class="d-right-detail-item">
@@ -80,7 +86,7 @@
             </div>
         </div>
         <div class="d-right-detail-item">
-            <div>尺寸對照表</div>
+            @*<div>尺寸對照表</div>*@
             <div class="d-right-share">
                 <div class="d-right-share-Add">
                     <span class="d-right-share-pic"></span>
@@ -123,8 +129,9 @@
             </div>
         </div>
         @*評論區*@
+        <br/>
         <div class="d-right-detail-item" id="comment">
-            <p>評論</p>
+            <h2 style="font-size:large;color:black;font-weight:300;">評論區</h2>
             <ul>
                 @{
                     foreach (var paretitem in Model.paretCommentslist)
@@ -279,24 +286,21 @@
     </div>    
 </div>
 <div>
-    <div class="youmustlike" style="display:flex">
-        @{
-            foreach (var item in Model.pro商品分類list)
-            {
-                <div><a href="@Url.Content("~/ProductWall/Details?id="+item.pro商品編號+"&colorID="+item.商品顏色ID)"><img src="@Url.Content("~/images/"+item.商品圖片1)" /></a></div>
-
+    <div style="display:flex;justify-content:center;">
+        <div>
+            <div>YOU MAY ALSO LIKE</div>
+            <div style="display:flex;" class="youmustlike">
+            @{
+                foreach (var item in Model.pro商品分類list)
+                {
+                    <div><a href="@Url.Content("~/ProductWall/Details?id="+item.pro商品編號+"&colorID="+item.商品顏色ID)"><img src="@Url.Content("~/images/"+item.商品圖片1)" /></a></div>
+                }
             }
-        }
+            </div>
+        </div>
+        <br/>
     </div>
 </div>
-
-
-
-
-
-
-
-
 
 @*返回頂部*@
 @*<div class="web-top">
