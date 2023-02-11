@@ -94,6 +94,9 @@ namespace dbCompanyTest.Controllers
         public IActionResult typeNav(int? id, string? type)
         {
             var datas = from c in _context.商品鞋種s
+                        join d in _context.Products on c.商品鞋種id equals d.商品鞋種id
+                        join e in _context.ProductsTypeDetails on d.商品分類id equals e.商品分類id
+                        where e.商品分類id == id
                         select new ViewModels.ProductWallViewModel
                         {
                             鞋種名稱 = c.鞋種,
@@ -102,7 +105,12 @@ namespace dbCompanyTest.Controllers
                             商品分類名稱 = type,
                         };
 
-            return PartialView(datas);
+            List<ProductWallViewModel> list = datas.ToList();
+            List<ProductWallViewModel> newlist = new List<ProductWallViewModel>();
+            foreach (var item in list)
+                if (newlist.Count<ProductWallViewModel>(z => z.鞋種名稱 ==item.鞋種名稱) == 0)
+                    newlist.Add(item);
+            return PartialView(newlist);
         }
 
         public IActionResult type(int? id, int? tid, string? type, int page = 1)
