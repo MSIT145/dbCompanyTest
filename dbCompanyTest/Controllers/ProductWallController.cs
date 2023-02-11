@@ -126,7 +126,7 @@ namespace dbCompanyTest.Controllers
                             join b in _context.商品鞋種s on c.商品鞋種id equals b.商品鞋種id
                             join g in _context.ProductsColorDetails on d.商品顏色id equals g.商品顏色id
                             join h in _context.ProductsSizeDetails on d.商品尺寸id equals h.商品尺寸id
-                            where c.商品鞋種id == id
+                            where c.商品鞋種id == id && c.商品分類id==tid
                             select new ViewModels.ProductWallViewModel
                             {
                                 鞋種名稱 = b.鞋種,

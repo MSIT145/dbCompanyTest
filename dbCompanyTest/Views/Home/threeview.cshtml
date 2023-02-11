@@ -64,6 +64,20 @@
         </div>
     </div>
 
+    <video
+        id="video"
+        playsinline
+        webkit-playsinline
+        muted
+        loop
+        autoplay
+        width="1290"
+        height="1040"
+        src="~/3d/TV Color.mp4"
+        style="display:none"
+    ></video>
+
+
     @*@*card*@
     @*<div class="card" id="info" style="display:none;">
         <div class="card__img">
@@ -396,33 +410,33 @@
                 console.error(error);
             }
         )
-        gltfLoader.load(
-            'https://rawcdn.githack.com/th9716/3dglb/2019abf682a579d259c44690ab16149f61993cb0/shoes2.glb',
-            (gltf) => {
-                shoes2 = gltf.scene
-                shoes2.position.x = 0;
-                shoes2.position.y = -400;
-                shoes2.position.z = 120;
+        //gltfLoader.load(
+        //    'https://rawcdn.githack.com/th9716/3dglb/2019abf682a579d259c44690ab16149f61993cb0/shoes2.glb',
+        //    (gltf) => {
+        //        shoes2 = gltf.scene
+        //        shoes2.position.x = 0;
+        //        shoes2.position.y = -400;
+        //        shoes2.position.z = 120;
 
-                shoes2.rotation.x = 0;
-                shoes2.rotation.y = 89.6;
-                shoes2.rotation.z = 0;
+        //        shoes2.rotation.x = 0;
+        //        shoes2.rotation.y = 89.6;
+        //        shoes2.rotation.z = 0;
 
-                shoes2.scale.set(10, 10, 10)
+        //        shoes2.scale.set(10, 10, 10)
 
-                console.log(shoes2.children[0])
-                //shoes2.children[0].material.metalness = 0;
+        //        console.log(shoes2.children[0])
+        //        //shoes2.children[0].material.metalness = 0;
 
-                scene.add(shoes2)
+        //        scene.add(shoes2)
 
-            },
-            (progress) => {
-                console.log(progress);
-            },
-            (error) => {
-                console.error(error);
-            }
-        )
+        //    },
+        //    (progress) => {
+        //        console.log(progress);
+        //    },
+        //    (error) => {
+        //        console.error(error);
+        //    }
+        //)
 
         //tv
         gltfLoader.load(
@@ -537,6 +551,29 @@
                 }
             })
 
+
+        //TV Texture SET
+
+        let video = document.getElementById('video');
+        let videoTexture = new THREE.VideoTexture(video);
+
+        videoTexture.minFilter = THREE.LinearFilter;
+        videoTexture.magFilter = THREE.LinearFilter;
+
+        var movieMaterial = new THREE.MeshBasicMaterial({
+            map: videoTexture,
+            side: THREE.FontSide,
+            toneMapped: false,
+        })
+
+        let screenGeometry = new THREE.PlaneGeometry(500, 300);
+        let screenplane = new THREE.Mesh(screenGeometry, movieMaterial);
+        screenplane.position.set(0, 700, 145)
+        scene.add(screenplane);
+
+
+
+
             /**
              * Camera
              */
@@ -639,14 +676,16 @@
             // 計算後，將所有有相交的物件的顏色改變為紅色，如果只需要將第一個觸發事件，那就陣列的第一個物件改變顏色即可
             for (var i = 0; i < 1; i++) {
 
+                
 
-                //intersects[i].object.material.color.set(0xff0000);
+                console.log(tv.getObjectByName('screen'));
+                console.log(tv.getObjectByName('screen').position);
+                //tv.getObjectByName('screen').material.color .setHex(0x00FF00);
+
                 console.log(shiba)
                 console.log(tv)
-                console.log(tv.getObjectByName('screen'));
-                tv.getObjectByName('screen').material.color .setHex(0x00FF00);
-                console.log(intersects[i].object)
                 console.log(intersects[i].object.name)
+
                 if (intersects[i].object.name == bkboots) {
                     gsap.to(
                         camera.position, {
@@ -1089,7 +1128,8 @@
 
 
             
-
+                videoTexture.needsUpdate=true;
+                video.play();
 
                 renderer.render(shadertoyScene, shadertoyCamera);
                 // Render
