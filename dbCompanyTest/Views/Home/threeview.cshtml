@@ -73,7 +73,7 @@
         autoplay
         width="1290"
         height="1040"
-        src="~/3d/TV Color.mp4"
+        src="~/3d/videoplayback.mp4"
         style="display:none"
     ></video>
 
@@ -440,7 +440,7 @@
 
         //tv
         gltfLoader.load(
-            'https://rawcdn.githack.com/th9716/3dglb/3b4777f3ff48ef55d85ba080a0e05359d85172bc/tv1/tv.glb',
+            'https://rawcdn.githack.com/th9716/3dglb/9426a24f1d6023f3a08876a71bcb456665f6b47c/tv1/tv.glb',
             (gltf) => {
                 tv = gltf.scene
                 //tv.position.x = 0;
@@ -564,11 +564,17 @@
             map: videoTexture,
             side: THREE.FontSide,
             toneMapped: false,
+            roughness:0.135,
+        })
+        let Material1=new THREE.MeshBasicMaterial({
+                      color: 0xFFF000,  // 物件顏色
         })
 
-        let screenGeometry = new THREE.PlaneGeometry(500, 300);
+
+        let screenGeometry = new THREE.PlaneGeometry(475, 250);
         let screenplane = new THREE.Mesh(screenGeometry, movieMaterial);
-        screenplane.position.set(0, 700, 145)
+        screenplane.position.set(0, 755, 115)
+        screenplane.rotation.y=-0.01;
         scene.add(screenplane);
 
 
@@ -650,6 +656,7 @@
             // 取得 raycaster 射線和所有物件相交的陣列集合
             var intersects = raycaster.intersectObjects(scene.children);
 
+            //返回
             function goback(){
                 gsap.to(
                     camera.position, {
@@ -671,6 +678,8 @@
                         camera.lookAt(scene.position);
                     }
                 });
+                screenplane.material=movieMaterial;
+
             }
 
             // 計算後，將所有有相交的物件的顏色改變為紅色，如果只需要將第一個觸發事件，那就陣列的第一個物件改變顏色即可
@@ -707,6 +716,9 @@
                             camera.lookAt(0,750,0);
                         }
                     });
+
+                    screenplane.material=Material1;
+
                         $('#txt').css('color','transparent');
                     setTimeout(function(){
                         $('#info').css('display','block');
