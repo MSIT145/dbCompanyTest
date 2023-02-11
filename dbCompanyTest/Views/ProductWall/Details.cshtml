@@ -13,37 +13,39 @@
 
             <span>@Model.pro商品名稱 @Model.pro商品顏色</span>
         </div>
-        <div class="d-carouse">
-            <div>
-                <ul class="slides">
-                    <li class="d-carouse-pic"><img src="@Url.Content("~/images/"+Model.pro商品圖片1)" alt=""></li>
-                    <li class="d-carouse-pic"><img src="@Url.Content("~/images/"+Model.pro商品圖片2)" alt=""></li>
-                    <li class="d-carouse-pic"><img src="@Url.Content("~/images/"+Model.pro商品圖片3)" alt=""></li>
-                    @*<li class="d-carouse-pic"><img src="@Url.Content("~/images/尺寸對照表.jpeg")" alt=""></li>*@
-                </ul>
+        @*輪播*@
+        <div id="carouselExampleDark" class="carousel carousel-dark d-carouse">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
-            <div>
-                <ul class="Carousedot">
-                    <li id="1"></li>
-                    <li id="2"></li>
-                    <li id="3"></li>
-                    <li id="4"></li>
-                </ul>
-            </div>
-                <div id="prevSlide" class="slide_btn">
-                    <i class="fa-solid fa-caret-left"></i>
+            <div class="carousel-inner">
+                <div class="carousel-item active d-carouse-pic" data-bs-interval="2000">
+                    <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" class="d-block " alt="...">
                 </div>
-                <div id="nextSlide" class="slide_btn">
-                    <i class="fa-solid fa-caret-right"></i>
+                <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
+                    <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" class="d-block " alt="...">
                 </div>
-
-            <div>
-                <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" />
-                <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" />
-                <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" />
+                <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
+                    <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" class="d-block " alt="...">
+                </div>
             </div>
-
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
+        <div class="d-carouse aaa">
+            <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" />
+            <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" />
+            <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" />
+        </div>
+    </div>
         <div class="d-right-detail">
             <br />
             <br />
@@ -278,6 +280,8 @@
 
     </div>
 </div>
+</div>
+
 <div>
     <div style="display:flex;justify-content:center;">
         <div>
@@ -293,7 +297,6 @@
         </div>
         <br />
     </div>
-</div>
 </div>
 
 
