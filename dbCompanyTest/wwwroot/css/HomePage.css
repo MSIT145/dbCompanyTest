@@ -48,6 +48,15 @@
 }
 
 
+.g-container a > .pic {
+    overflow: hidden;
+}
+.g-container a > .pic img {
+    transition: 0.3s;
+}
+.g-container a:hover > .pic img {
+    transform: scale(1.05);
+}
 
 
 @media (max-width: 819px) {

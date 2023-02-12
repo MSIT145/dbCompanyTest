@@ -12,7 +12,7 @@
 
 
 
-<div id="txt">
+<div id="txt" >
     <section class="one" >
 	<div class="container">
 		<div class="hero hero1">
@@ -76,6 +76,7 @@
         src="~/3d/videoplayback.mp4"
         style="display:none"
     ></video>
+
 
 
     @*@*card*@
@@ -410,33 +411,32 @@
                 console.error(error);
             }
         )
-        //gltfLoader.load(
-        //    'https://rawcdn.githack.com/th9716/3dglb/2019abf682a579d259c44690ab16149f61993cb0/shoes2.glb',
-        //    (gltf) => {
-        //        shoes2 = gltf.scene
-        //        shoes2.position.x = 0;
-        //        shoes2.position.y = -400;
-        //        shoes2.position.z = 120;
+        gltfLoader.load(
+            'https://rawcdn.githack.com/th9716/3dglb/2019abf682a579d259c44690ab16149f61993cb0/shoes2.glb',
+            (gltf) => {
+                shoes2 = gltf.scene
+                shoes2.position.x = 0;
+                shoes2.position.y = -400;
+                shoes2.position.z = 120;
 
-        //        shoes2.rotation.x = 0;
-        //        shoes2.rotation.y = 89.6;
-        //        shoes2.rotation.z = 0;
+                shoes2.rotation.x = 0;
+                shoes2.rotation.y = 89.6;
+                shoes2.rotation.z = 0;
 
-        //        shoes2.scale.set(10, 10, 10)
+                shoes2.scale.set(10, 10, 10)
 
-        //        console.log(shoes2.children[0])
-        //        //shoes2.children[0].material.metalness = 0;
+                console.log(shoes2.children[0])
 
-        //        scene.add(shoes2)
+                scene.add(shoes2)
 
-        //    },
-        //    (progress) => {
-        //        console.log(progress);
-        //    },
-        //    (error) => {
-        //        console.error(error);
-        //    }
-        //)
+            },
+            (progress) => {
+                console.log(progress);
+            },
+            (error) => {
+                console.error(error);
+            }
+        )
 
         //tv
         gltfLoader.load(
@@ -566,19 +566,46 @@
             toneMapped: false,
             roughness:0.135,
         })
-        let Material1=new THREE.MeshBasicMaterial({
-                      color: 0xFFF000,  // 物件顏色
-        })
 
+        const texture1=new THREE.TextureLoader().load('https://rawcdn.githack.com/th9716/3dglb/5aeea9a066f509812d5a397ddf04cf72c6cc94f4/img/women.png');
+        const texture2 = new THREE.TextureLoader().load('https://rawcdn.githack.com/th9716/3dglb/5aeea9a066f509812d5a397ddf04cf72c6cc94f4/img/men.png');
+        const texture3 = new THREE.TextureLoader().load('https://rawcdn.githack.com/th9716/3dglb/5aeea9a066f509812d5a397ddf04cf72c6cc94f4/img/disney.png');
+        const texture4 = new THREE.TextureLoader().load('https://rawcdn.githack.com/th9716/3dglb/5aeea9a066f509812d5a397ddf04cf72c6cc94f4/img/KOL.png');
+        const texture5 = new THREE.TextureLoader().load('https://rawcdn.githack.com/th9716/3dglb/5aeea9a066f509812d5a397ddf04cf72c6cc94f4/img/mask.png');
+        const texture6=new THREE.TextureLoader().load('https://rawcdn.githack.com/th9716/3dglb/5aeea9a066f509812d5a397ddf04cf72c6cc94f4/img/bag.png');
+        let Material1=new THREE.MeshBasicMaterial({
+            map:texture1,
+        })
+        let Material2=new THREE.MeshBasicMaterial({
+            map:texture2,
+        })
+        let Material3=new THREE.MeshBasicMaterial({
+            map:texture3,
+        })
+        let Material4=new THREE.MeshBasicMaterial({
+            map:texture4,
+        })
+        let Material5=new THREE.MeshBasicMaterial({
+            map:texture5,
+        })
+        let Material6=new THREE.MeshBasicMaterial({
+            map:texture6,
+        })
 
         let screenGeometry = new THREE.PlaneGeometry(475, 250);
         let screenplane = new THREE.Mesh(screenGeometry, movieMaterial);
-        screenplane.position.set(0, 755, 115)
+        screenplane.position.set(0, 750, 115)
         screenplane.rotation.y=-0.01;
         scene.add(screenplane);
 
-
-
+        //let shibaclick = new THREE.CylinderGeometry(220, 220, 650, 32);
+        //let shmaterial = new THREE.MeshBasicMaterial({  transparent: true });
+        //let shsph = new THREE.Mesh(shibaclick, shmaterial);
+        //shsph.position.y=200;
+        //shsph.position.z=180;
+        //shsph.rotation.x=4.7;
+        //shsph.rotation.z=25.55;
+        //scene.add(shsph);
 
             /**
              * Camera
@@ -650,6 +677,7 @@
             let lv = "Bag_low__0";
             let mask="Plane_lambert1_0";
             let bag="Object_5";
+            let clicktv = "Cylinder_1_0";
             // 透過滑鼠點的位置和當前相機的矩陣計算出 raycaster值
             raycaster.setFromCamera(mouse, camera);
 
@@ -679,24 +707,12 @@
                     }
                 });
                 screenplane.material=movieMaterial;
+                $('#txt').removeClass('txt');
 
             }
-
-            // 計算後，將所有有相交的物件的顏色改變為紅色，如果只需要將第一個觸發事件，那就陣列的第一個物件改變顏色即可
-            for (var i = 0; i < 1; i++) {
-
-                
-
-                console.log(tv.getObjectByName('screen'));
-                console.log(tv.getObjectByName('screen').position);
-                //tv.getObjectByName('screen').material.color .setHex(0x00FF00);
-
-                console.log(shiba)
-                console.log(tv)
-                console.log(intersects[i].object.name)
-
-                if (intersects[i].object.name == bkboots) {
-                    gsap.to(
+            //進入
+            function go(){
+                gsap.to(
                         camera.position, {
                             x:0,
                             y:750,
@@ -716,11 +732,33 @@
                             camera.lookAt(0,750,0);
                         }
                     });
+            }
 
+
+            // 計算後，將所有有相交的物件的顏色改變為紅色，如果只需要將第一個觸發事件，那就陣列的第一個物件改變顏色即可
+            for (var i = 0; i < 1; i++) {
+
+                screenplane.material = movieMaterial;
+
+                console.log(tv.getObjectByName('screen'));
+                console.log(tv.getObjectByName('screen').position);
+                //tv.getObjectByName('screen').material.color .setHex(0x00FF00);
+
+
+                console.log(shiba)
+                console.log(tv)
+                //console.log(shsph)
+                console.log(intersects[i].object.children.name)
+                console.log(intersects[i].object.name)
+
+                if (intersects[i].object.name == bkboots) {
+                    
+                    go();
+                   
                     screenplane.material=Material1;
-
-                        $('#txt').css('color','transparent');
+                    $('#txt').css('color','transparent');
                     setTimeout(function(){
+                        $('#txt').addClass('txt');
                         $('#info').css('display','block');
                         $('#title').text('請問要進入女鞋分類嗎?');
                         
@@ -735,28 +773,12 @@
                         
                     },2000)
                 }else if(intersects[i].object.name == grayshoes){
-                    gsap.to(
-                        camera.position, {
-                            x:0,
-                            y:750,
-                            z:280,
-                            duration: 2,
-                            onUpdate:function(){
-                            camera.lookAt(0, 750, 0);
-                            }
-                    });
-                    gsap.to(
-                        camera.rotation, {
-                            x:0,
-                            y:0,
-                            z:100,
-                            duration: 2,
-                            onUpdate: function () {
-                            camera.lookAt(0,750,0);
-                        }
-                    });
+                    go();
+
+                    screenplane.material=Material2;
                     $('#txt').css('color','transparent');
                     setTimeout(function(){
+                        $('#txt').addClass('txt');
                         $('#info').css('display','block');
                         $('#title').text('請問要進入男鞋分類嗎?');
                         $("#yes").on('click',function(){
@@ -770,28 +792,13 @@
                         
                     },2000)
                 } else if (intersects[i].object.name == disney) {
-                    gsap.to(
-                        camera.position, {
-                            x:0,
-                            y:750,
-                            z:280,
-                            duration: 2,
-                            onUpdate:function(){
-                            camera.lookAt(0, 750, 0);
-                            }
-                    });
-                    gsap.to(
-                        camera.rotation, {
-                            x:0,
-                            y:0,
-                            z:100,
-                            duration: 2,
-                            onUpdate: function () {
-                            camera.lookAt(0,750,0);
-                        }
-                    });
+                    
+                    go();
+
+                    screenplane.material=Material3;
                     $('#txt').css('color','transparent');
                     setTimeout(function(){
+                        $('#txt').addClass('txt');
                         $('#info').css('display','block');
                         $('#title').text('請問要進入迪士尼分類嗎?');
                         $("#yes").on('click',function(){
@@ -805,28 +812,13 @@
                         
                     },2000)
                 }else if(intersects[i].object.name == lv){
-                    gsap.to(
-                        camera.position, {
-                        x: 0,
-                        y: 750,
-                        z: 280,
-                        duration: 2,
-                        onUpdate: function () {
-                            camera.lookAt(0, 750, 0);
-                        }
-                    });
-                    gsap.to(
-                        camera.rotation, {
-                        x: 0,
-                        y: 0,
-                        z: 100,
-                        duration: 2,
-                        onUpdate: function () {
-                            camera.lookAt(0, 750, 0);
-                        }
-                    });
+                    
+                    go();
+
+                    screenplane.material=Material4;
                     $('#txt').css('color','transparent');
                     setTimeout(function(){
+                        $('#txt').addClass('txt');
                         $('#info').css('display','block');
                         $('#title').text('請問要進入KOL聯名分類嗎?');
                         $("#yes").on('click',function(){
@@ -840,28 +832,13 @@
                         
                     },2000)
                 }else if(intersects[i].object.name == mask){
-                    gsap.to(
-                        camera.position, {
-                            x:0,
-                            y:750,
-                            z:280,
-                            duration: 2,
-                            onUpdate:function(){
-                            camera.lookAt(0, 750, 0);
-                            }
-                    });
-                    gsap.to(
-                        camera.rotation, {
-                            x:0,
-                            y:0,
-                            z:100,
-                            duration: 2,
-                            onUpdate: function () {
-                            camera.lookAt(0,750,0);
-                        }
-                    });
+                    
+                    go();
+
+                    screenplane.material=Material5;
                     $('#txt').css('color','transparent');
                     setTimeout(function(){
+                        $('#txt').addClass('txt');
                         $('#info').css('display','block');
                         $('#title').text('請問要進入口罩分類嗎?');
                         $("#yes").on('click',function(){
@@ -875,28 +852,13 @@
                         
                     },2000)
                 } else if (intersects[i].object.name == bag) {
-                    gsap.to(
-                        camera.position, {
-                            x:0,
-                            y:750,
-                            z:280,
-                            duration: 2,
-                            onUpdate:function(){
-                            camera.lookAt(0, 750, 0);
-                            }
-                    });
-                    gsap.to(
-                        camera.rotation, {
-                            x:0,
-                            y:0,
-                        z: 100,
-                            duration: 2,
-                            onUpdate: function () {
-                            camera.lookAt(0,750,0);
-                        }
-                    });
+                    
+                    go();
+
+                    screenplane.material=Material6;
                     $('#txt').css('color','transparent');
                     setTimeout(function(){
+                        $('#txt').addClass('txt');
                         $('#info').css('display','block');
                         $('#title').text('請問要進入服飾包袋分類嗎?');
                         $("#yes").on('click',function(){
@@ -909,28 +871,12 @@
                         })
                         
                     },2000)
+                } 
+                else if (intersects[i].object.name== clicktv ||intersects[i].object.name==null) {
+                    screenplane.material=Material1;
                 }
                 //else{
-                //    gsap.to(
-                //        camera.position, {
-                //            x:0,
-                //            y:0,
-                //            z:1500,
-                //            duration: 2,
-                //            onUpdate:function(){
-                //                camera.lookAt(scene.position);
-                //            }
-                //    });
-                //    gsap.to(
-                //        camera.rotation, {
-                //            x:0,
-                //            y:0,
-                //            z:0,
-                //            duration: 2,
-                //        onUpdate: function () {
-                //            camera.lookAt(scene.position);
-                //        }
-                //    });
+                //    screenplane.material = movieMaterial;
                 //}
 
             }

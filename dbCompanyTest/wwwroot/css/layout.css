@@ -72,9 +72,69 @@
         top: 2em;
         right: 12%;
         z-index: 2;
+        webkit-animation: dropdown-menu-fade-in 0.3s ease 1, dropdown-menu-move-down 0.3s ease-out 1;
         animation: dropdown-menu-fade-in 0.3s ease 1, dropdown-menu-move-down 0.3s ease-out 1;
         margin-top: 0px;
         display: none;
+    }
+    @-webkit-keyframes dropdown-menu-fade-in {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes dropdown-menu-fade-in {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @-webkit-keyframes dropdown-menu-move-up {
+        from {
+            margin-top: -10px;
+        }
+
+        to {
+            margin-top: 0;
+        }
+    }
+
+    @keyframes dropdown-menu-move-up {
+        from {
+            margin-top: -10px;
+        }
+
+        to {
+            margin-top: 0;
+        }
+    }
+
+    @-webkit-keyframes dropdown-menu-move-down {
+        from {
+            margin-top: 10px;
+        }
+
+        to {
+            margin-top: 0px;
+        }
+    }
+
+    @keyframes dropdown-menu-move-down {
+        from {
+            margin-top: 10px;
+        }
+
+        to {
+            margin-top: 0px;
+        }
     }
 
         .shortcut-box a {
@@ -108,7 +168,17 @@
             width: 150px;
             opacity: 1;
             left: calc(-100% + 10px);
+            animation: fade-in-left 0.3s ease-in 1;
         }
+    @keyframes fade-in-left {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
 
         .R-Top-tool .search-box input {
             border: none;
@@ -159,6 +229,12 @@
             font-size: 16px;
         }
 
+   .nav-link {
+        margin-right: 28px;
+        /*font-size: 14px;*/
+        
+    }
+    
     .sidebar-left{
         display:none;
     }
