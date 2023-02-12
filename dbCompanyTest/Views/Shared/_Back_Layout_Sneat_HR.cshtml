@@ -50,7 +50,7 @@
     <!-- Page CSS -->
 
     <link rel="stylesheet" href="~/assets/vendor/css/pages/page-icons.css" />
-
+    @await RenderSectionAsync("Styles", required: false)
     <!-- Helpers -->
     <script src="~/assets/vendor/js/helpers.js"></script>
 
@@ -64,9 +64,9 @@
         <div class="layout-container">
             <!-- Menu -->
 
-            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style="background: linear-gradient(to bottom, #bfa693, #857162) !important;">
                 <div class="app-brand demo">
-                    <a href="~/" class="app-brand-link">
+                    <a href="@Url.Content("~/Staff_Home/Index_HR")" class="app-brand-link">
                         <span class="app-brand-logo demo">
                             <svg width="25"
                                  viewBox="0 0 25 42"
@@ -110,14 +110,16 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="app-brand-text demo menu-text fw-bolder ms-2">後台系統</span>
+                        @*<span class="app-brand-text demo menu-text fw-bolder ms-2">後台系統</span>*@
+                        <img src="~/homeimg/shoespace1.png" />
                     </a>
 
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
                         <i class="bx bx-chevron-left bx-sm align-middle"></i>
                     </a>
                 </div>
-
+                <hr align="center" width="80%" style="margin:auto !important" />
+                @*-----------------------------------------------------------------------------------------------------------------------------------------------------------------*@
                 <div class="menu-inner-shadow"></div>
 
                 <ul class="menu-inner py-1">
@@ -128,13 +130,16 @@
                             <div data-i18n="Analytics">前台首頁</div>
                         </a>
                     </li>
-                    <li class="menu-item">
+                    @*<li class="menu-item">
                         <a href="@Url.Content("~/Staff_Home/Index_HR")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">後台首頁</div>
                         </a>
+                    </li>*@
+                    <li>
+                        <hr align="center" width="660%" style="margin-left:30px !important; margin-bottom:0px" />
                     </li>
-
+                    <li class="menu-header small text-uppercase" style="margin:0"><span class="menu-header-text">分類</span></li>
                     <!-- Layouts -->
                     <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle" id="test">
@@ -190,7 +195,12 @@
                             </li>*@
                         </ul>
                     </li>
-
+                    <li class="menu-item">
+                        <a href="@Url.Content("~/Service/Service")" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-collection"></i>
+                            <div data-i18n="Basic">客服</div>
+                        </a>
+                    </li>
                     @* <li class="menu-header small text-uppercase">
                     <span class="menu-header-text">Pages</span>
                     </li>*@
@@ -259,14 +269,14 @@
                     </ul>
                     </li>*@
                     <!-- Components -->
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li>
+                   @* <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li>
                     <!-- Cards -->
                     <li class="menu-item">
                         <a href="@Url.Content("~/Service/Service")" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-collection"></i>
                             <div data-i18n="Basic">Service</div>
                         </a>
-                    </li>
+                    </li>*@
                     <!-- User interface -->
                     @*<li class="menu-item">
                     <a href="javascript:void(0)" class="menu-link menu-toggle">
@@ -400,6 +410,7 @@
                     </li>*@
 
                     <!-- Forms & Tables -->
+                    <hr align="center" width="80%" style="margin:auto !important; margin-bottom:0 !important; margin-top:0 !important" />
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">表單 &amp; 圖表</span></li>
                     <!-- Forms -->
                     @*<li class="menu-item">
@@ -457,7 +468,7 @@
                     </a>
                     </li>*@
                     <!-- Misc -->
-                    <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
+                   @* <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
                     <li class="menu-item">
                         <a href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
                            target="_blank"
@@ -474,7 +485,7 @@
                             <div data-i18n="Documentation">Documentation</div>
                         </a>
                     </li>
-                </ul>
+                </ul>*@
             </aside>
             <!-- / Menu -->
             <!-- Layout container -->
@@ -537,23 +548,23 @@
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar">
-                                        <img src="~/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                        <img src="" alt class="w-px-40 h-auto rounded-circle" id="stfImg" />
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li>
                                         <a class="dropdown-item" href="#">
                                             <div class="d-flex">
-                                                <div class="flex-shrink-0 me-3">
+                                                @*<div class="flex-shrink-0 me-3">
                                                     <div class="avatar">
                                                         <img src="~/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
                                                     </div>
-                                                </div>
+                                                </div>*@
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">John Doe</span>
-                                                    <small class="text-muted" id="layout_user_Id">Admin</small><br />
-                                                    <small class="text-muted" id="layout_user_dep">Admin</small><br />
-                                                    <small class="text-muted" id="layout_user_pos">Admin</small>
+                                                    <span class="fw-semibold d-block" id="layout_user_name"></span>
+                                                    <small class="text-muted" id="layout_user_Id"></small><br />
+                                                    <small class="text-muted" id="layout_user_dep"></small><br />
+                                                    <small class="text-muted" id="layout_user_pos"></small>
                                                 </div>
                                             </div>
                                         </a>
@@ -683,6 +694,28 @@
                     alert('傳送錯誤: ' + err.toString());
                 });
         });
+        //------------------------------------------------------------------------------------------------------useinfo
+        $.ajax({
+            url: `@Url.Content("~/Staff_Home/stfNum_and_inf0")`,
+            type: "GET",
+            dataType: "json"
+        })
+            .done(data => {
+                $("#layout_user_name").text(data.stfName)
+                $("#layout_user_Id").text(data.stfNum);
+                $("#layout_user_dep").text(data.stfDep);
+                $("#layout_user_pos").text(data.stfpos);
+                //$("#stfImg")
+
+                if (data.stfNum.charAt(2) == 1) {
+                    $("#stfImg").attr("src", "@Url.Content("~/assets/img/avatars/man.png")");
+                }
+                else {
+                    $("#stfImg").attr("src", "@Url.Content("~/assets/img/avatars/woman.png")");
+                }
+
+
+            });
         //------------------------------------------------------------------------------------------------------
         $("li .menu-item").children("a").on("click", function () {
             consoel.log($(this));

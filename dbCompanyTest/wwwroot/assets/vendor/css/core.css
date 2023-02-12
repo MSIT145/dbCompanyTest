@@ -93,6 +93,12 @@
         background: url('https://i.imgur.com/6pCtQAW.gif');
     }
 
+.en_div {
+    background:white !important;
+    border-radius:20px !important
+}
+
+
 /*@media screen and (max-width:500px) {
 
 
