@@ -77,6 +77,18 @@
         style="display:none"
     ></video>
 
+    <video
+        id="video2"
+        playsinline
+        webkit-playsinline
+        muted
+        loop
+        autoplay
+        width="1290"
+        height="1040"
+        src="~/3d/pc01.mp4"
+        style="display:none"
+    ></video>
 
 
     @*@*card*@
@@ -557,11 +569,23 @@
         let video = document.getElementById('video');
         let videoTexture = new THREE.VideoTexture(video);
 
+        let video2 = document.getElementById('video2');
+        let videoTexture2 = new THREE.VideoTexture(video2);
+
         videoTexture.minFilter = THREE.LinearFilter;
         videoTexture.magFilter = THREE.LinearFilter;
 
+        videoTexture2.minFilter = THREE.LinearFilter;
+        videoTexture2.magFilter = THREE.LinearFilter;
+
         var movieMaterial = new THREE.MeshBasicMaterial({
             map: videoTexture,
+            side: THREE.FontSide,
+            toneMapped: false,
+            roughness:0.135,
+        })
+        var movieMaterial2 = new THREE.MeshBasicMaterial({
+            map: videoTexture2,
             side: THREE.FontSide,
             toneMapped: false,
             roughness:0.135,
@@ -740,6 +764,9 @@
 
                 screenplane.material = movieMaterial;
 
+
+
+
                 console.log(tv.getObjectByName('screen'));
                 console.log(tv.getObjectByName('screen').position);
                 //tv.getObjectByName('screen').material.color .setHex(0x00FF00);
@@ -873,7 +900,7 @@
                     },2000)
                 } 
                 else if (intersects[i].object.name== clicktv ||intersects[i].object.name==null) {
-                    screenplane.material=Material1;
+                    screenplane.material=movieMaterial2;
                 }
                 //else{
                 //    screenplane.material = movieMaterial;
@@ -1087,7 +1114,9 @@
 
             
                 videoTexture.needsUpdate=true;
+                videoTexture2.needsUpdate=true;
                 video.play();
+                video2.play();
 
                 renderer.render(shadertoyScene, shadertoyCamera);
                 // Render
