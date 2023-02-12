@@ -1,11 +1,10 @@
-﻿<div>
+﻿<div style="text-align:center;">
     <table class="table1 table table-striped-columns table-rwd">
+       
         <thead>
-        </thead>
-        <thead>
-            <tr>
-                <th>待出貨清單</th>
-            </tr>
+            @*<tr>*@
+                <tr>待出貨清單</tr>
+            @*</tr>*@
         </thead>
         <thead tr class="header">
             <tr>
@@ -38,7 +37,7 @@
                 </td>
             </tr>
         </tbody>
-        <tbody id="Sheeplis_tfoot_click">
+        @*<tbody id="Sheeplis_tfoot_click">
             <tr>
                 <td colspan="5">
                     <div>
@@ -54,7 +53,7 @@
                     </div>
                 </td>
             </tr>
-        </tbody>
+        </tbody>*@
 
 
 
@@ -63,8 +62,10 @@
 
        
     </table>
+    <div style="width:40px; height:40px;margin:0 auto; border:3px solid gray; border-radius:20px" id="SL_Foot">
+        <img src="@Url.Content("~/homeimg/down_arrow_icon.png")" style="height:20px; margin-top: 8px" />
+    </div>
 </div>
-<br />
 <br />
 
 
@@ -117,17 +118,15 @@
         </div>
     </div>
 </div>
-
-
 <script>
-    $("#Sheeplis_tfoot_click").click(function () {
-        console.log(`123456`)
+    var SL_Foot = true;
+    $("#SL_Foot").click(function () {
+        SL_Foot = !SL_Foot
         $("#456").toggleClass("active");
-
-        if ($("#Sheeplis_td_text").text() == "展開")
-            $("#Sheeplis_td_text").text("收折")
+        if (SL_Foot)
+            $("#SL_Foot img").attr("src", "@Url.Content("~/homeimg/down_arrow_icon.png")");
         else
-            $("#Sheeplis_td_text").text("展開");
+            $("#SL_Foot img").attr("src", "@Url.Content("~/homeimg/up_arrow_icon.png")");
 
     });
 </script>

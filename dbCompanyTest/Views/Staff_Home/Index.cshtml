@@ -15,12 +15,13 @@
 <input type="hidden" id="StaffNumpath" value="@Url.Content("~/Staff_Home/StaffNum")" />
 <div style="width:80%;margin:20px auto;">
 
-@*<h1>員工頁面(行政)</h1>*@
-    
-<h2 id="stf_info" style="display:none">@ViewBag.acc</h2>
+    @*<h1>員工頁面(行政)</h1>*@
 
-<div id="Sheeplist_div"></div>
-<div id="ToDoList_div"></div>
+    <h2 id="stf_info" style="display:none">@ViewBag.acc</h2>
+
+    <div id="Sheeplist_div" style="background:white !important; border-radius:20px !important"></div>
+    <br/>
+    <div id="ToDoList_div" style="background:white !important; border-radius:20px !important"></div>
 </div>
 
 @section Scripts {
