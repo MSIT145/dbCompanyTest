@@ -284,7 +284,7 @@
 </div>
 
 <div>
-    <div style="display:flex;justify-content:center;" class="youmustlikeclass">
+    <div class="youmustlikeclass">
         <div>
             <div>YOU MAY ALSO LIKE</div>
             <div style="display:flex;" class="youmustlike">
@@ -668,14 +668,15 @@
             if ($(window).width() < 500) {
                 $("#carouselExampleDark").append($(".d-right-detail"));
                 $(".d-right-detail").append($(".aaa"));
-                $(".aaa").after($(".youmustlikeclass"));
+                $(".d-right-detail").append($(".youmustlikeclass"));
             }
         });
         $(window).on("resize", function (e) {
             if ($(window).width() < 500) {
                 $("#carouselExampleDark").append($(".d-right-detail"));
                 $(".d-right-detail").append($(".aaa"));
-                $(".aaa").after($(".youmustlikeclass"));
+                $(".d-right-detail").append($(".youmustlikeclass"));
+                
             }
             else {
                 $(".content").append($(".d-right-detail"));
