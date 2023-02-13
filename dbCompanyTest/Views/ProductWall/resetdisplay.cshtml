@@ -170,15 +170,11 @@
     $(`.itemreportEdit`).on("click", function () {
         editid = $(this).data('id');
             editorder = $(this).data('order');
-            //console.log($(this).siblings(`div`).find(".itemMessage").text());
             let str = $(this).prev().prev().prev().find(".itemMessage").text();
             let strEdit = str.substring(3, str.length);
-            //console.log($(this).siblings(`.itemreport`));
             $(`.reportEdit`).find('.userEditinput').val(strEdit);
             $(`.reportEdit`).css('display', 'block')
             console.log($(this).prev().prev().prev());
-            //$(this).closest(`div`).append($(".reportEdit"));
-            //$(this).closest(`div`).find('p').css('display', "none");
             $(this).prev().prev().prev().find('p').css('display', "none");
             $(this).prev().prev().prev().append($(".reportEdit"));
     });
