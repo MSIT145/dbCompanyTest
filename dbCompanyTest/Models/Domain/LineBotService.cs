@@ -222,8 +222,6 @@ namespace dbCompanyTest.Models.LineMess.Domain
                                 user.newWords++;
                             chatHub.userList.Add(user);
                         }
-                        _chatHub.LineSendMessage(user, eventObject.Message.Text);
-                        _chatHub.Update();
                         
                         //chatHub CH = new chatHub();
                         //CH.
