@@ -39,7 +39,7 @@ namespace dbCompanyTest.Controllers
             //string body1 = "            {\r\n                \"to\":\"U4dd930b9e38f7c7e6f8ef483c417100b\",\r\n            \"Messages\":[{ \"Type\":\"text\",\"Text\":\"私訊測試\"}]\r\n            }";
 
             _lineBotService.PushMessageHandler("text",
-                "{\"to\":\"U4dd930b9e38f7c7e6f8ef483c417100b\",\"Messages\":[{ \"Type\":\"text\",\"Text\":\"私訊測試\"}]}");
+                $"{{\r\n\"to\":\"{LINEID}\",\r\n\"Messages\":[{{ \"Type\":\"text\",\"Text\":\"{msg}\"}}]\r\n}}");
             return Ok();
             //{
             //    "to":"U4dd930b9e38f7c7e6f8ef483c417100b",
