@@ -17,7 +17,7 @@
         <input id="btn_slectCar" type="button" value="購物清單" style="display:none" />
         <hr />
         <div class="out_of_cartable">
-            <table class="table car_table hidaing">
+            <table class="table car_table hidaing ">
                 <thead>
                     <tr>
                     <tr>
@@ -79,7 +79,7 @@
                     }
                 </tbody>
             </table>
-            <div class="car_dital" >
+            <div class="car_dital hidaing">
                 @{
                     foreach (var item in Model)
                     {
@@ -317,6 +317,7 @@
             $('.step2').addClass("active")
             $('#btn_slectCar').attr("style", "display:block;");
             $('#clientDital').attr("style", "display:block;");
+            $('.car_dital').attr('style', "display:none")
             if ($('#delivery').select().val() == 100) {
                 $('#pickUp').hide();
             }
@@ -329,6 +330,13 @@
             //LoadClientDital();
             //----------------------------------
         })
+        let oldsize;
+        $(window).ready(function () {
+            oldsize = $(window).width();
+            if (oldsize < 500) {
+                $(`.clientTr-rwd`).after(`<p class = "nouse"></p>`);
+            }
+        });
 
         //----填寫資料頁面上的訂單資料按鈕
         slectCar.addEventListener('click', function () {

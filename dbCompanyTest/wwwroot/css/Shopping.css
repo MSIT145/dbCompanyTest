@@ -47,6 +47,9 @@
     .shopping-step {
         padding: 60px 50px;
     }
+    .car_table {
+        display: none;
+    }
 }
 @media screen and (max-width:960px){
     .out_of_cartable {
