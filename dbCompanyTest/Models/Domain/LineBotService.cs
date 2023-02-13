@@ -206,7 +206,7 @@ namespace dbCompanyTest.Models.LineMess.Domain
                         if (chatHub.userList.Exists(X => X.LineID == LineID_For_ChatHub))
                         {
                             user = chatHub.userList.FirstOrDefault(x => x.LineID == LineID_For_ChatHub);
-                            user.userWords.Add(eventObject.Message.Text);
+                            //user.userWords.Add(eventObject.Message.Text);
                         }
                         else
                         {
