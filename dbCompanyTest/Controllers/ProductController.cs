@@ -806,7 +806,15 @@ namespace dbCompanyTest.Controllers
             //建立8位數亂碼
             string cold = (new Back_Product_library()).RandomString(8);
             string imgeName = $"{data.商品編號id}_{cold}";
-           
+            //判斷此類商品尺寸是否重複
+            //判斷尺寸是否更改
+            int? thisSizeid = db.ProductDetails.FirstOrDefault(pd => pd.Id == data.Id).商品尺寸id;
+            if (data.商品尺寸id != thisSizeid)
+            {
+                int PDCount = db.ProductDetails.Where(pd => pd.商品編號id == Convert.ToInt32(data.商品編號id) & pd.商品尺寸id == Convert.ToInt32(data.商品尺寸id)).Count();
+                if (PDCount > 0)
+                    return Content("錯誤_此商品已有此尺寸!", "text/plain", Encoding.UTF8);
+            }          
 
             var imgdata = db.圖片位置s.FirstOrDefault(im => im.圖片位置id ==  data.圖片位置id);
             if(imgdata==null)
@@ -890,7 +898,11 @@ namespace dbCompanyTest.Controllers
             //建立8位數亂碼
             string cold = (new Back_Product_library()).RandomString(8);
             string imgeName = $"{Pro.商品編號id}_{cold}";
-
+            //判斷此商品是否已有細項有重複的尺寸
+            int PDCount = db.ProductDetails.Where(pd => pd.商品編號id == Convert.ToInt32(Pro.商品編號id) & pd.商品尺寸id == Convert.ToInt32(Pro.明細尺寸)).Count();
+            if (PDCount > 0)
+                return Content("錯誤_已有此尺寸!", "text/plain", Encoding.UTF8);
+            //判斷是否新建圖片
             if (Pro.新建圖片==true)
             {               
                 if (photo1 == null || photo2 == null || photo3 == null)
