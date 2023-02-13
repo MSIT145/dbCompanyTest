@@ -330,13 +330,21 @@
             //LoadClientDital();
             //----------------------------------
         })
+
+        //----訂單品項RWD
         let oldsize;
         $(window).ready(function () {
             oldsize = $(window).width();
             if (oldsize < 500) {
-                $(`.clientTr-rwd`).after(`<p class = "nouse"></p>`);
+                $(`.car_table`).removeClass("hidaing");
+                $('.car_dital').addClass("hidaing")
+            }
+            else if (oldsize >500){
+                $(`.car_dital`).removeClass("hidaing");
+                $('.car_table').addClass("hidaing")
             }
         });
+
 
         //----填寫資料頁面上的訂單資料按鈕
         slectCar.addEventListener('click', function () {
