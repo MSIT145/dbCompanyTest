@@ -73,10 +73,18 @@ namespace dbCompanyTest.Hubs
                 }
                 else
                 {
-                    user clients = userList.FirstOrDefault(x => x.connectionId == ClientID);
-                    clients.userWords.Add("S" + message);
-                    await Clients.Client(ClientID).SendAsync("UpdSystem", "客服人員", message);
-                    await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
+                    if (ClientID.Substring(0, 4) != "LINE")
+                    {
+                        user clients = userList.FirstOrDefault(x => x.connectionId == ClientID);
+                        clients.userWords.Add("S" + message);
+                        await Clients.Client(ClientID).SendAsync("UpdSystem", "客服人員", message);
+                        await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
+                    }
+                    else
+                    {
+                        //傳送Line訊息方法
+                        //SendLineMessage(ClientID.Substring(3,ClientID.Length-1),message);
+                    }
                 }
             }
         }
@@ -109,7 +117,7 @@ namespace dbCompanyTest.Hubs
 
         public async void Update()
         {
-            List<user> client = userList.Where(x => x.userName.Substring(0, 2) != "ST" && x.userWords!=null).ToList();
+            List<user> client = userList.Where(x => x.userName.Substring(0, 2) != "ST" && x.userWords != null).ToList();
             string jsonString = JsonConvert.SerializeObject(client);
             List<string> waiter = userList.Where(x => x.userName.Substring(0, 2) == "ST").Select(x => x.connectionId).ToList();
             foreach (string item in waiter)
@@ -127,11 +135,11 @@ namespace dbCompanyTest.Hubs
             }
         }
         //回復商品
-        public async Task SendComment(string response) 
+        public async Task SendComment(string response)
         {
             var data = JsonSerializer.Deserialize<ProductDetailViewModels>(response);
             data.客戶編號 = null;
-            data.員工編號 =null;
+            data.員工編號 = null;
             string json = JsonSerializer.Serialize(data);
             //傳給使用者
             await Clients.Others.SendAsync("UpdMessage", json);

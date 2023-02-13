@@ -7,5 +7,6 @@
         public List<string> userWords { get; set; }
         public int newWords { get; set; }
         public string waiter { get; set; }
+        public string LineID { get; set; }
     }
 }
