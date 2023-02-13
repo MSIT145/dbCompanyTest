@@ -44,6 +44,7 @@ namespace dbCompanyTest.Controllers
 
                 var dbCompanyTestContext = _context.會員商品暫存s.Select(x => x).Where(c => c.購物車或我的最愛 == true && c.客戶編號.Contains(user.客戶編號)).ToList();
                 ViewBag.MAP = "https://emap.presco.com.tw/c2cemap.ashx?eshopid=870&&servicetype=1&url="+new Environment.Environment().useEnvironment+"/Shopping/SlectShop";
+                ViewBag.Url = new Environment.Environment().useEnvironment;
                 //是否有car session
                 if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
                 {

@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
+<input type="text" id="locoUrl" value="@ViewBag.Url" style="display:none" />
 <link href="~/css/shopping.css" rel="stylesheet" />
 <div class="shopping">
     <div class="car d-flex flex-column justify-content-center align-content-lg-center">
@@ -112,18 +113,18 @@
 
             <dl class="row" id="ChoosePay">
                 <dt class="col-sm-2">付款方式</dt>
-                <dd class="col-sm-10">
+                <dd class="col-sm-10" id="PayCheck">
 
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="信用卡">
+                        <input class="form-check-input check" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="信用卡">
                         <label class="form-check-label" for="flexRadioDefault1">
                             信用卡
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="ATM" checked>
+                        <input class="form-check-input check" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="LinePay" checked>
                         <label class="form-check-label" for="flexRadioDefault2">
-                            ATM
+                            LinePay
                         </label>
                     </div>
 
@@ -173,11 +174,11 @@
         <div id="clientDital" style="visibility: hidden">
 
             <form id="orderForm" name="userInfo" action="@Url.Content("~/Shopping/TestforPay")">
-                <input type="text" id="pay" name="總金額" style="visibility: hidden" />
-                <input type="text" id="userID" name="客戶編號" style="visibility: hidden" />
-                <input type="text" id="howToPay" name="付款方式" value="信用卡" style="visibility: hidden" />
-                <input type="text" id="orderID" name="訂單編號" style="visibility: hidden" />
-                <input type="text" id="orderTime" name="下單時間" style="visibility: hidden" />
+                <input type="text" id="pay" name="總金額" style="display:none" />
+                <input type="text" id="userID" name="客戶編號" style="display:none" />
+                <input type="text" id="howToPay" name="付款方式" value="信用卡"  />
+                <input type="text" id="orderID" name="訂單編號" style="display:none" />
+                <input type="text" id="orderTime" name="下單時間" style="display:none" />
                 <fieldset>
                     <legend>訂購資訊</legend>
                     <hr />
@@ -244,15 +245,6 @@
 
             </form>
         </div>
-        @*
-        <div id="finish" style="visibility: hidden;">
-        <h2 style="text-align:center;">訂購完成</h2>
-        <br />
-        <div>
-        <a href="@Url.Content("~/ProductWall/Index/2")">繼續購買</a>
-        <a href="@Url.Content("~/Home")">返回首頁</a>
-        </div>
-        </div>*@
     </div>
 </div>
 
@@ -282,6 +274,14 @@
             xhr.open('GET', `/Shopping/GetDeliveryMony?OPvalue=${deliverymony.value}`);
             xhr.send();
         })
+
+        //----付費方式選擇----
+        let checkValue;
+        $('.check').click(function () {
+        checkValue = $(this).val();
+        $('#howToPay').val(checkValue);
+        });
+        //----付費方式選擇結束----
 
         //----載入門市位址後重新載入的頁面-----
         LoadClientDital()
@@ -323,6 +323,8 @@
             if ($('#delivery').select().val() == 60) {
                 $('#SelectAdd').hide();
             }
+
+
             //這裡因該要寫載入會員資料的function
             //LoadClientDital();
             //----------------------------------
@@ -356,9 +358,67 @@
             TestForAPI();
             addToOrderSQL();
             addToOrderDitalSQL()
-            $('#orderForm').submit();
+            var howToPay=$('#howToPay').val();
+            if(howToPay=='信用卡'){
+                $('#orderForm').submit();
+            }
+            else{
+                requestPayment()
+            }
+            
+            
         })
+            
 
+        //----LinePay-------
+        //let baseLoginPayUrl = $('#locoUrl').val()+'/api/LinePay/';
+        let baseLoginPayUrl = "https://9fc8-1-160-18-106.jp.ngrok.io/api/LinePay/";
+        function requestPayment() 
+        {
+            var price =$('#pay').val()+''
+            var orderID = $('#orderID').val() + ''
+            // 交易訂單假資料
+            payment = {
+                amount: price,
+                currency:"TWD",
+                //orderId: Date.now().toString(), //使用 Timestamp 當作 orderId
+                orderId: orderID,
+                packages:[
+                    {
+                        id: orderID,
+                        amount: price,
+                        name:"Test",
+                        products:[
+                            {
+                                name:"TestPrducts",
+                                quantity:1,
+                                price: price
+                            }
+                        ]
+                    }
+                ],
+                redirectUrls:{
+                    confirmUrl: $('#locoUrl').val()+"/Home/confirm",
+                    cancelUrl: $('#locoUrl').val()+ "/Home"
+                }
+            };
+             //送出 交易申請至商家 server
+            $.post({
+                url: baseLoginPayUrl + "Create",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(payment),
+                success: (res) => {
+                    console.log(res);
+                    window.location = res.info.paymentUrl.web;
+                    
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            })
+        }
+        //----LinePay結束----
 
 
         //----讀取縣市區json-----------------------------------------------
