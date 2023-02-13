@@ -26,10 +26,11 @@ namespace dbCompanyTest.Models.LineMess.Domain
 
         private static HttpClient client = new HttpClient(); // 負責處理HttpRequest
         private readonly JsonProvider _jsonProvider = new JsonProvider();
+        private readonly chatHub _chatHub;
 
-
-        public LineBotService()
+        public LineBotService(chatHub chatHub)
         {
+            _chatHub = chatHub;
         }
 
         // <summary>
@@ -223,6 +224,8 @@ namespace dbCompanyTest.Models.LineMess.Domain
                                 user.newWords++;
                             chatHub.userList.Add(user);
                         }
+                        _chatHub.LineSendMessage(user, eventObject.Message.Text);
+                        _chatHub.Update();
                         
                         //chatHub CH = new chatHub();
                         //CH.

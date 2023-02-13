@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using dbCompanyTest.Models;
+using dbCompanyTest.Hubs;
 
 namespace dbCompanyTest.Controllers
 {
