@@ -89,6 +89,12 @@ namespace dbCompanyTest.Hubs
             }
         }
 
+        public async Task LineSendMessage(user client,string message)
+        {
+            if (client.waiter != null)
+                await Clients.Client(client.waiter).SendAsync("UpdSystem", client.userName, message);
+        }
+
         public async Task getName(string userName)
         {//設定使用者名稱
             userList.FirstOrDefault(c => c.connectionId == Context.ConnectionId).userName = userName;
