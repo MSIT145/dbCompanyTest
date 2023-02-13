@@ -179,7 +179,6 @@
                                                                     <p class="itemName">會員:@childitem.childCommentGuestName</p>
                                                                     <p class="itemMessage">內容:@childitem.childComment</p>
                                                                 </div>
-                                                                <div>
                                                                         @if (childitem.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
                                                                 {
                                                                         <span class="itemreport">回覆</span>
@@ -204,7 +203,6 @@
 
                                                                         <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
                                                                 }
-                                                                </div>
                                                                 <div style="display:flex;margin-left:28px;border-left:solid;">
                                                                     <ul>
                                                                             @{
@@ -451,14 +449,18 @@
         $(`.itemreportEdit`).on("click", function () {
             editid = $(this).data('id');
             editorder = $(this).data('order');
-            console.log($(this).siblings(`div`).find(".itemMessage").text());
-            let str = $(this).siblings(`div`).find(".itemMessage").text();
+            //console.log($(this).siblings(`div`).find(".itemMessage").text());
+            let str = $(this).prev().prev().prev().find(".itemMessage").text();
             let strEdit = str.substring(3, str.length);
-            console.log($(this).siblings(`.itemreport`));
+            //console.log($(this).siblings(`.itemreport`));
             $(`.reportEdit`).find('.userEditinput').val(strEdit);
             $(`.reportEdit`).css('display', 'block')
-            $(this).siblings(`div`).append($(".reportEdit"));
-            $(this).siblings(`div`).find('p').css('display', "none");
+            console.log($(this).prev().prev().prev());
+            //$(this).closest(`div`).append($(".reportEdit"));
+            //$(this).closest(`div`).find('p').css('display', "none");
+            $(this).prev().prev().prev().find('p').css('display', "none");
+            $(this).prev().prev().prev().append($(".reportEdit"));
+            
         });
 
         $('#userEditCancel').on('click', function () {

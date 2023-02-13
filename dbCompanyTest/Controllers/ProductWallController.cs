@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.SignalR;
 using iText.StyledXmlParser.Jsoup.Nodes;
 using NPOI.OpenXmlFormats.Spreadsheet;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using NPOI.SS.Formula.Atp;
 
 namespace dbCompanyTest.Controllers
 {
@@ -46,7 +47,6 @@ namespace dbCompanyTest.Controllers
                                 商品名稱 = c.商品名稱,
                                 商品價格 = (decimal)c.商品價格,
                                 產品圖片1 = f.商品圖片1,
-                                產品圖片2 = f.商品圖片2,
                                 商品分類名稱 = e.商品分類名稱,
                                 商品顏色id = (int)d.商品顏色id,
                                 顏色名稱 = g.商品顏色種類,
@@ -82,7 +82,6 @@ namespace dbCompanyTest.Controllers
                             商品名稱 = c.商品名稱,
                             商品價格 = (decimal)c.商品價格,
                             產品圖片1 = f.商品圖片1,
-                            產品圖片2 = f.商品圖片2,
                             商品分類名稱 = e.商品分類名稱,
                             商品顏色id = (int)d.商品顏色id,
                             顏色名稱 = g.商品顏色種類,
@@ -138,7 +137,6 @@ namespace dbCompanyTest.Controllers
                                 商品名稱 = c.商品名稱,
                                 商品價格 = (decimal)c.商品價格,
                                 產品圖片1 = f.商品圖片1,
-                                產品圖片2 = f.商品圖片2,
                                 商品分類名稱 = type,
                                 商品顏色id = (int)d.商品顏色id,
                                 顏色名稱 = g.商品顏色種類,
@@ -175,7 +173,6 @@ namespace dbCompanyTest.Controllers
                             商品名稱 = c.商品名稱,
                             商品價格 = (decimal)c.商品價格,
                             產品圖片1 = f.商品圖片1,
-                            產品圖片2 = f.商品圖片2,
                             keyword = keyword,
                             商品顏色id = (int)d.商品顏色id,
                             顏色名稱 = g.商品顏色種類
@@ -588,6 +585,10 @@ namespace dbCompanyTest.Controllers
             if (Convert.ToInt32(data["order"]) == 1)
             {
                 var parentdata = _context.ParentComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
+                var parentdatachild = _context.ChildComments.Select(x => x).Where(x => x.父訊息id == parentdata.訊息id);
+                if(parentdatachild != null) {
+                    _context.ChildComments.RemoveRange(parentdatachild);
+                }
                 _context.ParentComments.Remove(parentdata);
                 _context.SaveChanges();
                 ProductDetailViewModels pdm = selectData(data);
@@ -597,6 +598,11 @@ namespace dbCompanyTest.Controllers
             else if (Convert.ToInt32(data["order"]) == 2)
             {
                 var childdata = _context.ChildComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
+                var childdatachild = _context.ChildComments.Select(x=>x).Where(x => x.父訊息id == childdata.父訊息id && x.子訊息id == childdata.訊息id);
+                if(childdatachild != null)
+                {
+                    _context.ChildComments.RemoveRange(childdatachild);
+                }
                 _context.ChildComments.Remove(childdata);
                 _context.SaveChanges();
                 ProductDetailViewModels pdm = selectData(data);
