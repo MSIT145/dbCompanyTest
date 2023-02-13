@@ -27,10 +27,8 @@ namespace dbCompanyTest.Models.LineMess.Domain
 
         private static HttpClient client = new HttpClient(); // 負責處理HttpRequest
         private readonly JsonProvider _jsonProvider = new JsonProvider();
-        private readonly chatHub _hub;
-        public LineBotService(chatHub hubContext)
+        public LineBotService()
         {
-            _hub = hubContext;
         }
 
         // <summary>
@@ -224,7 +222,8 @@ namespace dbCompanyTest.Models.LineMess.Domain
                                 user.newWords++;
                             chatHub.userList.Add(user);
                         }
-                        _hub.Update();
+                        
+
                         //chatHub CH = new chatHub();
                         //CH.
                         //CH.LineSendMessage(user, eventObject.Message.Text);
