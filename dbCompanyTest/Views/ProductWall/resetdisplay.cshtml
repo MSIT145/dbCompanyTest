@@ -1,5 +1,5 @@
 ﻿@model dbCompanyTest.ViewModels.ProductDetailViewModels
-<p>評論</p>
+<h2 style="font-size:large;color:black;font-weight:300;">評論區</h2>
 <ul>
     @{
         foreach (var paretitem in Model.paretCommentslist)
@@ -121,16 +121,16 @@
                                 </ul>
                             </div>
                         </li>
-            </div>
+                        </div>
                                 }
                             }
                         }
         </ul>
-        </div>
-        </li>
+                            </div>
+                            </li>
         }
     }
-    </ul>
+        </ul>
 @*回覆視窗*@
 <hr />
 <div class="reportmain" data-name="reportmain"></div>
@@ -143,17 +143,16 @@
 @*編輯訊息*@
 <div class="reportEdit" style="display:none;">
     <input class="userEditinput" type="text" /><br />
-    <input type="submit" id="userEditSubmit" class="btn btn-sm btn-primary" value="送出" />
-    <input type="button" id="userEditCancel" class="btn btn-sm btn-secondary" value="取消" />
+    <input type="submit" id="userEditSubmit" class="btn btn-primary btn-sm" value="送出" />
+    <input type="button" id="userEditCancel" class="btn btn-secondary btn-sm" value="取消" />
 </div>
 
 
 
 
-</div>
+    </div>
 </div>
 <script>
-    ////Signalr評論
     async function checkuser() {
         let data = await fetch("@Url.Content("~/ProductWall/checkuser")");
         let response = await data.json();

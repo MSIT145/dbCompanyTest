@@ -16,6 +16,7 @@ time, mark, audio, video {
     border: 0;
     font: inherit;
     font-weight: normal;
+    font-family: 'Microsoft YaHei';
     /*vertical-align: baseline;*/
     list-style: none;
     box-sizing: content-box;
@@ -38,7 +39,7 @@ time, mark, audio, video {
     time, mark, audio, video {
         /*margin-left: 0.3px;*/
         list-style: none;
-        
+        font-family: 'Microsoft YaHei';
     }
 }
 
@@ -52,21 +53,6 @@ time, mark, audio, video {
 
 
 
-
-/*html, body {
-    width: 100%;
-    font-family: sans-serif, "Arial", "Microsoft YaHei", "黑體", "宋體", "微軟雅黑";
-}
-*/
-/*a {
-    text-decoration: none;*/
-    /*z-index: -1;*/
-/*}
-
-    a:hover {
-        text-decoration: none;
-        color: black;
-    }*/
 
 .content {
     display: flex;
