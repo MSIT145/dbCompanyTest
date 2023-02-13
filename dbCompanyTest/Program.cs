@@ -53,5 +53,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapHub<chatHub>("/chatHub");
-((IApplicationBuilder)app).ApplicationServices.GetService<IHubContext<chatHub>>();
+chatHub.Current = ((IApplicationBuilder)app).ApplicationServices.GetService<IHubContext<chatHub>>();
 app.Run();
