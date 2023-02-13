@@ -10,7 +10,7 @@ body {
     background-position: center;
     background-attachment: fixed;
     background-repeat: no-repeat;
-    background-image: url('https://localhost:7100/homeImg/後台.png')
+    /*background-image: url('https://localhost:7100/homeImg/後台.png')*/
 }
 
 .box1 {

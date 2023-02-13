@@ -497,6 +497,10 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult stfNum_and_inf0()
         {
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_INFO_SESSION))
+            {
+                return RedirectToAction("login");
+            }
             string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_INFO_SESSION);
             var data = JsonSerializer.Deserialize<TestStaff>(json);
             CStaffInfo info = new CStaffInfo();
