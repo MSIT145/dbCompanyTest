@@ -224,7 +224,7 @@ namespace dbCompanyTest.Models.LineMess.Domain
                             chatHub.userList.Add(user);
                         }
                         Update();
-
+                        SendMessage(user.LineID, eventObject.Message.Text);
 
                         //chatHub CH = new chatHub();
                         //CH.
