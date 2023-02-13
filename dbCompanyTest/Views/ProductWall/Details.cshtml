@@ -447,20 +447,16 @@
 
         //修改
         $(`.itemreportEdit`).on("click", function () {
+            if($(`.reportEdit`).css('display')==="none"){
             editid = $(this).data('id');
             editorder = $(this).data('order');
-            //console.log($(this).siblings(`div`).find(".itemMessage").text());
             let str = $(this).prev().prev().prev().find(".itemMessage").text();
             let strEdit = str.substring(3, str.length);
-            //console.log($(this).siblings(`.itemreport`));
             $(`.reportEdit`).find('.userEditinput').val(strEdit);
             $(`.reportEdit`).css('display', 'block')
-            console.log($(this).prev().prev().prev());
-            //$(this).closest(`div`).append($(".reportEdit"));
-            //$(this).closest(`div`).find('p').css('display', "none");
             $(this).prev().prev().prev().find('p').css('display', "none");
             $(this).prev().prev().prev().append($(".reportEdit"));
-            
+            }
         });
 
         $('#userEditCancel').on('click', function () {
@@ -587,11 +583,11 @@
                         }
                     }());//加上小括號立即執行
                 }
-                //回復子題
+                ////回復子題
                 else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "child") {
                     let comment = $(`.userreportinput`).val();
-                    let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().siblings('div').data('id');
-                    let childID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
+                    let paretID = $(`.userreport`).closest(`div`).siblings(".itemCommentContent").data('id');
+                    let childID = $(`.userreport`).siblings(`.itemCommentContent`).data('id');
                     let productid = @Model.pro商品編號;
                     let colorid = @Model.商品顏色ID;
                     (async function () {
@@ -620,8 +616,12 @@
                 //最後
                 else {
                     let comment = $(`.userreportinput`).val();
-                    let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().parent().parent().parent().siblings('div').data('id');
-                    let childID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().closest(`.itemCommentContent`).data('id');
+                    //let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().parent().parent().parent().siblings('div').data('id');
+                    //let childID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().closest(`.itemCommentContent`).data('id');
+                    console.log($(`.userreport`).closest("ul").closest('div').siblings(`.itemCommentContent`).data('id'));
+                    console.log($(`.userreport`).siblings(`.itemCommentContent`).data('id'));
+                    let paretID = $(`.userreport`).closest("ul").closest('div').siblings(`.itemCommentContent`).data('id');
+                    let childID = $(`.userreport`).siblings(`.itemCommentContent`).data('id');
                     let productid = @Model.pro商品編號;
                     let colorid = @Model.商品顏色ID;
                     (async function () {
