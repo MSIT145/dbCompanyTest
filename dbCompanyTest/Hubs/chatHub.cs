@@ -85,6 +85,7 @@ namespace dbCompanyTest.Hubs
                     else
                     {
                         user client = userList.FirstOrDefault(x => x.LineID == ClientID);
+                        client.userWords.Add("S" + message);
                         //傳送Line訊息方法
                         new LineBot().SendLineMessage(client.LineID.Substring(4, client.LineID.Count() - 4), message);
                         await Clients.Client(Context.ConnectionId).SendAsync("UpdContent", message);
