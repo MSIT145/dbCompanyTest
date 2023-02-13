@@ -1,4 +1,5 @@
-﻿using dbCompanyTest.Models;
+﻿using dbCompanyTest.Controllers;
+using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
@@ -82,14 +83,15 @@ namespace dbCompanyTest.Hubs
                     }
                     else
                     {
+                        user client = userList.FirstOrDefault(x => x.LineID == ClientID);
                         //傳送Line訊息方法
-                        //SendLineMessage(ClientID.Substring(3,ClientID.Length-1),message);
+                        new LineBot().SendLineMessage(client.LineID.Substring(4, client.LineID.Count() - 5), message);
                     }
                 }
             }
         }
 
-        public async Task LineSendMessage(user client,string message)
+        public async Task LineSendMessage(user client, string message)
         {
             if (client.waiter != null)
                 await Clients.Client(client.waiter).SendAsync("UpdSystem", client.userName, message);
@@ -100,13 +102,16 @@ namespace dbCompanyTest.Hubs
             userList.FirstOrDefault(c => c.connectionId == Context.ConnectionId).userName = userName;
             Update();
         }
-
         public async Task bindWaiterUser(string userId)
         {
             user? olduser = userList.FirstOrDefault(x => x.waiter == Context.ConnectionId);
             if (olduser != null)
                 olduser.waiter = null;
-            user? user = userList.FirstOrDefault(x => x.connectionId == userId);
+            user user;
+            if (userId.Substring(0, 4) == "LINE") 
+                user = userList.FirstOrDefault(x => x.LineID == userId);
+            else
+                user = userList.FirstOrDefault(x => x.connectionId == userId);
             if (user.waiter == null)
             {
                 user.waiter = Context.ConnectionId;

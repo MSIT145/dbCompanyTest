@@ -89,10 +89,11 @@
                 if (value.newWords == 0) {
                     color = "gray"
                 }
+                //
                 if (value.LineID){
-                    return (`<div class="list-group-item list-group-item-action" id="${value.LineID}" style="cursor:pointer">
+                    return (`<div class="list-group-item list-group-item-action" id="${value.LineID}" data-id="${value.LineID}" style="cursor:pointer">
                                                                     <div class="d-flex w-100 justify-content-between">
-                                                                        <h5 class="mb-1">${value.userName} <span style="color:white;background-color:ligthgreen">LINE用戶</span></h5>
+                                                                        <h5 class="mb-1">${value.userName}</h5>
                                                                         <div style="width:10px;height:10px;border-radius:50px;background-color:${color}"></div>
                                                                     </div>
                                                                 </div>`);
@@ -103,7 +104,7 @@
                                                                         <div style="width:10px;height:10px;border-radius:50px;background-color:${color}"></div>
                                                                     </div>
                                                                 </div>`);
-                }
+                    }
             });
             $(`.list-group`).html(htmluserList.join(""));
 
@@ -111,16 +112,37 @@
             let userdiv = document.getElementsByClassName(`list-group-item`);
             for (let Item of userdiv) {
                 Item.addEventListener(`dblclick`, function () {
-                    //console.log("qwe");
                     customerID = $(this).attr("id");
                     $(`#connectionUserID`).val(customerID);
                     $(`#userName`).text($(this).find(`h5`).text());
                     $(this).find(`h5`).next().css("background-color", "gray");
-                    connection.invoke(`bindWaiterUser`, customerID);
+                    connection.invoke("bindWaiterUser", customerID);
                 });
             }
             resetScrollSite();
         });
+        //    let userId = "";
+        //    let userdiv = document.getElementsByClassName(`list-group-item`);
+        //    for (let Item of userdiv) {
+        //        Item.addEventListener(`dblclick`, function () {
+        //            // customerID = $(this).attr("id");
+        //            userId = $(this).data("id");
+        //            $(`#connectionUserID`).val(userId);
+        //            $(`#userName`).text($(this).find(`h5`).text());
+        //            $(this).find(`h5`).next().css("background-color", "gray");
+        //            connection.invoke("bindWaiterUser", userId);
+        //        });
+        //    }
+        //    resetScrollSite();
+        //});
+
+
+
+
+
+
+
+
 
         connection.on(`newClientMsg`, function (data) {
             let clientName = $(`#userName`).text();
@@ -206,7 +228,6 @@
             {
                 TotalH += xh.scrollHeight;
             }
-            console.log(TotalH);
             $('#msgArea').animate({
                 scrollTop: $("#msgArea").offset().top + TotalH
             }, 500);

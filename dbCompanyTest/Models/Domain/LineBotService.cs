@@ -8,6 +8,7 @@ using dbCompanyTest.Models.LineMess.Dtos.Webhook;
 using dbCompanyTest.Models.LineMess.Enum;
 using dbCompanyTest.Models.LineMess.Providers;
 using Newtonsoft.Json;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -84,15 +85,15 @@ namespace dbCompanyTest.Models.LineMess.Domain
 
 
 
-        public void PushMessageHandler(string messageType, object requestBody)//私訊
+        public void PushMessageHandler(string messageType, string requestBody)//私訊
         {
-            string strBody = requestBody.ToString();
+           // string strBody = requestBody.ToString();
 
             switch (messageType)
             {
                 case MessageTypeEnum.Text:
 
-                    var messageRequest = _jsonProvider.Deserialize<BroadcastMessageRequestDto<TextMessageDto>>(strBody); //Providers/JsonProvider
+                    var messageRequest = _jsonProvider.Deserialize<BroadcastMessageRequestDto<TextMessageDto>>(requestBody); //Providers/JsonProvider
                     PushMessage(messageRequest);
                     break;
             }
@@ -200,9 +201,33 @@ namespace dbCompanyTest.Models.LineMess.Domain
                         //Console.WriteLine(eventObject.Message.Text);
                         var UserName1 = GetUserProfile(eventObject.Source.UserId);
                         var UserName = UserName1.Result.displayName;
-
-
-
+                        string LineID_For_ChatHub = $"LINE{eventObject.Source.UserId}";
+                        user user;
+                        if (chatHub.userList.Exists(X => X.LineID == LineID_For_ChatHub))
+                        {
+                           user = chatHub.userList.FirstOrDefault(x=> x.LineID== LineID_For_ChatHub);
+                            user.userWords.Add(eventObject.Message.Text);
+                            if (user.waiter == null)
+                                user.newWords++;
+                        }
+                        else
+                        {
+                            user = new user();
+                            user.userName = UserName;
+                            user.connectionId = "wt1oTUm9GsiL3dS2vVhyTw";
+                            user.LineID = LineID_For_ChatHub;
+                            if (user.userWords == null)
+                                user.userWords = new List<string>();
+                            user.userWords.Add(eventObject.Message.Text);
+                            if (user.waiter == null)
+                                user.newWords++;
+                            chatHub.userList.Add(user);
+                        }
+                        
+                        //chatHub CH = new chatHub();
+                        //CH.
+                        //CH.LineSendMessage(user, eventObject.Message.Text);
+                        //CH.Update();
 
 
                         //var replyMessage = new ReplyMessageRequestDto<TextMessageDto>()

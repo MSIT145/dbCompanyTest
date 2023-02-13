@@ -27,13 +27,19 @@ namespace dbCompanyTest.Controllers
         }
 
 
-        [HttpPost("SendMessage/send")]//私訊 需輸入Id
-        public IActionResult send([Required] string messageType, object body)
+
+
+
+        [HttpPost/*("SendMessage/send")*/]//私訊 需輸入Id
+        public IActionResult SendLineMessage(string LINEID, string msg)
         {
-            _lineBotService.PushMessageHandler(messageType, body);
+            //string body1 = "            {\r\n                \"to\":\"U4dd930b9e38f7c7e6f8ef483c417100b\",\r\n            \"Messages\":[{ \"Type\":\"text\",\"Text\":\"私訊測試\"}]\r\n            }";
+
+            _lineBotService.PushMessageHandler("text",
+                "{\r\n                \"to\":\"U4dd930b9e38f7c7e6f8ef483c417100b\",\r\n            \"Messages\":[{ \"Type\":\"text\",\"Text\":\"私訊測試\"}]\r\n            }");
             return Ok();
             //{
-            //"to":"U4dd930b9e38f7c7e6f8ef483c417100b",
+            //    "to":"U4dd930b9e38f7c7e6f8ef483c417100b",
             //"Messages":[{ "Type":"text","Text":"私訊測試"}]
             //}
         }
