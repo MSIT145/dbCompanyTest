@@ -85,7 +85,7 @@ namespace dbCompanyTest.Hubs
                     {
                         user client = userList.FirstOrDefault(x => x.LineID == ClientID);
                         //傳送Line訊息方法
-                        new LineBot().SendLineMessage(client.LineID.Substring(4, client.LineID.Count() - 5), message);
+                        new LineBot(this).SendLineMessage(client.LineID.Substring(4, client.LineID.Count() - 5), message);
                     }
                 }
             }

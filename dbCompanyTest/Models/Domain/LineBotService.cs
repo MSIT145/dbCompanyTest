@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using Microsoft.AspNetCore.SignalR;
 
 namespace dbCompanyTest.Models.LineMess.Domain
 {
@@ -26,9 +27,10 @@ namespace dbCompanyTest.Models.LineMess.Domain
 
         private static HttpClient client = new HttpClient(); // 負責處理HttpRequest
         private readonly JsonProvider _jsonProvider = new JsonProvider();
-
-        public LineBotService()
+        private readonly chatHub _hub;
+        public LineBotService(chatHub hubContext)
         {
+            _hub = hubContext;
         }
 
         // <summary>
@@ -222,7 +224,7 @@ namespace dbCompanyTest.Models.LineMess.Domain
                                 user.newWords++;
                             chatHub.userList.Add(user);
                         }
-                        
+                        _hub.Update();
                         //chatHub CH = new chatHub();
                         //CH.
                         //CH.LineSendMessage(user, eventObject.Message.Text);
