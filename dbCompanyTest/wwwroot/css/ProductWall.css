@@ -161,7 +161,7 @@
         font-weight: 500;
     }
 
-    .tree-menu li {
+    .tree-menu1 li {
         padding-left: 20px;
         margin: 10px 0;
     }
@@ -328,7 +328,7 @@
     }
 
 
-    .tree-menu {
+    .tree-menu1 {
         display:none;
     }
 

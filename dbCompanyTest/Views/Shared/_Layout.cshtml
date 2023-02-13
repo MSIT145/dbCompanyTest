@@ -153,24 +153,30 @@
         </div>
     </header>
     <div class="sidebar-left" style="left: -100%;">
-        <div class="channel-menu">
+        <div class="channel-menu" >
             <div class="menu-item">
-                <a class="m-1 mobile-left-nav" asp-controller="ProductWall" asp-action="Index" asp-route-id="1">男鞋</a>
+                <a class="m-1 mobile-left-nav" href="#">男鞋</a>
+                <ul class="tree-menu" style="display:none;"><li> <a asp-controller="ProductWall" asp-action="Index" asp-route-id="1" class="m-2">男鞋全系列</a></li><li> <a href="/ProductWall/type/4?tid=1&type=男鞋" class="m-2">小白鞋</a></li><li> <a href="/ProductWall/type/10?tid=1&type=男鞋" class="m-2">休閒鞋</a></li><li> <a href="/ProductWall/type/1?tid=1&type=男鞋" class="m-2">牛津</a></li><li> <a href="/ProductWall/type/3?tid=1&type=男鞋" class="m-2">馬汀靴</a></li><li> <a href="/ProductWall/type/6?tid=1&type=男鞋" class="m-2">樂福鞋</a></li><li> <a href="/ProductWall/type/11?tid=1&type=男鞋" class="m-2">其他</a></li></ul>
             </div>        
             <div class="menu-item">
-                <a class="m-1 mobile-left-nav" asp-controller="ProductWall" asp-action="Index" asp-route-id="2">女鞋</a>
+                <a class="m-1 mobile-left-nav" href="#">女鞋</a>
+                <ul class="tree-menu" style="display:none;"><li> <a asp-controller="ProductWall" asp-action="Index" asp-route-id="2" class="m-2">女鞋全系列</a></li><li> <a href="/ProductWall/type/1?tid=2&type=女鞋" class="m-2">牛津</a></li><li> <a href="/ProductWall/type/3?tid=2&type=女鞋" class="m-2">馬汀靴</a></li><li> <a href="/ProductWall/type/2?tid=2&type=女鞋" class="m-2">長靴</a></li><li> <a href="/ProductWall/type/6?tid=2&type=女鞋" class="m-2">樂福鞋</a></li><li> <a href="/ProductWall/type/8?tid=2&type=女鞋" class="m-2">猛克鞋</a></li><li> <a href="/ProductWall/type/4?tid=2&type=女鞋" class="m-2">小白鞋</a></li><li> <a href="/ProductWall/type/7?tid=2&type=女鞋" class="m-2">德比鞋</a></li></ul>
             </div>                
             <div class="menu-item">
-                <a class="m-1 mobile-left-nav" asp-controller="ProductWall" asp-action="Index" asp-route-id="3">KOL聯名</a>
+                <a class="m-1 mobile-left-nav" href="#">KOL聯名</a>
+                <ul class="tree-menu" style="display:none;"><li> <a asp-controller="ProductWall" asp-action="Index" asp-route-id="3" class="m-2">KOL聯名全系列</a></li><li> <a href="/ProductWall/type/10?tid=3&type=KOL聯名" class="m-2">休閒鞋</a></li><li> <a href="/ProductWall/type/2?tid=3&type=KOL聯名" class="m-2">長靴</a></li><li> <a href="/ProductWall/type/7?tid=3&type=KOL聯名" class="m-2">德比鞋</a></li><li> <a href="/ProductWall/type/6?tid=3&type=KOL聯名" class="m-2">樂福鞋</a></li><li> <a href="/ProductWall/type/8?tid=3&type=KOL聯名" class="m-2">猛克鞋</a></li><li> <a href="/ProductWall/type/4?tid=3&type=KOL聯名" class="m-2">小白鞋</a></li></ul>
             </div>        
             <div class="menu-item">
-                <a  class="m-1 mobile-left-nav" asp-controller="ProductWall" asp-action="Index" asp-route-id="4">迪士尼</a>
+                <a  class="m-1 mobile-left-nav" href="#">迪士尼</a>
+                <ul class="tree-menu" style="display:none;"><li> <a asp-controller="ProductWall" asp-action="Index" asp-route-id="4" class="m-2">全系列</a></li></ul>
             </div>           
             <div class="menu-item">
-                <a  class="m-1 mobile-left-nav" asp-controller="ProductWall" asp-action="Index" asp-route-id="5">服飾包袋</a>
+                <a  class="m-1 mobile-left-nav" href="#">服飾包袋</a>
+                <ul class="tree-menu" style="display:none;"><li> <a asp-controller="ProductWall" asp-action="Index" asp-route-id="5" class="m-2">全系列</a></li></ul>
             </div>        
             <div class="menu-item">
-                <a class="m-1 mobile-left-nav" asp-controller="ProductWall" asp-action="Index" asp-route-id="6">口罩</a>
+                <a class="m-1 mobile-left-nav" href="#">口罩</a>
+                <ul class="tree-menu" style="display:none;"><li> <a asp-controller="ProductWall" asp-action="Index" asp-route-id="6" class="m-2">全系列</a></li></ul>
             </div>        
         </div>
         <div class="sign-out mobile-sign-out"  id="l-log1">
@@ -607,6 +613,21 @@
 
             }
             return;
+        })
+        // 展開欄目
+        $('body').delegate('.sidebar-left .m-1', 'click', function () {
+            let _this = $(this);
+
+            if (_this.hasClass('real-a')) {
+                return true;
+            }
+
+            if (!_this.hasClass('ac') && _this.next('ul').length > 0) {
+                _this.addClass('ac').next('ul').slideDown(300)
+            } else if (_this.hasClass('ac') && _this.next('ul').length > 0) {
+                _this.removeClass('ac').next('ul').slideUp(300);
+            }
+            return false;
         })
 
     </script>

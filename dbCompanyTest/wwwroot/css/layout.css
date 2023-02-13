@@ -434,7 +434,7 @@
     .sidebar-left {
         position: fixed;
         top: 6.65rem;
-        bottom: 0;
+        bottom: 4.5rem;
         left: -100%;
         width: 12.36rem;
         background-color: #fff;
@@ -455,7 +455,7 @@
             color: #939393;
         }
         .sidebar-left .menu-item .m-1 {
-            /* line-height: 0.6rem; */
+             line-height: 0.6rem; 
             /* font-weight: bold; */
             padding: 1.2rem 0;
         }
@@ -465,7 +465,7 @@
             letter-spacing: 2px;
             display: block;
             font-family: 'Microsoft YaHei';
-            font-size: 16px;
+            font-size: 14px;
         }
         .sidebar-left .sign-out {
             margin-left: 1.4rem;
@@ -476,6 +476,14 @@
                 letter-spacing: 2px;
                 display: block;
             }
+
+    .tree-menu {
+        padding-left: 1rem;
+    }
+    .tree-menu li {
+        list-style: none;
+        font-weight:400;
+    }
 }
 
 
