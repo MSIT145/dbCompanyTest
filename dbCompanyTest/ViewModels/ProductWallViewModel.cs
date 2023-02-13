@@ -16,6 +16,7 @@ namespace dbCompanyTest.ViewModels
         public string 商品名稱 { get; set; }
         public decimal  商品價格 { get; set; }
         public string 產品圖片1 { get; set; }
+        public string 產品圖片2 { get; set; }
         public string keyword { get; set; }
 
     }

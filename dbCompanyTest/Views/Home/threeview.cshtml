@@ -758,20 +758,14 @@
                     });
             }
 
-            //let bkboots="Object_2002";
-            //let grayshoes="defaultMaterial";
-            //let disney="Object_3";
-            //let lv = "Bag_low__0";
-            //let mask="Plane_lambert1_0";
-            //let bag="Object_5";
-            //let clicktv = "Cylinder_1_0";
+           
 
             // 計算後，將所有有相交的物件的顏色改變為紅色，如果只需要將第一個觸發事件，那就陣列的第一個物件改變顏色即可
             for (var i = 0; i < 1; i++) {
 
 
                 
-                //screenplane.material = movieMaterial;
+                screenplane.material = movieMaterial2;
 
 
 
@@ -908,9 +902,9 @@
                         
                     },2000)
                 } 
-                //else if (intersects[i].object.name== clicktv ||intersects[i].object.name==null) {
-                //    screenplane.material=movieMaterial2;
-                //}
+                else if (intersects[i].object.name== clicktv ||intersects[i].object.name==null) {
+                    screenplane.material=movieMaterial;
+                }
                 //else{
                 //    screenplane.material = movieMaterial;
                     

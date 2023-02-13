@@ -51,11 +51,13 @@
                         <a asp-action="Details" asp-route-id="@item.商品id" asp-route-colorID="@item.商品顏色id">
                             <div class="card mb-4 product-wap rounded-0">
                                 <div class="card rounded-0">
-                                    <div>
+                                    <div id="proimg">
                                         @{
                                             if (@item.產品圖片1 != null)
                                             {
-                                                <img class="card-img rounded-0 img-fluid" src="~/images/@item.產品圖片1" width="236" height="324" />
+                                                <img class="card-img rounded-0 img-fluid" src="~/images/@item.產品圖片1" width="236" height="324"
+                                                 data-hover-src="/images/@item.產品圖片2"
+                                                 data-leave-src="/images/@item.產品圖片1" />
                                             }
                                             else
                                             {
@@ -112,5 +114,21 @@
 @section Scripts{
     <script>
         $("#sclass").load("@Url.Content("~/ProductWall/shoesclass")")
+    </script>
+    <script>
+        $('body').on('mouseenter', '#proimg', function () {
+            let $img = $(this).find('img').first();
+            if (!$img) {
+                return;
+            }
+            $img.attr('src', $img.data('hover-src'));
+        });
+        $('body').on('mouseleave', '#proimg', function () {
+            let $img = $(this).find('img').first();
+            if (!$img) {
+                return;
+            }
+            $img.attr('src', $img.data('leave-src'));
+        });
     </script>
 }
