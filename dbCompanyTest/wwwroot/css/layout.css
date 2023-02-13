@@ -469,12 +469,13 @@
         }
         .sidebar-left .sign-out {
             margin-left: 1.4rem;
-            padding: 1.2rem 0;
+            padding: 0.5rem 0;
         }
             .sidebar-left .sign-out a {
                 color: #939393;
                 letter-spacing: 2px;
                 display: block;
+                font-size: 14px;
             }
 
     .tree-menu {
