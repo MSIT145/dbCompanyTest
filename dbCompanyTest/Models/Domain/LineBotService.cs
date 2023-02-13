@@ -207,8 +207,6 @@ namespace dbCompanyTest.Models.LineMess.Domain
                         {
                             user = chatHub.userList.FirstOrDefault(x => x.LineID == LineID_For_ChatHub);
                             user.userWords.Add(eventObject.Message.Text);
-                            if (user.waiter == null)
-                                user.newWords++;
                         }
                         else
                         {
@@ -216,11 +214,6 @@ namespace dbCompanyTest.Models.LineMess.Domain
                             user.userName = UserName;
                             user.connectionId = "wt1oTUm9GsiL3dS2vVhyTw";
                             user.LineID = LineID_For_ChatHub;
-                            if (user.userWords == null)
-                                user.userWords = new List<string>();
-                            user.userWords.Add(eventObject.Message.Text);
-                            if (user.waiter == null)
-                                user.newWords++;
                             chatHub.userList.Add(user);
                         }
                         Update();
