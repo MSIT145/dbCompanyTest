@@ -222,27 +222,27 @@ namespace dbCompanyTest.Models.LineMess.Domain
                                 user.newWords++;
                             chatHub.userList.Add(user);
                         }
-                        
+                        chatHub.Current.Clients.All.SendAsync("test", user.userName);
 
-                        //chatHub CH = new chatHub();
-                        //CH.
-                        //CH.LineSendMessage(user, eventObject.Message.Text);
-                        //CH.Update();
-
-
-                        //var replyMessage = new ReplyMessageRequestDto<TextMessageDto>()
-                        //{
-                        //    ReplyToken = eventObject.ReplyToken,
-                        //    Messages = new List<TextMessageDto>
-                        //     {
-                        //        new TextMessageDto(){Text = $"\"{eventObject.Message.Text}\"??? 這是自動回復"},
-                        //        //new TextMessageDto(){Text = $"You know what, I don't give a shit about what you wanna tell me"}
-                        //     }
-                        //};
-                        //ReplyMessageHandler("text", replyMessage);
+                            //chatHub CH = new chatHub();
+                            //CH.
+                            //CH.LineSendMessage(user, eventObject.Message.Text);
+                            //CH.Update();
 
 
-                        break;
+                            //var replyMessage = new ReplyMessageRequestDto<TextMessageDto>()
+                            //{
+                            //    ReplyToken = eventObject.ReplyToken,
+                            //    Messages = new List<TextMessageDto>
+                            //     {
+                            //        new TextMessageDto(){Text = $"\"{eventObject.Message.Text}\"??? 這是自動回復"},
+                            //        //new TextMessageDto(){Text = $"You know what, I don't give a shit about what you wanna tell me"}
+                            //     }
+                            //};
+                            //ReplyMessageHandler("text", replyMessage);
+
+
+                            break;
 
                     case WebhookEventTypeEnum.Unsend:
                         Console.WriteLine("==================");

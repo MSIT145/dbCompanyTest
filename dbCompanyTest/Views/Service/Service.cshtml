@@ -221,6 +221,10 @@
             }
         });
 
+        connection.on("test",function(data){
+            console.log(data);
+        });
+
         function resetScrollSite(){
             let chatList = $("#msgArea").find(".chat");
             let TotalH = 0;

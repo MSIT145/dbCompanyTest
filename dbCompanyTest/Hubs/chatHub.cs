@@ -13,6 +13,7 @@ namespace dbCompanyTest.Hubs
     {
         // 用戶連線 ID 列表
         public static List<user> userList = new List<user>();
+        public static IHubContext<chatHub> Current { get; set; }
 
         public override async Task OnConnectedAsync()
         {

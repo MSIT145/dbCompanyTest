@@ -1,5 +1,7 @@
 using dbCompanyTest.Hubs;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Options;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
@@ -51,5 +53,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapHub<chatHub>("/chatHub");
-
+((IApplicationBuilder)app).ApplicationServices.GetService<IHubContext<chatHub>>();
 app.Run();
