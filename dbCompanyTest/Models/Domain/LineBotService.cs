@@ -216,6 +216,19 @@ namespace dbCompanyTest.Models.LineMess.Domain
                             user.LineID = LineID_For_ChatHub;
                             chatHub.userList.Add(user);
                         }
+                        if(user.waiter == null)
+                        {
+                            var replyMessage = new ReplyMessageRequestDto<TextMessageDto>()
+                            {
+                                ReplyToken = eventObject.ReplyToken,
+                                Messages = new List<TextMessageDto>
+                                 {
+                                    new TextMessageDto(){Text = "客服忙線中請稍後"},
+                                    //new TextMessageDto(){Text = $"You know what, I don't give a shit about what you wanna tell me"}
+                                 }
+                            };
+                            ReplyMessageHandler("text", replyMessage);
+                        }
                         Update();
                         SendMessage(user.LineID, eventObject.Message.Text);
 
