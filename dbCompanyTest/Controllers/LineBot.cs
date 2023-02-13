@@ -1,4 +1,5 @@
-﻿using dbCompanyTest.Models.LineMess.Domain;
+﻿using dbCompanyTest.Hubs;
+using dbCompanyTest.Models.LineMess.Domain;
 using dbCompanyTest.Models.LineMess.Dtos.Webhook;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -13,9 +14,9 @@ namespace dbCompanyTest.Controllers
         private readonly string channelSecret = "dd0a693282da9bd4a90aa2c837787648"; //TOP>SheoseGift>ShoeseGift>Basic settings>Channel secret
 
         private readonly LineBotService _lineBotService;
-        public LineBot()
+        public LineBot(chatHub chatHub)
         {
-            _lineBotService = new LineBotService();
+            _lineBotService = new LineBotService(chatHub);
         }
 
         [HttpPost("SendMessage/Broadcast")]//發送廣播訊息
