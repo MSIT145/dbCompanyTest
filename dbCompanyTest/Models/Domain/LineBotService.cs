@@ -26,11 +26,9 @@ namespace dbCompanyTest.Models.LineMess.Domain
 
         private static HttpClient client = new HttpClient(); // 負責處理HttpRequest
         private readonly JsonProvider _jsonProvider = new JsonProvider();
-        private readonly chatHub _chatHub;
 
-        public LineBotService(chatHub chatHub)
+        public LineBotService()
         {
-            _chatHub = chatHub;
         }
 
         // <summary>
