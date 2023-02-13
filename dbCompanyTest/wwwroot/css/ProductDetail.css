@@ -119,29 +119,6 @@ time, mark, audio, video {
     }
 }
 
-@media screen and (max-width:500px) {
-    .d-carouse {
-        width: 480px;
-        max-height: 600px;
-    }
-
-        .d-carouse img {
-            width: 480px;
-            height: 600px;
-            transform: scale(1,1);
-            transition: all 1s ease-out;
-        }
-}
-
-
-
-
-
-
-
-
-
-
 
 
 .d-carouse {
@@ -166,6 +143,41 @@ time, mark, audio, video {
     float: none;
 }
 
+@media screen and (max-width:400px) {
+    .d-carouse {
+        width: 100%;
+        /*max-height: 600px;*/
+    }
+
+        .d-carouse img {
+            width: 100%;
+            height: 600px;
+            /*transform: scale(1,1);
+            transition: all 1s ease-out;*/
+        }
+}
+
+@media screen and (max-width:400px) {
+    .youmustlike {
+        width: 50%;
+        /*max-height: 600px;*/
+        
+    }
+
+        .youmustlike img {
+            width: 50%;
+            height: auto;
+            /*transform: scale(1,1);
+            transition: all 1s ease-out;*/
+        }
+}
+
+
+
+
+
+
+
 
 
 
@@ -173,7 +185,7 @@ time, mark, audio, video {
     float: right;
     max-width: 100%;
     width: 20%;
-    z-index:6;
+    /*z-index:6;*/
 }
     
     .d-right-detail .itemdivborder {
