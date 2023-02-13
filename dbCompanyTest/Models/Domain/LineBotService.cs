@@ -222,7 +222,7 @@ namespace dbCompanyTest.Models.LineMess.Domain
                                 user.newWords++;
                             chatHub.userList.Add(user);
                         }
-                        chatHub.Current.Clients.All.SendAsync("test", user.userName);
+                        chatHub.Current.Clients.All.SendAsync("test", eventObject.Message.Text);
 
                             //chatHub CH = new chatHub();
                             //CH.
