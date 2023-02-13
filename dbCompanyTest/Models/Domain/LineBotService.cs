@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using Microsoft.AspNetCore.SignalR;
+using dbCompanyTest.Controllers;
 
 namespace dbCompanyTest.Models.LineMess.Domain
 {
@@ -86,7 +87,7 @@ namespace dbCompanyTest.Models.LineMess.Domain
 
         public void PushMessageHandler(string messageType, string requestBody)//私訊
         {
-           // string strBody = requestBody.ToString();
+            // string strBody = requestBody.ToString();
 
             switch (messageType)
             {
@@ -204,7 +205,7 @@ namespace dbCompanyTest.Models.LineMess.Domain
                         user user;
                         if (chatHub.userList.Exists(X => X.LineID == LineID_For_ChatHub))
                         {
-                           user = chatHub.userList.FirstOrDefault(x=> x.LineID== LineID_For_ChatHub);
+                            user = chatHub.userList.FirstOrDefault(x => x.LineID == LineID_For_ChatHub);
                             user.userWords.Add(eventObject.Message.Text);
                             if (user.waiter == null)
                                 user.newWords++;
@@ -222,27 +223,28 @@ namespace dbCompanyTest.Models.LineMess.Domain
                                 user.newWords++;
                             chatHub.userList.Add(user);
                         }
-                        chatHub.Current.Clients.All.SendAsync("test", eventObject.Message.Text);
-
-                            //chatHub CH = new chatHub();
-                            //CH.
-                            //CH.LineSendMessage(user, eventObject.Message.Text);
-                            //CH.Update();
+                        Update();
 
 
-                            //var replyMessage = new ReplyMessageRequestDto<TextMessageDto>()
-                            //{
-                            //    ReplyToken = eventObject.ReplyToken,
-                            //    Messages = new List<TextMessageDto>
-                            //     {
-                            //        new TextMessageDto(){Text = $"\"{eventObject.Message.Text}\"??? 這是自動回復"},
-                            //        //new TextMessageDto(){Text = $"You know what, I don't give a shit about what you wanna tell me"}
-                            //     }
-                            //};
-                            //ReplyMessageHandler("text", replyMessage);
+                        //chatHub CH = new chatHub();
+                        //CH.
+                        //CH.LineSendMessage(user, eventObject.Message.Text);
+                        //CH.Update();
 
 
-                            break;
+                        //var replyMessage = new ReplyMessageRequestDto<TextMessageDto>()
+                        //{
+                        //    ReplyToken = eventObject.ReplyToken,
+                        //    Messages = new List<TextMessageDto>
+                        //     {
+                        //        new TextMessageDto(){Text = $"\"{eventObject.Message.Text}\"??? 這是自動回復"},
+                        //        //new TextMessageDto(){Text = $"You know what, I don't give a shit about what you wanna tell me"}
+                        //     }
+                        //};
+                        //ReplyMessageHandler("text", replyMessage);
+
+
+                        break;
 
                     case WebhookEventTypeEnum.Unsend:
                         Console.WriteLine("==================");
@@ -299,6 +301,37 @@ namespace dbCompanyTest.Models.LineMess.Domain
                         Console.WriteLine($"使用者{eventObject.Source.UserId}看過影片");
                         break;
                 }
+            }
+        }
+
+        public async void Update()
+        {
+            List<user> userList = chatHub.userList;
+            List<user> client = userList.Where(x => x.userName.Substring(0, 2) != "ST" && x.userWords != null).ToList();
+            string jsonString = JsonConvert.SerializeObject(client);
+            List<string> waiter = userList.Where(x => x.userName.Substring(0, 2) == "ST").Select(x => x.connectionId).ToList();
+            foreach (string item in waiter)
+                await chatHub.Current.Clients.Client(item).SendAsync("userList", jsonString);
+        }
+
+        public async Task SendMessage(string ClientID, string message)
+        {//客戶傳訊息
+            List<user> userList = chatHub.userList;
+            if (message != "")
+            {
+                user user = userList.FirstOrDefault(x => x.LineID == ClientID);
+                if (user.userWords == null)
+                    user.userWords = new List<string>();
+                if (user.waiter == null)
+                    user.newWords++;
+                else
+                    user.newWords = 0;
+
+                user.userWords.Add(message);
+                string userName = user.userName;
+                if (user.waiter != null)
+                    await chatHub.Current.Clients.Client(user.waiter).SendAsync("UpdSystem", userName, message);
+                Update();
             }
         }
 
