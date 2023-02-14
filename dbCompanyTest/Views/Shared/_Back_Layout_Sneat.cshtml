@@ -691,7 +691,7 @@
 
 
     <script>
-        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").withAutomaticReconnect().build();
 
         connection.start().then(async function () {
             var Staff_Home_StaffNum = $("#StaffNumpath").val();

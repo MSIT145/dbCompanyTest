@@ -238,12 +238,11 @@
         })
         $(`#connection`).css("background-image", "@Url.Content("~/images/dog.jpg")")
 
-        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").withAutomaticReconnect().build();
 
         connection.start();
 
         $(`#connection`).on(`click`, async function () {
-            $(`#errorstring`).text("");
             const data = await fetch("@Url.Content("~/Login/getUser")");
             const uesrName = await data.text();
             let selfID = $('#SelfID').html();
