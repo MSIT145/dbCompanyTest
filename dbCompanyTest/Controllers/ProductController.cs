@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NPOI.HPSF;
 using Org.BouncyCastle.Crypto.Macs;
 using System.Collections.Generic;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace dbCompanyTest.Controllers
 {
@@ -962,18 +963,33 @@ namespace dbCompanyTest.Controllers
         //刪除ProductDetail
         public IActionResult DeleteProDetail(string id)
         {
+            if(string.IsNullOrEmpty(id))
+                return Json( "錯誤_傳輸id資料異常");
+
+            string[] idgrop = id.Split(',');
+            string errmessage = "";
+            for (int i = 0; i < idgrop.Length; i++)
+            {
+                errmessage += $"{method_DeleteProDetail(idgrop[i])}";
+            }
+            if (errmessage.Length != 0)
+                return Json($"{errmessage}");
+            return Json($"商品明細刪除成功");
+        }
+
+        public string method_DeleteProDetail(string id) {
             int _id = 0;
             //判斷同時用TryPase回傳已轉為int的id給_id
             if (string.IsNullOrEmpty(id) || !(Int32.TryParse(id, out _id)))
-                return Json("錯誤_傳輸id資料異常");
+                return $"編號{id}錯誤_傳輸id資料異常<br>";
             //查詢是否有訂單在使用此細項商品
             int odCount = db.OrderDetails.ToList().Where(od => od.Id == _id).Count();
-            if(odCount >0)
-                return Json("錯誤_有訂單明細在使用此商品細項");
+            if (odCount > 0)
+                return $"編號{id}錯誤_有訂單明細在使用此商品細項<br>";
             //查詢圖檔位置     
             var ProDdata = db.ProductDetails.ToList().FirstOrDefault(pd => pd.Id == _id);
             if (ProDdata == null)
-                return Json("錯誤_沒有此項商品");
+                return $"編號{id}錯誤_沒有此項商品<br>";
             var imgData = db.圖片位置s.FirstOrDefault(i => i.圖片位置id == ProDdata.圖片位置id);
 
             int ProCount = db.ProductDetails.Where(g => g.圖片位置id == ProDdata.圖片位置id).Count();
@@ -982,7 +998,7 @@ namespace dbCompanyTest.Controllers
             {
                 //刪除images內的相關圖片
                 if (imgData == null)
-                    return Json("錯誤_沒有此筆圖片位置資料");
+                    return "錯誤_沒有此筆圖片位置資料<br>";
                 //刪除相應圖片
                 DeleteImg(imgData.商品圖片1);
                 DeleteImg(imgData.商品圖片2);
@@ -991,9 +1007,10 @@ namespace dbCompanyTest.Controllers
                 //刪除圖片位置s內此筆資料
                 db.圖片位置s.Remove(imgData);
             }
-            db.ProductDetails.Remove(ProDdata);           
+            db.ProductDetails.Remove(ProDdata);
             db.SaveChanges();
-            return Json($"商品明細刪除成功");
+            return "";
+
         }
 
 
@@ -1009,7 +1026,13 @@ namespace dbCompanyTest.Controllers
          public string? imgid { get; set; }
           public List<Back_ProducDetail>? thisdata { get; set; }
         }
-      
+
+        //輸入key 取得 Product的商品編號id 與 ProductDetail的Id
+        public class Search_id
+        {
+            public int 商品編號id { get; set; }
+            public int id { get; set; }
+        }
         [HttpGet]
         public IActionResult showDetail(string id) 
         {

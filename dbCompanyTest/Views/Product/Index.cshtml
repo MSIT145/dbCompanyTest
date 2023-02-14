@@ -123,7 +123,7 @@
                 @*Product Create_Start*@
                             <hr />
                             <div class="row align-items-center">
-                            <div class="col-md-2 "></div>
+                           @* <div class="col-md-2 "></div>*@
                             <div class="col-md-8 ">
                         <form name="ProC_Form" id="form01" novalidate>
                             <div class="form-group">
@@ -224,10 +224,12 @@
                 @*Product Create_END*@
             </div>
             <div class="modal-footer">
-                <button type="button" id="P_Create_Demo" class="btn btn-warning" name="btn_P" style="margin-right:150px">新增Demo</button>
-                <button type="button" id="P_Create" class="btn btn-success" name="btn_P">新增</button>                
-                <button type="button" id="P_Edit" class="btn btn-primary" name="btn_P" style="display: none;">修改</button>
-                <button type="button"  id="P_Close" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                <div class="col" style="text-align-left">  <button type="button" id="P_Create_Demo" class="btn btn-primary" name="btn_P" style="width:10px;height:5px;"></button></div>
+                
+                        <button type="button" id="P_Create" class="btn btn-primary" name="btn_P">新增</button>
+                        <button type="button" id="P_Edit" class="btn btn-primary" name="btn_P" style="display: none;">修改</button>
+                        <button type="button"  id="P_Close" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                
             </div>
         </div>
     </div>
@@ -715,11 +717,40 @@
     //加入按鈕事件(明細展開與關閉)Btn_Pro_Show_list
     $('#tableAll').on('click', 'button[name="Btn_Pro_Show_list"]', function () {      
         const value = $(this).attr("data-value");
-     // console.log(value);
-     //   console.log($(this).parent().parent().parent().find(` tr[data-color='${value}']`));
-        $(this).parent().parent().parent().find(` tr[data-color='${value}']`).toggle(300);
-        });
+       const thisgroup =$(this).parent().parent().parent();
+        thisgroup.find(` tr[data-color='${value}']`).toggle(300);
+         $(this).parent().parent().find("[name='batch_Delete']").toggle(300);
 
+        });
+        //加入批量刪除事件
+    $('#tableAll').on('click', 'i[name="batch_Delete"]',function(){
+         //console.log("批量刪除");
+        const color = $(this).parents("tr[name='tr_de']").find('td:eq(1)').text().trim();
+       // console.log(color);
+        const thisgroup = $(this).parent().parent().parent();
+        //取得組數
+        let checkedId=new Array();
+        thisgroup.find(`tr[data-color="${color}"] input[name="check_delete"]:checked`).each(function () {
+          if(!isNaN($(this).val())){
+          checkedId.push($(this).val());
+          
+          }else{
+             console.log("lost value");
+          }
+          });
+            console.log(checkedId);
+        console.log(checkedId.length);
+        if (checkedId.length == 0) {
+             alert("請選擇要刪除的資料!");
+             return false;
+          }
+      //  console.log("陣列：" + checkedId);
+        //  console.log("id串：" + checkedId.toString());   Moda_D_D       
+        const id = checkedId.toString();
+        Send_DatatoDel_Moda("@Url.Content("~/product/DeleteProDetail")", id);
+         $('#Moda_D_D').modal('toggle');
+       
+    });
         //加入按鈕事件(明細刪除) P_btnDel
         $('#tableAll').on('click', 'button[name="PD_btnDelete"]', function () {
             const row = $(this).parents("tr[name='tr_de']");
@@ -849,7 +880,8 @@
                                         `<img src="@Url.Content("~/images")/${item.img2}" width = "100" name = "P_D_img" '/>`+
                                         `<img src="@Url.Content("~/images")/${item.img3}" width = "100" name = "P_D_img" '/>`+  
                                         `</td>`+
-                                        `<td colspan="2"><button class="btn btn-primary" name="Btn_Creat_PD_Size" data-color="${item.colid}" data-proid="${item.proid}" data-imgid="${item.imgid}" data-bs-toggle="modal" data-bs-target="#Moda_D_C">新增尺寸</button></td>` +
+                                        `<td ><button class="btn btn-primary" name="Btn_Creat_PD_Size" data-color="${item.colid}" data-proid="${item.proid}" data-imgid="${item.imgid}" data-bs-toggle="modal" data-bs-target="#Moda_D_C">新增尺寸</button></td>` +
+                    `<td style="text-align:right;"><i class="bi bi-trash3-fill" name="batch_Delete" style="display:none">批次刪除</i></td>` +
                                         `</tr>`;
                                     for(var item2 of item.thisdata)
                                     {
@@ -864,8 +896,8 @@
                                         //`<td><img src="@Url.Content("~/images")/${item.商品圖片3}" width="100" name="P_D_img" '/></td>` +
                                         `<td>${item2.商品是否上架}</td>` +
                                         `<td>${item2.商品是否有貨}</td>` +
-                                        `<td><button type="submit" class="btn btn-primary" id="E_${item2.明細編號}"  name="PD_btnEdit" title="修改"  data-bs-toggle="modal" data-bs-target="#Moda_D_C"><i class="fas fa-edit">修改</i></button></td>` +
-                                        `<td><button type="submit" class="btn btn-primary" id="D_${item2.明細編號}" name="PD_btnDelete" title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"> 刪除</i></button></td>` +
+                                        `<td><button type="submit" class="btn btn-primary" id="E_${item2.明細編號}"  name="PD_btnEdit" title="修改"  data-bs-toggle="modal" data-bs-target="#Moda_D_C"><i class="fas fa-edit" >修改</i></button></td>` +
+                        `<td ><div class="conflexbetween" ><button type="submit" class="btn btn-primary" id="D_${item2.明細編號}" name="PD_btnDelete" title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"> 刪除</i></button>  <input type="checkbox" name="check_delete"  value="${item2.明細編號}" ></div></td>` +
                                         `</tr>`;
                                     mast_temptr += temptr;
                                     }
