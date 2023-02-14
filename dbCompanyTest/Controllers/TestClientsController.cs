@@ -307,7 +307,7 @@ namespace dbCompanyTest.Controllers
                     ws.GetRow(i + 1).CreateCell(j).SetCellValue(dt.Rows[i][j].ToString());
                 }
             }
-            string filename = "Client" + DateTime.Now.ToString("yyyyMMdd");
+            string filename = "Client";
             string path = _eviroment.WebRootPath + "/Datas/" + $"{filename}.xls";  //用環境變數取得 IIS路徑(wwwroot)
             System.IO.File.Delete(path);   //刪掉原本的檔案           
             FileStream file = new FileStream(path, FileMode.Create);//產生檔案
