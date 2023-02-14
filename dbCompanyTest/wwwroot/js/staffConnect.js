@@ -1,5 +1,5 @@
 ﻿var Staff_Home_StaffNum = $("#StaffNumpath").val();
-console.log(Staff_Home_StaffNum)
+//console.log(Staff_Home_StaffNum)
 //var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 //connection.start().then(async function () {

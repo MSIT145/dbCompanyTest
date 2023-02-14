@@ -1,4 +1,7 @@
-﻿var TDLpath = $(`#TDLpath`).val();
+﻿console.log(`LoadToDolist.js`)
+
+
+var TDLpath = $(`#TDLpath`).val();
 var TDL_DTpath = $(`#TDL_DTpath`).val();
 var TID;
 
@@ -10,6 +13,9 @@ $.ajax({
     dataType: "json"
 })
     .done(data => {
+        console.log(`Start_LoadToDolist_Data`)
+
+
         let docFrag = $(document.createDocumentFragment());
         let docFrag_sec = $(document.createDocumentFragment());
         $.each(data, function (i, i_val) {

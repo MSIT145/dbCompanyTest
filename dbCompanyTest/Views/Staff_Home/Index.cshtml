@@ -31,18 +31,38 @@
     <script>
         var split = $(`#stf_info`).text().indexOf(' ');
         var stf = $(`#stf_info`).text().substr(0, split)
-
-        console.log(`view`)
+        //serials([LoadSheeplist(), LoadToDoList()], LoadSheeplist_Data(), LoadToDoList_Data())
+       
         LoadSheeplist();
         LoadToDoList();
+        //LoadSheeplist().then(LoadToDoList())
+        //    .then(LoadSheeplist_Data())
+        //    .then(LoadToDoList_Data());
+
+        //new Promise(function(){
+        //    LoadSheeplist();
+        //    LoadToDoList();
+        //}).then(function(){
+        //    LoadSheeplist_Data();
+        //    LoadToDoList_Data();           
+        //})
+       
 
         function LoadSheeplist() {
-            $('#Sheeplist_div').load("@Url.Content("~/Staff_Home/PartialSheeplist")")
+            //const promis =
+            $('#Sheeplist_div').load("@Url.Content("~/Staff_Home/PartialSheeplist")");
+            //return promis;
+        }
+         function LoadSheeplist_Data() {
             $.getScript("@Url.Content("~/js/LoadSheeplist.js")");
         }
 
         function LoadToDoList() {
-            $('#ToDoList_div').load("@Url.Content("~/Staff_Home/PartialToDoList")")
+            //const promis =
+            $('#ToDoList_div').load("@Url.Content("~/Staff_Home/PartialToDoList")");
+            //return promis;
+        }
+         function LoadToDoList_Data() {
             $.getScript("@Url.Content("~/js/LoadToDoList.js")");
         }
 
@@ -59,7 +79,6 @@
         });
         $(window).on("resize", function (e) {
             if ($(window).width() < 500) {
-                console.log(`2`)
                 $(".tds").removeClass("col-1");
                 $(".tds").addClass("col-12");
                 $(".tdl").removeClass("col-3");
@@ -68,7 +87,6 @@
                 $(".tr-border").after(`<p></p>`)
             }
             else {
-                console.log(`3`)
                 $(".tds").removeClass("col-12");
                 $(".tds").addClass("col-1");
                 $(".tdl").removeClass("col-12");

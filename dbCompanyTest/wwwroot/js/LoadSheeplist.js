@@ -1,4 +1,7 @@
-﻿var path = $(`#path`).val();
+﻿console.log(`LoadSheeplist.js`)
+
+
+var path = $(`#path`).val();
 //var data=null;
 $.ajax({
     url: `${path}`,
@@ -7,6 +10,9 @@ $.ajax({
 })
 
     .done(data => {
+        console.log(`Start_LoadSheeplist_Data`)
+
+
         let docFrag = $(document.createDocumentFragment());
         let docFrag_sec = $(document.createDocumentFragment());
         let lastSID = "";
