@@ -719,21 +719,36 @@
         const value = $(this).attr("data-value");
        const thisgroup =$(this).parent().parent().parent();
         thisgroup.find(` tr[data-color='${value}']`).toggle(300);
-         $(this).parent().parent().find("[name='batch_Delete']").toggle(300);
+         $(this).parent().parent().find("[name='batch_Delete']").parent().toggle(300);
 
         });
-        //加入批量刪除事件
-    $('#tableAll').on('click', 'i[name="batch_Delete"]',function(){
-         //console.log("批量刪除");
+    //加入批量全選 name=check_All_delete
+    $("#tableAll").on('click', 'input[name="check_All_delete"]', function () {
+        const color = $(this).val();
+        const thisgroup = $(this).parent().parent().parent().parent();
+        if($(this).prop('checked')==true){
+         thisgroup.find(`tr[data-color="${color}"] input[name="check_delete"]`).each(function(){
+        $(this).prop("checked",true);
+        });
+        }else{
+            thisgroup.find(`tr[data-color="${color}"] input[name="check_delete"]`).each(function () {
+        $(this).prop("checked",false);
+        });
+    }
+
+        
+     });
+     //加入批量刪除事件
+    $('#tableAll').on('click', 'button[name="batch_Delete"]',function(){
+         console.log("批量刪除");
         const color = $(this).parents("tr[name='tr_de']").find('td:eq(1)').text().trim();
        // console.log(color);
-        const thisgroup = $(this).parent().parent().parent();
+        const thisgroup = $(this).parent().parent().parent().parent();
         //取得組數
         let checkedId=new Array();
         thisgroup.find(`tr[data-color="${color}"] input[name="check_delete"]:checked`).each(function () {
           if(!isNaN($(this).val())){
-          checkedId.push($(this).val());
-          
+          checkedId.push($(this).val());          
           }else{
              console.log("lost value");
           }
@@ -881,7 +896,7 @@
                                         `<img src="@Url.Content("~/images")/${item.img3}" width = "100" name = "P_D_img" '/>`+  
                                         `</td>`+
                                         `<td ><button class="btn btn-primary" name="Btn_Creat_PD_Size" data-color="${item.colid}" data-proid="${item.proid}" data-imgid="${item.imgid}" data-bs-toggle="modal" data-bs-target="#Moda_D_C">新增尺寸</button></td>` +
-                    `<td style="text-align:right;"><i class="bi bi-trash3-fill" name="batch_Delete" style="display:none">批次刪除</i></td>` +
+                    `<td ><div class="conflexbetween"  style="display:none"><button class="btn btn-primary" name="batch_Delete"><i class="bi bi-trash3-fill"  >批次刪除</i></button> <input type="checkbox" name="check_All_delete"  value="${item.name}" > </div></td>` +
                                         `</tr>`;
                                     for(var item2 of item.thisdata)
                                     {

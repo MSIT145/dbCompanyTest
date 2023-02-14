@@ -981,15 +981,15 @@ namespace dbCompanyTest.Controllers
             int _id = 0;
             //判斷同時用TryPase回傳已轉為int的id給_id
             if (string.IsNullOrEmpty(id) || !(Int32.TryParse(id, out _id)))
-                return $"編號{id}錯誤_傳輸id資料異常<br>";
+                return $"編號{id}錯誤_傳輸id資料異常 ";
             //查詢是否有訂單在使用此細項商品
             int odCount = db.OrderDetails.ToList().Where(od => od.Id == _id).Count();
             if (odCount > 0)
-                return $"編號{id}錯誤_有訂單明細在使用此商品細項<br>";
+                return $"編號{id}錯誤_有訂單明細在使用此商品細項 ";
             //查詢圖檔位置     
             var ProDdata = db.ProductDetails.ToList().FirstOrDefault(pd => pd.Id == _id);
             if (ProDdata == null)
-                return $"編號{id}錯誤_沒有此項商品<br>";
+                return $"編號{id}錯誤_沒有此項商品 ";
             var imgData = db.圖片位置s.FirstOrDefault(i => i.圖片位置id == ProDdata.圖片位置id);
 
             int ProCount = db.ProductDetails.Where(g => g.圖片位置id == ProDdata.圖片位置id).Count();
@@ -998,7 +998,7 @@ namespace dbCompanyTest.Controllers
             {
                 //刪除images內的相關圖片
                 if (imgData == null)
-                    return "錯誤_沒有此筆圖片位置資料<br>";
+                    return "錯誤_沒有此筆圖片位置資料 ";
                 //刪除相應圖片
                 DeleteImg(imgData.商品圖片1);
                 DeleteImg(imgData.商品圖片2);
