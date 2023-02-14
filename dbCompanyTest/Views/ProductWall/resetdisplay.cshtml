@@ -10,30 +10,32 @@
                         <p class="itemName">會員:@paretitem.paretCommentGuestName</p>
                         <p class="itemMessage">內容:@paretitem.paretComment</p>
                     </div>
-                    @if (paretitem.paretCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
-                    {
-                        <span class="itemreport">回覆</span>
+                    <div>
+                        @if (paretitem.paretCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
+                        {
+                            <span class="itemreport">回覆</span>
 
-                        <span>|</span>
+                            <span>|</span>
 
-                        <span class="itemreportEdit" data-id="@paretitem.paretCommentID" data-order="1">編輯</span>
+                            <span class="itemreportEdit" data-id="@paretitem.paretCommentID" data-order="1">編輯</span>
 
-                        <span>|</span>
+                            <span>|</span>
 
-                        <span class="itemreportDelete" data-id="@paretitem.paretCommentID" data-order="1">刪除</span>
+                            <span class="itemreportDelete" data-id="@paretitem.paretCommentID" data-order="1">刪除</span>
 
-                        <span>|</span>
+                            <span>|</span>
 
-                        <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
-                    }
-                    else
-                    {
-                        <span class="itemreport">回覆</span>
+                            <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
+                        }
+                        else
+                        {
+                            <span class="itemreport">回覆</span>
 
-                        <span>|</span>
+                            <span>|</span>
 
-                        <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
-                    }
+                            <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
+                        }
+                    </div>
                 </div>
                 <div style="display:flex;margin-left:2px;border-left:solid;">
                     <ul>
@@ -49,30 +51,32 @@
                                             <p class="itemName">會員:@childitem.childCommentGuestName</p>
                                             <p class="itemMessage">內容:@childitem.childComment</p>
                                         </div>
-                                            @if (childitem.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
-                                            {
-                                            <span class="itemreport">回覆</span>
+                                        <div>
+                                                @if (childitem.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
+                                                {
+                                                <span class="itemreport">回覆</span>
 
-                                            <span>|</span>
+                                                <span>|</span>
 
-                                            <span class="itemreportEdit" data-id="@childitem.childCommentID" data-order="2">編輯</span>
+                                                <span class="itemreportEdit" data-id="@childitem.childCommentID" data-order="2">編輯</span>
 
-                                            <span>|</span>
+                                                <span>|</span>
 
-                                            <span class="itemreportDelete" data-id="@childitem.childCommentID" data-order="2">刪除</span>
+                                                <span class="itemreportDelete" data-id="@childitem.childCommentID" data-order="2">刪除</span>
 
-                                            <span>|</span>
+                                                <span>|</span>
 
-                                            <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
-                                            }
-                                            else
-                                            {
-                                            <span class="itemreport">回覆</span>
+                                                <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
+                                                }
+                                                else
+                                                {
+                                                <span class="itemreport">回覆</span>
 
-                                            <span>|</span>
+                                                <span>|</span>
 
-                                            <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
-                                            }
+                                                <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
+                                                }
+                                        </div>
                                         <div style="display:flex;margin-left:28px;border-left:solid;">
                                             <ul>
                                                     @{
@@ -87,30 +91,32 @@
                                                                     <p class="itemName">會員:@childitemchildid.childCommentGuestName</p>
                                                                     <p class="itemMessage">內容:@childitemchildid.childComment</p>
                                                                 </div>
-                                                                        @if (childitemchildid.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
-                                                                        {
-                                                                    <span class="itemreport">回覆</span>
+                                                                <div>
+                                                                            @if (childitemchildid.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
+                                                                            {
+                                                                        <span class="itemreport">回覆</span>
 
-                                                                    <span>|</span>
+                                                                        <span>|</span>
 
-                                                                    <span class="itemreportEdit" data-id="@childitemchildid.childCommentID" data-order="2">編輯</span>
+                                                                        <span class="itemreportEdit" data-id="@childitemchildid.childCommentID" data-order="2">編輯</span>
 
-                                                                    <span>|</span>
+                                                                        <span>|</span>
 
-                                                                    <span class="itemreportDelete" data-id="@childitemchildid.childCommentID" data-order="2">刪除</span>
+                                                                        <span class="itemreportDelete" data-id="@childitemchildid.childCommentID" data-order="2">刪除</span>
 
-                                                                    <span>|</span>
+                                                                        <span>|</span>
 
-                                                                    <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                    <span class="itemreport">回覆</span>
+                                                                        <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                        <span class="itemreport">回覆</span>
 
-                                                                    <span>|</span>
+                                                                        <span>|</span>
 
-                                                                    <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
-                                                                        }
+                                                                        <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
+                                                                            }
+                                                                </div>
                                                             </li>
                                                     </div>
                                                             }
@@ -124,8 +130,8 @@
                             }
                         }
         </ul>
-                                    </div>
-                                    </li>
+                                        </div>
+                                        </li>
         }
     }
         </ul>
@@ -150,8 +156,8 @@
 
     </div>
 </div>
-</div>
 <script>
+    ////Signalr評論
     async function checkuser() {
         let data = await fetch("@Url.Content("~/ProductWall/checkuser")");
         let response = await data.json();
@@ -168,23 +174,22 @@
 
     //修改
     $(`.itemreportEdit`).on("click", function () {
-
         if ($(`.reportEdit`).css('display') === "none") {
             editid = $(this).data('id');
             editorder = $(this).data('order');
-            let str = $(this).prev().prev().prev().find(".itemMessage").text();
+            let str = $(this).closest('div').prev('div').find(".itemMessage").text();
             let strEdit = str.substring(3, str.length);
             $(`.reportEdit`).find('.userEditinput').val(strEdit);
             $(`.reportEdit`).css('display', 'block')
-            $(this).prev().prev().prev().find('p').css('display', "none");
-            $(this).prev().prev().prev().append($(".reportEdit"));
+            $(this).closest('div').prev('div').find('p').css('display', "none");
+            //console.log($(this).closest('div').prev('div'));
+            $(this).closest('div').prev('div').append($(".reportEdit"));
         }
-
     });
 
     $('#userEditCancel').on('click', function () {
         $(`.reportEdit`).css('display', 'none');
-        $(this).closest('div').siblings('p').css('display', "block");
+        $(this).closest('div').siblings('p').css('display', "block")
     });
     $('#userEditSubmit').on('click', function () {
         let comment = $('.userEditinput').val();
@@ -279,11 +284,11 @@
                 }());//加上小括號立即執行
             }
             //回復主題
-            else if ($(`.userreport`).siblings(`.itemCommentContent`).data('name') === "paret") {
+            else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "paret") {
                 let comment = $(`.userreportinput`).val();
                 let productid = @Model.pro商品編號;
                 let colorid = @Model.商品顏色ID;
-                let paretID = $(`.userreport`).siblings(`.itemCommentContent`).data('id');
+                let paretID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
                 (async function () {
                     let FD = new FormData();
                     FD.append('comment', comment)
@@ -309,8 +314,8 @@
             ////回復子題
             else if ($(`.userreport`).closest(`.itemCommentContent`).data('name') === "child") {
                 let comment = $(`.userreportinput`).val();
-                let paretID = $(`.userreport`).closest(`div`).siblings(".itemCommentContent").data('id');
-                let childID = $(`.userreport`).siblings(`.itemCommentContent`).data('id');
+                let paretID = $(`.userreport`).closest(`.itemCommentContent`).closest(`ul`).closest(`div`).prev().data('id');
+                let childID = $(`.userreport`).closest(`.itemCommentContent`).data('id');
                 let productid = @Model.pro商品編號;
                 let colorid = @Model.商品顏色ID;
                 (async function () {
@@ -339,12 +344,9 @@
             //最後
             else {
                 let comment = $(`.userreportinput`).val();
-                //let paretID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().parent().parent().parent().siblings('div').data('id');
-                //let childID = $(`.userreport`).closest(`.itemCommentContent`).parent().parent().parent().closest(`.itemCommentContent`).data('id');
-                console.log($(`.userreport`).closest("ul").closest('div').siblings(`.itemCommentContent`).data('id'));
-                console.log($(`.userreport`).siblings(`.itemCommentContent`).data('id'));
-                let paretID = $(`.userreport`).closest("ul").closest('div').siblings(`.itemCommentContent`).data('id');
-                let childID = $(`.userreport`).siblings(`.itemCommentContent`).data('id');
+                //console.log($(`.userreport`).closest("ul").closest('li').closest(`.itemCommentContent`).closest("ul").closest(`div`).prev());
+                let paretID = $(`.userreport`).closest("ul").closest('li').closest(`.itemCommentContent`).closest("ul").closest(`div`).prev().data('id');
+                let childID = $(`.userreport`).closest("ul").closest('li').closest(`.itemCommentContent`).data('id');
                 let productid = @Model.pro商品編號;
                 let colorid = @Model.商品顏色ID;
                 (async function () {
@@ -379,6 +381,7 @@
         $(`.reportmain`).after($(`.userreport`));
         $(`.userreportinput`).val("");
     });
+
 </script>
 
 
