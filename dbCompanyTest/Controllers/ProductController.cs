@@ -812,7 +812,7 @@ namespace dbCompanyTest.Controllers
             int? thisSizeid = db.ProductDetails.FirstOrDefault(pd => pd.Id == data.Id).商品尺寸id;
             if (data.商品尺寸id != thisSizeid)
             {
-                int PDCount = db.ProductDetails.Where(pd => pd.商品編號id == Convert.ToInt32(data.商品編號id) & pd.商品尺寸id == Convert.ToInt32(data.商品尺寸id)).Count();
+                int PDCount = db.ProductDetails.Where(pd => pd.商品編號id == Convert.ToInt32(data.商品編號id) &pd.商品顏色id == Convert.ToInt32(data.商品顏色id)& pd.商品尺寸id == Convert.ToInt32(data.商品尺寸id)).Count();
                 if (PDCount > 0)
                     return Content("錯誤_此商品已有此尺寸!", "text/plain", Encoding.UTF8);
             }          
