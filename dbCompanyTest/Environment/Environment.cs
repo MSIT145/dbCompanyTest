@@ -7,7 +7,7 @@ namespace dbCompanyTest.Environment
     {
         string apiKey = "2LU0i8A48bax1cQNKoRH5OFwfOG_43RaqcDa3yYViTPCgHtG7";
         //string apiKey = "2Lfh6JnTJCDuc3ES58TS4RXDREl_4GWqEQHoZZwEoKEFDTmg5";//LU
-        bool open = false;
+        public static bool open = true;
         internal string useEnvironment
         {
             get
@@ -20,15 +20,12 @@ namespace dbCompanyTest.Environment
                             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + apiKey);
                             client.DefaultRequestHeaders.Add("Ngrok-Version", "2");
                             var response = client.SendAsync(request).Result;
-                            if (response.IsSuccessStatusCode)
-                            {
-                                var x = response.Content.ReadAsStringAsync().Result;
-                                Root root = JsonSerializer.Deserialize<Root>(x);
-                                string myurl = root.endpoints[0].public_url;
-                                return myurl;
-                            }
+                            var x = response.Content.ReadAsStringAsync().Result;
+                            Root root = JsonSerializer.Deserialize<Root>(x);
+                            if (root.endpoints.Count == 0)
+                                return "https://localhost:7100";
                             else
-                                return "";
+                                return root.endpoints[0].public_url;
                         }
                     }
                 else

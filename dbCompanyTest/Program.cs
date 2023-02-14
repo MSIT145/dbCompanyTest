@@ -1,3 +1,4 @@
+using dbCompanyTest.Environment;
 using dbCompanyTest.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SignalR;
@@ -54,4 +55,6 @@ app.MapControllerRoute(
 
 app.MapHub<chatHub>("/chatHub");
 chatHub.Current = ((IApplicationBuilder)app).ApplicationServices.GetService<IHubContext<chatHub>>();
+if(new dbCompanyTest.Environment.Environment().useEnvironment == "https://localhost:7100")
+    dbCompanyTest.Environment.Environment.open = false;
 app.Run();
