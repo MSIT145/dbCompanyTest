@@ -578,10 +578,10 @@ namespace dbCompanyTest.Controllers
             }
             return pdm;
         }
-
-        public IActionResult resetdisplay(string datas)
+        [HttpPost]
+        public IActionResult resetdisplay(IFormCollection datas)
         {
-            ProductDetailViewModels data = JsonSerializer.Deserialize<ProductDetailViewModels>(datas);
+            ProductDetailViewModels data = JsonSerializer.Deserialize<ProductDetailViewModels>(datas["response"]);
             return PartialView(data);
         }
         public IActionResult DeleteComment(IFormCollection data)
