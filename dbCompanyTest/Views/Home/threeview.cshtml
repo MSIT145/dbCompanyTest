@@ -353,31 +353,33 @@
             let shoes = null
             let shoes2 = null
             let tv = null
+            let cloud = null
             let rocket = null
             let base = new THREE.Object3D()
             let mixer;
             scene.add(base)
             //抓取3d檔
             gltfLoader.load(
-            'https://rawcdn.githack.com/th9716/3dglb/a9d13909b8f815f49d397e12e2d2f11314403606/shiba/cheesecake1.glb',
+            'https://rawcdn.githack.com/th9716/3dglb/74295803c84c9cfd16e7c8f90e2202e0409ff2e4/shibanew.glb',
                 (gltf) => {
                     console.log(gltf);
 
                     shiba = gltf.scene
 
-                    const radius =10
+                    const radius =9
 
                     shiba.position.x = 0;
-                    shiba.position.y = -1000;
-                    shiba.position.z = 200;
+                    shiba.position.y = 600;
+                    //shiba.position.z = 200;
 
-                    shiba.rotation.y = 0.5;
+                    shiba.rotation.y =-1.5;
                     //shiba.rotation.z =  Math.PI * 0.15
 
                     shiba.scale.set(radius, radius, radius)
 
                     //base.add(donut)
                     scene.add(shiba)
+                    console.log(shiba.position)
 
 
                     //獲取模型外框範圍
@@ -388,7 +390,7 @@
 
                     //mixer
                 mixer = new THREE.AnimationMixer(shiba);
-                mixer.clipAction(gltf.animations[0]).setDuration(0.875).play();
+                mixer.clipAction(gltf.animations[1]).setDuration(1.5).play();
 
                 },
                 (progress) => {
@@ -423,32 +425,32 @@
                 console.error(error);
             }
         )
-        gltfLoader.load(
-            'https://rawcdn.githack.com/th9716/3dglb/2019abf682a579d259c44690ab16149f61993cb0/shoes2.glb',
-            (gltf) => {
-                shoes2 = gltf.scene
-                shoes2.position.x = 0;
-                shoes2.position.y = -400;
-                shoes2.position.z = 120;
+        //gltfLoader.load(
+        //    'https://rawcdn.githack.com/th9716/3dglb/2019abf682a579d259c44690ab16149f61993cb0/shoes2.glb',
+        //    (gltf) => {
+        //        shoes2 = gltf.scene
+        //        shoes2.position.x = 0;
+        //        shoes2.position.y = -400;
+        //        shoes2.position.z = 120;
 
-                shoes2.rotation.x = 0;
-                shoes2.rotation.y = 89.6;
-                shoes2.rotation.z = 0;
+        //        shoes2.rotation.x = 0;
+        //        shoes2.rotation.y = 89.6;
+        //        shoes2.rotation.z = 0;
 
-                shoes2.scale.set(10, 10, 10)
+        //        shoes2.scale.set(10, 10, 10)
 
-                console.log(shoes2.children[0])
+        //        console.log(shoes2.children[0])
 
-                scene.add(shoes2)
+        //        scene.add(shoes2)
 
-            },
-            (progress) => {
-                console.log(progress);
-            },
-            (error) => {
-                console.error(error);
-            }
-        )
+        //    },
+        //    (progress) => {
+        //        console.log(progress);
+        //    },
+        //    (error) => {
+        //        console.error(error);
+        //    }
+        //)
 
         //tv
         gltfLoader.load(
@@ -456,7 +458,7 @@
             (gltf) => {
                 tv = gltf.scene
                 //tv.position.x = 0;
-                tv.position.y = 700;
+                tv.position.y = 400;
                 //tv.position.z = 200;
 
                 tv.rotation.y = 4.7;
@@ -473,9 +475,42 @@
                 console.error(error);
             }
         )
-        
+
+  
 
 
+        //------------------------------- particle
+
+        var sceneGruop = new THREE.Object3D();
+        var particularGruop = new THREE.Object3D();
+        var modularGruop = new THREE.Object3D();
+
+
+        function generateParticle(num, amp = 2) {
+          var gmaterial = new THREE.MeshPhysicalMaterial({color:0xFFFFFF, side:THREE.DoubleSide});
+
+          var gparticular = new THREE.CircleGeometry(30,8);
+
+          for (var i = 1; i < num; i++) {
+            var pscale = 0.001+Math.abs(mathRandom(0.2));
+            var particular = new THREE.Mesh(gparticular, gmaterial);
+            particular.position.set(mathRandom(amp),mathRandom(amp),mathRandom(amp));
+            particular.rotation.set(mathRandom(),mathRandom(),mathRandom());
+            particular.scale.set(pscale,pscale,pscale);
+            particular.speedValue = mathRandom(1);
+
+            particularGruop.add(particular);
+          }
+        }
+        generateParticle(500, 2000);
+
+        sceneGruop.add(particularGruop);
+        scene.add(sceneGruop);
+
+        function mathRandom(num = 1) {
+          var setNumber = - Math.random() * num + Math.random() * num;
+          return setNumber;
+        }
 
 
 
@@ -508,11 +543,11 @@
             let currentSection = 0
 
             const transformDonut = [{
-                    rotationY: 0.6,
+                    rotationY: -1.5,
                     positionX: 0
                 },
                 {
-                    rotationY: -0.6,
+                    rotationY: -1.3,
                     positionX: 0
                 },
                 {
@@ -616,27 +651,21 @@
             map:texture6,
         })
 
+        //Screen model
         let screenGeometry = new THREE.PlaneGeometry(475, 250);
         let screenplane = new THREE.Mesh(screenGeometry, movieMaterial2);
-        screenplane.position.set(0, 750, 115)
+        screenplane.position.set(0, 450, 115)
         screenplane.rotation.y=-0.01;
         scene.add(screenplane);
 
-        //let shibaclick = new THREE.CylinderGeometry(220, 220, 650, 32);
-        //let shmaterial = new THREE.MeshBasicMaterial({  transparent: true });
-        //let shsph = new THREE.Mesh(shibaclick, shmaterial);
-        //shsph.position.y=200;
-        //shsph.position.z=180;
-        //shsph.rotation.x=4.7;
-        //shsph.rotation.z=25.55;
-        //scene.add(shsph);
 
             /**
              * Camera
              */
             // Base camera
             const camera = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 100000) //視野角度 長寬比 近截角 遠截角
-            camera.position.z = 1500
+            //camera.position.y = 300;
+            camera.position.z = 1500;
             scene.add(camera)
 
             // controls
@@ -1093,7 +1122,7 @@
 
 
                 if (!!shiba) {
-                    shiba.position.y = Math.sin(elapsedTime * .5) * .1 - 0.1
+                    //shiba.position.y = Math.sin(elapsedTime * .5) * .1 - 0.1
                     sphereShadow.material.opacity = (1 - Math.abs(shiba.position.y)) * 0.3
                 }
 
@@ -1115,6 +1144,17 @@
             }
 
 
+            //---particle move
+              for (var i = 0, l = particularGruop.children.length; i<l; i++) {
+                var newObject = particularGruop.children[i];
+                newObject.rotation.x += newObject.speedValue/10;
+                newObject.rotation.y += newObject.speedValue/10;
+                newObject.rotation.z += newObject.speedValue/10;
+                //---
+                //newObject.position.y = Math.sin(time) * 3;
+              };
+
+            particularGruop.rotation.y += 0.005;
 
             
                 videoTexture.needsUpdate=true;
