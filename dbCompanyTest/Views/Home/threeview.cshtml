@@ -390,7 +390,7 @@
 
                     //mixer
                 mixer = new THREE.AnimationMixer(shiba);
-                mixer.clipAction(gltf.animations[1]).setDuration(1.5).play();
+                mixer.clipAction(gltf.animations[1]).setDuration(1.2).play();
 
                 },
                 (progress) => {
@@ -425,32 +425,32 @@
                 console.error(error);
             }
         )
-        //gltfLoader.load(
-        //    'https://rawcdn.githack.com/th9716/3dglb/2019abf682a579d259c44690ab16149f61993cb0/shoes2.glb',
-        //    (gltf) => {
-        //        shoes2 = gltf.scene
-        //        shoes2.position.x = 0;
-        //        shoes2.position.y = -400;
-        //        shoes2.position.z = 120;
+        gltfLoader.load(
+            'https://rawcdn.githack.com/th9716/3dglb/2019abf682a579d259c44690ab16149f61993cb0/shoes2.glb',
+            (gltf) => {
+                shoes2 = gltf.scene
+                shoes2.position.x = 0;
+                shoes2.position.y = -400;
+                shoes2.position.z = 120;
 
-        //        shoes2.rotation.x = 0;
-        //        shoes2.rotation.y = 89.6;
-        //        shoes2.rotation.z = 0;
+                shoes2.rotation.x = 0;
+                shoes2.rotation.y = 89.6;
+                shoes2.rotation.z = 0;
 
-        //        shoes2.scale.set(10, 10, 10)
+                shoes2.scale.set(10, 10, 10)
 
-        //        console.log(shoes2.children[0])
+                console.log(shoes2.children[0])
 
-        //        scene.add(shoes2)
+                scene.add(shoes2)
 
-        //    },
-        //    (progress) => {
-        //        console.log(progress);
-        //    },
-        //    (error) => {
-        //        console.error(error);
-        //    }
-        //)
+            },
+            (progress) => {
+                console.log(progress);
+            },
+            (error) => {
+                console.error(error);
+            }
+        )
 
         //tv
         gltfLoader.load(
@@ -536,70 +536,104 @@
                 height: window.innerHeight
             }
 
-            /**
-             * Scroll
-             */
-            let scrollY = window.scrollY
-            let currentSection = 0
+            ///**
+            // * Scroll
+            // */
+            //let scrollY = window.scrollY
+            //let currentSection = 0
 
-            const transformDonut = [{
-                    rotationY: -1.5,
-                    positionX: 0
-                },
-                {
-                    rotationY: -1.3,
-                    positionX: 0
-                },
-                {
-                    rotationY: 0.6314,
-                    positionX: 0
-                },
-                {
-                    rotationY: 0.6314,
-                    positionX: 0
-                },
-            ]
+            //const transformDonut = [{
+            //        rotationY: -1.5,
+            //        positionX: 0
+            //    },
+            //    {
+            //        rotationY: -1.3,
+            //        positionX: 0
+            //    },
+            //    {
+            //        rotationY: 0.6314,
+            //        positionX: 0
+            //    },
+            //    {
+            //        rotationY: 0.6314,
+            //        positionX: 0
+            //    },
+            //]
 
-            window.addEventListener('scroll', () => {
+            //window.addEventListener('scroll', () => {
 
-                scrollY = window.scrollY
-                const newSection = Math.round(scrollY / sizes.height)
+            //    scrollY = window.scrollY
+            //    const newSection = Math.round(scrollY / sizes.height)
 
-                console.log(newSection);
-            //console.log(donut.position)
-            //console.log(donut.rotation)
-                if (newSection != currentSection) {
-                    currentSection = newSection
+            //    console.log(newSection);
+            ////console.log(donut.position)
+            ////console.log(donut.rotation)
+            //    if (newSection != currentSection) {
+            //        currentSection = newSection
 
-                    if (!!shiba) {
-                        gsap.to(
-                            shiba.rotation, {
-                                duration: 1.5,
-                                ease: 'power2.inOut',
-                                y: transformDonut[currentSection].rotationY
-                            }
-                        )
-                        //gsap.to(
-                        //    donut.position, {
-                        //        duration: 1.5,
-                        //        ease: 'power2.inOut',
-                        //        x: transformDonut[currentSection].positionX
-                        //    }
-                        //)
+            //        if (!!shiba) {
+            //            gsap.to(
+            //                shiba.rotation, {
+            //                    duration: 1.5,
+            //                    ease: 'power2.inOut',
+            //                    y: transformDonut[currentSection].rotationY
+            //                }
+            //            )
+            //            //gsap.to(
+            //            //    donut.position, {
+            //            //        duration: 1.5,
+            //            //        ease: 'power2.inOut',
+            //            //        x: transformDonut[currentSection].positionX
+            //            //    }
+            //            //)
 
-                        gsap.to(
-                            sphereShadow.position, {
-                                duration: 1.5,
-                                ease: 'power2.inOut',
-                                x: transformDonut[currentSection].positionX - 0.2
-                            }
-                        )
-                    }
-                }
-            })
+            //            gsap.to(
+            //                sphereShadow.position, {
+            //                    duration: 1.5,
+            //                    ease: 'power2.inOut',
+            //                    x: transformDonut[currentSection].positionX - 0.2
+            //                }
+            //            )
+            //        }
+            //    }
+            //})
 
 
-        //TV Texture SET
+        /**
+         * Camera
+         */
+        // Base camera
+        const camera = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 100000) //視野角度 長寬比 近截角 遠截角
+        camera.position.y = 350;
+        camera.position.z = 1600;
+        scene.add(camera)
+        camera.lookAt(scene.position);
+
+        // controls
+
+        controls = new THREE.OrbitControls(camera);
+
+        controls.enableDamping = true // 啟用阻尼效果
+        controls.dampingFactor = 0.25 // 阻尼系數
+        controls.autoRotate = true    // 啟用自動旋轉
+        /**
+         * Renderer
+         */
+        const renderer = new THREE.WebGLRenderer({
+            canvas: canvas,
+            //antialias: true,
+            //alpha: true
+        })
+        renderer.autoClear = false;
+        renderer.shadowMap.enabled = true
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap
+        renderer.setSize(sizes.width, sizes.height)
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+        renderer.outputEncoding = THREE.sRGBEncoding; //修正模型暗沉
+
+
+
+        // TV Texture SET
 
         let video = document.getElementById('video');
         let videoTexture = new THREE.VideoTexture(video);
@@ -659,36 +693,7 @@
         scene.add(screenplane);
 
 
-            /**
-             * Camera
-             */
-            // Base camera
-            const camera = new THREE.PerspectiveCamera(90, sizes.width / sizes.height, 0.1, 100000) //視野角度 長寬比 近截角 遠截角
-            //camera.position.y = 300;
-            camera.position.z = 1500;
-            scene.add(camera)
-
-            // controls
-
-            controls = new THREE.OrbitControls(camera);
-
-            controls.enableDamping = true // 啟用阻尼效果
-            controls.dampingFactor = 0.25 // 阻尼系數
-            controls.autoRotate = true    // 啟用自動旋轉
-            /**
-             * Renderer
-             */
-            const renderer = new THREE.WebGLRenderer({
-                canvas: canvas,
-                //antialias: true,
-                //alpha: true
-            })
-            renderer.autoClear = false;
-            renderer.shadowMap.enabled = true
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap
-            renderer.setSize(sizes.width, sizes.height)
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-            renderer.outputEncoding = THREE.sRGBEncoding; //修正模型暗沉
+            
 
 
             /**
@@ -742,7 +747,7 @@
                 gsap.to(
                     camera.position, {
                     x: 0,
-                    y: 0,
+                    y: 350,
                     z: 1500,
                     duration: 2,
                     onUpdate: function () {
@@ -752,7 +757,7 @@
                 gsap.to(
                     camera.rotation, {
                     x: 0,
-                    y: 100,
+                    y: 0,
                     z: 0,
                     duration: 2,
                     onUpdate: function () {
@@ -768,11 +773,11 @@
                 gsap.to(
                         camera.position, {
                             x:0,
-                            y:750,
+                            y:450,
                             z:280,
                             duration: 2,
                             onUpdate:function(){
-                            camera.lookAt(0, 750, 0);
+                            camera.lookAt(0, 450, 0);
                             }
                     });
                     gsap.to(
@@ -782,7 +787,7 @@
                             z:100,
                             duration: 2,
                             onUpdate: function () {
-                            camera.lookAt(0,750,0);
+                            camera.lookAt(0,450,0);
                         }
                     });
             }
@@ -958,6 +963,9 @@
         }
 
 
+        /**
+             * Cannon碰撞
+             */
         function initCannonWorld() {
         //    // 建立物理世界
         //    world = new CANNON.World()
