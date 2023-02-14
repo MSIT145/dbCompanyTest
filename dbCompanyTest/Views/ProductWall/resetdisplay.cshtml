@@ -250,9 +250,9 @@
         }
     };
     //呼叫resetdisplay
-    connection.on('UpdMessage', function (response) {
-        $('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
-    });
+    //connection.on('UpdMessage', function (response) {
+    //    $('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
+    //});
     //新增
     $(`#userreportSubmit`).on(`click`, async function () {
         await checkuser();
