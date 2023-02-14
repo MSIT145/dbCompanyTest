@@ -3,7 +3,7 @@
     padding:0
 }
 .car_body {
-    background-color: cornsilk;
+    background-color: #fffdfb;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -23,7 +23,7 @@
     width: 350px;
     text-align: center;
     line-height: 50px;
-    border: solid 1px #C4C4C4
+    border: solid 1px #bbaa9c
 }
 .car_a {
     flex-shrink: 0;
@@ -31,8 +31,8 @@
     width: 350px;
     text-align: center;
     line-height: 50px;
-    border: solid 1px #C4C4C4;
-    background-color: burlywood;
+    border: solid 1px #bbaa9c;
+    background-color: #bbaa9c;
 }
 
 .purchase-icon-car {
