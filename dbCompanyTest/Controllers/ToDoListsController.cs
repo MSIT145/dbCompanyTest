@@ -116,16 +116,23 @@ namespace dbCompanyTest.Controllers
 
                 string pdfName = $"{Guid.NewGuid().ToString()}.pdf";
                 cToDoListViewModels.附件 = pdfName;
-                var properties = new ConverterProperties();
-                properties.SetBaseUri(_environment.WebRootPath + "\\File\\");
-                properties.SetCharset("utf-8");
 
-                var provider = new DefaultFontProvider(true, true, true);//系統字體 中文
-                properties.SetFontProvider(provider);
+
+                //todo
+
+               
+              
               
 
                 Task subThread1 = new Task(async () =>
                 {
+                    var properties = new ConverterProperties();
+                    properties.SetBaseUri(_environment.WebRootPath + "\\File\\");
+                    properties.SetCharset("utf-8");
+
+                    var provider = new DefaultFontProvider(true, true, true);//系統字體 中文
+                    properties.SetFontProvider(provider);
+
                     await using (FileStream file1 = new FileStream(_environment.WebRootPath + "\\File\\" + pdfName, FileMode.Create))
                     {
                         HtmlConverter.ConvertToPdf(html, file1, properties);
