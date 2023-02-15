@@ -13,6 +13,7 @@ using System.Data;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 using dbCompanyTest.Environment;
 using NPOI.SS.Formula.Functions;
+using iText.Commons.Actions.Contexts;
 
 namespace dbCompanyTest.Controllers
 {
@@ -78,10 +79,14 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult OrderFinishView(string orderId)
         {
-            Order datas = (Order)(from c in _context.Orders
-                        where c.訂單編號 == orderId
-                        select c);
-            return View(datas);
+            Order data =new Order();
+            //var datas = from c in _context.Orders
+            //            where c.訂單編號 == orderId
+            //            select c;
+            var datas= _context.Orders.Where(c=>c.訂單編號== orderId).ToList();
+            data = datas[0];
+            ViewBag.Url = new Environment.Environment().useEnvironment;
+            return View(data);
         }
 
         public IActionResult joinSQLToSession()

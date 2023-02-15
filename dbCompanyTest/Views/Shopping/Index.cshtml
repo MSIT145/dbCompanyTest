@@ -389,7 +389,7 @@
 
         //----LinePay-------
         //let baseLoginPayUrl = $('#locoUrl').val()+'/api/LinePay/';
-        let baseLoginPayUrl = "https://9fc8-1-160-18-106.jp.ngrok.io/api/LinePay/";
+        let baseLoginPayUrl = $('#locoUrl').val() + "/api/LinePay/";
         function requestPayment() 
         {
             var price =$('#pay').val()+''
@@ -415,7 +415,7 @@
                     }
                 ],
                 redirectUrls:{
-                    confirmUrl: $('#locoUrl').val()+"/Home/confirm",
+                    confirmUrl: $('#locoUrl').val() + `/Shopping/OrderFinishView/?orderId=${orderID}`,
                     cancelUrl: $('#locoUrl').val()+ "/Home"
                 }
             };
