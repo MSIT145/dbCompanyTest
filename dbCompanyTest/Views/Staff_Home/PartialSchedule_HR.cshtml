@@ -122,6 +122,11 @@
     $("#inp_com_str,#inp_com_spv,#inp_com_cod,#inp_com_bos,#inp_com_ecu").css("display", "none");
     $("#span_sin_str").css("display", "");
 
+    if (i_stu == `完成`) {
+        $("#inp_start").css("display", "none")
+    }
+
+
     $("#dpm_str").text(i_whostart);
     $("#time_str").text($("#inp_starttime").val());
     $("#com_str").text($("#inp_cont").val());
