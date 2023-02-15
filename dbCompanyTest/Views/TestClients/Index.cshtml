@@ -103,17 +103,17 @@
 
             $(window).on(`resize`, function (e) {
                 let newSize = $(window).width();
-                if ($(window).width() <= 510 && oldsize > 510) {
+                if (newSize <= 510 && oldsize > 510) {
                     $(`.clientTr-rwd`).after(`<p class = "nouse"></p>`);
                 }
                 else {
-                    if ($(window).width() < 510 && oldsize <= 510) {
+                    if (newSize < 510 && oldsize <= 510) {
 
                     } else {
                         $(`.nouse`).remove();
                     }
                 }
-                oldsize = $(window).width();
+                oldsize = newSize;
             });
             $(`#printClientData`).on(`click`, async function () {
                 let response = await fetch("@Url.Content("~/TestClients/print")")
