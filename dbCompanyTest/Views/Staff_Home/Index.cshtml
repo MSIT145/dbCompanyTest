@@ -19,7 +19,7 @@
 
     <h2 id="stf_info" style="display:none">@ViewBag.acc</h2>
 
-    <div id="Sheeplist_div" class="en_div"></div>
+    <div id="Sheeplist_div" class="en_div" style="padding-top:15px"></div>
     <br/>
     <div id="ToDoList_div" class="en_div"></div>
 </div>
@@ -35,6 +35,8 @@
        
         LoadSheeplist();
         LoadToDoList();
+
+
         //LoadSheeplist().then(LoadToDoList())
         //    .then(LoadSheeplist_Data())
         //    .then(LoadToDoList_Data());
@@ -46,20 +48,33 @@
         //    LoadSheeplist_Data();
         //    LoadToDoList_Data();           
         //})
-       
+
+        //$(window).ready(function () 
+        //{
+        //    LoadToDoList_Data();
+        //    LoadSheeplist_Data()
+        //})
+
+
+      
+
+        
 
         function LoadSheeplist() {
             //const promis =
-            $('#Sheeplist_div').load("@Url.Content("~/Staff_Home/PartialSheeplist")");
+           $('#Sheeplist_div').load("@Url.Content("~/Staff_Home/PartialSheeplist")");
+           
             //return promis;
+           
         }
          function LoadSheeplist_Data() {
             $.getScript("@Url.Content("~/js/LoadSheeplist.js")");
         }
 
-        function LoadToDoList() {
+       function LoadToDoList() {
             //const promis =
             $('#ToDoList_div').load("@Url.Content("~/Staff_Home/PartialToDoList")");
+
             //return promis;
         }
          function LoadToDoList_Data() {

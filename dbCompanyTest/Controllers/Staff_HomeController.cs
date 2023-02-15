@@ -1,5 +1,7 @@
 ﻿using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
+using iText.Html2pdf;
+using iText.Html2pdf.Resolver.Font;
 using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -620,6 +622,59 @@ namespace dbCompanyTest.Controllers
                 pdfContentByte.AddImage(image);
                 stamper.Close();
             }
+        }
+
+
+        public IActionResult PonitSheeplist(string SheepLish)//Staff_Home/PonitSheeplist
+        {
+            var datas = from c in _context.Orders
+                        join o in _context.OrderDetails on c.訂單編號 equals o.訂單編號
+                        join a in _context.ProductDetails on o.Id equals a.Id
+                        join b in _context.ProductsSizeDetails on a.商品尺寸id equals b.商品尺寸id
+                        join d in _context.ProductsColorDetails on a.商品顏色id equals d.商品顏色id
+                        join e in _context.Products on a.商品編號id equals e.商品編號id
+                        where c.訂單編號 == SheepLish
+                        select new ViewModels.Cback_order_list
+                        {
+                            訂單編號 = c.訂單編號,
+                            客戶編號 = c.客戶編號,
+                            送貨地址 = c.送貨地址,
+                            商品名稱 = e.商品名稱,
+                            尺寸種類 = b.尺寸種類,
+                            色碼 = d.色碼,
+                            商品數量 = (int)o.商品數量
+                        };
+            var test = datas.ToList();
+            var test1 = test[0];
+
+            string SheepList = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"utf-8\" />\r\n    <title></title>\r\n</head>\r\n<body>\r\n    <div style=\"width:80%;margin:200px auto; border: 2px;\">";
+            SheepList += $"<h1 style=\"text-align: center;\">訂單編號:{test[0].訂單編號}</h1>\r\n        <h3>客戶編號:{test[0].客戶編號}</h3>\r\n        <h3>送貨地址:{test[0].送貨地址}</h3>\r\n        <hr />";
+            SheepList += " <div id=\"Grid\" style=\"border-style:solid;\">\r\n\r\n            <table cellpadding=\"5\" cellspacing=\"0\" style=\"border: 1px solid #ccc;font-size: 9pt; width: 100%;\">\r\n\r\n                <tr>\r\n\r\n                    <th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">商品名稱</th>\r\n\r\n                    <th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">尺寸種類</th>\r\n\r\n                    <th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">色碼</th>\r\n\r\n                    <th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">商品數量</th>\r\n\r\n                </tr>\r\n";
+            for(int i=0; i< test.Count(); i++)
+            {
+                SheepList += $" <tr>\r\n                    <td style=\"width:120px; height: 20px; border: 1px solid #ccc\">{test[i].商品名稱}</td>\r\n                    <td style=\"width:120px; height: 20px;border: 1px solid #ccc\">{test[i].尺寸種類}</td>\r\n                    <td style=\"width:120px; height: 20px;border: 1px solid #ccc\">{test[i].色碼}</td>\r\n                   <td style=\"width:width:120px; height: 20px;border: 1px solid #ccc\">{test[i].商品數量}</td>\r\n                </tr>";
+            }
+            SheepList += "</table>\r\n        </div><br /><br />\r\n    </div>\r\n</body>\r\n</html>";
+
+
+            string SheepListPDF = SheepList.ToString();
+
+
+
+            string pdfName = $"貨單{test[0].訂單編號}.pdf";
+            var properties = new ConverterProperties();
+            properties.SetBaseUri(_environment.WebRootPath + "\\File\\");
+            properties.SetCharset("utf-8");
+
+            var provider = new DefaultFontProvider(true, true, true);//系統字體 中文
+            properties.SetFontProvider(provider);
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                HtmlConverter.ConvertToPdf(SheepListPDF, stream, properties);
+                return File(stream.ToArray(), "application/pdf", pdfName);
+            }
+            return Ok();
         }
     }
 }

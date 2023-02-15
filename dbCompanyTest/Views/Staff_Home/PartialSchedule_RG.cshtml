@@ -47,6 +47,10 @@
     $("#list_stu_sin_ecu1,#lab_stfId").css("display", "none");
     $("#list_stu").css("display", "none");
 
+    if (i_stu == `完成`) {
+        $("#inp_start").css("display", "none")
+    }
+
     $("#dpm_str").text(i_whostart);
     $("#time_str").text($("#inp_starttime").val());
     $("#com_str").text($("#inp_cont").val());

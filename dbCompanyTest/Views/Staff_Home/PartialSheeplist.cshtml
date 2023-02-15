@@ -3,7 +3,8 @@
        
         <thead>
             @*<tr>*@
-                <tr>待出貨清單</tr>
+            <h4>待出貨清單</h4>
+                @*<tr style="font-size:120px !important">待出貨清單</tr>*@
             @*</tr>*@
         </thead>
         <thead tr class="header">
@@ -112,13 +113,21 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-                    <button type="button" class="btn btn-primary" id="buttonSend">列印出貨單</button>
+                    <a id="buttonSend" class="btn btn-primary" href="">列印出貨單</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+    //$(".btnponit").on("click", function () {
+    //    console.log(`123123`)
+    //    var SPID= ("#SID").val()
+    //    console.log(SPID)
+    //    $("#buttonSend").attr("href", `"@Url.Content("~/Staff_Home/PonitSheeplist")/?SheepLish=${SPID}"`)
+    //})
+
+
     console.log(`PartialSheeplist.cshtml`)
     var SL_Foot = true;
     $("#SL_Foot").click(function () {
@@ -181,7 +190,7 @@
                             <td  class="col-1 tds">${i_val.商品數量}</td>
                             <td  class="col-3 tdl">${i_val.送貨地址}</td>
                             <td  class="col-1 tds">
-                            <button class="btn btn-primary mb-3 btnView" data-bs-toggle="modal" data-bs-target="#addModal">詳細資料</button>
+                            <button class="btn btn-primary mb-3 btnView btnponit" data-bs-toggle="modal" data-bs-target="#addModal">詳細資料</button>
                             </td>`
                         );
                         docFrag_sec.append(eleT_sec);
@@ -219,6 +228,10 @@
                     docFrag.append(eleODT);
                 }
                 $("#SDT_tbody").html(docFrag);
+
+                var SPID = $("#SID").val()
+               console.log(SPID)
+               $("#buttonSend").attr("href", `@Url.Content("~/Staff_Home/PonitSheeplist")/?SheepLish=${SPID}`)
             });
         })
 </script>
