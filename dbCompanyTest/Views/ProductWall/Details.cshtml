@@ -9,7 +9,7 @@
             <br />
             <br />
             <a class="list-inline-item sclass" asp-controller="ProductWall" asp-action="Index" asp-route-id="@Model.pro商品分類id" id="type">@Model.pro商品分類</a>
-            <input type="hidden" value="@Model.pro商品分類id" id="typeid"/>
+            <input type="hidden" value="@Model.pro商品分類id" id="typeid" />
             <ul class="tree-menu1 list-inline shop-top-menu pb-3 pt-1" id="sclass"></ul>
 
         </div>
@@ -33,13 +33,41 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active d-carouse-pic" data-bs-interval="2000">
-                    <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" class="d-block " alt="...">
+                    @{
+                        if (Model.pro商品圖片1 == null || Model.pro商品圖片1 == "")
+                        {
+                                    <img src="@Url.Content("~/images/404.jpg")" alt="圖片無法顯示" />
+                        }
+                        else
+                        {
+                                    <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" class="d-block " alt="圖片無法顯示">
+                        }
+                    }
                 </div>
                 <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
-                    <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" class="d-block " alt="...">
+                    @{
+                        if (Model.pro商品圖片2 == null || Model.pro商品圖片2 == "")
+                        {
+                                    <img src="@Url.Content("~/images/404.jpg")" alt="圖片無法顯示" />
+                        }
+                        else
+                        {
+                                    <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" class="d-block " alt="圖片無法顯示">
+                        }
+                    }
                 </div>
                 <div class="carousel-item d-carouse-pic" data-bs-interval="2000">
-                    <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" class="d-block " alt="...">
+                    @{
+                        if (Model.pro商品圖片3 == null || Model.pro商品圖片3 == "")
+                        {
+                                    <img src="@Url.Content("~/images/404.jpg")" alt="圖片無法顯示" />
+                        }
+                        else
+                        {
+
+                                    <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" class="d-block " alt="圖片無法顯示">
+                        }
+                    }
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
@@ -51,13 +79,6 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <div class="d-carouse aaa">
-            <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" />
-            <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" />
-            <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" />
-            <img src="@Url.Content("~/images/尺寸對照表.jpeg")" />
-        </div>
-
     </div>
     <div class="d-right-detail">
         <br />
@@ -299,6 +320,42 @@
 </div>
 </div>
 
+
+
+@*aaa*@
+<div style="display:flex; justify-content:center;">
+<div class="d-carouse aaa">
+    @{
+        if (Model.pro商品圖片1 == null || Model.pro商品圖片1 == "")
+        {
+            <img src="@Url.Content("~/images/404.jpg")" alt="圖片無法顯示" />
+        }
+        else
+        {
+            <img src="@Url.Content("~/images/"+Model.pro商品圖片1)" alt="圖片無法顯示" />
+        }
+        if (Model.pro商品圖片2 == null || Model.pro商品圖片2 == "")
+        {
+            <img src="@Url.Content("~/images/404.jpg")" alt="圖片無法顯示" />
+        }
+        else
+        {
+            <img src="@Url.Content("~/images/"+Model.pro商品圖片2)" alt="圖片無法顯示" />
+        }
+        if (Model.pro商品圖片3 == null || Model.pro商品圖片3 == "")
+        {
+            <img src="@Url.Content("~/images/404.jpg")" alt="圖片無法顯示" />
+        }
+        else
+        {
+            <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" alt="圖片無法顯示" />
+        }
+        <img src="@Url.Content("~/images/尺寸對照表.jpeg")" alt="圖片無法顯示" />
+
+    }
+
+</div>
+</div>
 <div>
     <div class="youmustlikeclass">
         <div>
@@ -317,10 +374,7 @@
 </div>
 
 
-@*返回頂部*@
-@*<div class="web-top">
-    <div class="icon back-top"></div>
-</div>*@
+
 @*錯誤訊息*@
 <div class="modal" id="error" style="display:none;">
     <div class="modal-box">
@@ -683,55 +737,48 @@
             $(`.userreportinput`).val("");
         });
 
-
         //以上評論
 
 
 
 
+        let oldsize;
 
 
-
-        //判斷視窗大小RWD
-        $(window).ready(function () {
-            if ($(window).width() < 500) {
-                $("#carouselExampleDark").append($(".d-right-detail"));
-                $(".d-right-detail").append($(".aaa"));
-                $(".d-right-detail").append($(".youmustlikeclass"));
-            }
-        });
-        $(window).on("resize", function (e) {
-            if ($(window).width() < 500) {
-                $("#carouselExampleDark").append($(".d-right-detail"));
-                $(".d-right-detail").append($(".aaa"));
-                $(".d-right-detail").append($(".youmustlikeclass"));
-
-            }
-            else {
-                $(".content").append($(".d-right-detail"));
-                $("#carouselExampleDark").after($(".aaa"));
-                $(".content").after($(".youmustlikeclass"));
-            }
-        });
-
-        //回到頂部
-        //$(".web-top").on('click',function(e){
-        //    e.preventDefault();
-        //    $("html").animate(
-        //    {
-        //        scrollTop:0,
-        //    },
-        //    600
-        //    );
-        //});
-        //$(window).scroll(function(){
-        //    if ($(window).scrollTop()>1000){
-        //        $(".web-top").css("display","block");
-        //    }
-        //    else{
-        //        $(".web-top").css("display", "none");
+        ////判斷視窗大小RWD
+        //$(window).ready(function () {
+        //    oldsize = $(window).width();
+        //    if ($(window).width() < 500) {
+        //        //$("#carouselExampleDark").append($(".d-right-detail"));
+        //        //$(".d-right-detail").append($(".aaa"));
+        //        //$(".d-right-detail").append($(".youmustlikeclass"));
         //    }
         //});
+
+        //$(window).on("resize", function (e) {
+        //    let newsize = $(window).width();
+
+        //    if (newsize <= 500 && oldsize > 500) {
+        //        //$("#carouselExampleDark").append($(".d-right-detail"));
+        //        //$(".d-right-detail").append($(".aaa"));
+        //        //$(".d-right-detail").append($(".youmustlikeclass"));
+
+        //    }
+        //    else {
+        //        if (newsize < 500 && oldsize <= 500) {
+
+        //        }
+        //        else {
+        //            //$(".content").append($(".d-right-detail"));
+        //            //$("#carouselExampleDark").after($(".aaa"));
+        //            //$(".content").after($(".youmustlikeclass"));
+        //        }
+        //    }
+        //    console.log(newsize);
+        //    console.log(oldsize);
+        //    oldsize = newsize;
+        //});
+
         $(".tab-item").on('click', function () {
             $(this).addClass("ac").siblings().removeClass("ac");
             let item = $(this).data('item');
@@ -771,21 +818,6 @@
         $('.size-item').on('click', function () {
             $(this).addClass("active").siblings().removeClass("active");
             $("#userchoose").text("加入購物車");
-            //if(!$(".add_cart").hasClass('add_cart'))
-            //{
-            //    $("#userchoose").addClass("add_cart")
-            //    $(".add_cart").text("加入購物車")
-            //    console.log("aa");
-
-            //}
-            //else{
-            ///*$(".add_cart").text("加入購物車")*/$(".add_cart").on("click", function () {
-            //    sizecheck = $(".size-item.active").text();
-            //    checkCount();
-            //}
-            //)}
-
-
         });
         $("#userchoose").on("click", function () {
             if ($(".size-item.active").text() != "") {
@@ -826,7 +858,7 @@
             $('#error').css("display", "block");
             $('.modal-text').text(`${response}`);
             //---LU
-            if(bool){
+            if (bool) {
                 let count = $('.number-box').find('input').val()
                 let carcount = $('#cart_num_pc').text()
                 carcount = parseFloat(carcount) + parseFloat(count);
@@ -841,8 +873,6 @@
             var carNumBox = $('#cart_num_pc').text()
             const num = await fetch(`@Url.Content("~/Shopping/CarProductCount?num=${carNumBox}")`);
             const nums = await num.json();
-            //console.log(nums);
-            //$('#cart_num_pc').text(nums)
         }
 
         //確認商品數量
@@ -866,11 +896,6 @@
                 $('.modal-text').text("商品庫存不足");
             }
         }
-
-
-
-
-
 
     </script>
     <script>
