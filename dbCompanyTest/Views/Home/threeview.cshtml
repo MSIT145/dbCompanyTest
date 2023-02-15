@@ -2,6 +2,11 @@
 @section Style{
 	<link rel="stylesheet" href="~/css/donutstyle.css">
 	<link rel="stylesheet" href="~/css/model.css">
+    <style>
+        footer{
+            display:none;
+        }
+    </style>
 }
 
     
@@ -29,9 +34,9 @@
 	</div>
 </section>
 
-<section class="two">
+@*<section class="two">
 	<div class="container">
-		<div class="hero">
+		<div class="hero" hidden>
 			<h2>How we do</h2>
 			<h3>Experiment width tasty <br>Shoespace     recipe everytime</h3>
 			<p>
@@ -44,11 +49,11 @@
 		</div>
 	</div>
 </section>
-
-<section class="three">
-	<h1>SHOESPACE.</h1>
+*@
+@*<section class="three">
+	<h1 hidden>SHOESPACE.</h1>
 </section>
-
+*@
 </div>
 
 
@@ -87,6 +92,19 @@
         width="1290"
         height="1040"
         src="~/3d/pc01.mp4"
+        style="display:none"
+    ></video>
+
+    <video
+        id="video3"
+        playsinline
+        webkit-playsinline
+        muted
+        loop
+        autoplay
+        width="1920"
+        height="1080"
+        src="~/3d/Untitled.mp4"
         style="display:none"
     ></video>
 
@@ -298,51 +316,58 @@
 
 
         /**
-         * background color
+         * Random background color
          */
-        var uniforms1;
+        //var uniforms1;
 
-        uniforms1 = {
-            time: {
-                type: "f",
-                value: 1.0
-            },
-            resolution: {
-                type: "v2",
-                value: new THREE.Vector2()
-            }
-        };
-        var params = [
+        //uniforms1 = {
+        //    time: {
+        //        type: "f",
+        //        value: 1.0
+        //    },
+        //    resolution: {
+        //        type: "v2",
+        //        value: new THREE.Vector2()
+        //    }
+        //};
+        //var params = [
 
-            ['fragment_shader4', uniforms1]
-        ];
+        //    ['fragment_shader4', uniforms1]
+        //];
 
-        let spGeometry = new THREE.BoxGeometry(1000, 1000, 1000);
-        var bkmaterial = new THREE.ShaderMaterial({
-            uniforms: params[0][1],
-            vertexShader: document.getElementById('vertexShader').textContent,
-            fragmentShader: document.getElementById(params[0][0]).textContent
-        });
-
-
-        //let pGeometry = new THREE.PlaneGeometry(1000000, 1000000);
-        //let bkp = new THREE.Mesh(pGeometry, bkmaterial);
-        //bkp.position.set(0, 0, -10000)
+      
+        //var bkmaterial = new THREE.ShaderMaterial({
+        //    uniforms: params[0][1],
+        //    vertexShader: document.getElementById('vertexShader').textContent,
+        //    fragmentShader: document.getElementById(params[0][0]).textContent
+        //});
 
 
-        const shadertoyCamera = new THREE.OrthographicCamera(
-            -1, // left
-            1, // right
-            1, // top
-            -1, // bottom
-            -1, // near,
-            0, // far
-        );
-        const shadertoyScene = new THREE.Scene();
-        const bkplane = new THREE.PlaneBufferGeometry(3, 3);
-        shadertoyScene.add(new THREE.Mesh(bkplane, bkmaterial));
+        //const shadertoyCamera = new THREE.OrthographicCamera(
+        //    -1, // left
+        //    1, // right
+        //    1, // top
+        //    -1, // bottom
+        //    -1, // near,
+        //    0, // far
+        //);
+        //const shadertoyScene = new THREE.Scene();
+        //const bkplane = new THREE.PlaneBufferGeometry(3, 3);
+        //shadertoyScene.add(new THREE.Mesh(bkplane, bkmaterial));
  
 
+
+         
+
+
+        /**
+         * skybox
+         */
+        //const skybox=new BoxGeometry(200,200,200);
+        //const skyboxMaterial=[
+        //    new THREE.MeshBasicMaterial({})
+        //];
+        //const skyboxMesh=new THREE.Mesh(skybox,skyboxMaterial);
 
 
             /**
@@ -621,15 +646,18 @@
          */
         const renderer = new THREE.WebGLRenderer({
             canvas: canvas,
-            //antialias: true,
+            antialias: true,
             //alpha: true
         })
+
         renderer.autoClear = false;
         renderer.shadowMap.enabled = true
         renderer.shadowMap.type = THREE.PCFSoftShadowMap
         renderer.setSize(sizes.width, sizes.height)
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
         renderer.outputEncoding = THREE.sRGBEncoding; //修正模型暗沉
+
+
 
 
 
@@ -641,11 +669,17 @@
         let video2 = document.getElementById('video2');
         let videoTexture2 = new THREE.VideoTexture(video2);
 
+        let video3 = document.getElementById('video3');
+        let videoTexture3 = new THREE.VideoTexture(video3);
+
         videoTexture.minFilter = THREE.LinearFilter;
         videoTexture.magFilter = THREE.LinearFilter;
 
         videoTexture2.minFilter = THREE.LinearFilter;
         videoTexture2.magFilter = THREE.LinearFilter;
+
+        videoTexture3.minFilter = THREE.LinearFilter;
+        videoTexture3.magFilter = THREE.LinearFilter;
 
         var movieMaterial = new THREE.MeshBasicMaterial({
             map: videoTexture,
@@ -658,6 +692,13 @@
             side: THREE.FontSide,
             toneMapped: false,
             roughness:0.135,
+        })
+        var movieMaterial3 = new THREE.MeshBasicMaterial({
+            map: videoTexture3,
+            side: THREE.FontSide,
+            fog:true,
+            //toneMapped: false,
+            
         })
 
         const texture1=new THREE.TextureLoader().load('https://rawcdn.githack.com/th9716/3dglb/5aeea9a066f509812d5a397ddf04cf72c6cc94f4/img/women.png');
@@ -693,6 +734,21 @@
         scene.add(screenplane);
 
 
+        /**
+         * Background video SET
+         */
+        const shadertoyCamera = new THREE.OrthographicCamera(
+            -8, // left
+            8, // right
+            4.5, // top
+            -4.5, // bottom
+            -1, // near,
+            0, // far
+        );
+
+        const shadertoyScene = new THREE.Scene();
+        const bkplane = new THREE.PlaneBufferGeometry(16, 9);
+        shadertoyScene.add(new THREE.Mesh(bkplane, movieMaterial3));
             
 
 
@@ -1116,10 +1172,11 @@
                 lastElapsedTime = elapsedTime
 
 
-            //console.log(deltaTime)
-            uniforms1.time.value += deltaTime * 1;
                 //bk.rotation.y += deltaTime * 0.5 * (1 % 2 ? 1 : -1);
                 //bk.rotation.x += deltaTime * 0.5 * (1 % 2 ? -1 : 1);
+
+
+
                 if(shoes&&shoes2){
                 shoes.rotation.y += deltaTime * 0.3 * (1 % 2 ? 1 : -1);
                 shoes2.rotation.y += deltaTime * 0.3 * (1 % 2 ? 1 : -1);
@@ -1164,14 +1221,23 @@
 
             particularGruop.rotation.y += 0.005;
 
-            
+            //TV animate
                 videoTexture.needsUpdate=true;
                 videoTexture2.needsUpdate=true;
+                videoTexture3.needsUpdate=true;
                 video.play();
                 video2.play();
+                video3.play();
+
+                //***BackgroundRender
+                //console.log(deltaTime)
+                //uniforms1.time.value += deltaTime * 1;
+                //renderer.render(shadertoyScene, shadertoyCamera);
+
 
                 renderer.render(shadertoyScene, shadertoyCamera);
-                // Render
+
+                // ***Render
                 renderer.render(scene, camera)
 
                 // Call tick again on the next frame
