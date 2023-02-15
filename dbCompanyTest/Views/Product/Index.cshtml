@@ -64,7 +64,7 @@
                 </div>
                 <div class="col-md-4">
                 <button type="button" name="Detail_list_Create" class="btn btn-primary" id="create" title="新增" data-bs-toggle="modal" data-bs-target="#Moda_D_C" style="margin-left:20px"><i class="fas fa-edit"></i>新增</button>
-            
+                <button class="btn btn-primary" name="batch_Delete"><i class="bi bi-trash3-fill"  >批次刪除</i></button>
                 </div>
                 <div class="col-md-5">
                 @using (Html.BeginForm("XXX", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -381,8 +381,11 @@
     };
     //產品明細表單使用
     let urlDe = '@Url.ActionLink("showSearchDetail","Product")';
-    let Proimg_url ='@Url.Content("~/images")';
-    let Pro_Create_url = `@Url.Content("~/Product/_CreateDetail")/?id=&imgid=&colid=`;
+    let ProDeimg_url ='@Url.Content("~/images")';
+    let ProDe_Create_url = `@Url.Content("~/Product/_CreateDetail")/?id=&imgid=&colid=`;
+    let ProDe_Delet_url = "@Url.Content("~/product/DeleteProDetail")";
+    let ProDe_Edit_url ="@Url.Content("~/Product/_EditDetial")";
+
     //用 table代表整個表單
     //Table Load Start==========================
     let url01 = '@Url.ActionLink("showlist","Product")';
@@ -654,11 +657,13 @@
         $.get(url, { "id": `${id}` }, (datas) => { alert(datas); });
         //重新載入
         change_table();
+        change_ProDetailtable()
     });
 
     //Modal關閉監聽 hide.bs.modal
     $("#Moda_P_C").on('hide.bs.modal', function () {
         change_table();
+        change_ProDetailtable()
     })
 
 
@@ -749,6 +754,7 @@
     //Modal關閉監聽 hide.bs.modal
     $("#Moda_D_C").on('hide.bs.modal', function () {
         change_table();
+        change_ProDetailtable()
     })
 
 

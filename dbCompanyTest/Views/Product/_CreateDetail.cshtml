@@ -3,7 +3,7 @@
 
 <hr />
 <div class="row ">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <form name="proInfo" id="Form_ProDe_C">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" style="display: none;">
@@ -14,9 +14,15 @@
             <div class="form-group">
                 <lable class="control-label">商品編號</lable>
                 <label asp-for="商品編號id" class="control-label" style="display:none"></label>
-                <select id="_商品編號id"  class="form-select" aria-label="商品編號">
-                    <option selected>ajax_select商品編號+名稱</option>
-                </select> 
+                <div style="display:flex">
+                    <select id="_商品編號id" class="form-select" aria-label="商品編號">
+                        <option selected>ajax_select商品編號+名稱</option>
+                    </select>
+                    <div class="input-group ">
+                        <input type="text" class="form-control" placeholder="關鍵字" aria-label="關鍵字" aria-describedby="btn-Search" id="keywork_Pro_name" >
+                        <button class="btn btn-outline-secondary" type="button" id="btn-Search_Pro_op">查詢</button>
+                    </div>
+                </div>              
                 <input class="form-control" id="t_商品編號id" value="@ViewBag.id" type="hidden">
                 <input asp-for="商品編號id" id="商品編號id" name="商品編號id"   class="form-control" type="hidden" />
                 <span asp-validation-for="商品編號id" class="text-danger"></span>
@@ -33,9 +39,16 @@
             <div class="form-group">
                 <lable class="control-label">商品顏色</lable>
                 <label asp-for="商品顏色id" class="control-label" style="display:none"></label>
-                <select id="_商品顏色id" class="form-select" aria-label="商品顏色id">
-                    <option selected>ajax_select顏色id+顏色名稱</option>
-                </select>
+                <div style="display:flex">
+                    <select id="_商品顏色id" class="form-select" aria-label="商品顏色id">
+                        <option selected>ajax_select顏色id+顏色名稱</option>
+                    </select>
+                    <div class="input-group ">
+                        <input type="text" class="form-control" placeholder="關鍵字" aria-label="關鍵字" aria-describedby="btn-Search" id="keywork_Color_name" >
+                        <button class="btn btn-outline-secondary" type="button" id="btn-Search_Color_op">查詢</button>
+                    </div>
+                </div>
+                
                 <input class="form-control" id="t_商品顏色id" value="@ViewBag.colid" type="hidden">
                 <input asp-for="商品顏色id" id="商品顏色id"  class="form-control" name="顏色" type="hidden" />
                 <span asp-validation-for="商品顏色id" class="text-danger"></span>
@@ -171,32 +184,11 @@
                                 })
 
                             //取得產品Id
-                            $.get("@Url.Content("~/Product/GetProName")", (datas) => {       
-                                
-                            //新增產品類別select
-                            var options = datas.map(data => {
-                            const { 商品編號id, 商品名稱 } = data;
-                            //console.log(商品編號id)
-                            return (`<option value="${商品編號id}" data-text="${商品名稱}">${商品編號id} ${商品名稱}</option>`);
-                            });                           
-                            $("#_商品編號id").html(options);
-                           $("#_商品編號id").val($("#t_商品編號id").val());
-                            });
-
+                           getProToSelect();
+                         
                             //提取顏色
-                            $.get("@Url.Content("~/Product/GetColor")", (datas) => {                           
-                            //新增產品類別select
-                            var options = datas.map(data => {
-                            const { 商品顏色id, 商品顏色種類 } = data;
-                            //console.log(商品編號id)
-                            return (`<option value="${商品顏色id}" data-text="${商品顏色種類}">${商品顏色id} ${商品顏色種類}</option>`);
-                            });
-                           $("#_商品顏色id").html(options);
-                            if ($("#t_商品顏色id").val()!="")
-                            {
-                                $("#_商品顏色id").val($("#t_商品顏色id").val());
-                            }
-                            });
+                           getColortoSelet();
+                            
 
                             //提取尺寸
                             $.get("@Url.Content("~/Product/GetSize")", (datas) => {
@@ -228,12 +220,44 @@
                                 }
                             });
                             //變更圖片
-
-
                           $("#_圖片位置id").on('change',function(){
                               var tval = $(this).val();
                               selected_img_change(tval);
                           });
+
+                          //搜尋產品
+                      
+                        $("#Form_ProDe_C #btn-Search_Pro_op").on('click',function(){
+                                $.ajaxSettings.async = false;
+                                const key = $("#Form_ProDe_C #keywork_Pro_name").val();
+                                getProToSelect();
+                                //const resurlt = $(`#_商品編號id option[data-text*='${key}']`).first().val();
+                                //$("#_商品編號id").val(resurlt);
+                                let resurlt = $(`#_商品編號id`).find("option");
+                                if (key != "")
+                                    resurlt = $(`#_商品編號id option[data-text*='${key}']`);
+                                $("#_商品編號id").empty();
+                                $("#_商品編號id").append(resurlt);
+                                $.ajaxSettings.async = true;
+                         });
+
+                          //搜尋顏色
+                        $("#Form_ProDe_C #btn-Search_Color_op").on('click',function(){                           
+                        //const resurlt = $(`#_商品顏色id option[data-text*='${key}']`).first().val();
+                        //$("#_商品顏色id").val(resurlt);
+                        $.ajaxSettings.async = false;
+                        const key = $("#Form_ProDe_C #keywork_Color_name").val();
+                        getColortoSelet();
+                        //const resurlt = $(`#_商品編號id option[data-text*='${key}']`).first().val();
+                        //$("#_商品編號id").val(resurlt);
+                        let resurlt = $(`#_商品顏色id`).find("option");
+                        if (key != "")
+                        resurlt = $(`#_商品顏色id option[data-text*='${key}']`);
+                        $("#_商品顏色id").empty();
+                        $("#_商品顏色id").append(resurlt);
+                        $.ajaxSettings.async = true;
+                        });
+                       
                             
                             function selected_img_change(val)
                             {
@@ -291,6 +315,41 @@
         form.find("#商品是否上架").val(form.find("#_上架").prop("checked"));
         form.find("#新建圖片").val(form.find("#create_image").prop("checked"));
     }
+
+    function getProToSelect()
+    {
+        //取得產品Id
+        $.get("@Url.Content("~/Product/GetProName")", (datas) => {
+
+            //新增產品類別select
+            var options = datas.map(data => {
+                const { 商品編號id, 商品名稱 } = data;
+                //console.log(商品編號id)
+                return (`<option value="${商品編號id}" data-text="${商品名稱}">${商品編號id} ${商品名稱}</option>`);
+            });
+            $("#_商品編號id").html(options);
+            $("#_商品編號id").val($("#t_商品編號id").val());
+        });
+    }
+
+    function getColortoSelet()
+    {
+          $.get("@Url.Content("~/Product/GetColor")", (datas) => {                           
+                            //新增產品類別select
+                            var options = datas.map(data => {
+                            const { 商品顏色id, 商品顏色種類 } = data;
+                            //console.log(商品編號id)
+                            return (`<option value="${商品顏色id}" data-text="${商品顏色種類}">${商品顏色id} ${商品顏色種類}</option>`);
+                            });
+                           $("#_商品顏色id").html(options);
+                            if ($("#t_商品顏色id").val()!="")
+                            {
+                                $("#_商品顏色id").val($("#t_商品顏色id").val());
+                            }
+                            });
+    }
+
+   
 
     function bind_file_img()
     {
