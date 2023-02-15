@@ -626,7 +626,7 @@ namespace dbCompanyTest.Controllers
         }
 
 
-        public IActionResult PonitSheeplist(string SheepLish)//Staff_Home/PonitSheeplist
+        public async Task<IActionResult> PonitSheeplist(string SheepLish)//Staff_Home/PonitSheeplist
         {
             var datas = from c in _context.Orders
                         join o in _context.OrderDetails on c.訂單編號 equals o.訂單編號
@@ -646,7 +646,6 @@ namespace dbCompanyTest.Controllers
                             商品數量 = (int)o.商品數量
                         };
             var test = datas.ToList();
-            var test1 = test[0];
 
             string SheepList = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"utf-8\" />\r\n    <title></title>\r\n</head>\r\n<body>\r\n    <div style=\"width:80%;margin:200px auto; border: 2px;\">";
             SheepList += $"<h1 style=\"text-align: center;\">訂單編號:{test[0].訂單編號}</h1>\r\n        <h3>客戶編號:{test[0].客戶編號}</h3>\r\n        <h3>送貨地址:{test[0].送貨地址}</h3>\r\n        <hr />";
@@ -663,18 +662,22 @@ namespace dbCompanyTest.Controllers
 
 
             string pdfName = $"貨單{test[0].訂單編號}.pdf";
-            var properties = new ConverterProperties();
+
+           
+                var properties = new ConverterProperties();
             properties.SetBaseUri(_environment.WebRootPath + "\\File\\");
             properties.SetCharset("utf-8");
 
             var provider = new DefaultFontProvider(true, true, true);//系統字體 中文
             properties.SetFontProvider(provider);
 
-            using (MemoryStream stream = new MemoryStream())
+            await using (MemoryStream stream = new MemoryStream())
             {
                 HtmlConverter.ConvertToPdf(SheepListPDF, stream, properties);
                 return File(stream.ToArray(), "application/pdf", pdfName);
             }
+            
+          
             return Ok();
         }
     }

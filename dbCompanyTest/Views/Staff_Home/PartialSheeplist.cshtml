@@ -113,7 +113,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-                    <a id="buttonSend" class="btn btn-primary" href="">列印出貨單</a>
+                    <a id="buttonSend" class="btn btn-primary" href="">下載出貨單</a>
                 </div>
             </div>
         </div>
@@ -129,16 +129,7 @@
 
 
     console.log(`PartialSheeplist.cshtml`)
-    var SL_Foot = true;
-    $("#SL_Foot").click(function () {
-        SL_Foot = !SL_Foot
-        $("#456").toggleClass("active");
-        if (SL_Foot)
-            $("#SL_Foot img").attr("src", "@Url.Content("~/homeimg/down_arrow_icon.png")");
-        else
-            $("#SL_Foot img").attr("src", "@Url.Content("~/homeimg/up_arrow_icon.png")");
-
-    });
+   
 
 
 
@@ -167,10 +158,10 @@
             let docFrag_sec = $(document.createDocumentFragment());
             let lastSID = "";
             let rowCound = 0;
+            let i;
             $.each(data, function (i, i_val) {
                 let eleT = "";
                 let eleT_sec = "";
-
                 if (lastSID !== i_val.訂單編號) {
                     rowCound++;
                     if (rowCound <= 5) {
@@ -201,6 +192,26 @@
             });
             $("#Sheeplist_tbody").prepend(docFrag);
             $("#Sheeplist_tbody_sec").append(docFrag_sec);
+            console.log(`==================`);
+            console.log(rowCound);
+            console.log(`==================`);
+
+            var high = rowCound*75.94;
+            console.log(`${high}px !important`)
+            var SL_Foot = true;
+            $("#SL_Foot").click(function () {
+                SL_Foot = !SL_Foot
+                $("#456").toggleClass("active");
+                if (SL_Foot) {
+                    $(".table__wrapper").attr("max-height", `${high}px !important`)
+                    $("#SL_Foot img").attr("src", "@Url.Content("~/homeimg/down_arrow_icon.png")");
+                }
+
+                else {
+                    $("#SL_Foot img").attr("src", "@Url.Content("~/homeimg/up_arrow_icon.png")");
+                }
+
+            });
 
 
 

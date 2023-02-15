@@ -59,11 +59,11 @@
 .table1 tr.collapse1 .table__wrapper {
     max-height: 0px !important;
     overflow: hidden !important;
-    transition: max-height 2s !important;
+    transition: max-height 1s !important;
 }
 
 .table1 tr.active .table__wrapper {
-    max-height: 5000px !important; 
+    max-height: 700px !important; 
     transition: max-height 1s !important;
 }
 
