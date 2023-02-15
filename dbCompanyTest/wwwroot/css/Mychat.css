@@ -54,7 +54,7 @@
 .chatBody {
     display: none;
     position: fixed;
-    bottom: 190px;
+    bottom: 170px;
     right: 30px;
     height: 65%;
     width: 360px;
@@ -79,7 +79,7 @@
     .chatBBody {
         background-color: white;
         width: 100%;
-        height: 70%;
+        height: 80%;
         overflow-y: scroll;
     }
 
@@ -105,6 +105,9 @@
     .chatBBody .chat {
         margin: 5px;
     }
+    #chatClose {
+    background-color: rgb(191, 169, 154);
+}
 
     .chatBBody .myChat {
         margin-left: 28%;
@@ -164,22 +167,31 @@
         outline: none;
     }
 
-    .LineFriend {
-        margin: 0 30%;
-        width: 100px;
-    }
+.LineFriend {
+    padding: 0 30%;
+    width: 100px;
+    background-color: rgb(191, 169, 154);
+}
 
-        .LineFriend iframe {
-            width: 200px !important;
-            height: 20px !important;
-        }
+    .LineFriend iframe {
+        width: 200px !important;
+        height: 20px !important;
+        background-color: rgb(191, 169, 154);
+    }
+.MochiContent{
+    width:100%;
+}
+
+.hee {
+    background-color: rgb(191, 169, 154);
+}
 
 @media screen and (max-width:500px) {
     .chatBody {
-        bottom: 8%;
+        bottom: 0%;
         right: 0;
         width: 100%;
-        height: 85%;
+        height: 75%;
     }
 
     .chatHeader {
@@ -188,12 +200,21 @@
 
         .chatHeader p {
             text-align: center;
+
         }
+    #chatClose {
+        background-color: rgb(191, 169, 154);
+    }
 
     .LineFriend {
-        margin: 0 33% !important;
+        padding: 0 33% !important;
+        background-color: rgb(191, 169, 154);
     }
     .chatBBody {
-        height: 74%;
+        height: 78%;
+        width:100%;
+    }
+    .MochiContent {
+        height: 95% !important;
     }
 }

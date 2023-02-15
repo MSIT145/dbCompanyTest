@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="~/dbCompanyTest.styles.css" asp-append-version="true" />
     <link href="~/css/layout.css" rel="stylesheet" />
     <link href="~/css/mychat.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/css/car.css" rel="stylesheet" />
+    @*<link href="~/css/normalize.css" rel="stylesheet" />*@
     @await RenderSectionAsync("Style", required: false)
 </head>
 <body class="pc-model">
@@ -201,21 +203,30 @@
         <div class="dot mouth"></div>
     </div>
     <div class="chatBody" style="z-index:10;">
-        <div id="cchatClose"><p id="chatClose">X</p></div>
-        <div class="chatHeader"><div id="connection" style="background-image:url('@Url.Content("~/images/dog.jpg")')"></div><p id="errorstring" style="color:white;margin:0 auto;padding: 0 39%;">ShoeShop</p></div>
-        <div class="LineFriend">
-            <div class="line-it-button" data-lang="zh_Hant" data-type="friend" data-env="REAL" data-count="true" data-home="true" data-lineId="@@401jvrga" style="display:block;width:100px;height:100px;"></div>
-        </div>
-        <input id="userName" type="hidden">
-        <input id="openaikey" type="hidden" />
-        <div class="chatBBody">
-        </div>
-        <div class="chatFooter">
-            <div style="margin-top:3px">
-                <input type="text" id="message" placeholder="請輸入文字......" style="border-radius:10px;border:0"/>
-                <img src="~/images/send.png" id="send" style="width:22px;height:22px;cursor:pointer" />
+        <div id=app style="height:100%">
+            <mochi-box shiba="monaka" mood="content"
+                       left-eye="open" right-eye="wink"
+                       left-ear="middle" right-ear="flat"
+            style="height:100%">
+            <div class="hee">
+                <div id="cchatClose"><p id="chatClose">X</p></div>
+                <div class="chatHeader"><div id="connection" style="background-image:url('@Url.Content("~/images/dog.jpg")')"></div><p id="errorstring" style="color:white;margin:0 auto;padding: 0 39%;">ShoeShop</p></div>
+                <div class="LineFriend">
+                    <div class="line-it-button" data-lang="zh_Hant" data-type="friend" data-env="REAL" data-count="true" data-home="true" data-lineId="@@401jvrga" style="display:block;width:100px;height:100px;"></div>
+                </div>
+                <input id="userName" type="hidden">
+                <input id="openaikey" type="hidden" />
             </div>
-            <p>ShoeShop</p>
+                <div class="chatBBody">
+                </div>
+                <div class="chatFooter">
+                    <div style="margin-top:3px">
+                        <input type="text" id="message" placeholder="請輸入文字......" style="border-radius:10px;border:0"/>
+                        <img src="~/images/send.png" id="send" style="width:22px;height:22px;cursor:pointer" />
+                    </div>
+                    <p>ShoeShop</p>
+                </div>
+            </mochi-box>
         </div>
     </div>
     <footer class="border-top footer text-muted">
@@ -224,6 +235,8 @@
         </div>
     </footer>
     <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js'></script>
+    <script src="~/js/script.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
