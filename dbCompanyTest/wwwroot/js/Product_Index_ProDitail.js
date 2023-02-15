@@ -1,7 +1,4 @@
 ﻿//Product index.cs ProductDetail js控制
-
-
-
 $("#btn_ProDetailControl").on('click', function () {
     $("#collapse_ProDetaol_Search").toggle(500)  
    setTimeout(function () {
@@ -175,7 +172,7 @@ $("#tableProDetal").on('click', 'input[name="TBcheck_AllDetail"]', function () {
 
 });
 ////加入批量刪除事件
-//$('#tableAll').on('click', 'button[name="batch_Delete"]', function () {
+//$('#tableProDetal').on('click', 'button[name="batch_Delete"]', function () {
 //    console.log("批量刪除");
 //    const color = $(this).parents("tr[name='tr_de']").find('td:eq(1)').text().trim();
 //    // console.log(color);
