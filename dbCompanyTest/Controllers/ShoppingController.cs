@@ -75,6 +75,15 @@ namespace dbCompanyTest.Controllers
 
             return View(carSession);
         }
+
+        public IActionResult OrderFinishView(string orderId)
+        {
+            Order datas = (Order)(from c in _context.Orders
+                        where c.訂單編號 == orderId
+                        select c);
+            return View(datas);
+        }
+
         public IActionResult joinSQLToSession()
         {
             List<會員商品暫存>? carSession = null;
@@ -125,17 +134,23 @@ namespace dbCompanyTest.Controllers
         public IActionResult GetCarJson()
         {
             var json = "";
+            OnlyForCountCarProductNum? carCount = new OnlyForCountCarProductNum();
             List<會員商品暫存>? carSession = null;
             if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
             {
+                var aa = 0;
                 json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
                 carSession = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
                 for(int count = 0; count< carSession.Count(); count++)
                 {
+                    aa += (int)carSession[count].訂單數量;
                     carSession[count].Id = count;
                 }
                 json = JsonSerializer.Serialize(carSession);
                 HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
+                carCount.ProductCountNum=aa;
+                json = JsonSerializer.Serialize(carCount);
+                HttpContext.Session.SetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION, json);
             }
             else
                 json = "NO";
@@ -184,20 +199,6 @@ namespace dbCompanyTest.Controllers
         }
 
         //----購物車記數----------
-        //public IActionResult CarProductCountDelete(int num)
-        //{
-        //    var json = "";
-        //    OnlyForCountCarProductNum? count = null;
-        //    OnlyForCountCarProductNum? carCount = new OnlyForCountCarProductNum();
-        //    carCount.ProductCountNum = num;
-        //    json = HttpContext.Session.GetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION);
-        //    count = JsonSerializer.Deserialize<OnlyForCountCarProductNum>(json);
-        //    count.ProductCountNum -= carCount.ProductCountNum;
-        //    carCount.ProductCountNum = count.ProductCountNum;
-        //    json = JsonSerializer.Serialize(carCount);
-        //    HttpContext.Session.SetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION, json);
-        //    return Json(carCount.ProductCountNum.ToString());
-        //}
         public IActionResult CarProductCount(int num)
         {
             var json = "";
@@ -351,7 +352,7 @@ namespace dbCompanyTest.Controllers
             { "ReturnURL",  $"{website}/api/API/AddPayInfo"},
 
             //使用者於綠界 付款完成後，綠界將會轉址至 此URL
-            { "OrderResultURL", $"{website}/Shopping/Index"},
+            { "OrderResultURL", $"{website}/Shopping/OrderFinishView/?orderId={data.訂單編號.ToString()}"},
 
             //付款方式為 ATM 時，當使用者於綠界操作結束時，綠界回傳 虛擬帳號資訊至 此URL
             { "PaymentInfoURL",  $"{website}/api/Ecpay/AddAccountInfo"},
@@ -391,6 +392,20 @@ namespace dbCompanyTest.Controllers
         }
         //----門市API結束------------------------
 
+        //----購買完成-------
+        public IActionResult AllCiear()
+        {
+            var json = "";
+            OnlyForCountCarProductNum? carCount = new OnlyForCountCarProductNum();
+            List<會員商品暫存>? carSession = new List<會員商品暫存>();
+            json = JsonSerializer.Serialize(carCount);
+            HttpContext.Session.SetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION, json);
+            json = JsonSerializer.Serialize(carSession);
+            HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
+            return Content("Ciear");
+        }
+        //----購買完成結束----
+
         public IActionResult store(IFormCollection data)
         {
             string storeid = data["storeid"];
@@ -405,6 +420,7 @@ namespace dbCompanyTest.Controllers
             _context.SaveChanges();
             return Content("成功");
         }
+
         public IActionResult CreateOrderDital(OrderDetail order)
         {
             List<會員商品暫存>? carSession = null;
