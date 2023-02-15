@@ -122,16 +122,16 @@
                 <div class=" R-Top-tool">
                     <div class="tool-box ">
                         <div class="tool-p ">
-                            <a id="web-search-btn" href=""><img src="~/homeImg/search_header_pc.png"></a>
+                            <a id="web-search-btn1" href=""><img src="~/homeImg/search_header_pc.png"></a>
                         </div>
 
                     </div>
                 </div>
 
 
-                <div class="search-box container" id="sb">
+                <div class="search-box1 container" id="sb2">
                     <div class="row">
-                        <input class="web-search search_keyword" type="text" placeholder="Search" id="search-box" disabled="disabled">
+                        <input class="web-search search_keyword1" type="text" placeholder="Search" id="search-box1" disabled="disabled">
                     </div>
                 </div>
 
@@ -572,6 +572,59 @@
             }
 
         });
+
+        // mob搜索框顯示
+        $('body').delegate('#web-search-btn1', 'click', function () {
+            console.log("mob")
+            let _this = $(this);
+            let searchBox = $('.search-box1');
+            if (searchBox.hasClass('show')) {
+                searchBox.removeClass('show')
+                $('#search-box1').attr('disabled', 'disabled');
+            } else {
+                $('#search-box1').removeAttr('disabled');
+                searchBox.addClass('show')/*.find('input').focus();*/
+            }
+            return false;
+        })
+
+        // mob搜尋
+        $('body').delegate('.search-btn', 'click', function () {
+            let _this = $(this);
+            if (!_this.hasClass('clicked')) {
+                _this.addClass('clicked');
+                $('.search-box').animate({
+                    left: '0.2rem', right: "1.5rem",
+                }, 100);
+            } else {
+                _this.removeClass('clicked');
+                $('.search-box').animate({
+                    left: '7.5rem', right: '7.5rem',
+                }, 100);
+            }
+            return false;
+        })
+
+        $('body').on('keyup', '.search_keyword1', function (e) {
+            let sb2 = $('#sb2');
+            if (sb2.hasClass('show')) {
+                if (13 == e.keyCode) {
+                    let value = $(this).val().trim();
+                    if ('' == value) {
+                        return;
+                    }
+
+                    location.href = '/ProductWall/search?keyword=' + $('#search-box1').val();
+                }
+            } else {
+                if (13 == e.keyCode) {
+                    return;
+                }
+            }
+
+        });
+
+
 
         //TOP
         $(".web-top .back-top").click(function () {

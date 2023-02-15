@@ -267,12 +267,13 @@
             justify-content: space-around;
             margin: 15px 0px;
             margin-right: 15px;
+            margin-left:-10px;
         }
         .shop-bot li {
             list-style: none;
         }
         .shop-bot img{
-            height:36px;
+            height:30px;
         }
 
 
@@ -365,7 +366,7 @@
     }
 
 
-    .shop-header .search-box {
+    .shops .search-box1 {
         position: absolute;
         height: 100%;
         background-color: #fff;
@@ -373,16 +374,27 @@
         align-items: center;
         left: 7.5rem;
         right: 7.5rem;
-         display: none; 
+        /*opacity:0;*/
+        display:none;
     }
 
-        .shop-header .search-box.show {
-            width: 150px;
-            opacity: 1;
-            left: calc(-100% + 10px);
+        .shops .search-box1.show {
+            width: 195px;
+            /*opacity: 1;*/
+            display: flex;
+            animation: fade-in-left 0.3s ease-in 1;
+        }
+    @keyframes fade-in-left {
+        from {
+            opacity: 0;
         }
 
-        .shop-header .search-box input {
+        to {
+            opacity: 1;
+        }
+    }
+
+        .shops .search-box1 input {
             border: none;
             border-bottom: 1px solid #d4cdc8;
             outline: none;
@@ -435,7 +447,7 @@
     .sidebar-left {
         position: fixed;
         top: 6.65rem;
-        bottom: 4.5rem;
+        bottom: 4rem;
         left: -100%;
         width: 12.36rem;
         background-color: #fff;
