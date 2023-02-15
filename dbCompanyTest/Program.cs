@@ -18,7 +18,7 @@ builder.Services.AddSingleton<HtmlEncoder>(
 builder.Services.AddCors(option =>
 {
     option.AddPolicy("AllowAll",
-        builder=>builder.SetIsOriginAllowed(a=>true).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+        builder => builder.SetIsOriginAllowed(a => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 });
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(op =>
@@ -55,6 +55,6 @@ app.MapControllerRoute(
 
 app.MapHub<chatHub>("/chatHub");
 chatHub.Current = ((IApplicationBuilder)app).ApplicationServices.GetService<IHubContext<chatHub>>();
-if(new dbCompanyTest.Environment.Environment().useEnvironment == "https://localhost:7100")
+if (new dbCompanyTest.Environment.Environment().useEnvironment == "https://localhost:7100")
     dbCompanyTest.Environment.Environment.open = false;
 app.Run();
