@@ -370,15 +370,19 @@
 
         carCount()
         async function carCount() {
-            const data = await fetch(`@Url.Content("~/Shopping/CarProductCount/?num=0")`);
+            const data = await fetch(`@Url.Content("~/Shopping/CarProductCount/?num=99")`);
             const nums = await data.json();
             console.log("CLayout")
             $('#cart_num_pc').text(nums)
         }
 
-        async function dele(id) {
+        async function dele(id,a) {
             console.log(id);
             const data = await fetch(`@Url.Content("~/Shopping/DeleteCarSession?id=${id}")`);
+            let count = $('#cart_num_pc').text()
+            count = count-a;
+            $('#cart_num_pc').text(count)
+            const data2 = await fetch(`@Url.Content("~/Shopping/CarProductCount?num=${count}")`);
             $(`#car_iten`).find(`#${id}`).remove();
             SetCar()
         }
@@ -429,21 +433,20 @@
                 $('.purchase-icon-car').on('click', () => {
                     console.log("123");
                     var a = $(event.currentTarget).find("input").val();
-                    carCountDelete(countP)
-                    dele(a);
+                    dele(a, countP);
                 });
             }
         }
         //-------購物車結束----
 
-        //----購物車記數刪除--------
-        async function carCountDelete(count){
+        ////----購物車記數刪除--------
+        //async function carCountDelete(count){
 
-            const num = await fetch(`@Url.Content("~/Shopping/CarProductCountDelete?num=${count}")`);
-            const nums = await num.json();
-            console.log("DLayout")
-            $('#cart_num_pc').text(nums)
-        }
+        //    const num = await fetch(`@Url.Content("~/Shopping/CarProductCountDelete?num=${count}")`);
+        //    const nums = await num.json();
+        //    console.log("DLayout")
+        //    $('#cart_num_pc').text(nums)
+        //}
         //----購物車記數刪除結束-----
 
         // 會員下拉選單

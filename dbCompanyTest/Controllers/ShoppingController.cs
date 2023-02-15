@@ -130,6 +130,12 @@ namespace dbCompanyTest.Controllers
             {
                 json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
                 carSession = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
+                for(int count = 0; count< carSession.Count(); count++)
+                {
+                    carSession[count].Id = count;
+                }
+                json = JsonSerializer.Serialize(carSession);
+                HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
             }
             else
                 json = "NO";
@@ -178,31 +184,34 @@ namespace dbCompanyTest.Controllers
         }
 
         //----購物車記數----------
-        public IActionResult CarProductCountDelete(int num)
-        {
-            var json = "";
-            OnlyForCountCarProductNum? count = null;
-            OnlyForCountCarProductNum? carCount = new OnlyForCountCarProductNum();
-            carCount.ProductCountNum = num;
-            json = HttpContext.Session.GetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION);
-            count = JsonSerializer.Deserialize<OnlyForCountCarProductNum>(json);
-            count.ProductCountNum -= carCount.ProductCountNum;
-            carCount.ProductCountNum = count.ProductCountNum;
-            json = JsonSerializer.Serialize(carCount);
-            HttpContext.Session.SetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION, json);
-            return Json(carCount.ProductCountNum.ToString());
-        }
+        //public IActionResult CarProductCountDelete(int num)
+        //{
+        //    var json = "";
+        //    OnlyForCountCarProductNum? count = null;
+        //    OnlyForCountCarProductNum? carCount = new OnlyForCountCarProductNum();
+        //    carCount.ProductCountNum = num;
+        //    json = HttpContext.Session.GetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION);
+        //    count = JsonSerializer.Deserialize<OnlyForCountCarProductNum>(json);
+        //    count.ProductCountNum -= carCount.ProductCountNum;
+        //    carCount.ProductCountNum = count.ProductCountNum;
+        //    json = JsonSerializer.Serialize(carCount);
+        //    HttpContext.Session.SetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION, json);
+        //    return Json(carCount.ProductCountNum.ToString());
+        //}
         public IActionResult CarProductCount(int num)
         {
             var json = "";
             OnlyForCountCarProductNum? count = null;
-            OnlyForCountCarProductNum? carCount =new OnlyForCountCarProductNum();
-            carCount.ProductCountNum=num;
+            OnlyForCountCarProductNum? carCount = new OnlyForCountCarProductNum();
+            if (num != 99)
+            {
+               
+                carCount.ProductCountNum = num;
                 if (HttpContext.Session.Keys.Contains(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION))
                 {
                     json = HttpContext.Session.GetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION);
                     count = JsonSerializer.Deserialize<OnlyForCountCarProductNum>(json);
-                    carCount.ProductCountNum += count.ProductCountNum;
+                    count.ProductCountNum = carCount.ProductCountNum;
                     json = JsonSerializer.Serialize(carCount);
                     HttpContext.Session.SetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION, json);
                 }
@@ -211,6 +220,18 @@ namespace dbCompanyTest.Controllers
                     json = JsonSerializer.Serialize(carCount);
                     HttpContext.Session.SetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION, json);
                 }
+            }
+            else if (HttpContext.Session.Keys.Contains(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION))
+            {
+                json = HttpContext.Session.GetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION);
+                carCount = JsonSerializer.Deserialize<OnlyForCountCarProductNum>(json);
+            }
+            else
+            {
+                json = JsonSerializer.Serialize(carCount);
+                HttpContext.Session.SetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION, json);
+            }
+            
 
             return Json(carCount.ProductCountNum.ToString());
         }

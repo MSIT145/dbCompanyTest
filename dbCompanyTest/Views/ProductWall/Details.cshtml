@@ -825,16 +825,24 @@
             const response = await data.text();
             $('#error').css("display", "block");
             $('.modal-text').text(`${response}`);
+            //---LU
+            if(bool){
+                let count = $('.number-box').find('input').val()
+                let carcount = $('#cart_num_pc').text()
+                carcount = parseFloat(carcount) + parseFloat(count);
+                $('#cart_num_pc').text(carcount)
+                CountForCar();
+            }
         }
 
 
         //----購物車記數
         async function CountForCar() {
-            var carNumBox = $('.number-box').find('input').val()
+            var carNumBox = $('#cart_num_pc').text()
             const num = await fetch(`@Url.Content("~/Shopping/CarProductCount?num=${carNumBox}")`);
             const nums = await num.json();
-            console.log(nums);
-            $('#cart_num_pc').text(nums)
+            //console.log(nums);
+            //$('#cart_num_pc').text(nums)
         }
 
         //確認商品數量
@@ -852,7 +860,6 @@
             const reponse = await data.text();
             if (reponse === "true") {
                 AddtoMyLoveOrCart(sizecheck, true);
-                CountForCar();
             }
             else {
                 $('#error').css("display", "block");
