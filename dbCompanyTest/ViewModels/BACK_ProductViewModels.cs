@@ -42,6 +42,10 @@
         public string? 商品是否有貨 { get; set; }
         public string? 商品是否上架 { get; set; }
 
+        public string? 商品名稱 { get; set; }
+
+        public string? 分類 { get; set; }
+        public string? 鞋種 { get; set; }
         public bool? 新建圖片 { get; set; }
 
 
@@ -50,6 +54,7 @@
     public class Product_CDictionary
     {        
         public static readonly string SK_SEARCH_PRODUCTS_LIST = "SK_SEARCH_PRODUCTS_LIST";
+        public static readonly string SK_SEARCH_PRO_DETAIL_LIST = "SK_SEARCH_PRO_DETAIL_LIST";
     }
 
     public class Back_Product_library

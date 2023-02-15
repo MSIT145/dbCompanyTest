@@ -762,8 +762,14 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult _CreateDetail(createkeydata key)
         {
-            
-            ViewBag.id = key.id;
+            if (string.IsNullOrEmpty(key.id))
+            {
+                ViewBag.id = db.Products.FirstOrDefault().商品編號id;
+            }
+            else
+            {
+                ViewBag.id = key.id;
+            }           
             if (string.IsNullOrEmpty(key.imgid))
             {
                 ViewBag.imgid = "";
@@ -1078,8 +1084,53 @@ namespace dbCompanyTest.Controllers
             return View();
         }
 
-        
+
 
         #endregion ProductDetail所有事件
+
+        #region 商品細項搜尋設定
+        public IActionResult showSearchDetail(string id)
+        {
+            string key = id;
+            var data = from pd in db.ProductDetails.ToList()
+                       join p in db.Products on pd.商品編號id equals p.商品編號id
+                       join s in db.商品鞋種s on p.商品鞋種id equals s.商品鞋種id
+                       join t in db.ProductsTypeDetails on p.商品分類id equals t.商品分類id
+                       join z in db.ProductsSizeDetails on pd.商品尺寸id equals z.商品尺寸id
+                       join c in db.ProductsColorDetails on pd.商品顏色id equals c.商品顏色id
+                       join i in db.圖片位置s on pd.圖片位置id equals i.圖片位置id
+                       select new Back_ProducDetail
+                       {
+                           id = pd.Id.ToString(),
+                           明細編號 = pd.Id.ToString(),
+                           商品編號id = pd.商品編號id.ToString(),
+                           分類 = t.商品分類名稱.ToString(),
+                           鞋種 = s.鞋種.ToString(),
+                           商品名稱 = p.商品名稱,
+                           明細尺寸 = z.尺寸種類,
+                           顏色 = c.商品顏色種類,
+                           數量 = (pd.商品數量).ToString(),
+                           圖片位置id = i.圖片位置id.ToString(),
+                           商品圖片1 = i.商品圖片1,
+                           商品圖片2 = i.商品圖片2,
+                           商品圖片3 = i.商品圖片3,
+                           商品是否上架 = pd.商品是否上架 == true ? "上架" : "下架",
+                           商品是否有貨 = pd.商品是否有貨 == true ? "有貨" : "沒貨"
+                       };
+            if (!string.IsNullOrEmpty(key))
+            {
+                data = data.Where(d => d.商品名稱.Contains(key)|| d.分類.Contains(key) || d.鞋種.Contains(key) || d.明細尺寸 == key || d.顏色.Contains(key) || d.商品是否上架.Contains(key) || d.商品是否有貨.Contains(key)).ToList();
+            }
+            if (data.Count() != 0)
+            {
+                string json = JsonSerializer.Serialize(data);
+                HttpContext.Session.SetString(Product_CDictionary.SK_SEARCH_PRO_DETAIL_LIST, json);
+            }
+            return Json(new { data });
+
+        }
+
+
+        #endregion 商品細項搜尋設定
     }
 }
