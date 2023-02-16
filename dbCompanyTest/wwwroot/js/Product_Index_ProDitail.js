@@ -178,7 +178,7 @@ $('#collapse_ProDetaol_Search').on('click', 'button[name="batch_Delete"]', funct
     const thisgroup = $("#collapse_ProDetaol_Search")
     //取得組數
     let checkedId = new Array();
-    $("#tableProDetal").find(`input[name="Pro_check_delete"]`).each(function () {
+    $("#tableProDetal").find(`input[name="Pro_check_delete"]:checked`).each(function () {
         if (!isNaN($(this).val())) {
             checkedId.push($(this).val());
         } else {

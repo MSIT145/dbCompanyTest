@@ -405,19 +405,9 @@ namespace dbCompanyTest.Controllers
             //dataTable跑回圈，insert資料至DB
             foreach (DataRow dr in data.Rows)
             {
-                int _商品編號id = 0;
                 int _商品尺寸id = 0;
                 int _商品顏色id = 0;
-                //dr[8] 與 dr[9] 查詢相應table 回傳可存入的數值
-                if (!string.IsNullOrEmpty(dr[1].ToString()))
-                {
-                    var temp = db.Products.FirstOrDefault(pd => pd.商品名稱 == dr[1].ToString());
-                    if (temp != null)
-                    {
-                        _商品編號id = (int)temp.商品分類id;
-                    }
-                }
-
+                //dr[2] 與 dr[3] 查詢相應table 回傳可存入的數值
                 if (!string.IsNullOrEmpty(dr[2].ToString()))
                 {
                     var temp = db.ProductsSizeDetails.FirstOrDefault(s => s.尺寸種類 == dr[2].ToString());
@@ -435,24 +425,50 @@ namespace dbCompanyTest.Controllers
                         _商品顏色id = temp.商品顏色id;
                     }
                 }
+                bool In_stock = false;
+                bool put_on = false;
+                //[10]商品是否有貨 [11]商品是否上架
+                if (!string.IsNullOrEmpty(dr[10].ToString()))
+                {
+                    string _In_stock = dr[10].ToString();
+                    if (_In_stock == "有貨")
+                    {
+                        In_stock = true;
+                    }
+                    else if (_In_stock == "沒貨")
+                    {                     
+                    In_stock = false ;
+                    }
+                }
+                if (!string.IsNullOrEmpty(dr[11].ToString()))
+                {
+                    string _put_on =  dr[11].ToString();
+                    if (_put_on == "上架")
+                    {
+                        put_on = true;
+                    }
+                    else if (_put_on == "下架")
+                    {
+                        put_on = false;
+                    }
+                }
 
 
                 ProductDetail x = new ProductDetail();
-                x.商品編號id = Int32.TryParse(dr[1].ToString(), out int _Id) ? _Id : 0;
-                x.商品尺寸id = Int32.TryParse(dr[2].ToString(), out int _sizeid)? _sizeid:0;
-                x.商品顏色id = Int32.TryParse(dr[3].ToString(), out int _colorid) ? _colorid : 0;
-                x.商品數量 = Int32.TryParse(dr[4].ToString(),out int _count)? _colorid:0;
-                x.商品編號 = dr[1].ToString();
-                x.圖片位置id = Int32.TryParse(dr[6].ToString(), out int _Location) ? _Location : 0;            
-                x.商品是否有貨 = bool.TryParse(dr[7].ToString(), out bool _instock) ? _instock : false;
-                x.商品是否上架 = bool.TryParse(dr[8].ToString(), out bool _onshelves) ? _onshelves : false;
+                x.商品編號id = Int32.TryParse(dr[1].ToString(), out int _Id) ? _Id : 1;
+                x.商品尺寸id = _商品尺寸id;
+                x.商品顏色id = _商品顏色id;
+                x.商品數量 = Int32.TryParse(dr[4].ToString(),out int _count)? _count : 0;           
+                x.圖片位置id = Int32.TryParse(dr[9].ToString(), out int _Location) ? _Location : 1;            
+                x.商品是否有貨 = In_stock;
+                x.商品是否上架 = put_on;
 
                 try
                 {
                     db.ProductDetails.Add(x);
-                    db.SaveChanges();
+                   
                     //Response.BodyWriter("<script language=javascript>alert('檔案匯入成功');</" + "script>");
-                    return "檔案匯入成功";
+                    
                 }
                 catch (Exception ex)
                 {
@@ -460,6 +476,7 @@ namespace dbCompanyTest.Controllers
                     return ex.Message;
                 }
             }
+            db.SaveChanges();
             return "";
         }
 
