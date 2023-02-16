@@ -22,27 +22,37 @@ namespace dbCompanyTest.Environment
                         {
                             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + apiKey);
                             client.DefaultRequestHeaders.Add("Ngrok-Version", "2");
-                            var response = client.SendAsync(request).Result;
-                            var x = response.Content.ReadAsStringAsync().Result;
-                            Root root = JsonSerializer.Deserialize<Root>(x);
-                            if (root.endpoints.Count == 0)
-                                return "https://localhost:7100";
-                            else
+                            HttpResponseMessage response;
+                            String x;
+                            Root root;
+                            try
                             {
-                                string LineBotKey = "CiB9XbeXDnIXgfN8u7zbtIFGkaxP+VXghErm0tE/bntZJ6M9VZrIKvxUoLT2/38sLsDIXthopd+NwlcX/DT+LJKuOMUp9TJ/VlqVlcrsWjp1cjwFDzaL/2KcN3b+vNRgnP83LrM+iA6QYkFt/VqKiAdB04t89/1O/w1cDnyilFU=";
-                                var data = new Dictionary<string, string>()
+                                response = client.SendAsync(request).Result;
+                                x = response.Content.ReadAsStringAsync().Result;
+                                root = JsonSerializer.Deserialize<Root>(x);
+                                if (root.endpoints.Count == 0)
+                                    return "https://localhost:7100";
+                                else
+                                {
+                                    string LineBotKey = "CiB9XbeXDnIXgfN8u7zbtIFGkaxP+VXghErm0tE/bntZJ6M9VZrIKvxUoLT2/38sLsDIXthopd+NwlcX/DT+LJKuOMUp9TJ/VlqVlcrsWjp1cjwFDzaL/2KcN3b+vNRgnP83LrM+iA6QYkFt/VqKiAdB04t89/1O/w1cDnyilFU=";
+                                    var data = new Dictionary<string, string>()
                                 {
                                     { "endpoint", root.endpoints[0].public_url+"/api/LineBot/Webhook" }
                                 };
-                                HttpClient Line = new HttpClient();
-                                HttpRequestMessage lineRequest = new HttpRequestMessage(new HttpMethod("Put"), "https://api.line.me/v2/bot/channel/webhook/endpoint")
-                                {
-                                    Content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json")
-                                };
-                                Line.DefaultRequestHeaders.Add("Authorization", "Bearer " + LineBotKey);
-                                var lineResponse = Line.SendAsync(lineRequest).Result;
-                                var a = lineResponse.Content.ReadAsStringAsync().Result;
-                                return root.endpoints[0].public_url;
+                                    HttpClient Line = new HttpClient();
+                                    HttpRequestMessage lineRequest = new HttpRequestMessage(new HttpMethod("Put"), "https://api.line.me/v2/bot/channel/webhook/endpoint")
+                                    {
+                                        Content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json")
+                                    };
+                                    Line.DefaultRequestHeaders.Add("Authorization", "Bearer " + LineBotKey);
+                                    var lineResponse = Line.SendAsync(lineRequest).Result;
+                                    var a = lineResponse.Content.ReadAsStringAsync().Result;
+                                    return root.endpoints[0].public_url;
+                                }
+                            }
+                            catch
+                            {
+                                return "https://localhost:7100";
                             }
                         }
                     }
