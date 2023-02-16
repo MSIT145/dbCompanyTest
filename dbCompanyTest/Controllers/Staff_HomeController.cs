@@ -28,9 +28,13 @@ namespace dbCompanyTest.Controllers
         {
             _environment = p;
         }
-        public void Staff_Information() 
+        public IActionResult Staff_Information() 
         {
             string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_INFO_SESSION);
+            if(json == null)
+            {
+                return RedirectToAction("login");
+            }
             var data = JsonSerializer.Deserialize<TestStaff>(json);
             CStaffInfo info = new CStaffInfo();
             info.stfNum = data.員工編號;
@@ -42,12 +46,17 @@ namespace dbCompanyTest.Controllers
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stfNum} {stf.員工姓名} {stf.部門}";
             ViewBag.dep = stf.部門;
+            return Ok();
         }
         public IActionResult Index()
         {
             Staff_Information();
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+            if(stf == null)
+            {
+                return RedirectToAction("login");
+            }
             if (stf.部門 == "行政" || stf.部門 == "執行長室")
                 return View();
             else
