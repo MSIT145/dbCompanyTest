@@ -45,8 +45,8 @@ namespace dbCompanyTest.Controllers
                 var user = JsonSerializer.Deserialize<TestClient>(login);
 
                 var dbCompanyTestContext = _context.會員商品暫存s.Select(x => x).Where(c => c.購物車或我的最愛 == true && c.客戶編號.Contains(user.客戶編號)).ToList();
-                ViewBag.MAP = "https://emap.presco.com.tw/c2cemap.ashx?eshopid=870&&servicetype=1&url="+new Environment.Environment().useEnvironment+"/Shopping/SlectShop";
-                ViewBag.Url = new Environment.Environment().useEnvironment;
+                ViewBag.MAP = "https://emap.presco.com.tw/c2cemap.ashx?eshopid=870&&servicetype=1&url="+ Environment.Environment.useEnvironment + "/Shopping/SlectShop";
+                ViewBag.Url = Environment.Environment.useEnvironment;
                 //是否有car session
                 if (!HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION))
                 {
@@ -85,7 +85,7 @@ namespace dbCompanyTest.Controllers
             //            select c;
             var datas= _context.Orders.Where(c=>c.訂單編號== orderId).ToList();
             data = datas[0];
-            ViewBag.Url = new Environment.Environment().useEnvironment;
+            ViewBag.Url = Environment.Environment.useEnvironment;
             return View(data);
         }
 
@@ -254,7 +254,7 @@ namespace dbCompanyTest.Controllers
 
             //需填入 你的網址
             //var website = $"https://localhost:7100";
-            var website = new Environment.Environment().useEnvironment;
+            var website = Environment.Environment.useEnvironment;
             var order = new Dictionary<string, string>
         {
             //特店交易編號
@@ -323,7 +323,7 @@ namespace dbCompanyTest.Controllers
 
             //需填入 你的網址
             //var website = $"https://localhost:7100";
-            var website = new Environment.Environment().useEnvironment;
+            var website = Environment.Environment.useEnvironment;
 
             var order = new Dictionary<string, string>
         {

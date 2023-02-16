@@ -21,7 +21,7 @@ namespace dbCompanyTest.Controllers
         private readonly string _appId = "1657826204";
         private readonly string _appSecret = "dfc3f645938564091911eb6782f905bd";
         //private string RedirectUrl = "https://localhost:7100/Login/Line";
-        private string RedirectUrl = new Environment.Environment().useEnvironment + "/Login/Line";
+        private string RedirectUrl = Environment.Environment.useEnvironment + "/Login/Line";
         private readonly IHttpClientFactory _clientFactory;
         public LoginController(IHttpClientFactory clientFactory)
         {
@@ -41,7 +41,7 @@ namespace dbCompanyTest.Controllers
                     $"&redirect_uri={RedirectUrl}" +
                     $"&scope={HttpUtility.UrlEncode("profile openid email")}" +
                     $"&state={State}";
-                ViewData["localUrl"] = new Environment.Environment().useEnvironment;
+                ViewData["localUrl"] = Environment.Environment.useEnvironment;
                 return View();
             }
             else
@@ -65,7 +65,7 @@ namespace dbCompanyTest.Controllers
             if (a != null)
             {
                 useSession(a);
-                return Content("成功"+new Environment.Environment().useEnvironment);
+                return Content("成功"+ Environment.Environment.useEnvironment);
             }
             else
                 return Content("失敗");
@@ -256,7 +256,7 @@ namespace dbCompanyTest.Controllers
                 var mail = new MailMessage();
                 mail.To.Add(Email);
                 mail.Subject = "SheoseGift忘記密碼變更";
-                mail.Body = $"<h1>ShoeSpace密碼變更</h1><a href=`{new Environment.Environment().useEnvironment}/Login/RePassword?Email={Email}`><h2>點選這裡變更密碼</h2></a><hr/><h6>此訊息為系統自動寄出請勿直接回覆</h6>";
+                mail.Body = $"<h1>ShoeSpace密碼變更</h1><a href=`{Environment.Environment.useEnvironment}/Login/RePassword?Email={Email}`><h2>點選這裡變更密碼</h2></a><hr/><h6>此訊息為系統自動寄出請勿直接回覆</h6>";
                 //mail.Body = $"<form action = 'https://localhost:7100/Login/ResetPassword'><input type='hidden' value='{Email}' id='account' name='Email' /><input type='text' id='newPassword' name='Password'/><br/><input type='text' id='dblnewPassword' /><br/><input type='submit' value='確認'/></form>";
                 mail.IsBodyHtml = true;
                 mail.Priority = MailPriority.Normal;
@@ -277,7 +277,7 @@ namespace dbCompanyTest.Controllers
         public IActionResult RePassword(string Email)
         {
             ViewData["Email"] = Email;
-            ViewData["url"] = new Environment.Environment().useEnvironment+ "/Login/Login";
+            ViewData["url"] = Environment.Environment.useEnvironment + "/Login/Login";
             return View();
         }
 
