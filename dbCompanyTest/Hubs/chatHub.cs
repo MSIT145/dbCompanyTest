@@ -111,7 +111,7 @@ namespace dbCompanyTest.Hubs
             if (olduser != null)
                 olduser.waiter = null;
             user user;
-            if (userId.Substring(0, 4) == "LINE") 
+            if (userId.Substring(0, 4) == "LINE")
                 user = userList.FirstOrDefault(x => x.LineID == userId);
             else
                 user = userList.FirstOrDefault(x => x.connectionId == userId);
@@ -157,9 +157,26 @@ namespace dbCompanyTest.Hubs
             data.collapseParetid = null;
             string json = JsonSerializer.Serialize(data);
             //傳給使用者
-            await Clients.Others.SendAsync("UpdMessage", json);
+            //await Clients.Others.SendAsync("UpdMessage", json);
+            var user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId).roomName;
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, user);
+            await Clients.Group(user).SendAsync("UpdMessage",json);
             await Clients.Clients(Context.ConnectionId).SendAsync("UpdMessage", response);
+            await Groups.AddToGroupAsync(Context.ConnectionId, user);
             //await Clients.
         }
+        //JoinGroup
+        public async Task JoinRoom(int productid, int colorid)
+        {
+            string roomName = productid.ToString() + colorid.ToString();
+            var user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId);
+            if (user != null)
+            {
+                user.roomName = roomName;
+                await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
+            }
+            
+        }
+
     }
 }

@@ -16,13 +16,13 @@ using iText.StyledXmlParser.Jsoup.Nodes;
 using NPOI.OpenXmlFormats.Spreadsheet;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using NPOI.SS.Formula.Atp;
+using NuGet.Protocol;
 
 namespace dbCompanyTest.Controllers
 {
     public class ProductWallController : Controller
     {
         dbCompanyTestContext _context = new dbCompanyTestContext();
-
         public IActionResult Index(int? id, int page = 1)
         {
 
@@ -628,7 +628,7 @@ namespace dbCompanyTest.Controllers
                 _context.Update(parentdata);
                 _context.SaveChanges();
                 ProductDetailViewModels pdm = selectData(data);
-
+                //pdm.collapseParetid = data['']
                 return Json(pdm);
             }
             else if (Convert.ToInt32(data["order"]) == 2 && data["comment"] != "")
