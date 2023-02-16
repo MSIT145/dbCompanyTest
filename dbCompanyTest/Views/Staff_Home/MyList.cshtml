@@ -47,11 +47,24 @@
                                             @Html.DisplayFor(c=>item.表單狀態)
                                         </td>
                                         <td class="col-1">
-                                            <a href="@Url.Content("~/Staff_Home/DT_TDL")/?listNum=@item.交辦事項id">
-                                                <button class="btn btn-primary mb-3 btnTDL_DT">
-                                                    詳細資料
-                                                </button>
-                                            </a>
+                                                @{
+                                                    if (item.表單類型 == "人事表單")
+                                                    {
+                                                        <a href="@Url.Content("~/Staff_Home/DT_TDL_HR")/?listNum=@item.交辦事項id">
+                                                            <button class="btn btn-primary mb-3 btnTDL_DT">
+                                                                詳細資料
+                                                            </button>
+                                                        </a>
+                                                    }
+                                                    else if (item.表單類型 == "常規表單")
+                                                    {
+                                                        <a href="@Url.Content("~/Staff_Home/DT_TDL")/?listNum=@item.交辦事項id">
+                                                            <button class="btn btn-primary mb-3 btnTDL_DT">
+                                                                詳細資料
+                                                            </button>
+                                                        </a>
+                                                    }
+                                                }
                                         </td>
                                     </tr>
                                 }
