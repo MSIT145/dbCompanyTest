@@ -8,32 +8,11 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" integrity="sha512-NXUhxhkDgZYOMjaIgd89zF2w51Mub53Ru3zCNp5LTlEzMbNNAjTjDbpURYGS5Mop2cU4b7re1nOIucsVlrx9fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.js" integrity="sha512-mgZL3SZ/vIooDg2mU2amX6NysMlthFl/jDbscSRgF/k3zmICLe6muAs7YbITZ+61FeUoo1plofYAocoR5Sa1rQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
      方法:
-     function test_alert(text) {
-                new Noty({
-                //alert,success,warning,error,info
-                type: 'success',
-                text: text,
-                timeout: 3000,
-                //closeWith: ['click', 'button'],
-                //dismissQueue: false,
-                layout: 'topCenter',
-            //modal: true
+     function test_alert(text) {            
         }).show();
     }
-
     */
 }
-<style>
-    input[type="button"]:active{
- background:#00F;
- background:inherit;
- 
-}
-button:active{
-        background: #00F;
-        background: inherit;
-}
-</style>
 
 @*//內部模板的icon 與bootstrap5 CDN*@
 <script src="~/assets/js/icon_js/app.js"></script>
@@ -46,16 +25,6 @@ button:active{
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-
-@*<div class="alert alert-warning alert-dismissible fade show" role="alert" id="myAlert">
-    <div style="display:flex">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
-        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-    </svg>    
-          <div >An example alert with an icon</div>    
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>    
-</div>*@
 
 <div class="container-xxl flex-grow-1 container-p-y"  id="ProForm_main">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> 商品與明細</h4>
@@ -73,6 +42,7 @@ button:active{
             {
                 <div class="input-group ">
                     <input type="file" class="form-control" aria-describedby="btn-Upload" id="excel" name="excel" accept=".xlsx,.xls">
+                     <input type="text" value="Pro" name="File_type" style="display:none">
                     <button class="btn btn-outline-secondary" type="submit" id="btn-Upload">Excel批次匯入商品建檔</button>
                 </div>
             }
@@ -107,10 +77,11 @@ button:active{
                 <button class="btn btn-primary" name="batch_Delete"><i class="bi bi-trash3-fill"  >批次刪除</i></button>
                 </div>
                 <div class="col-md-5">
-                @using (Html.BeginForm("XXX", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("Upload", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                 <div class="input-group ">
                 <input type="file" class="form-control" aria-describedby="btn-Upload" id="excel" name="excel" accept=".xlsx,.xls">
+                        <input type="text" value="ProDe" name="File_type" style="display:none">
                 <button class="btn btn-outline-secondary" type="submit" id="btn-Upload">Excel批次匯入細項建檔</button>
                 </div>
                 }
@@ -148,8 +119,8 @@ button:active{
             </div>
             <div class="col-md-3">
                 <div class="input-group ">
-                    <input type="text" class="form-control" placeholder="請先輸入檔案名稱" aria-label="請先輸入檔案名稱" aria-describedby="btn-download" id="fileName" name="fileName">
-                    <button class="btn btn-outline-secondary" type="button" id="btn-download" disabled="disabled">下載成Excel</button>
+                    <input type="text" class="form-control" placeholder="請先輸入檔案名稱" aria-label="請先輸入檔案名稱" aria-describedby="btn-download" id="fileName_Pro" name="fileName_Pro">
+                    <button class="btn btn-outline-secondary" type="button" id="btn-download-Pro" disabled="disabled">下載成Excel</button>
                 </div>
             </div>
         </div>
@@ -643,21 +614,43 @@ button:active{
 
     });
 
-    //要輸入檔名才能按按鈕
-    $("#fileName").on('change', function () {
-        if ($(this).val() == "")
-            $("#btn-download").prop("disabled", true);
-        else
-            $("#btn-download").prop("disabled", false);
+    //要輸入檔名才能按按鈕 btn-download
+    $("#fileName").on('change', function () {      
+        fileInOpCl($(this), $("#btn-download"));       
     })
 
-    //檔案下載事件
+     // 要輸入檔名才能按按鈕 btn- download-Pro
+    $("#fileName_Pro").on('change', function () {
+        fileInOpCl($(this), $("#btn-download-Pro"));
+    })
+
+    let fileInOpCl =(obj,dowobj)=>{
+        console.log(obj);
+        console.log(dowobj);
+       if ($(obj).val() == "")
+           dowobj.prop("disabled", true);
+        else
+            dowobj.prop("disabled", false);
+    }
+
+    //檔案下載事件_btn-download
     $("#btn-download").on('click', function () {
-        let filename = $("#fileName").val();
-        Pro_DownLoadFile_Get(filename);
-        $("#fileName").val("");
-        $(this).prop("disabled", true);
+       method_Get_Excel($(this), $("#fileName"));
     });
+     //檔案下載事件
+    $("#btn-download-Pro").on('click', function () {
+        method_Get_Excel($(this), $("#fileName_Pro"));
+    });
+
+    let method_Get_Excel = (thisobj, filenameobj)=>{
+        
+     let filename = filenameobj.val();
+     console.log("filename:"+filename);
+        Pro_DownLoadFile_Get(filename);
+        filenameobj.val("");
+        thisobj.prop("disabled", true);
+    
+    }
 
     //查詢事件綁定
     $("#btn-Search").on('click', function () {
@@ -901,12 +894,6 @@ button:active{
         $("#Moda_Img_View").find("img").prop("src", url);
     });
     //=============產品明細事件End=======================
-
-
-
-
-
-
     //清空Product 新增與修改Form表單的欄位
     let ClearPro_Edit_Creater_form = () => {
         $("form[name='ProC_Form'] input").val("");

@@ -17,6 +17,8 @@
 
         public IFormFile excel { get; set; }
 
+        public string? File_type { get; set; }
+
         public string? fileName { get; set; }
     }
 
