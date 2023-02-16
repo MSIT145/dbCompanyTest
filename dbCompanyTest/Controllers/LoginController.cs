@@ -6,6 +6,7 @@ using iText.Html2pdf.Attach;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NPOI.SS.Formula.Functions;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
@@ -189,6 +190,12 @@ namespace dbCompanyTest.Controllers
                 var del = _context.會員商品暫存s.Select(x => x).Where(y => y.客戶編號 == userdata.客戶編號 && y.購物車或我的最愛 == MyloveOrShoppingcar);
                 _context.會員商品暫存s.RemoveRange(del);
                 _context.SaveChanges();
+                //----購物車記數規零
+                var json = "";
+                OnlyForCountCarProductNum? carCount = new OnlyForCountCarProductNum();
+                carCount.ProductCountNum = 0;
+                json = System.Text.Json.JsonSerializer.Serialize(carCount);
+                HttpContext.Session.SetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION, json);
                 //讀取我的最愛Session
                 string lovejson = HttpContext.Session.GetString(session);
                 var lovedata = System.Text.Json.JsonSerializer.Deserialize<List<會員商品暫存>>(lovejson).ToArray();

@@ -114,7 +114,7 @@ namespace dbCompanyTest.Controllers
                         HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
                         foreach (會員商品暫存 x in dbCompanyTestContext)
                         {
-                            carCount = x.訂單數量;
+                            carCount += x.訂單數量;
                         }
                     }
                 }
@@ -127,10 +127,14 @@ namespace dbCompanyTest.Controllers
                     foreach (會員商品暫存 x in dbCompanyTestContext)
                     {
                         carSession.Add(x);
-                        carCount = x.訂單數量;
+                        carCount += x.訂單數量;
                         json = JsonSerializer.Serialize(carSession);
                         HttpContext.Session.SetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION, json);
                     }
+                    OnlyForCountCarProductNum? count = null;
+                    json = HttpContext.Session.GetString(CDittionary.SK_ONLY_FOR_CAR_PRODUCT_COUNT_SESSION);
+                    count = JsonSerializer.Deserialize<OnlyForCountCarProductNum>(json);
+                    carCount = carCount + count.ProductCountNum;
                 }
             }
             var data = CarProductCount((int)carCount);
