@@ -171,31 +171,32 @@ $("#tableProDetal").on('click', 'input[name="TBcheck_AllDetail"]', function () {
 
 
 });
-////加入批量刪除事件
-//$('#tableProDetal').on('click', 'button[name="batch_Delete"]', function () {
-//    console.log("批量刪除");
-//    const color = $(this).parents("tr[name='tr_de']").find('td:eq(1)').text().trim();
-//    // console.log(color);
-//    const thisgroup = $(this).parent().parent().parent().parent();
-//    //取得組數
-//    let checkedId = new Array();
-//    thisgroup.find(`tr[data-color="${color}"] input[name="check_delete"]:checked`).each(function () {
-//        if (!isNaN($(this).val())) {
-//            checkedId.push($(this).val());
-//        } else {
-//            console.log("lost value");
-//        }
-//    });
-//    console.log(checkedId);
-//    console.log(checkedId.length);
-//    if (checkedId.length == 0) {
-//        alert("請選擇要刪除的資料!");
-//        return false;
-//    }
-//    //  console.log("陣列：" + checkedId);
-//    //  console.log("id串：" + checkedId.toString());   Moda_D_D
-//    const id = checkedId.toString();
-//    Send_DatatoDel_Moda("@Url.Content("~/product/DeleteProDetail")", id);
-//    $('#Moda_D_D').modal('toggle');
 
-//});
+//加入批量刪除事件
+$('#collapse_ProDetaol_Search').on('click', 'button[name="batch_Delete"]', function () {
+    console.log("123");
+    const thisgroup = $("#collapse_ProDetaol_Search")
+    //取得組數
+    let checkedId = new Array();
+    $("#tableProDetal").find(`input[name="Pro_check_delete"]`).each(function () {
+        if (!isNaN($(this).val())) {
+            checkedId.push($(this).val());
+        } else {
+            console.log("lost value");
+        }
+    });
+    
+    console.log(checkedId);
+    console.log(checkedId.length);
+    if (checkedId.length == 0) {
+        //alert要改
+        alert("請選擇要刪除的資料!");
+        return false;
+    }
+    //  console.log("陣列：" + checkedId);
+    //  console.log("id串：" + checkedId.toString());   Moda_D_D
+    const id = checkedId.toString();
+    Send_DatatoDel_Moda(ProDe_Delet_url, id);
+    $('#Moda_D_D').modal('toggle');
+
+});

@@ -210,6 +210,7 @@ button.list-group-item-primary.active {
     background-color: #D5BCA7;
     border-color: #D5BCA7;
     box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4);
+    /* box-shadow: 0 0.125rem 0.25rem 0 #A48975;*/
 }
 
     .btn-primary:hover {
@@ -219,13 +220,15 @@ button.list-group-item-primary.active {
         transform: translateY(-1px);
     }
     /*預設按鈕*/
-.btn-check:focus + .btn-primary, .btn-primary:focus, .btn-primary.focus {
-  color: #fff;
-  background-color: #5f61e6;
-  border-color: #5f61e6;
-  transform: translateY(0);
-  box-shadow: none;
-}
+    .btn-check:focus + .btn-primary, .btn-primary:focus, .btn-primary.focus {
+        color: #fff;
+        /*background-color: #5f61e6;*/
+        background-color: #A07F68;
+        /*border-color: #5f61e6;*/
+        border-color: #A07F68;
+        transform: translateY(0);
+        box-shadow: none;
+    }
 .btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .show > .btn-primary.dropdown-toggle {
   color: #fff;
   background-color: #595cd9;

@@ -535,7 +535,7 @@
             let id = moda.find("input[name='id']").val();
             let url = moda.find("input[name='url']").val();
             moda.find("#btn_Close_D").click();
-            $.get(url, { "id": `${id}` }, (datas) => { alert(datas); });
+            $.get(url, { "id": `${id}` }, (datas) => { test_alert(datas); });
             //重新載入
              change_Colortable();
             change_Sizetable();

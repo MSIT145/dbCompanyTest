@@ -3,8 +3,37 @@
     Layout = "~/Views/Shared/_Back_Layout_Sneat.cshtml";
     //Layout = "~/Views/Shared/_Back_Layout.cshtml";
     /*
+     test_alert()
+     請引用
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" integrity="sha512-NXUhxhkDgZYOMjaIgd89zF2w51Mub53Ru3zCNp5LTlEzMbNNAjTjDbpURYGS5Mop2cU4b7re1nOIucsVlrx9fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.js" integrity="sha512-mgZL3SZ/vIooDg2mU2amX6NysMlthFl/jDbscSRgF/k3zmICLe6muAs7YbITZ+61FeUoo1plofYAocoR5Sa1rQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+     方法:
+     function test_alert(text) {
+                new Noty({
+                //alert,success,warning,error,info
+                type: 'success',
+                text: text,
+                timeout: 3000,
+                //closeWith: ['click', 'button'],
+                //dismissQueue: false,
+                layout: 'topCenter',
+            //modal: true
+        }).show();
+    }
+
     */
 }
+<style>
+    input[type="button"]:active{
+ background:#00F;
+ background:inherit;
+ 
+}
+button:active{
+        background: #00F;
+        background: inherit;
+}
+</style>
 
 @*//內部模板的icon 與bootstrap5 CDN*@
 <script src="~/assets/js/icon_js/app.js"></script>
@@ -480,9 +509,9 @@
 
 
     //產品修改ajax
-    let Pro_Edit_Post = () => { $.post("@Url.Content("~/product/EditProduct")", $("#form01").serialize(), (datas) => { alert(datas); $("#P_Close").click(); }); }
+    let Pro_Edit_Post = () => { $.post("@Url.Content("~/product/EditProduct")", $("#form01").serialize(), (datas) => { test_alert(datas); $("#P_Close").click(); }); }
     //產品新增ajax
-    let Pro_Create_Post = () => { $.post("@Url.Content("~/product/CreateProduct")", $("#form01").serialize(), (datas) => { alert(datas); $("#P_Close").click(); }); }
+    let Pro_Create_Post = () => { $.post("@Url.Content("~/product/CreateProduct")", $("#form01").serialize(), (datas) => { test_alert(datas); $("#P_Close").click(); }); }
 
     //將顯示畫面以Excel下載
     let Pro_DownLoadFile_Get = (filename) => {
@@ -672,7 +701,7 @@
         let id = moda.find("input[name='id']").val();
         let url = moda.find("input[name='url']").val();
         moda.find("#btn_Close_D").click();
-        $.get(url, { "id": `${id}` }, (datas) => { alert(datas); });
+        $.get(url, { "id": `${id}` }, (datas) => { test_alert(datas); });
         //重新載入
         change_table();
         change_ProDetailtable()
@@ -838,7 +867,7 @@
         console.log(checkedId);
         console.log(checkedId.length);
         if (checkedId.length == 0) {
-            alert("請選擇要刪除的資料!");
+            test_alert("請選擇要刪除的資料!");
             return false;
         }
         //  console.log("陣列：" + checkedId);
@@ -1002,7 +1031,7 @@
             }
             // alert("成功");
         }).fail(function () {
-            alert("失敗");
+            test_alert("失敗");
         });
 
         let DE_table =

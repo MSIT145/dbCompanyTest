@@ -743,11 +743,11 @@
         $("#hb").on("click", () => {
             $("html").addClass("layout-transitioning")
         });
-        function test() {
+        function test_alert(text) {
             new Noty({
                 //alert,success,warning,error,info
                 type: 'success',
-                text: '資料更新完成',
+                text: text,
                 timeout: 3000,
                 //closeWith: ['click', 'button'],
                 //dismissQueue: false,
