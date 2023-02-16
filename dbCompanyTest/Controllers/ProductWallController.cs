@@ -481,6 +481,7 @@ namespace dbCompanyTest.Controllers
                         _context.ChildComments.Add(CC);
                         _context.SaveChanges();
                         ProductDetailViewModels pdm = selectData(data);
+                        pdm.collapseParetid = Convert.ToInt32(data["paretID"]);
                         return Json(pdm);
 
                     }
@@ -496,6 +497,7 @@ namespace dbCompanyTest.Controllers
                         _context.ChildComments.Add(CC);
                         _context.SaveChanges();
                         ProductDetailViewModels pdm = selectData(data);
+                        pdm.collapseParetid = Convert.ToInt32(data["paretID"]);
                         return Json(pdm);
                     }
                 }

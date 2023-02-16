@@ -154,6 +154,7 @@ namespace dbCompanyTest.Hubs
             var data = JsonSerializer.Deserialize<ProductDetailViewModels>(response);
             data.客戶編號 = null;
             data.員工編號 = null;
+            data.collapseParetid = null;
             string json = JsonSerializer.Serialize(data);
             //傳給使用者
             await Clients.Others.SendAsync("UpdMessage", json);

@@ -637,6 +637,7 @@ img:hover{transform:scale(1.2,1.2);}
     .tab-item {
         border-block-color: gray;
         font-size: 15px;
+        cursor:pointer;
     }
 
     .detail-item p {
