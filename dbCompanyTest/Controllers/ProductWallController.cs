@@ -628,7 +628,7 @@ namespace dbCompanyTest.Controllers
                 _context.Update(parentdata);
                 _context.SaveChanges();
                 ProductDetailViewModels pdm = selectData(data);
-                //pdm.collapseParetid = data['']
+                pdm.collapseParetid = Convert.ToInt32(data["paretid"]);
                 return Json(pdm);
             }
             else if (Convert.ToInt32(data["order"]) == 2 && data["comment"] != "")
@@ -638,6 +638,7 @@ namespace dbCompanyTest.Controllers
                 _context.Update(childdata);
                 _context.SaveChanges();
                 ProductDetailViewModels pdm = selectData(data);
+                pdm.collapseParetid = Convert.ToInt32(data["paretid"]);
                 return Json(pdm);
             }
             else

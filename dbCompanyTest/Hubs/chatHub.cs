@@ -156,14 +156,13 @@ namespace dbCompanyTest.Hubs
             data.員工編號 = null;
             data.collapseParetid = null;
             string json = JsonSerializer.Serialize(data);
-            //傳給使用者
-            //await Clients.Others.SendAsync("UpdMessage", json);
+
             var user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId).roomName;
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, user);
             await Clients.Group(user).SendAsync("UpdMessage",json);
             await Clients.Clients(Context.ConnectionId).SendAsync("UpdMessage", response);
             await Groups.AddToGroupAsync(Context.ConnectionId, user);
-            //await Clients.
+            
         }
         //JoinGroup
         public async Task JoinRoom(int productid, int colorid)

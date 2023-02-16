@@ -25,7 +25,7 @@
             <span>@Model.pro商品名稱 @Model.pro商品顏色</span>
         </div>
         @*輪播*@
-        <div id="carouselExampleDark" class="carousel carousel-dark d-carouse">
+        <div id="carouselExampleDark" class="carousel carousel-dark d-carouse" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -161,7 +161,7 @@
         @*評論區*@
         <br />
         <div class="d-right-detail-item" id="comment">
-            <h2 class="btn btn-primary collapsed" style="font-size:large;color:black;font-weight:300;" data-bs-toggle="collapse" data-bs-target="#Example">評論區</h2>
+            <h2 class="btn btn-success collapsed" style="font-size:large;color:black;font-weight:300;" data-bs-toggle="collapse" data-bs-target="#Example">評論區</h2>
             <ul class="collapse show" id="Example">
                 @{
                     int collapsecount = 0;
@@ -190,11 +190,12 @@
                                                 <span>|</span>
 
                                                 <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
-                                        if (Model.childCommentlist.Select(x => x.childCommentParet == paretitem.paretCommentID) != null)
+                                        if (Model.childCommentlist.FirstOrDefault(x => x.childCommentParet == paretitem.paretCommentID) != null)
                                         {
+                                            var commentcount =Model.childCommentlist.Select(x=>x).Where(y=>y.childCommentParet == paretitem.paretCommentID).ToList();
                                                     <span>|</span>
 
-                                                    <span class="collapsed" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">其他留言</span>
+                                            <span class="collapsed" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">檢視其他 @commentcount.Count 則留言</span>
                                         }
                                     }
                                     else
@@ -204,11 +205,12 @@
                                                 <span>|</span>
 
                                                 <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
-                                          if (Model.childCommentlist.Select(x => x.childCommentParet == paretitem.paretCommentID) != null)
+                                          if (Model.childCommentlist.FirstOrDefault(x=>x.childCommentParet == paretitem.paretCommentID)!=null)
                                             {
+                                                var commentcount =Model.childCommentlist.Select(x=>x).Where(y=>y.childCommentParet == paretitem.paretCommentID).ToList();
                                                         <span>|</span>
 
-                                                        <span class="collapsed" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">其他留言</span>
+                                            <span class="collapsed" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount" data="@paretitem.paretCommentID">檢視其他 @commentcount.Count 則留言</span>
 
                                             }
                                     }
@@ -235,11 +237,11 @@
 
                                                                             <span>|</span>
 
-                                                                            <span class="itemreportEdit" data-id="@childitem.childCommentID" data-order="2">編輯</span>
+                                                                            <span class="itemreportEdit" data-id="@childitem.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">編輯</span>
 
                                                                             <span>|</span>
 
-                                                                            <span class="itemreportDelete" data-id="@childitem.childCommentID" data-order="2">刪除</span>
+                                                            <span class="itemreportDelete" data-id="@childitem.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">刪除</span>
 
                                                                             <span>|</span>
 
@@ -275,11 +277,11 @@
 
                                                                                                             <span>|</span>
 
-                                                                                                            <span class="itemreportEdit" data-id="@childitemchildid.childCommentID" data-order="2">編輯</span>
+                                                                                                            <span class="itemreportEdit" data-id="@childitemchildid.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">編輯</span>
 
                                                                                                             <span>|</span>
 
-                                                                                                            <span class="itemreportDelete" data-id="@childitemchildid.childCommentID" data-order="2">刪除</span>
+                                                                                    <span class="itemreportDelete" data-id="@childitemchildid.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">刪除</span>
 
                                                                                                             <span>|</span>
 
@@ -363,9 +365,18 @@
             }
             else
             {
-                        <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" alt="圖片無法顯示" />
+                <img src="@Url.Content("~/images/"+Model.pro商品圖片3)" alt="圖片無法顯示" />
             }
-                    <img src="@Url.Content("~/images/尺寸對照表.jpeg")" alt="圖片無法顯示" />
+            if (Model.pro商品分類id == 1)
+            {
+                <img src="@Url.Content("~/images/男鞋尺寸對照表.jpeg")" alt="圖片無法顯示" />
+            
+            }
+            else
+            {
+            <img src="@Url.Content("~/images/尺寸對照表.jpeg")" alt="圖片無法顯示" />
+            }
+            
 
         }
 
@@ -454,53 +465,18 @@
         let login = false;
         let userdata = null;
         let datas = null;
-        //let checkdelete = false;
+        
         let deleteid = null;
         let deleteorder = null;
+        
         let editorder = null;
         let editid = null;
+        let editparetid =null;
         let count = 1;
         var carCount = 0;
-        //輪播
-        //let slideNum = 0;
-        //let slideCount = $(".slides li").length;
-        //let lastIndex = slideCount - 1;
-        //let ch = true;
-        //$(".Carousedot li").eq(0).css("background-color", "black");
-
-        //$(".Carousedot li").hover(function () {
-        //    slideNum = $(this).index();
-        //    show();
-        //});
-
-        //function show() {
-        //    $(".Carousedot li").siblings().css("background-color", "transparent").eq(slideNum).css("background-color", "black");
-        //    let slidemove = -800 * slideNum;
-        //    $("ul.slides").css("left", slidemove);
-        //}
-        //$("#prevSlide").hover(function () { ch = false; }, function () { ch = true; }).click(function () {
-        //    slideNum = --slideNum < 0 ? slideNum = lastIndex : slideNum;
-        //    show();
-
-        //})
-        //$("#nextSlide").hover(function () { ch = false; }, function () { ch = true; }).click(function () {
-        //    slideNum = ++slideNum > lastIndex ? slideNum = 0 : slideNum;
-        //    show();
-        //})
-        //let Carouselcount = window.setInterval(function () {
-        //    if (ch) {
-        //        slideNum = ++slideNum > lastIndex ? slideNum = 0 : slideNum;
-        //        show();
-        //    }
-        //}, 2000);
-        //$("ul.slides li img").hover(function () {
-        //    ch = false;
-        //}
-        //    , function () {
-        //        ch = true;
-        //    })
-
         
+
+        //群組
         window.onload = function(){
             connection.invoke("JoinRoom", @Model.pro商品編號, @Model.商品顏色ID).catch(function () {
                 console.log("加入群組錯誤")
@@ -545,6 +521,7 @@
             if ($(`.reportEdit`).css('display') === "none") {
                 editid = $(this).data('id');
                 editorder = $(this).data('order');
+                editparetid = $(this).data('paretid');
                 let str = $(this).closest('div').prev('div').find(".itemMessage").text();
                 let strEdit = str.substring(3, str.length);
                 $(`.reportEdit`).find('.userEditinput').val(strEdit);
@@ -561,12 +538,13 @@
         });
         $('#userEditSubmit').on('click', function () {
             let comment = $('.userEditinput').val();
-            editcomment(editid, editorder, comment);
+            editcomment(editparetid,editid, editorder, comment);
         });
-        async function editcomment(id, order, comment) {
+        async function editcomment(paretid,id, order, comment) {
             let productid = @Model.pro商品編號;
             let colorid = @Model.商品顏色ID;
             let FD = new FormData();
+            FD.append('paretid',paretid)
             FD.append('id', id)
             FD.append('order', order)
             FD.append('productid', productid)
@@ -769,39 +747,7 @@
         let oldsize;
 
 
-        ////判斷視窗大小RWD
-        //$(window).ready(function () {
-        //    oldsize = $(window).width();
-        //    if ($(window).width() < 500) {
-        //        //$("#carouselExampleDark").append($(".d-right-detail"));
-        //        //$(".d-right-detail").append($(".aaa"));
-        //        //$(".d-right-detail").append($(".youmustlikeclass"));
-        //    }
-        //});
-
-        //$(window).on("resize", function (e) {
-        //    let newsize = $(window).width();
-
-        //    if (newsize <= 500 && oldsize > 500) {
-        //        //$("#carouselExampleDark").append($(".d-right-detail"));
-        //        //$(".d-right-detail").append($(".aaa"));
-        //        //$(".d-right-detail").append($(".youmustlikeclass"));
-
-        //    }
-        //    else {
-        //        if (newsize < 500 && oldsize <= 500) {
-
-        //        }
-        //        else {
-        //            //$(".content").append($(".d-right-detail"));
-        //            //$("#carouselExampleDark").after($(".aaa"));
-        //            //$(".content").after($(".youmustlikeclass"));
-        //        }
-        //    }
-        //    console.log(newsize);
-        //    console.log(oldsize);
-        //    oldsize = newsize;
-        //});
+        
 
         $(".tab-item").on('click', function () {
             $(this).addClass("ac").siblings().removeClass("ac");

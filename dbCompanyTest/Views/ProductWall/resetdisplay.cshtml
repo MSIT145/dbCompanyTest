@@ -28,11 +28,12 @@
                             <span>|</span>
 
                             <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
-                             if (Model.childCommentlist.Select(x => x.childCommentParet == paretitem.paretCommentID) != null)
+                            if (Model.childCommentlist.FirstOrDefault(x => x.childCommentParet == paretitem.paretCommentID) != null)
                                 {
-                                    <span>|</span>
+                                var commentcount = Model.childCommentlist.Select(x => x).Where(y => y.childCommentParet == paretitem.paretCommentID).ToList();
+                                <span>|</span>
 
-                                    <span class="collapsed" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">其他留言</span>
+                                <span class="collapsed" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">檢視其他 @commentcount.Count 則留言</span>
                                 }
                         }
                         else
@@ -42,10 +43,12 @@
                             <span>|</span>
 
                             <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
-                            if (Model.childCommentlist.Select(x => x.childCommentParet == paretitem.paretCommentID) != null)
+                            if (Model.childCommentlist.FirstOrDefault(x => x.childCommentParet == paretitem.paretCommentID) != null)
                             {
+                                var commentcount = Model.childCommentlist.Select(x => x).Where(y => y.childCommentParet == paretitem.paretCommentID).ToList();
                                 <span>|</span>
-                                <span class="collapsed" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">其他留言</span>
+
+                                <span class="collapsed" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount" data="@paretitem.paretCommentID">檢視其他 @commentcount.Count 則留言</span>
                             }
                         }
                     </div>
@@ -79,11 +82,11 @@
 
                                                 <span>|</span>
 
-                                                <span class="itemreportEdit" data-id="@childitem.childCommentID" data-order="2">編輯</span>
+                                                <span class="itemreportEdit" data-id="@childitem.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">編輯</span>
 
                                                 <span>|</span>
 
-                                                <span class="itemreportDelete" data-id="@childitem.childCommentID" data-order="2">刪除</span>
+                                                <span class="itemreportDelete" data-id="@childitem.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">刪除</span>
 
                                                 <span>|</span>
 
@@ -119,11 +122,11 @@
 
                                                                         <span>|</span>
 
-                                                                        <span class="itemreportEdit" data-id="@childitemchildid.childCommentID" data-order="2">編輯</span>
+                                                                        <span class="itemreportEdit" data-id="@childitemchildid.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">編輯</span>
 
                                                                         <span>|</span>
 
-                                                                        <span class="itemreportDelete" data-id="@childitemchildid.childCommentID" data-order="2">刪除</span>
+                                                                        <span class="itemreportDelete" data-id="@childitemchildid.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">刪除</span>
 
                                                                         <span>|</span>
 
@@ -198,6 +201,7 @@
         if ($(`.reportEdit`).css('display') === "none") {
             editid = $(this).data('id');
             editorder = $(this).data('order');
+            editparetid = $(this).data('paretid');
             let str = $(this).closest('div').prev('div').find(".itemMessage").text();
             let strEdit = str.substring(3, str.length);
             $(`.reportEdit`).find('.userEditinput').val(strEdit);
@@ -214,12 +218,13 @@
     });
     $('#userEditSubmit').on('click', function () {
         let comment = $('.userEditinput').val();
-        editcomment(editid, editorder, comment);
+        editcomment(editparetid,editid, editorder, comment);
     });
-    async function editcomment(id, order, comment) {
+    async function editcomment(paretid,id, order, comment) {
         let productid = @Model.pro商品編號;
         let colorid = @Model.商品顏色ID;
         let FD = new FormData();
+        FD.append('paretid', paretid)
         FD.append('id', id)
         FD.append('order', order)
         FD.append('productid', productid)
