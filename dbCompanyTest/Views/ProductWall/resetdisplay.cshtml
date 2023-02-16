@@ -1,9 +1,11 @@
 ﻿@model dbCompanyTest.ViewModels.ProductDetailViewModels
-<h2 style="font-size:large;color:black;font-weight:300;">評論區</h2>
-<ul>
+<h2 class="btn btn-primary collapsed" style="font-size:large;color:black;font-weight:300;" data-bs-toggle="collapse" data-bs-target="#Example">評論區</h2>
+<ul class="collapse show" id="Example">
     @{
+        int collapsecount = 0;
         foreach (var paretitem in Model.paretCommentslist)
         {
+            collapsecount++;
             <li>
                 <div class="itemCommentContent" data-id="@paretitem.paretCommentID" data-name="paret">
                     <div>
@@ -26,6 +28,12 @@
                             <span>|</span>
 
                             <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
+                             if (Model.childCommentlist.Select(x => x.childCommentParet == paretitem.paretCommentID) != null)
+                                {
+                                    <span>|</span>
+
+                                    <span class="collapsed" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">其他留言</span>
+                                }
                         }
                         else
                         {
@@ -34,11 +42,24 @@
                             <span>|</span>
 
                             <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
+                            if (Model.childCommentlist.Select(x => x.childCommentParet == paretitem.paretCommentID) != null)
+                            {
+                                <span>|</span>
+                                <span class="collapsed" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">其他留言</span>
+                            }
                         }
                     </div>
                 </div>
                 <div style="display:flex;margin-left:2px;border-left:solid;">
-                    <ul>
+                    @{
+                        string x = "multi-collapse";
+
+                        if (paretitem.paretCommentID == Model.collapseParetid)
+                        {
+                            x = "show";
+                        }
+                    }
+                    <ul class="collapse @x" id="Example_@collapsecount" data="@Model.collapseParetid">
                         @{
                             foreach (var childitem in Model.childCommentlist)
                             {

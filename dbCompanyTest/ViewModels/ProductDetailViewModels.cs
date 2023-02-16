@@ -8,6 +8,7 @@ namespace dbCompanyTest.ViewModels
         public int prodetailID { get; set; }
         public int 商品顏色ID { get; set; }
         public int 商品尺寸ID { get; set; }
+        public int? collapseParetid { get; set; }
         public string? pro商品名稱 { get; set; }
         public string? pro商品金額 { get; set; }
         public string? pro商品顏色 { get; set; }
