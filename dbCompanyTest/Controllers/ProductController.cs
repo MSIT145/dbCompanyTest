@@ -19,6 +19,7 @@ using NPOI.HPSF;
 using Org.BouncyCastle.Crypto.Macs;
 using System.Collections.Generic;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using Microsoft.VisualBasic;
 
 namespace dbCompanyTest.Controllers
 {
@@ -519,25 +520,43 @@ namespace dbCompanyTest.Controllers
         }
 
         //下載
-        public IActionResult Downloads(string filename)
+        public IActionResult Downloads(string filename,string key)
         {
+            DataTable dt = null;
             //把 Session 到回ListData
-            List<BACK_ProductViewModels> searchData = null;
             string json;
-            if (HttpContext.Session.Keys.Contains(Product_CDictionary.SK_SEARCH_PRODUCTS_LIST)) //判斷Session 的key是否含有SK_PURCHASED_PRODUCTS_LIST
+            switch (key)
             {
-                json = HttpContext.Session.GetString(Product_CDictionary.SK_SEARCH_PRODUCTS_LIST);   //將Session 轉為字串
-                searchData = JsonSerializer.Deserialize<List<BACK_ProductViewModels>>(json);
+                case "Pro":
+                    List<BACK_ProductViewModels> searchData = null;
+                    if (HttpContext.Session.Keys.Contains(Product_CDictionary.SK_SEARCH_PRODUCTS_LIST)) //判斷Session 的key是否含有SK_PURCHASED_PRODUCTS_LIST
+                    {
+                        json = HttpContext.Session.GetString(Product_CDictionary.SK_SEARCH_PRODUCTS_LIST);   //將Session 轉為字串
+                       searchData = JsonSerializer.Deserialize<List<BACK_ProductViewModels>>(json);
+                    }
+                    else
+                         searchData = new List<BACK_ProductViewModels>();
+
+                    dt = ConvertToDataTable(searchData.ToArray());
+                    break;
+                case "PD":
+                    List<Back_ProducDetail> searchData01 = null;
+                    if (HttpContext.Session.Keys.Contains(Product_CDictionary.SK_SEARCH_PRO_DETAIL_LIST)) //判斷Session 的key是否含有SK_SEARCH_PRO_DETAIL_LIST
+                    {
+                        json = HttpContext.Session.GetString(Product_CDictionary.SK_SEARCH_PRO_DETAIL_LIST);   //將Session 轉為字串
+                        searchData01 = JsonSerializer.Deserialize<List<Back_ProducDetail>>(json);
+                    }
+                    else
+                        searchData01 = new List<Back_ProducDetail>();
+
+                    dt = ConvertToDataTable(searchData01.ToArray());
+                    break;
             }
-            else
-                searchData = new List<BACK_ProductViewModels>();
 
-
-            if (searchData.Count == 0)
+            if (dt.Rows.Count == 0)          
                 return Json("沒有可輸出資料!!");
-
-            //取得欄位名稱
-            DataTable dt = ConvertToDataTable(searchData.ToArray());
+          
+            //取得欄位名稱          
             string path = DataTableToExcelFile(dt);
 
             //string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -548,7 +567,6 @@ namespace dbCompanyTest.Controllers
             //FileStream fs = new FileStream(path, FileMode.Open);     
             var stream = System.IO.File.OpenRead(path);  //創建資料流
             return File(stream, contentType, fileName);  //資料流是否要關閉
-
         }
 
         public DataTable ConvertToDataTable<T>(IList<T> data)
@@ -676,8 +694,6 @@ namespace dbCompanyTest.Controllers
         public IActionResult CreateProduct(string id, string time, string name, string price, string introduce, string material, string weight, string cost, string typeid, string shoeid, string instock, string onshelves)
         {
             //可以先做後端檢查(time、價格、成本不能亂填)
-
-
             //檢查後可以寫入Product Model內存入資料庫
             try
             {
