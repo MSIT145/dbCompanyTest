@@ -156,7 +156,10 @@ namespace dbCompanyTest.Controllers
         public IActionResult DT_TDL_HR(int listNum)
         {
             CToDoListViewModels cToDoListViewModels = new CToDoListViewModels();
-
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+            {
+                return RedirectToAction("login");
+            }
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             //var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             var data = _context.ToDoLists.FirstOrDefault(c => c.交辦事項id == listNum);
@@ -527,6 +530,10 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult ListWaiting()
         {
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+            {
+                return RedirectToAction("login");
+            }
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
@@ -543,6 +550,10 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult MyList()
         {
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+            {
+                return RedirectToAction("login");
+            }
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
@@ -555,6 +566,10 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult ListByMe()
         {
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+            {
+                return RedirectToAction("login");
+            }
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
@@ -572,6 +587,10 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult ListDone()
         {
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+            {
+                return RedirectToAction("login");
+            }
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
