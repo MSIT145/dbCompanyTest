@@ -23,7 +23,7 @@ builder.Services.AddCors(option =>
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(op =>
 {
-    op.IdleTimeout = TimeSpan.FromMinutes(20);
+    op.IdleTimeout = TimeSpan.FromDays(1);
     op.Cookie.HttpOnly = true;
     op.Cookie.IsEssential = true;
 }
