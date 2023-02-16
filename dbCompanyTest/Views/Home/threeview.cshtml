@@ -855,7 +855,7 @@
 
 
                 
-                screenplane.material = movieMaterial2;
+                //screenplane.material = movieMaterial2;
 
 
 
@@ -992,8 +992,27 @@
                         
                     },2000)
                 } 
-                else if (intersects[i].object.name== clicktv ||intersects[i].object.name==null) {
-                    screenplane.material=movieMaterial;
+                else if (intersects[i].object.name== clicktv/* ||intersects[i].object.name==null*/) {
+                    //screenplane.material=movieMaterial;
+
+                    go();
+
+                    
+                    $('#txt').css('color','transparent');
+                    setTimeout(function(){
+                        $('#txt').addClass('txt');
+                        $('#info').css('display','block');
+                        $('#title').text('請問要進入首頁嗎?');
+                        $("#yes").on('click',function(){
+                                location.href = (`@Url.Content("~/Home/index")`);
+                        })
+                        $('#no').on('click',function(){
+                            $('#info').css('display','none');
+                            $('#txt').css('color', '#212529');
+                            goback();
+                        })
+                        
+                    },2000)
                 }
                 //else{
                 //    screenplane.material = movieMaterial;
