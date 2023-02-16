@@ -165,3 +165,6 @@ p {
     opacity:0.7;
 }
 
+.chatMain{
+    display:none;
+}

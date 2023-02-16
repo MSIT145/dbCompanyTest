@@ -1,5 +1,9 @@
 ﻿using dbCompanyTest.Models;
 using dbCompanyTest.ViewModels;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using System.Text.Json;
@@ -139,6 +143,8 @@ namespace dbCompanyTest.Controllers
             ViewBag.id = user.客戶編號;
             return View(data.ToList());
         }
+
+       
 
 
     }
