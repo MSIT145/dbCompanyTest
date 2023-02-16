@@ -488,6 +488,7 @@
     let Pro_DownLoadFile_Get = (filename,type) => {
 
         window.location = `@Url.Content("~/product/Downloads")?filename=${filename}&key=${type}`;
+        //window.open( `@Url.Content("~/product/Downloads")?filename=${filename}&key=${type}`);
     }
 
 
