@@ -5,7 +5,7 @@
 <input type="hidden" name="Id" />
 <div class="content">
     <div class="row" style="width:158px; margin:14px 0;">
-        <div class="col-md-8">
+        <div class="col-md-8 unshow">
             <br />
             <br />
             <a class="list-inline-item sclass" asp-controller="ProductWall" asp-action="Index" asp-route-id="@Model.pro商品分類id" id="type">@Model.pro商品分類</a>
@@ -19,7 +19,7 @@
         <div class="d-position">
             <a asp-controller="Home" asp-action="Index">首頁</a>
             <span>></span>
-            <a href="@Url.Content("~/ProductWall/Index/?id="+Model.pro商品分類id)">@Model.pro商品分類</a>
+            <a href="@Url.Content("~/ProductWall/Index/"+Model.pro商品分類id)">@Model.pro商品分類</a>
             <span>></span>
 
             <span>@Model.pro商品名稱 @Model.pro商品顏色</span>
@@ -161,7 +161,7 @@
         @*評論區*@
         <br />
         <div class="d-right-detail-item" id="comment">
-            <h2 class="btn btn-success collapsed" style="font-size:large;color:black;font-weight:300;" data-bs-toggle="collapse" data-bs-target="#Example">評論區</h2>
+            <h2 class="btn collapsed m_10"  data-bs-toggle="collapse" data-bs-target="#Example">評論區</h2>
             <ul class="collapse show" id="Example">
                 @{
                     int collapsecount = 0;
@@ -319,7 +319,7 @@
     <div class="reportmain" data-name="reportmain"></div>
     <div class="userreport">
         <input class="userreportinput" type="text" placeholder="留言..." /><br />
-        <input type="submit" id="userreportSubmit" class="btn btn-primary btn-sm" value="送出" />
+        <input type="submit" id="userreportSubmit" class="btn btn-success btn-sm" value="送出" />
         <input type="button" id="userreportCancel" class="btn btn-secondary btn-sm" value="取消" />
     </div>
 
