@@ -108,7 +108,8 @@ const ProDetalLoad = (url, Proimg_url) => {
                         orderable: false,
                         width: '7%'
                     }
-                ]
+                ],
+           
         });
 }
 //  TBProDetal End===================

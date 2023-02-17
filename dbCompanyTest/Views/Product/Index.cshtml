@@ -475,10 +475,14 @@
                             orderable: false,
                             width: '7.3%'
                         }
-                    ]
+                    ],
+                "rowCallback": RowCallBack
 
             });
 
+    }
+    let RowCallBack = function (row, data, index) {
+        if (index % 2 == 1) { $('td', row).css('background-color', '#F2EFEC'); }
     }
     //Table Load Ending==========================
 
@@ -622,18 +626,21 @@
         $.post(ProDe_Upload_url, formobj.serialize(), function (data) { test_alert("上傳成功") });
     });
 
-    //要輸入檔名才能按按鈕 產品
-    $("#fileName_Pro").on('change', function () {
+    //要輸入檔名才能按按鈕 產品 
+    $("#fileName_Pro").hover(function () {
         fileInOpCl($(this), $("#btn-download_Pro"));
     })
+    //$("#fileName_Pro").change(function(){
+    //    fileInOpCl($(this), $("#btn-download_Pro"));
+    //});
 
      // 要輸入檔名才能按按鈕 產品細項
-    $("#fileName_PD").on('change', function () {
+    $("#fileName_PD").hover( function () {
         fileInOpCl($(this), $("#btn-download-PD"));
     })
 
     let fileInOpCl =(obj,dowobj)=>{
-        console.log(obj);
+       console.log(obj);
         console.log(dowobj);
        if ($(obj).val() == "")
            dowobj.prop("disabled", true);
@@ -644,6 +651,7 @@
     //檔案下載事件 產品
     $("#btn-download_Pro").on('click', function () {
         method_Get_Excel($(this), $("#fileName_Pro"));
+
     });
      //檔案下載事件 產品細項
     $("#btn-download-PD").on('click', function () {
