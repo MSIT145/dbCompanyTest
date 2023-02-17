@@ -50,137 +50,141 @@
         }
     }
     <div class="en_div">
-    <form asp-action="DT_TDL" enctype="multipart/form-data">
-        <input asp-for="交辦事項id" type="hidden" id="listnumber" value="@Model.交辦事項id" />
-        <input asp-for="表單類型" type="hidden" id="list_type" value="@Model.表單類型" />
-        <input asp-for="表單狀態" type="hidden" value="@Model.表單狀態" id="inp_stu" />
-        <input asp-for="附件" type="hidden" value="@Model.附件" />
-        <input asp-for="附件path" type="hidden" value="@Model.附件path" />
-        <input asp-for="員工編號" type="hidden" value="@Model.員工編號" />
-        <table class="table table-striped-columns" id="GR_table">
-            <thead>
-                <tr>
-                    <th>階段</th>
-                    <th>部門</th>
-                    <th>簽核人員</th>
-                    <th>簽核時間</th>
-                    <th>輸入意見</th>
-                    <th>簽核</th>
-                </tr>
-            </thead>
-            <tbody>
-                @*起單*@
-                <tr>
-                    <td>起單</td>
-                    <td id="dpm_str">@Model.起單部門</td>
-                    <td id="man_str">@Model.起單人</td>
-                    <td id="time_str">@Model.起單時間</td>
-                    <input asp-for="起單時間" class="form-control" value="@Model.起單時間" type="hidden" id="inp_starttime"/>
-                    <td id="com_str">
-                        <span id="span_com_str">@Model.表單內容</span>
-                        <input asp-for="表單內容" class="form-control" id="inp_com_str" value="@Model.表單內容" />
-                    </td>
-                    <td id="sin_str">                        
-                        <span id="span_sin_str"></span>
-                        <select class="form-control" id="list_stu">
-                            <option>未啟動</option>
-                            <option>敬陳</option>
-                        </select>
-                    </td>
-                </tr>
-                @*部門主管*@
-                <tr>
-                    <td>部門主管</td>
-                    <td id="dpm_spv">@Model.起單部門</td>
-                    <td id="man_spv">@Model.部門主管</td>
-                    <td id="time_spv">@Model.部門主管簽核時間</td>
-                    <input asp-for="部門主管簽核時間" class="form-control" value="@Model.部門主管簽核時間" type="hidden" id="inp_super_vs_time" />
-                    <td id="com_spv">
-                        <input asp-for="部門主管簽核意見" class="form-control" id="inp_com_spv" value="@Model.部門主管簽核意見" />
-                        <span id="span_com_spv">@Model.部門主管簽核意見</span>
-                    </td>
-                    <td id="sin_spv">
-                        <span id="span_sin_spv">@Model.部門主管簽核</span>
-                        <input asp-for="部門主管簽核" type="hidden" id="inp_super_vs_sin" />
-                        <select class="form-control" id="list_stu_spv">
-                            <option>待簽</option>
-                            <option>敬陳</option>
-                            <option>退回起單人</option>
-                        </select>
-                    </td>
-                </tr>
-                @*協辦部門*@
-                <tr>
-                    <td>協辦部門</td>
-                    <td id="dpm_cod">@Model.協辦部門</td>
-                    <td id="man_cod">@Model.協辦部門簽核人員</td>
-                    <td id="time_cod">@Model.協辦部門簽核時間</td>
-                    <input asp-for="協辦部門簽核時間" class="form-control" value="@Model.協辦部門簽核時間" type="hidden" id="inp_co_dep_time" />
-                    <td id="com_cod">
-                        <input asp-for="協辦部門簽核意見" class="form-control" id="inp_com_cod" value="@Model.協辦部門簽核意見"/>
-                        <span id="span_com_cod">@Model.協辦部門簽核意見</span>
-                    </td>
-                    <td id="sin_cod">
-                        <span id="span_sin_cod">@Model.協辦部門簽核</span>
-                        <input asp-for="協辦部門簽核" type="hidden" id="inp_co_dep_sin" />
-                        <select class="form-control" id="list_stu_cod">
-                            <option>待簽</option>
-                            <option>敬陳</option>
-                            <option>退回上階段</option>
-                            <option>退回起單人</option>
-                        </select>
-                    </td>
-                </tr>
-                @*老闆簽核*@
-                <tr>
-                    <td>老闆</td>
-                    <td id="dpm_bos">@Model.老闆部門</td>
-                    <td id="man_bos">@Model.老闆</td>
-                    <td id="time_bos">@Model.老闆簽核時間</td>
-                    <input asp-for="老闆簽核時間" class="form-control" value="@Model.老闆簽核時間" type="hidden" id="inp_boss_time" />
-                    <td id="com_bos">
-                        <input asp-for="老闆簽核意見" class="form-control" id="inp_com_bos" value="@Model.老闆簽核意見"/>
-                        <span id="span_com_bos">@Model.老闆簽核意見</span>
-                    </td>
-                    <td id="sin_bos">
-                        <span id="span_sin_bos">@Model.老闆簽核</span>
-                        <input asp-for="老闆簽核" type="hidden" id="inp_boss_sin" />
-                        <select class="form-control" id="list_stu_bos">
-                            <option>待簽</option>
-                            <option>敬陳</option>
-                            <option>退回上階段</option>
-                            <option>退回起單人</option>
-                        </select>
-                    </td>
-                </tr>
-                @*執行*@
-                <tr>
-                    <td>執行</td>
-                    <td id="dpm_ecu">@Model.執行部門</td>
-                    <td id="man_ecu">@Model.執行人</td>
-                    <td id="time_ecu">@Model.執行時間</td>
-                    <input asp-for="執行時間" class="form-control" value="@Model.執行時間" type="hidden" id="inp_execut_time" />
-                    <td id="com_ecu">
-                        <input asp-for="回覆" class="form-control" id="inp_com_ecu" value="@Model.回覆"/>
-                        <span id="span_com_ecu">@Model.回覆</span>
-                    </td>
-                    <td id="sin_ecu">
-                        <select class="form-control" id="list_stu_sin_ecu1">
-                            <option>待簽</option>
-                            <option>退回上階段</option>
-                            <option>完成</option>
-                            <option>退回起單人</option>
-                        </select>
-                        <span id="span_sin_ecu">@Model.執行人簽核</span>
-                        <input asp-for="執行人簽核" type="hidden" id="inp_executor_sin" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <input type="submit" value="送出" class="btn btn-primary" id="inp_start"/>
-    </form>
+        <form asp-action="DT_TDL" enctype="multipart/form-data">
+            <div class="form-group" id="div_Attached_File">
+                <label class="control-label" id="lab_File">附件</label>
+                <input class="form-control" id="File" type="file" name="File" />
+            </div>
+            <input asp-for="交辦事項id" type="hidden" id="listnumber" value="@Model.交辦事項id" />
+            <input asp-for="表單類型" type="hidden" id="list_type" value="@Model.表單類型" />
+            <input asp-for="表單狀態" type="hidden" value="@Model.表單狀態" id="inp_stu" />
+            <input asp-for="附件" type="hidden" value="@Model.附件" />
+            <input asp-for="附件path" type="hidden" value="@Model.附件path" />
+            <input asp-for="員工編號" type="hidden" value="@Model.員工編號" />
+            <table class="table table-striped-columns" id="GR_table">
+                <thead>
+                    <tr>
+                        <th>階段</th>
+                        <th>部門</th>
+                        <th>簽核人員</th>
+                        <th>簽核時間</th>
+                        <th>輸入意見</th>
+                        <th>簽核</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*起單*@
+                    <tr>
+                        <td>起單</td>
+                        <td id="dpm_str">@Model.起單部門</td>
+                        <td id="man_str">@Model.起單人</td>
+                        <td id="time_str">@Model.起單時間</td>
+                        <input asp-for="起單時間" class="form-control" value="@Model.起單時間" type="hidden" id="inp_starttime" />
+                        <td id="com_str">
+                            <span id="span_com_str">@Model.表單內容</span>
+                            <input asp-for="表單內容" class="form-control" id="inp_com_str" value="@Model.表單內容" />
+                        </td>
+                        <td id="sin_str">
+                            <span id="span_sin_str"></span>
+                            <select class="form-control" id="list_stu">
+                                <option>未啟動</option>
+                                <option>敬陳</option>
+                            </select>
+                        </td>
+                    </tr>
+                    @*部門主管*@
+                    <tr>
+                        <td>部門主管</td>
+                        <td id="dpm_spv">@Model.起單部門</td>
+                        <td id="man_spv">@Model.部門主管</td>
+                        <td id="time_spv">@Model.部門主管簽核時間</td>
+                        <input asp-for="部門主管簽核時間" class="form-control" value="@Model.部門主管簽核時間" type="hidden" id="inp_super_vs_time" />
+                        <td id="com_spv">
+                            <input asp-for="部門主管簽核意見" class="form-control" id="inp_com_spv" value="@Model.部門主管簽核意見" />
+                            <span id="span_com_spv">@Model.部門主管簽核意見</span>
+                        </td>
+                        <td id="sin_spv">
+                            <span id="span_sin_spv">@Model.部門主管簽核</span>
+                            <input asp-for="部門主管簽核" type="hidden" id="inp_super_vs_sin" />
+                            <select class="form-control" id="list_stu_spv">
+                                <option>待簽</option>
+                                <option>敬陳</option>
+                                <option>退回起單人</option>
+                            </select>
+                        </td>
+                    </tr>
+                    @*協辦部門*@
+                    <tr>
+                        <td>協辦部門</td>
+                        <td id="dpm_cod">@Model.協辦部門</td>
+                        <td id="man_cod">@Model.協辦部門簽核人員</td>
+                        <td id="time_cod">@Model.協辦部門簽核時間</td>
+                        <input asp-for="協辦部門簽核時間" class="form-control" value="@Model.協辦部門簽核時間" type="hidden" id="inp_co_dep_time" />
+                        <td id="com_cod">
+                            <input asp-for="協辦部門簽核意見" class="form-control" id="inp_com_cod" value="@Model.協辦部門簽核意見" />
+                            <span id="span_com_cod">@Model.協辦部門簽核意見</span>
+                        </td>
+                        <td id="sin_cod">
+                            <span id="span_sin_cod">@Model.協辦部門簽核</span>
+                            <input asp-for="協辦部門簽核" type="hidden" id="inp_co_dep_sin" />
+                            <select class="form-control" id="list_stu_cod">
+                                <option>待簽</option>
+                                <option>敬陳</option>
+                                <option>退回上階段</option>
+                                <option>退回起單人</option>
+                            </select>
+                        </td>
+                    </tr>
+                    @*老闆簽核*@
+                    <tr>
+                        <td>老闆</td>
+                        <td id="dpm_bos">@Model.老闆部門</td>
+                        <td id="man_bos">@Model.老闆</td>
+                        <td id="time_bos">@Model.老闆簽核時間</td>
+                        <input asp-for="老闆簽核時間" class="form-control" value="@Model.老闆簽核時間" type="hidden" id="inp_boss_time" />
+                        <td id="com_bos">
+                            <input asp-for="老闆簽核意見" class="form-control" id="inp_com_bos" value="@Model.老闆簽核意見" />
+                            <span id="span_com_bos">@Model.老闆簽核意見</span>
+                        </td>
+                        <td id="sin_bos">
+                            <span id="span_sin_bos">@Model.老闆簽核</span>
+                            <input asp-for="老闆簽核" type="hidden" id="inp_boss_sin" />
+                            <select class="form-control" id="list_stu_bos">
+                                <option>待簽</option>
+                                <option>敬陳</option>
+                                <option>退回上階段</option>
+                                <option>退回起單人</option>
+                            </select>
+                        </td>
+                    </tr>
+                    @*執行*@
+                    <tr>
+                        <td>執行</td>
+                        <td id="dpm_ecu">@Model.執行部門</td>
+                        <td id="man_ecu">@Model.執行人</td>
+                        <td id="time_ecu">@Model.執行時間</td>
+                        <input asp-for="執行時間" class="form-control" value="@Model.執行時間" type="hidden" id="inp_execut_time" />
+                        <td id="com_ecu">
+                            <input asp-for="回覆" class="form-control" id="inp_com_ecu" value="@Model.回覆" />
+                            <span id="span_com_ecu">@Model.回覆</span>
+                        </td>
+                        <td id="sin_ecu">
+                            <select class="form-control" id="list_stu_sin_ecu1">
+                                <option>待簽</option>
+                                <option>退回上階段</option>
+                                <option>完成</option>
+                                <option>退回起單人</option>
+                            </select>
+                            <span id="span_sin_ecu">@Model.執行人簽核</span>
+                            <input asp-for="執行人簽核" type="hidden" id="inp_executor_sin" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="submit" value="送出" class="btn btn-primary" id="inp_start" />
+        </form>
     </div>
-   
+
 </div>
 @section Scripts{
     <script>
@@ -201,15 +205,15 @@
         var Send_To_num;
 
         $("#list_stu_sin_ecu1, #list_stu_bos, #list_stu_cod, #list_stu, #list_stu_spv").css("display", "none");
-        $("#inp_com_str, #inp_com_spv, #inp_com_cod, #inp_com_bos, #inp_com_ecu").css("display", "none");
+        $("#inp_com_str, #inp_com_spv, #inp_com_cod, #inp_com_bos, #inp_com_ecu, #div_Attached_File").css("display", "none");
         $("#list_stu, #list_stu_spv, #list_stu_cod, #list_stu_bos, #list_stu_sin_ecu1").val(``);
         $("#span_sin_str").css("display", "");
 
-        if (i_stu == `完成`){
+        if (i_stu == `完成`) {
             $("#inp_start").css("display", "none")
         }
 
-      
+
 
 
         if (i_stu != `未啟動` && i_stu != `退回起單人`) {
@@ -269,8 +273,8 @@
             }
         }
 
-       
-      
+
+
         $("#list_stu").on("change", function () {
             if (i_whostart == splitstf) {
                 if ($(`#list_stu option:selected`).val() == "未啟動")
