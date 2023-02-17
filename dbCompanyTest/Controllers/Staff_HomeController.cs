@@ -28,10 +28,10 @@ namespace dbCompanyTest.Controllers
         {
             _environment = p;
         }
-        public IActionResult Staff_Information() 
+        public IActionResult Staff_Information()
         {
             string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_INFO_SESSION);
-            if(json == null)
+            if (json == null)
             {
                 return RedirectToAction("login");
             }
@@ -53,7 +53,8 @@ namespace dbCompanyTest.Controllers
             Staff_Information();
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
-            if(stf == null)
+            ViewBag.HR = stf;
+            if (stf == null)
             {
                 return RedirectToAction("login");
             }
@@ -67,6 +68,7 @@ namespace dbCompanyTest.Controllers
             Staff_Information();
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+            ViewBag.HR = stf.員工編號;
             if (stf.部門 == "人事")
                 return View(await _context.TestStaffs.ToListAsync());
             else return RedirectToAction("Index");
@@ -139,7 +141,7 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult DT_TDL(int listNum, string listType)
         {
-            
+
             Staff_Information();
             if (listType == "人事表單")
             {
@@ -232,11 +234,14 @@ namespace dbCompanyTest.Controllers
             {
                 try
                 {
-                    if (cToDoListViewModels.File != null && thislist != null)
+                    if (cToDoListViewModels.File != null/* && thislist != null*/)
                     {
-                        string oldPath = _environment.WebRootPath + "/File/" + thislist.附件path;
-                        if (System.IO.File.Exists(oldPath))
-                            System.IO.File.Delete(oldPath);
+                        if (thislist != null)
+                        {
+                            string oldPath = _environment.WebRootPath + "/File/" + thislist.附件path;
+                            if (System.IO.File.Exists(oldPath))
+                                System.IO.File.Delete(oldPath);
+                        }
                         string FileNameSub = cToDoListViewModels.File.FileName;
                         string[] words = FileNameSub.Split('.');
                         int FileTypeIndex = words.Length;
@@ -380,7 +385,6 @@ namespace dbCompanyTest.Controllers
             if (stf == "ST2-0010170")
             {
                 var datas = from c in _context.ToDoLists
-                                // join o in _context.TestStaffs on c.員工編號 equals o.員工編號
                             where c.員工編號 == stf || c.起單人 == stf || c.執行人 == stf || c.表單類型 == "人事表單"
                             select c;
                 var data = from c in datas
@@ -391,7 +395,6 @@ namespace dbCompanyTest.Controllers
             else
             {
                 var datas = from c in _context.ToDoLists
-                                //join o in _context.TestStaffs on c.員工編號 equals o.員工編號
                             where c.員工編號 == stf || c.協辦部門簽核人員 == stf || c.部門主管 == stf || c.起單人 == stf || c.執行人 == stf
                             select c;
                 var data = from c in datas
@@ -451,7 +454,7 @@ namespace dbCompanyTest.Controllers
                 msg.Subject = "員工忘記密碼";
                 msg.SubjectEncoding = System.Text.Encoding.UTF8;//主旨編碼
                 msg.Body = $"<h5 id=\"stf_info\">{x.員工編號} {x.員工姓名} 您好!</h5>";
-                msg.Body += $"<a href=`https://localhost:7100/Staff_Home/ResetPassword?account={account}`>點選此連結變更密碼</a>";
+                msg.Body += $"<h1>ShoeSpace密碼變更</h1><a href=`{Environment.Environment.useEnvironment}/Staff_Home/ResetPassword?account={account}`>點選此連結變更密碼</a>";
                 msg.BodyEncoding = System.Text.Encoding.UTF8;//內文編碼
                 msg.IsBodyHtml = true; //!!!
 
@@ -538,13 +541,22 @@ namespace dbCompanyTest.Controllers
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
-
-            var datas = from c in _context.ToDoLists
+            IEnumerable<dbCompanyTest.Models.ToDoList> datas;
+            if (stfNum == "ST2-0010170")
+            {
+                datas = from c in _context.ToDoLists
+                        where (c.老闆簽核 == "待簽")
+                        select c;
+            }
+            else
+            {
+                datas = from c in _context.ToDoLists
                         where (c.起單人 == stfNum && c.表單狀態 == "退回起單人") ||
                         (c.部門主管 == stfNum && c.部門主管簽核 == "待簽") ||
                         (c.協辦部門簽核人員 == stfNum && c.協辦部門簽核 == "待簽") ||
                         (c.執行人 == stfNum && c.執行人簽核 == "待簽")
                         select c;
+            }
 
             return View(datas);
         }
@@ -574,13 +586,26 @@ namespace dbCompanyTest.Controllers
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
+            IEnumerable<dbCompanyTest.Models.ToDoList> data;
 
-            var datas = from c in _context.ToDoLists
-                        where c.協辦部門簽核人員 == stfNum || c.部門主管 == stfNum || c.執行人 == stfNum
-                        select c;
-            var data = from c in datas
+            if (stfNum == "ST2-0010170")
+            {
+                var datas1 = from c in _context.ToDoLists
+                             select c;
+                data = from c in datas1
                        where c.表單狀態 != "完成"
                        select c;
+            }
+            else
+            {
+                var datas = from c in _context.ToDoLists
+                            where c.協辦部門簽核人員 == stfNum || c.部門主管 == stfNum || c.執行人 == stfNum
+                            select c;
+                data = from c in datas
+                       where c.表單狀態 != "完成"
+                       select c;
+            }
+
 
             return View(data);
         }
@@ -595,13 +620,24 @@ namespace dbCompanyTest.Controllers
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
+            IEnumerable<dbCompanyTest.Models.ToDoList> data;
 
-            var datas = from c in _context.ToDoLists
-                        where c.員工編號 == stfNum || c.協辦部門簽核人員 == stfNum || c.部門主管 == stfNum || c.起單人 == stfNum || c.執行人 == stfNum
-                        select c;
-            var data = from c in datas
+            if (stfNum == "ST2-0010170")
+            {
+                var datas = from c in _context.ToDoLists select c;
+                data = from c in datas
                        where c.表單狀態 == "完成"
                        select c;
+            }
+            else
+            {
+                var datas = from c in _context.ToDoLists
+                            where c.員工編號 == stfNum || c.協辦部門簽核人員 == stfNum || c.部門主管 == stfNum || c.起單人 == stfNum || c.執行人 == stfNum
+                            select c;
+                data = from c in datas
+                       where c.表單狀態 == "完成"
+                       select c;
+            }
 
             return View(data);
         }
@@ -637,7 +673,7 @@ namespace dbCompanyTest.Controllers
                 var stamper = new PdfStamper(reader, outputPdfStream);
                 var pdfContentByte = stamper.GetOverContent(1);
                 iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(inputImageStream);
-                image.ScalePercent(75);
+                image.ScalePercent(35);
 
                 image.SetAbsolutePosition(158, 545);
                 pdfContentByte.AddImage(image);
@@ -678,7 +714,7 @@ namespace dbCompanyTest.Controllers
             string SheepList = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"utf-8\" />\r\n    <title></title>\r\n</head>\r\n<body>\r\n    <div style=\"width:80%;margin:200px auto; border: 2px;\">";
             SheepList += $"<h1 style=\"text-align: center;\">訂單編號:{test[0].訂單編號}</h1>\r\n        <h3>客戶編號:{test[0].客戶編號}</h3>\r\n        <h3>送貨地址:{test[0].送貨地址}</h3>\r\n        <hr />";
             SheepList += " <div id=\"Grid\" style=\"border-style:solid;\">\r\n\r\n            <table cellpadding=\"5\" cellspacing=\"0\" style=\"border: 1px solid #ccc;font-size: 9pt; width: 100%;\">\r\n\r\n                <tr>\r\n\r\n                    <th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">商品名稱</th>\r\n\r\n                    <th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">尺寸種類</th>\r\n\r\n                    <th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">色碼</th>\r\n\r\n                    <th style=\"background-color: #B8DBFD;border: 1px solid #ccc\">商品數量</th>\r\n\r\n                </tr>\r\n";
-            for(int i=0; i< test.Count(); i++)
+            for (int i = 0; i < test.Count(); i++)
             {
                 SheepList += $" <tr>\r\n                    <td style=\"width:120px; height: 20px; border: 1px solid #ccc\">{test[i].商品名稱}</td>\r\n                    <td style=\"width:120px; height: 20px;border: 1px solid #ccc\">{test[i].尺寸種類}</td>\r\n                    <td style=\"width:120px; height: 20px;border: 1px solid #ccc\">{test[i].色碼}</td>\r\n                   <td style=\"width:width:120px; height: 20px;border: 1px solid #ccc\">{test[i].商品數量}</td>\r\n                </tr>";
             }
@@ -691,8 +727,8 @@ namespace dbCompanyTest.Controllers
 
             string pdfName = $"貨單{test[0].訂單編號}.pdf";
 
-           
-                var properties = new ConverterProperties();
+
+            var properties = new ConverterProperties();
             properties.SetBaseUri(_environment.WebRootPath + "\\File\\");
             properties.SetCharset("utf-8");
 
@@ -704,8 +740,8 @@ namespace dbCompanyTest.Controllers
                 HtmlConverter.ConvertToPdf(SheepListPDF, stream, properties);
                 return File(stream.ToArray(), "application/pdf", pdfName);
             }
-            
-          
+
+
             return Ok();
         }
     }

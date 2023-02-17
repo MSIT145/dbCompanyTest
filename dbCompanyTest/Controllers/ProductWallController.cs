@@ -423,88 +423,106 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult checkuser()
         {
-            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+            try
             {
-                string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
-                return Content(json);
+                if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+                {
+                    string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                    return Content(json);
 
+                }
+                else if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+                {
+                    string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
+                    json = $"{{\"name\":\"{json}\"}}";//將string 組成 Json字串
+                    return Json(null);
+                }
+                else
+                {
+                    return Json(null);
+                }
             }
-            else if (HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
-            {
-                string json = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
-                json = $"{{\"name\":\"{json}\"}}";//將string 組成 Json字串
-                return Json(null);
-            }
-            else
-            {
-                return Json(null);
+            catch {
+                return Content("發送錯誤");
             }
 
         }
         public IActionResult CreateComment(IFormCollection data)
         {
-            TestClient TC = JsonSerializer.Deserialize<TestClient>(data["userdata"]);
-            var user = _context.TestClients.FirstOrDefault(x => x.客戶編號 == TC.客戶編號);
-            if (data["comment"] == "")
+            try
             {
-                return Content(null);
-            }
-            else
-            {
-                if (user != null)
+                TestClient TC = JsonSerializer.Deserialize<TestClient>(data["userdata"]);
+                var user = _context.TestClients.FirstOrDefault(x => x.客戶編號 == TC.客戶編號);
+                if (data["comment"] == "")
                 {
-                    if (Convert.ToInt32(data["count"]) == 1)
-                    {
-
-                        ParentComment PC = new ParentComment();
-                        PC.內容 = data["comment"];
-                        PC.商品顏色id = Convert.ToInt32(data["colorid"]);
-                        PC.商品編號id = Convert.ToInt32(data["productid"]);
-                        PC.建立日期 = DateTime.Now;
-                        PC.客戶編號 = user.客戶編號;
-                        PC.客戶姓名 = user.客戶姓名;
-                        _context.ParentComments.Add(PC);
-                        _context.SaveChanges();
-                        ProductDetailViewModels pdm = selectData(data);
-
-                        return Json(pdm);
-                    }
-                    else if (Convert.ToInt32(data["count"]) == 2)
-                    {
-                        ChildComment CC = new ChildComment();
-                        CC.內容 = data["comment"];
-                        CC.客戶姓名 = user.客戶姓名;
-                        CC.客戶編號 = user.客戶編號;
-                        CC.建立日期 = DateTime.Now;
-                        CC.子訊息id = null;
-                        CC.父訊息id = Convert.ToInt32(data["paretID"]);
-                        _context.ChildComments.Add(CC);
-                        _context.SaveChanges();
-                        ProductDetailViewModels pdm = selectData(data);
-                        pdm.collapseParetid = Convert.ToInt32(data["paretID"]);
-                        return Json(pdm);
-
-                    }
-                    else
-                    {
-                        ChildComment CC = new ChildComment();
-                        CC.內容 = data["comment"];
-                        CC.客戶姓名 = user.客戶姓名;
-                        CC.客戶編號 = user.客戶編號;
-                        CC.建立日期 = DateTime.Now;
-                        CC.父訊息id = Convert.ToInt32(data["paretID"]);
-                        CC.子訊息id = Convert.ToInt32(data["childID"]);
-                        _context.ChildComments.Add(CC);
-                        _context.SaveChanges();
-                        ProductDetailViewModels pdm = selectData(data);
-                        pdm.collapseParetid = Convert.ToInt32(data["paretID"]);
-                        return Json(pdm);
-                    }
+                    return Content("請勿輸入空白");
                 }
                 else
                 {
-                    return Content(null);
+                    if (user != null)
+                    {
+                        if (Convert.ToInt32(data["count"]) == 1)
+                        {
+
+                            ParentComment PC = new ParentComment();
+                            PC.內容 = data["comment"];
+                            PC.商品顏色id = Convert.ToInt32(data["colorid"]);
+                            PC.商品編號id = Convert.ToInt32(data["productid"]);
+                            PC.建立日期 = DateTime.Now;
+                            PC.客戶編號 = user.客戶編號;
+                            PC.客戶姓名 = user.客戶姓名;
+                            _context.ParentComments.Add(PC);
+                            _context.SaveChanges();
+                            ProductDetailViewModels pdm = selectData(data);
+                            return Json(pdm);
+                        }
+                        else if (Convert.ToInt32(data["count"]) == 2)
+                        {
+                            ChildComment CC = new ChildComment();
+                            CC.內容 = data["comment"];
+                            CC.客戶姓名 = user.客戶姓名;
+                            CC.客戶編號 = user.客戶編號;
+                            CC.建立日期 = DateTime.Now;
+                            CC.子訊息id = null;
+                            CC.父訊息id = Convert.ToInt32(data["paretID"]);
+                            _context.ChildComments.Add(CC);
+                            _context.SaveChanges();
+                            ProductDetailViewModels pdm = selectData(data);
+                            if (data["paretID"] != "undefined" && data["paretID"] != "")
+                        {
+                                pdm.collapseParetid = Convert.ToInt32(data["paretID"]);
+                            }
+                            return Json(pdm);
+
+                        }
+                        else
+                        {
+                            ChildComment CC = new ChildComment();
+                            CC.內容 = data["comment"];
+                            CC.客戶姓名 = user.客戶姓名;
+                            CC.客戶編號 = user.客戶編號;
+                            CC.建立日期 = DateTime.Now;
+                            CC.父訊息id = Convert.ToInt32(data["paretID"]);
+                            CC.子訊息id = Convert.ToInt32(data["childID"]);
+                            _context.ChildComments.Add(CC);
+                            _context.SaveChanges();
+                            ProductDetailViewModels pdm = selectData(data);
+                            if (data["paretID"] != "undefined" && data["paretID"] != "")
+                            {
+                                pdm.collapseParetid = Convert.ToInt32(data["paretID"]);
+                            }
+                            return Json(pdm);
+                        }
+                    }
+                    else
+                    {
+                        return Content("請登入");
+                    }
                 }
+            }
+            catch{
+
+                return Content("新增錯誤");
             }
 
         }
@@ -588,62 +606,81 @@ namespace dbCompanyTest.Controllers
         }
         public IActionResult DeleteComment(IFormCollection data)
         {
-            if (Convert.ToInt32(data["order"]) == 1)
+            try
             {
-                var parentdata = _context.ParentComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
-                var parentdatachild = _context.ChildComments.Select(x => x).Where(x => x.父訊息id == parentdata.訊息id);
-                if(parentdatachild != null) {
-                    _context.ChildComments.RemoveRange(parentdatachild);
-                }
-                _context.ParentComments.Remove(parentdata);
-                _context.SaveChanges();
-                ProductDetailViewModels pdm = selectData(data);
-
-                return Json(pdm);
-            }
-            else if (Convert.ToInt32(data["order"]) == 2)
-            {
-                var childdata = _context.ChildComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
-                var childdatachild = _context.ChildComments.Select(x=>x).Where(x => x.父訊息id == childdata.父訊息id && x.子訊息id == childdata.訊息id);
-                if(childdatachild != null)
+                if (Convert.ToInt32(data["order"]) == 1)
                 {
-                    _context.ChildComments.RemoveRange(childdatachild);
+                    var parentdata = _context.ParentComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
+                    var parentdatachild = _context.ChildComments.Select(x => x).Where(x => x.父訊息id == parentdata.訊息id);
+                    if (parentdatachild != null)
+                    {
+                        _context.ChildComments.RemoveRange(parentdatachild);
+                    }
+                    _context.ParentComments.Remove(parentdata);
+                    _context.SaveChanges();
+                    ProductDetailViewModels pdm = selectData(data);
+
+                    return Json(pdm);
                 }
-                _context.ChildComments.Remove(childdata);
-                _context.SaveChanges();
-                ProductDetailViewModels pdm = selectData(data);
-                return Json(pdm);
+                else if (Convert.ToInt32(data["order"]) == 2)
+                {
+                    var childdata = _context.ChildComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
+                    var childdatachild = _context.ChildComments.Select(x => x).Where(x => x.父訊息id == childdata.父訊息id && x.子訊息id == childdata.訊息id);
+                    if (childdatachild != null)
+                    {
+                        _context.ChildComments.RemoveRange(childdatachild);
+                    }
+                    _context.ChildComments.Remove(childdata);
+                    _context.SaveChanges();
+                    ProductDetailViewModels pdm = selectData(data);
+                    return Json(pdm);
+                }
+                else
+                {
+                    return Content(null);
+                }
             }
-            else
-            {
-                return Content(null);
+            catch {
+                return Content("刪除錯誤");
             }
         }
         public IActionResult EditComment(IFormCollection data)
         {
-            if (Convert.ToInt32(data["order"]) == 1 && data["comment"] != "")
+            try
             {
-                var parentdata = _context.ParentComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
-                parentdata.內容 = data["comment"];
-                _context.Update(parentdata);
-                _context.SaveChanges();
-                ProductDetailViewModels pdm = selectData(data);
-                pdm.collapseParetid = Convert.ToInt32(data["paretid"]);
-                return Json(pdm);
+                if (Convert.ToInt32(data["order"]) == 1 && data["comment"] != "")
+                {
+                    var parentdata = _context.ParentComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
+                    parentdata.內容 = data["comment"];
+                    _context.Update(parentdata);
+                    _context.SaveChanges();
+                    ProductDetailViewModels pdm = selectData(data);
+                    if (data["paretid"] != "undefined" && data["paretid"] !="")
+                    {
+                        pdm.collapseParetid = Convert.ToInt32(data["paretid"]);
+                    }
+                    return Json(pdm);
+                }
+                else if (Convert.ToInt32(data["order"]) == 2 && data["comment"] != "")
+                {
+                    var childdata = _context.ChildComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
+                    childdata.內容 = data["comment"];
+                    _context.Update(childdata);
+                    _context.SaveChanges();
+                    ProductDetailViewModels pdm = selectData(data);
+                    if (data["paretid"] != "undefined" && data["paretid"] != "")
+                    {
+                        pdm.collapseParetid = Convert.ToInt32(data["paretid"]);
+                    }
+                    return Json(pdm);
+                }
+                else
+                {
+                    return Content(null);
+                }
             }
-            else if (Convert.ToInt32(data["order"]) == 2 && data["comment"] != "")
-            {
-                var childdata = _context.ChildComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
-                childdata.內容 = data["comment"];
-                _context.Update(childdata);
-                _context.SaveChanges();
-                ProductDetailViewModels pdm = selectData(data);
-                pdm.collapseParetid = Convert.ToInt32(data["paretid"]);
-                return Json(pdm);
-            }
-            else
-            {
-                return Content(null);
+            catch {
+                return Content("編輯錯誤");
             }
 
         }

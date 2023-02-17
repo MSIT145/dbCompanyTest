@@ -1,5 +1,5 @@
 ﻿@model dbCompanyTest.ViewModels.ProductDetailViewModels
-<h2 class="btn btn-primary collapsed" style="font-size:large;color:black;font-weight:300;" data-bs-toggle="collapse" data-bs-target="#Example">評論區</h2>
+<h2 class="btn collapsed m_10" data-bs-toggle="collapse" data-bs-target="#Example">評論區</h2>
 <ul class="collapse show" id="Example">
     @{
         int collapsecount = 0;
@@ -164,7 +164,7 @@
 <div class="reportmain" data-name="reportmain"></div>
 <div class="userreport">
     <input class="userreportinput" type="text" placeholder="留言..." /><br />
-    <input type="submit" id="userreportSubmit" class="btn btn-primary btn-sm" value="送出" />
+    <input type="submit" id="userreportSubmit" class="btn btn-success btn-sm" value="送出" />
     <input type="button" id="userreportCancel" class="btn btn-secondary btn-sm" value="取消" />
 </div>
 
@@ -181,7 +181,6 @@
     </div>
 </div>
 <script>
-    ////Signalr評論
     async function checkuser() {
         let data = await fetch("@Url.Content("~/ProductWall/checkuser")");
         let response = await data.json();
@@ -216,11 +215,17 @@
         $(`.reportEdit`).css('display', 'none');
         $(this).closest('div').siblings('p').css('display', "block")
     });
-    $('#userEditSubmit').on('click', function () {
+    $('.userEditinput').on('keyup', function (evt) {
         let comment = $('.userEditinput').val();
-        editcomment(editparetid,editid, editorder, comment);
+        if (evt.keyCode === 13) {
+            editcomment(editparetid, editid, editorder, comment);
+        }
     });
-    async function editcomment(paretid,id, order, comment) {
+    $('#userEditSubmit').on('click', function (evt) {
+        let comment = $('.userEditinput').val();
+        editcomment(editparetid, editid, editorder, comment);
+    });
+    async function editcomment(paretid, id, order, comment) {
         let productid = @Model.pro商品編號;
         let colorid = @Model.商品顏色ID;
         let FD = new FormData();
@@ -238,7 +243,7 @@
         if (response != null) {
             connection.invoke("SendComment", response).catch(function () {
                 $('#error').css("display", "block");
-                $('.modal-text').text("傳送訊息失敗");
+                $('.modal-text').text("推送失敗");
             });
         }
     };
@@ -276,11 +281,32 @@
         }
     };
     //呼叫resetdisplay
-    //connection.on('UpdMessage', function (response) {
-    //    $('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
-    //});
+    connection.on('UpdMessage', async function (response) {
+        //$('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
+
+        let FD = new FormData();
+        FD.append('response', response)
+        let data = await fetch("@Url.Content("~/ProductWall/resetdisplay")",
+            {
+                method: "POST",
+                body: FD
+            })
+        let aaaa = await data.text();
+        //console.log(aaaa);
+        $('#comment').html(aaaa);
+    });
     //新增
     $(`#userreportSubmit`).on(`click`, async function () {
+        createComment();
+    });
+    $(`.userreportinput`).on('keyup', async function (evt) {
+        if (evt.keyCode === 13) {
+            console.log("新增測試");
+            createComment();
+        }
+    });
+    //新增方法
+    async function createComment() {
         await checkuser();
         if (userdata != null) {
             //回復商品
@@ -304,7 +330,7 @@
                     if (response != null) {
                         connection.invoke("SendComment", response).catch(function () {
                             $('#error').css("display", "block");
-                            $('.modal-text').text("傳送訊息失敗");
+                            $('.modal-text').text("推送失敗");
                         });
                     }
                 }());//加上小括號立即執行
@@ -332,7 +358,7 @@
                     if (response != null) {
                         connection.invoke("SendComment", response).catch(function () {
                             $('#error').css("display", "block");
-                            $('.modal-text').text("傳送訊息失敗");
+                            $('.modal-text').text("推送失敗");
                         });
                     }
                 }());//加上小括號立即執行
@@ -362,7 +388,7 @@
                     if (response != null) {
                         connection.invoke("SendComment", response).catch(function () {
                             $('#error').css("display", "block");
-                            $('.modal-text').text("傳送訊息失敗");
+                            $('.modal-text').text("推送失敗");
                         });
                     }
                 }());
@@ -370,7 +396,6 @@
             //最後
             else {
                 let comment = $(`.userreportinput`).val();
-                //console.log($(`.userreport`).closest("ul").closest('li').closest(`.itemCommentContent`).closest("ul").closest(`div`).prev());
                 let paretID = $(`.userreport`).closest("ul").closest('li').closest(`.itemCommentContent`).closest("ul").closest(`div`).prev().data('id');
                 let childID = $(`.userreport`).closest("ul").closest('li').closest(`.itemCommentContent`).data('id');
                 let productid = @Model.pro商品編號;
@@ -393,15 +418,13 @@
                     if (response != null) {
                         connection.invoke("SendComment", response).catch(function () {
                             $('#error').css("display", "block");
-                            $('.modal-text').text("傳送訊息失敗");
+                            $('.modal-text').text("推送失敗");
                         });
                     }
                 }());
             }
         }
-
-    });
-
+    }
 
     $(`#userreportCancel`).on("click", function () {
         $(`.reportmain`).after($(`.userreport`));

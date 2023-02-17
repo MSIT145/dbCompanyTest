@@ -167,14 +167,18 @@ namespace dbCompanyTest.Hubs
         //JoinGroup
         public async Task JoinRoom(int productid, int colorid)
         {
-            string roomName = productid.ToString() + colorid.ToString();
-            var user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId);
-            if (user != null)
+
+            if (productid != null && colorid != null)
             {
-                user.roomName = roomName;
-                await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
+                string roomName = productid.ToString() + colorid.ToString();
+                var user = userList.FirstOrDefault(x => x.connectionId == Context.ConnectionId);
+                if (user != null)
+                {
+                    user.roomName = roomName;
+                    await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
+                }
             }
-            
+           
         }
 
     }

@@ -247,17 +247,27 @@
         //_商品顏色id 連動
         $("#_商品顏色id").val($("#Form_ProDe_E").find("input[name='商品顏色id']").val());
         $("#Form_ProDe_E").find("input[name='商品顏色id']").hide();
-
+        $.ajaxSettings.async = false;
         //checkbox 連動
-        let 是否上架 =   $("#Form_ProDe_E").find("input[name='商品是否上架']").val()
-        if (是否上架 == "True" || 是否上架 == "False")
-            $("#_商品是否上架").prop("checked", Boolean(是否上架));
+        let 是否上架 =   $("#Form_ProDe_E").find("input[name='商品是否上架']").val().toLowerCase();
+        console.log("是否上架:"+是否上架);
+        if (是否上架 == "true" || 是否上架 == "false")
+        {
+            const showTips = 是否上架 === 'true' ? true : false;
+            $("#_商品是否上架").prop("checked", Boolean(showTips));
+        }
+            
         $("#Form_ProDe_E").find("input[name='商品是否上架']").hide();
-
-        let 是否有貨 = $("#Form_ProDe_E").find("input[name='商品是否有貨']").val()
-        if (是否有貨 == "True" || 是否有貨 == "False")
-       $("#_商品是否有貨").prop("checked", Boolean(是否有貨));
+        let 是否有貨 = $("#Form_ProDe_E").find("input[name='商品是否有貨']").val().toLowerCase();
+        console.log("是否有貨:"+是否有貨);        
+        if (是否有貨 == "true" || 是否有貨 == "false")
+        {
+            const showTips = 是否有貨 === 'true' ? true : false;
+            $("#_商品是否有貨").prop("checked", Boolean(showTips));
+        }
+            
         $("#Form_ProDe_E").find("input[name='商品是否有貨']").hide();
+        $.ajaxSettings.async = true;
         //開啟非同步=================
         $.ajaxSettings.async = false;  
 
@@ -276,7 +286,7 @@
                 const xhr = new XMLHttpRequest();
                 xhr.addEventListener("load", () => {
                     if (xhr.status == 200) {
-                        alert(xhr.responseText);
+                        test_alert(xhr.responseText);
                         //console.log('新建成功');
                         $("#Moda_D_C").find("#btn_Close_D").click();
                     }

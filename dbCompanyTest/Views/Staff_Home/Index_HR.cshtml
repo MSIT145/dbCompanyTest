@@ -15,7 +15,7 @@
 <div style="width:85%;margin:20px auto;">
     @* <h1>員工頁面(人事)</h1>*@
 
-    <h2 id="stf_info">@ViewBag.HR</h2>
+    <h2 id="stf_info" style="display:none">@ViewBag.HR</h2>
 
     <div id="ToDoList_div" class="en_div"></div>
 
@@ -101,12 +101,12 @@
     <script src="~/js/staffconnect.js"></script>
     <script>
         var split = $(`#stf_info`).text().indexOf(' ');
-        var stf = $(`#stf_info`).text().substr(0, split)
+        var stf = $(`#stf_info`).text()
         LoadToDoList();
 
         function LoadToDoList() {
             $('#ToDoList_div').load("@Url.Content("~/Staff_Home/PartialToDoList")")
-            $.getScript("@Url.Content("~/js/LoadToDoList.js")");
+            //$.getScript("@Url.Content("~/js/LoadToDoList.js")");
         }
 
     </script>
