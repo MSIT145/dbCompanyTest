@@ -488,7 +488,7 @@ namespace dbCompanyTest.Controllers
                             _context.ChildComments.Add(CC);
                             _context.SaveChanges();
                             ProductDetailViewModels pdm = selectData(data);
-                            if (Convert.ToInt32(data["paretID"]) != null)
+                            if (data["paretID"] != "undefined" && data["paretID"] != "")
                         {
                                 pdm.collapseParetid = Convert.ToInt32(data["paretID"]);
                             }
@@ -507,7 +507,7 @@ namespace dbCompanyTest.Controllers
                             _context.ChildComments.Add(CC);
                             _context.SaveChanges();
                             ProductDetailViewModels pdm = selectData(data);
-                            if (Convert.ToInt32(data["paretID"]) != null)
+                            if (data["paretID"] != "undefined" && data["paretID"] != "")
                             {
                                 pdm.collapseParetid = Convert.ToInt32(data["paretID"]);
                             }
@@ -608,9 +608,6 @@ namespace dbCompanyTest.Controllers
         {
             try
             {
-
-
-
                 if (Convert.ToInt32(data["order"]) == 1)
                 {
                     var parentdata = _context.ParentComments.FirstOrDefault(x => x.訊息id == Convert.ToInt32(data["id"]));
@@ -658,7 +655,7 @@ namespace dbCompanyTest.Controllers
                     _context.Update(parentdata);
                     _context.SaveChanges();
                     ProductDetailViewModels pdm = selectData(data);
-                    if (Convert.ToInt32(data["paretid"]) != null)
+                    if (data["paretid"] != "undefined" && data["paretid"] !="")
                     {
                         pdm.collapseParetid = Convert.ToInt32(data["paretid"]);
                     }
@@ -671,7 +668,7 @@ namespace dbCompanyTest.Controllers
                     _context.Update(childdata);
                     _context.SaveChanges();
                     ProductDetailViewModels pdm = selectData(data);
-                    if (Convert.ToInt32(data["paretid"]) != null)
+                    if (data["paretid"] != "undefined" && data["paretid"] != "")
                     {
                         pdm.collapseParetid = Convert.ToInt32(data["paretid"]);
                     }
