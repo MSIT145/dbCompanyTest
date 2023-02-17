@@ -111,7 +111,7 @@
 
     .chatBBody .myChat {
         margin-left: 28%;
-        width: 70%;
+        max-width: 70%;
         border-radius: 5px;
         background-color: rgb(191, 169, 154);
         color: white;
@@ -121,7 +121,7 @@
 
     .chatBBody .otherChat {
         margin-right: 28%;
-        width: 70%;
+        max-width: 70%;
         border-radius: 5px;
         background-color: bisque;
         color: gray;

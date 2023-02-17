@@ -38,7 +38,6 @@
                     <p id="result"></p>
                     <botton type="submit" id="login" class="login">登入</botton><br /><br />
                     <botton id="forgetPassword" class="login">忘記密碼</botton>
-
                 </form>
             </div>
             <p>
@@ -135,9 +134,13 @@
         $(`#forgetPassword`).on('click', async function () {
             let account = $(`#account`);
             if (account.val()) {
+                $(this).after(`<div class="spinner-border text-light" role="status" style="width:15px;height:15px;" id="xx">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>`);
                 $.post("@Url.Content("~/Login/forgetPassword")", { "Email": account.val() }, function (data) {
                     $(`#accounterror`).css("display", "block");
                     $(`#accounterror`).text(data);
+                    $(`#xx`).remove();
                 })
             }
             else {
