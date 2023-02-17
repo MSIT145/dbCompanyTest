@@ -254,7 +254,13 @@
 
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").withAutomaticReconnect().build();
 
-        connection.start();
+        connection.start().then(function(){
+            var productid = $(`#typeid`).data('productid');
+            var colorid = $(`#typeid`).data('colorid');
+            connection.invoke("JoinRoom", productid, colorid).catch(
+                console.log("start傳送錯誤")
+            );
+        });
 
         $(`#connection`).on(`click`, async function () {
             const data = await fetch("@Url.Content("~/Login/getUser")");
