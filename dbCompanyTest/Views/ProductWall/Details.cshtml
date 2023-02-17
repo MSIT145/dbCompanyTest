@@ -648,7 +648,7 @@
                         if (response != null) {
                             connection.invoke("SendComment", response).catch(function () {
                                 $('#error').css("display", "block");
-                                $('.modal-text').text("推送失敗");
+                                $('.modal-text').text(response);
                             });
                         }
                     }());//加上小括號立即執行
@@ -676,7 +676,7 @@
                         if (response != null) {
                             connection.invoke("SendComment", response).catch(function () {
                                 $('#error').css("display", "block");
-                                $('.modal-text').text("推送失敗");
+                                $('.modal-text').text(response);
                             });
                         }
                     }());//加上小括號立即執行
@@ -706,7 +706,7 @@
                         if (response != null) {
                             connection.invoke("SendComment", response).catch(function () {
                                 $('#error').css("display", "block");
-                                $('.modal-text').text("推送失敗");
+                                $('.modal-text').text(response);
                             });
                         }
                     }());

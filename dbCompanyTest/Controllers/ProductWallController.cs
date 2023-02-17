@@ -455,7 +455,7 @@ namespace dbCompanyTest.Controllers
                 var user = _context.TestClients.FirstOrDefault(x => x.客戶編號 == TC.客戶編號);
                 if (data["comment"] == "")
                 {
-                    return Content(null);
+                    return Content("請勿輸入空白");
                 }
                 else
                 {
@@ -516,7 +516,7 @@ namespace dbCompanyTest.Controllers
                     }
                     else
                     {
-                        return Content(null);
+                        return Content("請登入");
                     }
                 }
             }
