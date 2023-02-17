@@ -43,7 +43,7 @@
                 <div class="input-group ">
                     <input type="file" class="form-control" aria-describedby="btn-Upload" id="excel" name="excel" accept=".xlsx,.xls">
                      <input type="text" value="Pro" name="File_type" style="display:none">
-                    <button class="btn btn-outline-secondary" type="submit" id="btn-Upload">Excel批次匯入商品建檔</button>
+                    <button class="btn btn-outline-secondary" type="button" id="btn-Upload">Excel批次匯入商品建檔</button>
                 </div>
             }
         </div>
@@ -82,9 +82,9 @@
                 @using (Html.BeginForm("Upload", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                 <div class="input-group ">
-                <input type="file" class="form-control" aria-describedby="btn-Upload" id="excel" name="excel" accept=".xlsx,.xls">
+                <input type="file" class="form-control" aria-describedby="btn-Upload_PD" id="excel" name="excel" accept=".xlsx,.xls">
                         <input type="text" value="ProDe" name="File_type" style="display:none">
-                <button class="btn btn-outline-secondary" type="submit" id="btn-Upload">Excel批次匯入細項建檔</button>
+                <button class="btn btn-outline-secondary" type="button" id="btn-Upload_PD">Excel批次匯入細項建檔</button>
                 </div>
                 }
                 </div>
@@ -94,7 +94,7 @@
                 <thead>
                     <tr>
                     <th><input type="checkbox" name="TBcheck_AllDetail"></th>
-                        <th >細號</th>
+                        <th >序</th>
                         <th>品名</th>
                         <th>分類</th>
                         <th>鞋種</th>
@@ -149,7 +149,7 @@
                 <thead>
                     <tr>
                         <th>圖示</th>
-                        <th>編號</th>
+                        <th>序</th>
                         <th>上架</th>
                         <th>名稱</th>
                         <th>價格</th>
@@ -398,14 +398,10 @@
     let ProDe_Create_url = `@Url.Content("~/Product/_CreateDetail")/?id=&imgid=&colid=`;
     let ProDe_Delet_url = "@Url.Content("~/product/DeleteProDetail")";
     let ProDe_Edit_url ="@Url.Content("~/Product/_EditDetial")";
-
+    let ProDe_Upload_url = "@Url.Content("~/Product/Upload")";
     //alrt 方法 建立
     //var myAlert = document.getElementById('myAlert')
     //var bsAlert = new bootstrap.Alert(myAlert);
-   
-
-  
-
     //用 table代表整個表單
     //Table Load Start==========================
     let url01 = '@Url.ActionLink("showlist","Product")';
@@ -434,7 +430,13 @@
                             },
                             width: '6%'
                         },
-                        { "data": "商品編號id", "width": "6%" },
+                        //{ "data": "商品編號id", "width": "6%" },
+                        {
+                            "data": null,
+                            "render": function (data, type, full, meta) {
+                                return meta.row + 1 + meta.settings._iDisplayStart;
+                            }
+                        }, // 序號
                         { "data": "上架時間" },
                         { "data": "商品名稱" },
                         { "data": "商品價格", "width": "6%" },
@@ -448,7 +450,7 @@
                             data: null,
                             className: 'create',
                             render: function (data, type, row) {
-                                return '<button type="button" name="DetailCreate" class="btn btn-primary" id="create" title="新增" data-bs-toggle="modal" data-bs-target="#Moda_D_C" ><i class="fas fa-edit"></i>新增</button>';
+                                return `<button type="button" name="DetailCreate" class="btn btn-primary" data-value="${data.商品編號id}" id="create" title="新增" data-bs-toggle="modal" data-bs-target="#Moda_D_C" ><i class="fas fa-edit"></i>新增</button>`;
 
                             },
                             orderable: false,
@@ -458,7 +460,7 @@
                             data: null,
                             className: 'edit',
                             render: function (data, type, row) {
-                                return '<button type="submit" class="btn btn-primary" id="btnEdit" name="P_btnEdit" title="修改" ><i class="fas fa-edit"></i>修改</button>';
+                                return `<button type="submit" class="btn btn-primary"  data-value="${data.商品編號id}" id="btnEdit" name="P_btnEdit" title="修改" ><i class="fas fa-edit"></i>修改</button>`;
 
                             },
                             orderable: false,
@@ -468,7 +470,7 @@
                             data: null,
                             className: 'del',
                             render: function (data, type, row) {
-                                return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="P_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>';
+                                return `<button type="submit" class="btn btn-primary" id="P_btnDel"  data-value="${data.商品編號id}" name="P_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>`;
                             },
                             orderable: false,
                             width: '7.3%'
@@ -612,9 +614,12 @@
         });
 
     }
-    //檔案上傳事件(先用sumit代替)
-    $("#btn-Upload").on('click', function () {
-
+    //檔案上傳事件
+    //加入Excel上傳事件btn-Upload
+    $('#btn-Upload').on('click', function () {
+        let formobj = $(this).parent().parent();
+        console.log(formobj);
+        $.post(ProDe_Upload_url, formobj.serialize(), function (data) { test_alert("上傳成功") });
     });
 
     //要輸入檔名才能按按鈕 產品
@@ -682,8 +687,9 @@
 
     //加入按鈕事件(產品刪除) P_btnDel
     $('#tableAll').on('click', 'button[name="P_btnDel"]', function () {
-        const row = $(this).parents('tr');
-        const id = row.find('td:eq(1)').text().trim();
+        //const row = $(this).parents('tr');
+        //const id = row.find('td:eq(1)').text().trim();
+        const id =$(this).attr("data-value");
         Send_DatatoDel_Moda("@Url.Content("~/product/DeleteProduct")", id)
     });
     //刪除資料送入刪除Moda
@@ -718,7 +724,8 @@
 
         $("#btn_ProForm").click();
         $("#Moda_P_C input[name='id']").parent().show();
-        $("#Moda_P_C input[name='id']").val(row.find('td:eq(1)').text().trim())
+        //$("#Moda_P_C input[name='id']").val(row.find('td:eq(1)').text().trim())  //  const id = $(this).attr("data-value");
+        $("#Moda_P_C input[name='id']").val($(this).attr("data-value").trim())
         $("#Moda_P_C input[name='time']").val(row.find('td:eq(2)').text().trim())
         $("#Moda_P_C input[name='name']").val(row.find('td:eq(3)').text().trim())
         $("#Moda_P_C input[name='price']").val(row.find('td:eq(4)').text().trim())
@@ -805,9 +812,10 @@
 
     //加入按鈕事件(新增明細)
     $('#tableAll').on('click', 'button[name="DetailCreate"]', function () {
-        const row = $(this).parents('tr');
-        const id = row.find('td:eq(1)').text().trim();
-        console.log(row.find('td:eq(1)'));
+        //const row = $(this).parents('tr');
+        //const id = row.find('td:eq(1)').text().trim();
+       // console.log($(this).attr("data-value"));
+        const id = $(this).attr("data-value");
         $("#Moda_D_C #myModal-label").text("新增細項商品");
         $("#Moda_D_C .modal-body").load(`@Url.Content("~/Product/_CreateDetail")/?id=${id}&imgid=&colid=`);
     })
@@ -877,15 +885,17 @@
     });
     //加入按鈕事件(明細刪除) P_btnDel
     $('#tableAll').on('click', 'button[name="PD_btnDelete"]', function () {
-        const row = $(this).parents("tr[name='tr_de']");
-        const id = row.find('td:eq(0)').text().trim();
+        //const row = $(this).parents("tr[name='tr_de']");
+        //const id = row.find('td:eq(0)').text().trim();
+        const id = $(this).attr("data-value");
         Send_DatatoDel_Moda("@Url.Content("~/product/DeleteProDetail")", id)
     });
 
     //加入按鈕事件(明細修改) P_btnDel
     $('#tableAll').on('click', 'button[name="PD_btnEdit"]', function () {
-        const row = $(this).parents("tr[name='tr_de']");
-        const id = row.find('td:eq(0)').text().trim();
+        //const row = $(this).parents("tr[name='tr_de']");
+        //const id = row.find('td:eq(0)').text().trim();
+        const id = $(this).attr("data-value");
         $("#Moda_D_C #myModal-label").text("修改細項商品");
         //顯示Moda_D_C相應資料load _EditDetial
         $("#Moda_D_C .modal-body").load(`@Url.Content("~/Product/_EditDetial")/?id=${id}`);
@@ -999,9 +1009,11 @@
                     `<td ><button class="btn btn-primary" name="Btn_Creat_PD_Size" data-color="${item.colid}" data-proid="${item.proid}" data-imgid="${item.imgid}" data-bs-toggle="modal" data-bs-target="#Moda_D_C">新增尺寸</button></td>` +
                     `<td ><div class="conflexbetween"  style="display:none"><button class="btn btn-primary" name="batch_Delete"><i class="bi bi-trash3-fill"  >批次刪除</i></button> <input type="checkbox" name="check_All_delete"  value="${item.name}" > </div></td>` +
                     `</tr>`;
+                    var PD_count =0;
                 for (var item2 of item.thisdata) {
+                    PD_count++;
                     let temptr = `<tr name="tr_de" data-color="${item2.顏色}" style="display: none;">` +
-                        `<td>${item2.明細編號}</td>` +
+                        `<td>${(PD_count)}</td>` +
                         `<td>${item2.明細尺寸}</td>` +
                         `<td>${item2.顏色}</td>` +
                         `<td>${item2.數量}</td>` +
@@ -1011,8 +1023,8 @@
                         //`<td><img src="@Url.Content("~/images")/${item.商品圖片3}" width="100" name="P_D_img" '/></td>` +
                         `<td>${item2.商品是否上架}</td>` +
                         `<td>${item2.商品是否有貨}</td>` +
-                        `<td><button type="submit" class="btn btn-primary" id="E_${item2.明細編號}"  name="PD_btnEdit" title="修改"  data-bs-toggle="modal" data-bs-target="#Moda_D_C"><i class="fas fa-edit" >修改</i></button></td>` +
-                        `<td ><div class="conflexbetween" ><button type="submit" class="btn btn-primary" id="D_${item2.明細編號}" name="PD_btnDelete" title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"> 刪除</i></button>  <input type="checkbox" name="check_delete"  value="${item2.明細編號}" ></div></td>` +
+                        `<td><button type="submit" class="btn btn-primary" id="E_${item2.明細編號}"   data-value="${item2.明細編號}"  name="PD_btnEdit" title="修改"  data-bs-toggle="modal" data-bs-target="#Moda_D_C"><i class="fas fa-edit" >修改</i></button></td>` +
+                        `<td ><div class="conflexbetween" ><button type="submit" class="btn btn-primary" id="D_${item2.明細編號}" data-value="${item2.明細編號}" name="PD_btnDelete" title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"> 刪除</i></button>  <input type="checkbox" name="check_delete"  value="${item2.明細編號}" ></div></td>` +
                         `</tr>`;
                     mast_temptr += temptr;
                 }
@@ -1030,7 +1042,7 @@
             '<table id="tableDetail" class="table table-borded tabale-info">' +
             '<thead>' +
             '<tr >' +
-            '<th >明細編號</th>' +
+            '<th >序</th>' +
             '<th >尺寸</th>' +
             '<th >顏色</th>' +
             '<th >數量</th>' +

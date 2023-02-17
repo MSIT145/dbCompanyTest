@@ -34,7 +34,13 @@ const ProDetalLoad = (url, Proimg_url) => {
                         },
                         width: '6%'
                     },
-                    { "data": "id"},
+                    /* { "data": "id"},*/
+                    {
+                        "data": null,
+                        "render": function (data, type, full, meta) {
+                            return meta.row + 1 + meta.settings._iDisplayStart;
+                        }
+                    }, // 序號
                     { "data": "商品名稱", width: '10%' },
                     { "data": "分類", width: '5%' },
                     { "data": "鞋種", width: '5%' },
@@ -171,7 +177,12 @@ $("#tableProDetal").on('click', 'input[name="TBcheck_AllDetail"]', function () {
 
 
 });
-
+//加入Excel上傳事件btn-Upload_PD
+$('#btn-Upload_PD').on('click', function () {   
+    let formobj = $(this).parent().parent();
+    console.log(formobj);
+    $.post(ProDe_Upload_url, formobj.serialize(),function (data) { test_alert("上傳成功") });
+});
 //加入批量刪除事件
 $('#collapse_ProDetaol_Search').on('click', 'button[name="batch_Delete"]', function () {
     console.log("123");

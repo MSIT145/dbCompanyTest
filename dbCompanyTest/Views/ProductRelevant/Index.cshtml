@@ -43,7 +43,7 @@
                 <table id="tableColor" class="table-rwd">
                     <thead>
                         <tr>
-                            <th>商品顏色ID</th>
+                            <th>序</th>
                             <th>商品顏色種類</th>
                             <th>色碼</th>
                             <th>商品顏色圖片</th>
@@ -68,7 +68,7 @@
                 <table id="tableSize" class="table-rwd">
                     <thead>
                         <tr>
-                            <th>商品尺寸ID</th>
+                            <th>序</th>
                             <th>尺寸種類</th>
                             <th>修改</th>
                             <th>刪除</th>
@@ -91,7 +91,7 @@
                 <table id="tableType" class="table-rwd">
                     <thead>
                         <tr>
-                            <th>商品分類ID</th>
+                            <th>序</th>
                             <th>商品分類名稱</th>
                             <th>修改</th>
                             <th>刪除</th>
@@ -114,7 +114,7 @@
                 <table id="tableShoes" class="table-rwd">
                     <thead>
                         <tr>
-                            <th>商品鞋種ID</th>
+                            <th>序</th>
                             <th>鞋種</th>
                             <th>修改</th>
                             <th>刪除</th>
@@ -230,7 +230,13 @@
                     "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
                     "columns":
                     [
-                            { "data": "商品顏色id", width: '10%' },
+                            //{ "data": "商品顏色id", width: '10%' },
+                            {
+                                "data": null,
+                                "render": function (data, type, full, meta) {
+                                    return meta.row + 1 + meta.settings._iDisplayStart;
+                                }
+                            }, // 序號
                             { "data": "商品顏色種類"},
                             { "data": "色碼" },
                             {
@@ -250,7 +256,7 @@
                                 data: null,
                                 className: 'edit',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="C_btnEdit" title="修改"   data-bs-toggle="modal" data-bs-target="#Moda"><i class="fas fa-edit"></i>修改</button>';
+                                    return `<button type="submit" class="btn btn-primary" data-value="${data.商品顏色id}" id="btnEdit" name="C_btnEdit" title="修改"   data-bs-toggle="modal" data-bs-target="#Moda"><i class="fas fa-edit"></i>修改</button>`;
 
                                 },
                                 orderable: false,
@@ -260,7 +266,7 @@
                                 data: null,
                                 className: 'del',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="C_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>';
+                                    return `<button type="submit" class="btn btn-primary" id="P_btnDel" data-value="${data.商品顏色id}" name="C_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>`;
                                 },
                                 orderable: false,
                                 width: '7%'
@@ -284,13 +290,19 @@
                     "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
                     "columns":
                         [
-                            { "data": "商品尺寸id", width: '10%' },
+                            //{ "data": "商品尺寸id", width: '10%' },
+                            {
+                                "data": null,
+                                "render": function (data, type, full, meta) {
+                                    return meta.row + 1 + meta.settings._iDisplayStart;
+                                }
+                            }, // 序號
                             { "data": "尺寸種類" },                         
                             {
                                 data: null,
                                 className: 'edit',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="S_btnEdit" title="修改" data-bs-toggle="modal" data-bs-target="#Moda"><i class="fas fa-edit"></i>修改</button>';
+                                    return `<button type="submit" class="btn btn-primary" id="btnEdit" data-value="${data.商品尺寸id}" name="S_btnEdit" title="修改" data-bs-toggle="modal" data-bs-target="#Moda"><i class="fas fa-edit"></i>修改</button>`;
 
                                 },
                                 orderable: false,
@@ -300,7 +312,7 @@
                                 data: null,
                                 className: 'del',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="S_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>';
+                                    return `<button type="submit" class="btn btn-primary" id="P_btnDel" name="S_btnDel" data-value="${data.商品尺寸id}"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>`;
                                 },
                                 orderable: false,
                                 width: '7%'
@@ -324,13 +336,19 @@
                     "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
                     "columns":
                         [
-                            { "data": "商品分類id", width: '10%' },
+                            //{ "data": "商品分類id", width: '10%' },
+                            {
+                                "data": null,
+                                "render": function (data, type, full, meta) {
+                                    return meta.row + 1 + meta.settings._iDisplayStart;  //加這段分頁自動疊加
+                                }
+                            }, // 序號
                             { "data": "商品分類名稱" },
                             {
                                 data: null,
                                 className: 'edit',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="T_btnEdit" title="修改" data-bs-toggle="modal" data-bs-target="#Moda"><i class="fas fa-edit"></i>修改</button>';
+                                    return `<button type="submit" class="btn btn-primary" id="btnEdit" data-value="${data.商品分類id}" name="T_btnEdit" title="修改" data-bs-toggle="modal" data-bs-target="#Moda"><i class="fas fa-edit"></i>修改</button>`;
 
                                 },
                                 orderable: false,
@@ -340,7 +358,7 @@
                                 data: null,
                                 className: 'del',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="T_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>';
+                                    return `<button type="submit" class="btn btn-primary" id="P_btnDel" data-value="${data.商品分類id}"  name="T_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>`;
                                 },
                                 orderable: false,
                                 width: '7%'
@@ -364,13 +382,19 @@
                     "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
                     "columns":
                         [
-                            { "data": "商品鞋種id", width: '10%' },
+                            //{ "data": "商品鞋種id", width: '10%' },
+                            {
+                                "data": null,
+                                "render": function (data, type, full, meta) {
+                                    return meta.row + 1 + meta.settings._iDisplayStart;  //加這段分頁自動疊加
+                                }
+                            }, // 序號
                             { "data": "鞋種" },
                             {
                                 data: null,
                                 className: 'edit',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="btnEdit" name="SH_btnEdit" title="修改" data-bs-toggle="modal" data-bs-target="#Moda"><i class="fas fa-edit"></i>修改</button>';
+                                    return `<button type="submit" class="btn btn-primary" id="btnEdit"  data-value="${data.商品鞋種id}" name="SH_btnEdit" title="修改" data-bs-toggle="modal" data-bs-target="#Moda"><i class="fas fa-edit"></i>修改</button>`;
 
                                 },
                                 orderable: false,
@@ -380,7 +404,7 @@
                                 data: null,
                                 className: 'del',
                                 render: function (data, type, row) {
-                                    return '<button type="submit" class="btn btn-primary" id="P_btnDel" name="SH_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>';
+                                    return `<button type="submit" class="btn btn-primary" id="P_btnDel" data-value="${data.商品鞋種id}" name="SH_btnDel"  title="刪除" data-bs-toggle="modal" data-bs-target="#Moda_D_D" ><i class="fa fa-minus-square"></i>刪除</button>`;
                                 },
                                 orderable: false,
                                 width: '7%'
@@ -414,8 +438,9 @@
 
         //加入按鈕事件(顏色修改) C_btnEdit
         $('#tableColor').on('click', 'button[name="C_btnEdit"]', function () {
-            const row = $(this).parents('tr');
-            const id = row.find('td:eq(0)').text().trim();
+            //const row = $(this).parents('tr');
+            //const id = row.find('td:eq(0)').text().trim();
+            const id = $(this).attr("data-value");         
             $("#Moda .modal-header").find("#myModal-label").text("修改顏色")
             $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_ColorEdit")"+`/?id=${id}`);
                       
@@ -423,8 +448,9 @@
         //加入按鈕事件(顏色刪除) C_btnDel
         $('#tableColor').on('click', 'button[name="C_btnDel"]', function () {
             $.ajaxSettings.async = false;   //關閉非同步
-            const row = $(this).parents('tr');
-            const id = row.find('td:eq(0)').text().trim();
+            //const row = $(this).parents('tr');
+            //const id = row.find('td:eq(0)').text().trim();
+            const id = $(this).attr("data-value");
             Send_DatatoDel_Moda("@Url.Content("~/ProductRelevant/ColorDelete")", id)
             //$.get("@Url.Content("~/ProductRelevant/ColorDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
             ////重新載入
@@ -456,8 +482,9 @@
 
         //加入按鈕事件(尺寸修改) C_btnEdit
         $('#tableSize').on('click', 'button[name="S_btnEdit"]', function () {
-            const row = $(this).parents('tr');
-            const id = row.find('td:eq(0)').text().trim();
+            //const row = $(this).parents('tr');
+            //const id = row.find('td:eq(0)').text().trim();
+            const id = $(this).attr("data-value");         
             $("#Moda .modal-header").find("#myModal-label").text("修改尺寸")
             $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_SizeEdit")" + `/?id=${id}`);
         });
@@ -473,8 +500,9 @@
         //加入按鈕事件(尺寸刪除) C_btnDel
         $('#tableSize').on('click', 'button[name="S_btnDel"]', function () {
             $.ajaxSettings.async = false;   //關閉非同步
-            const row = $(this).parents('tr');
-            const id = row.find('td:eq(0)').text().trim();
+            //const row = $(this).parents('tr');
+            //const id = row.find('td:eq(0)').text().trim();
+            const id = $(this).attr("data-value");         
             Send_DatatoDel_Moda("@Url.Content("~/ProductRelevant/SizeDelete")", id)
             //$.get("@Url.Content("~/ProductRelevant/SizeDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
             ////重新載入
@@ -504,8 +532,9 @@
 
         //加入按鈕事件(類別修改) T_btnEdit
         $('#tableType').on('click', 'button[name="T_btnEdit"]', function () {
-            const row = $(this).parents('tr');
-            const id = row.find('td:eq(0)').text().trim();
+            //const row = $(this).parents('tr');
+            //const id = row.find('td:eq(0)').text().trim();
+            const id = $(this).attr("data-value");
             $("#Moda .modal-header").find(".modal-title").text("修改類別")
             $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_TypeEdit")" + `/?id=${id}`);
         });
@@ -513,8 +542,9 @@
         //加入按鈕事件(類別刪除) T_btnDel
         $('#tableType').on('click', 'button[name="T_btnDel"]', function () {
             $.ajaxSettings.async = false;   //關閉非同步
-            const row = $(this).parents('tr');
-            const id = row.find('td:eq(0)').text().trim();
+            //const row = $(this).parents('tr');
+            //const id = row.find('td:eq(0)').text().trim();
+            const id = $(this).attr("data-value");
             Send_DatatoDel_Moda("@Url.Content("~/ProductRelevant/TypeDelete")", id)
             //$.get("@Url.Content("~/ProductRelevant/TypeDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
             ////重新載入
@@ -558,8 +588,9 @@
 
         //加入按鈕事件(鞋種修改) SH_btnEdit
         $('#tableShoes').on('click', 'button[name="SH_btnEdit"]', function () {
-            const row = $(this).parents('tr');
-            const id = row.find('td:eq(0)').text().trim();
+            //const row = $(this).parents('tr');
+            //const id = row.find('td:eq(0)').text().trim();
+            const id = $(this).attr("data-value");
             $("#Moda .modal-header").find(".modal-title").text("修改鞋種")
             $("#Moda .modal-body").load("@Url.Content("~/ProductRelevant/_ShoesEdit")" + `/?id=${id}`);
         });
@@ -567,8 +598,9 @@
         //加入按鈕事件(鞋種刪除) SH_btnDel
         $('#tableShoes').on('click', 'button[name="SH_btnDel"]', function () {
             $.ajaxSettings.async = false;   //關閉非同步
-            const row = $(this).parents('tr');
-            const id = row.find('td:eq(0)').text().trim();
+            //const row = $(this).parents('tr');
+            //const id = row.find('td:eq(0)').text().trim();
+            const id = $(this).attr("data-value");         
             Send_DatatoDel_Moda("@Url.Content("~/ProductRelevant/ShoesDelete")", id)
             //$.get("@Url.Content("~/ProductRelevant/ShoesDelete")", { "id": `${id}` }, (datas) => { alert(datas); });
             ////重新載入

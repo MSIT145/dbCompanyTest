@@ -577,9 +577,9 @@ namespace dbCompanyTest.Controllers
             string path = DataTableToExcelFile(dt);
 
             //string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            // string contentType = "application/vnd.ms-excel";
+             string contentType = "application/vnd.ms-excel";
             //此寫法會強制將檔案另存，依不同的檔案型別傳回不同的ContentType
-            string contentType = "application/octet-stream";
+            //string contentType = "application/octet-stream";
             string fileName = $"{filename}.xls";
             //寫入檔案
 
