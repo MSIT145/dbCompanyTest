@@ -53,7 +53,8 @@ namespace dbCompanyTest.Controllers
             Staff_Information();
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
-            if(stf == null)
+            ViewBag.HR = stf;
+            if (stf == null)
             {
                 return RedirectToAction("login");
             }
@@ -67,6 +68,7 @@ namespace dbCompanyTest.Controllers
             Staff_Information();
             string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+            ViewBag.HR = stf.員工編號;
             if (stf.部門 == "人事")
                 return View(await _context.TestStaffs.ToListAsync());
             else return RedirectToAction("Index");
@@ -538,13 +540,22 @@ namespace dbCompanyTest.Controllers
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
-
-            var datas = from c in _context.ToDoLists
+            IEnumerable<dbCompanyTest.Models.ToDoList> datas;
+            if (stfNum == "ST2-0010170")
+            {
+                datas = from c in _context.ToDoLists
+                        where (c.老闆簽核 == "待簽")
+                        select c;
+            }
+            else
+            {
+                datas = from c in _context.ToDoLists
                         where (c.起單人 == stfNum && c.表單狀態 == "退回起單人") ||
                         (c.部門主管 == stfNum && c.部門主管簽核 == "待簽") ||
                         (c.協辦部門簽核人員 == stfNum && c.協辦部門簽核 == "待簽") ||
                         (c.執行人 == stfNum && c.執行人簽核 == "待簽")
                         select c;
+            }
 
             return View(datas);
         }
@@ -574,15 +585,28 @@ namespace dbCompanyTest.Controllers
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
-
-            var datas = from c in _context.ToDoLists
-                        where c.協辦部門簽核人員 == stfNum || c.部門主管 == stfNum || c.執行人 == stfNum
-                        select c;
-            var data = from c in datas
+            IEnumerable<dbCompanyTest.Models.ToDoList> data;
+          
+            if (stfNum == "ST2-0010170")
+            {
+                var datas1 = from c in _context.ToDoLists
+                            select c;
+                data = from c in datas1
+                           where c.表單狀態 != "完成"
+                           select c;
+            }
+            else
+            {
+                var datas = from c in _context.ToDoLists
+                            where c.協辦部門簽核人員 == stfNum || c.部門主管 == stfNum || c.執行人 == stfNum
+                            select c;
+                data = from c in datas
                        where c.表單狀態 != "完成"
                        select c;
+            }
 
-            return View(data);
+
+                return View(data);
         }
 
         public IActionResult ListDone()
@@ -595,13 +619,24 @@ namespace dbCompanyTest.Controllers
             var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
             ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
             ViewBag.dep = stf.部門;
+            IEnumerable<dbCompanyTest.Models.ToDoList> data;
 
-            var datas = from c in _context.ToDoLists
-                        where c.員工編號 == stfNum || c.協辦部門簽核人員 == stfNum || c.部門主管 == stfNum || c.起單人 == stfNum || c.執行人 == stfNum
-                        select c;
-            var data = from c in datas
+            if (stfNum == "ST2-0010170")
+            {
+                var datas = from c in _context.ToDoLists select c;
+                data = from c in datas
                        where c.表單狀態 == "完成"
                        select c;
+            }
+            else
+            {
+                var datas = from c in _context.ToDoLists
+                        where c.員工編號 == stfNum || c.協辦部門簽核人員 == stfNum || c.部門主管 == stfNum || c.起單人 == stfNum || c.執行人 == stfNum
+                        select c;
+             data = from c in datas
+                       where c.表單狀態 == "完成"
+                       select c;
+            }
 
             return View(data);
         }
@@ -637,7 +672,7 @@ namespace dbCompanyTest.Controllers
                 var stamper = new PdfStamper(reader, outputPdfStream);
                 var pdfContentByte = stamper.GetOverContent(1);
                 iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(inputImageStream);
-                image.ScalePercent(75);
+                image.ScalePercent(35);
 
                 image.SetAbsolutePosition(158, 545);
                 pdfContentByte.AddImage(image);
