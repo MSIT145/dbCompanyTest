@@ -24,7 +24,7 @@ namespace dbCompanyTest.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var dbCompanyTestContext = _context.Orders.Include(o => o.客戶編號Navigation);
+            var dbCompanyTestContext = _context.Orders.Include(o => o.客戶編號Navigation).OrderByDescending(o =>o.訂單編號);
             return View(await dbCompanyTestContext.ToListAsync());
         }
 
