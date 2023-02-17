@@ -52,6 +52,8 @@
         color: #fff;
         font-size: 12px;
         overflow: hidden;
+        position: relative;
+        top:5px;
     }
     .shop-bot {
         display:none;
