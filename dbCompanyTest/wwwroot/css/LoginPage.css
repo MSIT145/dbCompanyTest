@@ -70,10 +70,10 @@ hr {
 }
 
 #linelogin{
-    width:220px;
+    width:235px;
 }
 #sp{
-    padding-left:23px;
+    padding-left:33px;
 }
 
 #otherLogin {
@@ -97,8 +97,12 @@ hr {
     color: white;
 }
 
-#create{
-    cursor:pointer;
+#g_id_signin iframe{
+    width:200px;
+}
+
+#create {
+    cursor: pointer;
 }
 
 @media screen and (max-width:1000px){

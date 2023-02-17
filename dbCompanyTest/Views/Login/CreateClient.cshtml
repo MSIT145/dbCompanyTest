@@ -1,4 +1,5 @@
 ﻿@model dbCompanyTest.Models.TestClient
+<div><button id="demo">DEMO GAAYRY</button><input type="hidden" id="democheck"></div>
 <div id="createPage">
     <form name="userForm" method="post">
         <input type="hidden" name="客戶編號" />
@@ -13,10 +14,10 @@
         <select name="性別" id="sex" class="Linput"><option>男</option><option>女</option></select><br />
         <input type="date" name="生日" id="生日" class="Linput" placeholder="生日" /><br />
         <input type="submit" value="註冊" id="checkcreate" />
-        <p id="createAlert" style="color:red;"></p>
+        <p id="createAlert" style="color:salmon;"></p>
     </form>
 </div>
-<div><button id="demo"></button><input type="hidden" id="democheck"></div>
+
 <script src="~/datas/taiwan_districts.js"></script>
 <script src="~/js/city_data.js"></script>
 <script>
@@ -29,6 +30,7 @@
         $(`#Email`).val("aland821206@@gmail.com");
         $(`#密碼`).val("qwe123456!");
         $(`#democheck`).val("OK");
+        $(`input[name=Email],input[name=客戶電話],input[name=身分證字號],input[name=密碼],input[name=客戶姓名]`).blur();
     })
     $(`input[name=Email],input[name=客戶電話],input[name=身分證字號],input[name=密碼],input[name=客戶姓名]`).on(`blur`, function () {
         const checkInput = $(this);
@@ -148,7 +150,7 @@
             checkInput.after($(`<br/>`));
         }
         else {
-            checkInput.after($(`<p style="color:red;margin:0;">${text}</p>`));
+            checkInput.after($(`<p style="color:salmon;margin:0;" name="democheck">${text}</p>`));
         }
     }
 

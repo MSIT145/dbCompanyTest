@@ -19,7 +19,11 @@
                      data-login_uri="@ViewData["localUrl"]/Login/loginSussess"
                      data-auto_prompt="false">
                 </div>
-                <div class="g_id_signin" style="width:200px;margin:50px auto;height:60px"
+                <div class="g_id_signin" style="width: 200px;
+                                                margin: 50px auto;
+                                                margin-top: 180px;
+                                                margin-bottom: 0px;
+                                                height: 60px;"
                      data-type="standard"
                      data-size="large"
                      data-theme="outline"
@@ -32,9 +36,9 @@
             <hr />
             <div id="selfLogin">
                 <form>
-                    <input type="text" asp-controller="Login" asp-action="Login" name="txtAccount" class="Linput" id="account" placeholder="Email" value="gary@gmail.com" /><br />
+                    <input type="text" asp-controller="Login" asp-action="Login" name="txtAccount" class="Linput" id="account" placeholder="Email" /><br />
                     <span style="color:red;display:none" id="accounterror">請輸入帳號</span>
-                    <input type="password" asp-controller="Login" asp-action="Login" name="txtPassword" class="Linput" id="password" placeholder="密碼" value="123456" />
+                    <input type="password" asp-controller="Login" asp-action="Login" name="txtPassword" class="Linput" id="password" placeholder="密碼" />
                     <p id="result"></p>
                     <botton type="submit" id="login" class="login">登入</botton><br /><br />
                     <botton id="forgetPassword" class="login">忘記密碼</botton>
@@ -98,7 +102,7 @@
                     $(`#LoginBack`).css("background-image", "url('@Url.Content("~/images/LoginPage2.png")')");
                 }
             } else {
-                if (oldSize<1000){
+                if (oldSize < 1000) {
                     $(`#LoginBack`).css("background-image", "url('@Url.Content("~/images/LoginPage.png")')");
                 }
             }
@@ -135,8 +139,8 @@
             let account = $(`#account`);
             if (account.val()) {
                 $(this).after(`<div class="spinner-border text-light" role="status" style="width:15px;height:15px;" id="xx">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>`);
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>`);
                 $.post("@Url.Content("~/Login/forgetPassword")", { "Email": account.val() }, function (data) {
                     $(`#accounterror`).css("display", "block");
                     $(`#accounterror`).text(data);
@@ -158,15 +162,19 @@
         //---購物車載入結束--LU
         $(`#gary`).on(`click`, function () {
             $(`#account`).val(`gary@gmail.com`);
+            $(`#password`).val(`123456`);
         });
         $(`#sheep`).on(`click`, function () {
             $(`#account`).val(`sheep@gmail.com`);
+            $(`#password`).val(`123456`);
         });
         $(`#lu`).on(`click`, function () {
             $(`#account`).val(`lubig@gmail.com`);
+            $(`#password`).val(`123456`);
         });
         $(`#yenru`).on(`click`, function () {
             $(`#account`).val(`yenru@gmai.com`);
+            $(`#password`).val(`123456`);
         });
     </script>
     <script src="~/js/city_data.js"></script>
