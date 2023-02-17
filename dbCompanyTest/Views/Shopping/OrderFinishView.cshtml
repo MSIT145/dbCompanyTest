@@ -42,8 +42,11 @@
 </div>
 @section Scripts{
     <script>
+        window.onload = function () {
+            $('#cart_num_pc').text(0)
+        };
+
         AllCiear()
-        $('#cart_num_pc').text(0)
         async function AllCiear() {
             const datas = await fetch(`@Url.Content("~/Shopping/AllCiear")`);
         }
