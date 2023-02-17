@@ -257,8 +257,9 @@
         connection.start().then(function(){
             var productid = $(`#typeid`).data('productid');
             var colorid = $(`#typeid`).data('colorid');
-            connection.invoke("JoinRoom", productid, colorid).catch(
+            connection.invoke("JoinRoom", productid, colorid).catch(function(){
                 console.log("start傳送錯誤")
+            }
             );
         });
 

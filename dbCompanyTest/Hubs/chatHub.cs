@@ -178,12 +178,7 @@ namespace dbCompanyTest.Hubs
                     await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
                 }
             }
-            else {
-            
-            }
-            
-
-            
+           
         }
 
     }
