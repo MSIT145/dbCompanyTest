@@ -176,6 +176,10 @@
         ragular();
         $("#list_type").val(``)
         TDLC();
+
+        $("#inp_executor").val(`ST1-00597`)
+        $("#inp_co_dep_who").val(`ST1-00628`);
+
         async function TDLC() {
             const data = await fetch(`@Url.Content("~/Staff_Home/TDLCount")`);
             const TDLCount = await data.text();
@@ -238,16 +242,16 @@
                 $("#inp_co_dep").val(`人事`);
                 $("#inp_sta").val(`部門主管 待簽`)
 
-                $.ajax({
-                    url: `@Url.Content("~/Staff_Home/stf_info_dep")`,
-                    type: "POST",
-                    data: { "dep": "人事" },
-                    dataType: "json"
-                })
-                    .done(data => {
-                        $("#inp_executor").val(data[0].員工編號)
-                        $("#inp_co_dep_who").val(data[1].員工編號);
-                    })
+                //$.ajax({
+                //    url: `@Url.Content("~/Staff_Home/stf_info_dep")`,
+                //    type: "POST",
+                //    data: { "dep": "人事" },
+                //    dataType: "json"
+                //})
+                //    .done(data => {
+                //        $("#inp_executor").val(data[0].員工編號)
+                //        $("#inp_co_dep_who").val(data[1].員工編號);
+                //    })
             }
         })
 
