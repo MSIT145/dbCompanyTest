@@ -17,20 +17,20 @@
 
 </div>
 <div class="OrderFinish center">
-    
-  @*  <div class="m_50">
+
+    @*  <div class="m_50">
     <img src="~/homeImg/Shoespace1.png" class="" />
     </div>*@
-  @*  <div class="m_50">
+    @*  <div class="m_50">
     <img src="~/homeimg/OK.png" class="OKpng"/>
     </div>*@
     <p class="p1">THANK YOU</p>
     <p>感謝您的購買</p>
-    <br /> 
+    <br />
     <img src="~/homeimg/success.png" />
 
     <p>商品訂購完成</p>
-    <div class ="m_10">
+    <div class="m_10">
         您的訂單編號為:@Html.DisplayFor(model => model.訂單編號)
     </div>
 
@@ -40,3 +40,12 @@
         <a href="@ViewBag.Url">繼續選購</a>
     </div>
 </div>
+@section Scripts{
+    <script>
+        AllCiear()
+        $('#cart_num_pc').text(0)
+        async function AllCiear() {
+            const datas = await fetch(`@Url.Content("~/Shopping/AllCiear")`);
+        }
+    </script>
+}

@@ -319,6 +319,18 @@ namespace dbCompanyTest.Controllers
         //----繳費API-------------------
         public IActionResult TestforPay(Order data)
         {
+            var json = "";
+            string ItemName = "";
+            string Amount = "";
+            List<會員商品暫存>? carSession = null;
+            json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_SHOPPING_CAR_SESSION);
+            carSession = JsonSerializer.Deserialize<List<會員商品暫存>>(json);
+            foreach(會員商品暫存 x in carSession)
+            {
+                ItemName += x.商品名稱 + "#";
+                Amount += x.商品價格 + "#";
+            }
+
             var orderId = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
 
             //需填入 你的網址
@@ -339,8 +351,11 @@ namespace dbCompanyTest.Controllers
             //交易描述
             { "TradeDesc",  "無"},
 
+            // //商品金額
+            //{ "Amount",  Amount},
+
             //商品名稱
-            { "ItemName",  data.訂單編號},
+            { "ItemName",  ItemName},
 
             //允許繳費有效天數(付款方式為 ATM 時，需設定此值)
             { "ExpireDate",  "3"},

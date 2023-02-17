@@ -33,7 +33,7 @@
                         <th>
                                 @Html.DisplayNameFor(model => model.商品價格)
                         </th>
-                        @*<th></th>*@
+                            @*<th></th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -73,8 +73,8 @@
                             </td>
 
                             @*<td>
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                            </td>*@
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>*@
                         </tr>
                     }
                 </tbody>
@@ -245,6 +245,12 @@
 
             </form>
         </div>
+        <div class="text-center"style="display:none" id="loding">
+            <h3>資料導向中，請勿關閉網頁</h3>
+            <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -278,8 +284,8 @@
         //----付費方式選擇----
         let checkValue;
         $('.check').click(function () {
-        checkValue = $(this).val();
-        $('#howToPay').val(checkValue);
+            checkValue = $(this).val();
+            $('#howToPay').val(checkValue);
         });
         //----付費方式選擇結束----
 
@@ -339,7 +345,7 @@
                 $(`.car_table`).removeClass("hidaing");
                 $('.car_dital').addClass("hidaing")
             }
-            else if (oldsize >500){
+            else if (oldsize > 500) {
                 $(`.car_dital`).removeClass("hidaing");
                 $('.car_table').addClass("hidaing")
             }
@@ -364,7 +370,7 @@
             $('.step3').addClass("active")
             $('#btn_slectCar').attr("style", "display:none;");
             $('#clientDital').attr("style", "display:none;");
-            //$('#finish').attr("style", "display:biock;");
+            //$('#finish').attr("style", "display:block;");
             var mydate = new Date();
             ordertime = mydate.toLocaleString();
             orderId = mydate.getTime();
@@ -374,52 +380,52 @@
             TestForAPI();
             addToOrderSQL();
             addToOrderDitalSQL()
-            AllCiear()
-            var howToPay=$('#howToPay').val();
-            if(howToPay=='信用卡'){
+            //AllCiear()
+            var howToPay = $('#howToPay').val();
+            if (howToPay == '信用卡') {
                 $('#orderForm').submit();
             }
-            else{
+            else {
+                $('#loding').attr("style", "display:block;");
                 requestPayment()
             }
-            
-            
+
+
         })
-            
+
 
         //----LinePay-------
         //let baseLoginPayUrl = $('#locoUrl').val()+'/api/LinePay/';
         let baseLoginPayUrl = $('#locoUrl').val() + "/api/LinePay/";
-        function requestPayment() 
-        {
-            var price =$('#pay').val()+''
+        function requestPayment() {
+            var price = $('#pay').val() + ''
             var orderID = $('#orderID').val() + ''
             // 交易訂單假資料
             payment = {
                 amount: price,
-                currency:"TWD",
+                currency: "TWD",
                 //orderId: Date.now().toString(), //使用 Timestamp 當作 orderId
                 orderId: orderID,
-                packages:[
+                packages: [
                     {
                         id: orderID,
                         amount: price,
-                        name:"Test",
-                        products:[
+                        name: "Test",
+                        products: [
                             {
-                                name:"TestPrducts",
-                                quantity:1,
+                                name: "TestPrducts",
+                                quantity: 1,
                                 price: price
                             }
                         ]
                     }
                 ],
-                redirectUrls:{
+                redirectUrls: {
                     confirmUrl: $('#locoUrl').val() + `/Shopping/OrderFinishView/?orderId=${orderID}`,
-                    cancelUrl: $('#locoUrl').val()+ "/Home"
+                    cancelUrl: $('#locoUrl').val() + "/Home"
                 }
             };
-             //送出 交易申請至商家 server
+            //送出 交易申請至商家 server
             $.post({
                 url: baseLoginPayUrl + "Create",
                 dataType: "json",
@@ -428,7 +434,7 @@
                 success: (res) => {
                     console.log(res);
                     window.location = res.info.paymentUrl.web;
-                    
+
                 },
                 error: (err) => {
                     console.log(err);
@@ -486,7 +492,7 @@
         });
 
         //----購買完成-------
-        async function AllCiear(){
+        async function AllCiear() {
             const datas = await fetch(`@Url.Content("~/Shopping/AllCiear")`);
         }
         //----購買完成結束----
