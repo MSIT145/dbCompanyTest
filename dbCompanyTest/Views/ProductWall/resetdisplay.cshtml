@@ -1,5 +1,5 @@
 ﻿@model dbCompanyTest.ViewModels.ProductDetailViewModels
-<h2 class="btn collapsed m_10" data-bs-toggle="collapse" data-bs-target="#Example">評論區</h2>
+<h2 class="btn collapsed m_10" data-bs-toggle="collapse" data-bs-target="#Example">留言板</h2>
 <ul class="collapse show" id="Example">
     @{
         int collapsecount = 0;
@@ -33,7 +33,7 @@
                                 var commentcount = Model.childCommentlist.Select(x => x).Where(y => y.childCommentParet == paretitem.paretCommentID).ToList();
                                 <span>|</span>
 
-                                <span class="collapsed" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">檢視其他 @commentcount.Count 則留言</span>
+                                <span class="collapsed collapsecheck" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">檢視其他 @commentcount.Count 則留言</span>
                                 }
                         }
                         else
@@ -48,7 +48,7 @@
                                 var commentcount = Model.childCommentlist.Select(x => x).Where(y => y.childCommentParet == paretitem.paretCommentID).ToList();
                                 <span>|</span>
 
-                                <span class="collapsed" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount" data="@paretitem.paretCommentID">檢視其他 @commentcount.Count 則留言</span>
+                                <span class="collapsed collapsecheck" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount" data="@paretitem.paretCommentID">檢視其他 @commentcount.Count 則留言</span>
                             }
                         }
                     </div>
@@ -181,6 +181,17 @@
     </div>
 </div>
 <script>
+    $('.collapsecheck').on("click", async function () {
+        const collapseid = await $(this).data("bsTarget");
+        if ($(this).hasClass('collapsed')) {
+            $(this).text(savetext);
+        }
+        else {
+            savetext = $(this).text();
+            $(this).text("隱藏");
+        }
+    });
+
     async function checkuser() {
         let data = await fetch("@Url.Content("~/ProductWall/checkuser")");
         let response = await data.json();
