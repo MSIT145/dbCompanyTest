@@ -189,6 +189,20 @@
             }
         });
 
+        connection.on('rechoose',function(data){
+            $(`#userList`).prepend(`<div class="alert alert-danger d-flex align-items-center" role="alert" style="transition:all 0.3s" id="fail">
+                                                                                  <div>
+                                                                                                    ${data}
+                                                                                  </div>
+                                                                                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                                                        </div>`);
+            setTimeout(function () {
+                $(`#fail`).remove();
+            }, 3000);
+            $(`#connectionUserID`).val("");
+            $(`#userName`).text(`請重新選擇客戶`);
+        });
+
         $(`#msg`).on(`keyup`,function(evn){
             if (evn.keyCode === 13 && $(`#msg`).val()) {
                 let msg = $(`#msg`).val();
@@ -199,7 +213,15 @@
                     $(`#msg`).val("");
                 }
                 else {
-                    alert("請選擇要服務的客戶");
+                    $(`#userList`).prepend(`<div class="alert alert-danger d-flex align-items-center" role="alert" style="transition:all 0.3s" id="fail">
+                                                                                  <div>
+                                                                                            請選擇要服務的客戶
+                                                                                  </div>
+                                                                                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                                                        </div>`);
+                    setTimeout(function () {
+                        $(`#fail`).remove();
+                    }, 3000);
                 }
             }
         })

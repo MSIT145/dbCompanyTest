@@ -255,10 +255,7 @@
         connection.start().then(function () {
             var productid = $(`#typeid`).data('productid');
             var colorid = $(`#typeid`).data('colorid');
-            connection.invoke("JoinRoom", productid, colorid).catch(function (err) {
-                console.log("start傳送錯誤")
-            }
-            );
+            connection.invoke("JoinRoom", productid, colorid);
         });
         $(`#openAI`).on(`click`, function () {
             if ($(`#openaikey`).val() == ``) {
@@ -273,9 +270,7 @@
             const data = await fetch("@Url.Content("~/Login/getUser")");
             const uesrName = await data.text();
             let selfID = $('#SelfID').html();
-            connection.invoke("getName", uesrName).catch(function (err) {
-                alert('傳送錯誤: ' + err.toString());
-            });
+            connection.invoke("getName", uesrName);
             $(`.chatBBody`).append(`<div class="chat">
                                                                                                                                 <div class="otherName">系統</div>
                                                                                                                                 <div class="otherChat">
@@ -283,6 +278,7 @@
                                                                                                                                 </div>
                                                                                                                             </div>`);
             $(`#userName`).val(userName);
+            resetScrollSite();
         })
 
         connection.on("UpdSelfID", function (id) {
@@ -330,7 +326,7 @@
                 } else {
                     let selfID = $('#SelfID').html();
                     connection.invoke("SendMessage", selfID, message/*, sendToID*/).then(function () {
-                        $(`#errorstring`).text("");
+                       
                     });
                 }
             }

@@ -125,7 +125,7 @@ namespace dbCompanyTest.Hubs
             }
             else
             {
-                await Clients.Client(Context.ConnectionId).SendAsync("UpdSystem", "系統", "此客戶已有人在回應");
+                await Clients.Client(Context.ConnectionId).SendAsync("rechoose", "此客戶已有人在回應");
             }
         }
 
