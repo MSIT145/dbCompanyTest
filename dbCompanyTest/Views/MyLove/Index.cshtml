@@ -84,8 +84,20 @@
                 type: "get",
                 data: { id: $(this).closest(`.g-item`).attr("id") },
                 datatype: "json"
-            }).done(data => error(data));                                                                                                                                                                                                            
+            }).done(data => error(data));   
+            //----購物車記數-----
+            let count = parseFloat($('#cart_num_pc').text())+1;
+            $('#cart_num_pc').text(count)
+            countCart(count);
+            //----購物車記數結束-----
         });
+
+        //----購物車記數-----
+        async function countCart (count){
+            const data = await fetch(`@Url.Content("~/Shopping/CarProductCount/?num=${count}")`);
+        }
+        //----購物車記數結束-----
+
         async function del(id) {
             const data = await fetch(`@Url.Content("~/MyLove/Delete?id=${id}")`);
             const response = await data.text();
