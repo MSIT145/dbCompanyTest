@@ -72,13 +72,17 @@ hr {
 #linelogin{
     width:235px;
 }
-#sp{
+#sp {
+    margin-top: 280px;
+    margin-bottom: 1rem;
+    margin-left: 50px;
 }
 
 #otherLogin {
     width: 100%;
     height: 40%;
     text-align: center;
+    display:flex;
 }
 
 #createPage {
