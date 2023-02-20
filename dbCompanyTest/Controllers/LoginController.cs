@@ -253,6 +253,11 @@ namespace dbCompanyTest.Controllers
             dbCompanyTestContext _context = new dbCompanyTestContext();
             if (_context.TestClients.Any(c => c.Email == Email))
             {//zlazqafpmuwxkxvo
+                TestClient client = _context.TestClients.FirstOrDefault(x => x.Email == Email);
+                if (client.客戶編號.Substring(0, 3) == "CLG")
+                    return Content("請使用Google登入");
+                else if (client.客戶編號.Substring(0, 3) == "CLL")
+                    return Content("請使用Line登入");
                 var mail = new MailMessage();
                 mail.To.Add(Email);
                 mail.Subject = "SheoseGift忘記密碼變更";

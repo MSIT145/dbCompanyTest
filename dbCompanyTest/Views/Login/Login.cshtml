@@ -126,7 +126,7 @@
         $(`#login`).on(`click`, () => {
             const account = $(`#account`).val();
             const password = $(`#password`).val();
-            if (account == "" || password == "") {
+            if (account == "" ) {
                 $(`#result`).html(`請輸入帳號密碼`);
             } else {
                 xhr.open(`post`, `/Login/checkLogin`);
@@ -149,6 +149,7 @@
                     $(`#accounterror`).css("display", "block");
                     $(`#accounterror`).text(data);
                     $(`#xx`).remove();
+                    $(`#result`).html(``);
                 })
             }
             else {
