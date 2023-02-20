@@ -42,7 +42,7 @@
                                 var commentcount = Model.childCommentlist.Select(x => x).Where(y => y.childCommentParet == paretitem.paretCommentID).ToList();
                                                     <span>|</span>
 
-                                                    <span class="collapsed collapsecheck" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">檢視其他 @commentcount.Count 則留言</span>
+                                    <span class="collapsed collapsecheck" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount" data-comment="@commentcount.Count">檢視其他 @commentcount.Count 則留言</span>
                                 
                                 }
 
@@ -69,7 +69,7 @@
                                     var commentcount = Model.childCommentlist.Select(x => x).Where(y => y.childCommentParet == paretitem.paretCommentID).ToList();
                                                     <span>|</span>
 
-                                                    <span class="collapsed collapsecheck" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount" data="@paretitem.paretCommentID">檢視其他 @commentcount.Count 則留言</span>
+                                    <span class="collapsed collapsecheck" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount" data="@paretitem.paretCommentID" data-comment="@commentcount.Count">檢視其他 @commentcount.Count 則留言</span>
                                 }
                             }
                         }
@@ -207,8 +207,7 @@
         const collapseid = await $(this).data("bsTarget");
         if ($(this).hasClass('collapsed')) 
         {
-            if($(this).data("comment")!="" || $(this).data("comment")!=null)
-            {
+            if ($(this).data("comment") != "" || $(this).data("comment") != null || $(this).data("comment") != "undefined") {
               let comment =   $(this).data("comment")
                 $(this).text(`檢視其他 ${comment} 則留言`);
             }
