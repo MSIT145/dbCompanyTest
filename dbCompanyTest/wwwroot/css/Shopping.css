@@ -37,6 +37,10 @@
 .item-cont {
     display: flex;
 }
+
+.btn_page1 {
+    border: solid 1px #8E8E8E;
+}
 @media screen and (max-width:1120px) {
     .car_table {
         display:none;

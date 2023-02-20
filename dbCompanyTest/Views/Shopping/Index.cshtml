@@ -168,7 +168,7 @@
                 </div>
             }
             <br />
-            <input id="btn_page1" type="button" value="結帳" disabled />
+            <input class="m_10 btn btn_page1" id="btn_page1" type="button" value="結帳" disabled />
             <br />
         </div>
         <div id="clientDital" style="visibility: hidden">
@@ -233,14 +233,14 @@
                     </div>
                     <div class="setMargin" id="pickUp">
                         <label class="whoToGet">7-11取貨</label>
-                        <a href="@ViewBag.MAP" id="selectStoreAddress">選擇門市</a>
+                        <a class="m_10 btn btn_page1" href="@ViewBag.MAP" id="selectStoreAddress">選擇門市</a>
                         @*<input type="button" value="選擇門市" id="SelectShop" />*@
                         <input type="text" style="visibility: hidden" value="@ViewBag.IfRe" id="storeaddress" />
                     </div>
                 </fieldset>
 
                 <div class="setMargin">
-                    <input type="button" value="確認購買" id="btn_page2" />
+                    <input class="m_10 btn btn_page1" type="button" value="確認購買" id="btn_page2" />
                 </div>
 
             </form>
