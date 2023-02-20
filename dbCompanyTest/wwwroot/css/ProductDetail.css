@@ -694,6 +694,10 @@ img:hover{transform:scale(1.2,1.2);}
         background-color: #BAA99B;
         border-color: #BAA99B;
     }
+    .btn-success:focus {
+        background-color: #BAA99B;
+        border-color: #BAA99B;
+    }
 
 .m_10 {
     width: 100%;
