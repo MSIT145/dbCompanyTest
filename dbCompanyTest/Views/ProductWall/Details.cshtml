@@ -498,8 +498,6 @@
         });
         //呼叫resetdisplay
         connection.on('UpdMessage', async function (response) {
-            //$('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
-
             let FD = new FormData();
             FD.append('response', response)
             let data = await fetch("@Url.Content("~/ProductWall/resetdisplay")",

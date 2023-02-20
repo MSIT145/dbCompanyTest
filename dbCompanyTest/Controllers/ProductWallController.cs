@@ -602,6 +602,12 @@ namespace dbCompanyTest.Controllers
         public IActionResult resetdisplay(IFormCollection datas)
         {
             ProductDetailViewModels data = JsonSerializer.Deserialize<ProductDetailViewModels>(datas["response"]);
+            if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
+            {
+                string json = HttpContext.Session.GetString(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION);
+                TestClient tc = JsonSerializer.Deserialize<TestClient>(json);
+                data.客戶編號 = tc.客戶編號;
+            }
             return PartialView(data);
         }
         public IActionResult DeleteComment(IFormCollection data)
