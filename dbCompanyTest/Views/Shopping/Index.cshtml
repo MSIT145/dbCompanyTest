@@ -176,7 +176,7 @@
             <form id="orderForm" name="userInfo" action="@Url.Content("~/Shopping/TestforPay")">
                 <input type="text" id="pay" name="總金額" style="display:none" />
                 <input type="text" id="userID" name="客戶編號" style="display:none" />
-                <input type="text" id="howToPay" name="付款方式" value="信用卡" style="display:none" />
+                <input type="text" id="howToPay" name="付款方式" value="LinePay" style="display:none" />
                 <input type="text" id="orderID" name="訂單編號" style="display:none" />
                 <input type="text" id="orderTime" name="下單時間" style="display:none" />
                 <fieldset>
@@ -229,7 +229,7 @@
                         <select class="userAddress" id="town2">
                         </select>
                         <input type="text" class="userAddress" id="RrceiveDitalText" />
-                        <input type="text" id="Address" name="送貨地址" />
+                        <input type="text" id="Address" name="送貨地址" style="display:none" />
                     </div>
                     <div class="setMargin" id="pickUp">
                         <label class="whoToGet">7-11取貨</label>
@@ -302,6 +302,7 @@
                 $('#btn_slectCar').attr("style", "display:block;");
                 $('#clientDital').attr("style", "display:block;");
                 $('#delivery').select().val(60)
+                $('#howToPay').val("信用卡")
                 if ($('#delivery').select().val() == 60) {
                     $('#SelectAdd').hide();
                 }
