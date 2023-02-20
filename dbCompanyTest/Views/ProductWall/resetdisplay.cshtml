@@ -6,156 +6,178 @@
         foreach (var paretitem in Model.paretCommentslist)
         {
             collapsecount++;
-            <li>
-                <div class="itemCommentContent" data-id="@paretitem.paretCommentID" data-name="paret">
-                    <div>
-                        <p class="itemName">會員:@paretitem.paretCommentGuestName</p>
-                        <p class="itemMessage">內容:@paretitem.paretComment</p>
-                    </div>
-                    <div>
-                        @if (paretitem.paretCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
+                            <li>
+                                <div class="itemCommentContent" data-id="@paretitem.paretCommentID" data-name="paret">
+                                    <div>
+                                        <p class="itemName">會員:@paretitem.paretCommentGuestName</p>
+                                        <p class="itemMessage">內容:@paretitem.paretComment</p>
+                                    </div>
+                                    <div>
+                                        @if (paretitem.paretCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
                         {
-                            <span class="itemreport">回覆</span>
+                                            <span class="itemreport">回覆</span>
 
-                            <span>|</span>
+                                            <span>|</span>
 
-                            <span class="itemreportEdit" data-id="@paretitem.paretCommentID" data-order="1">編輯</span>
+                                            <span class="itemreportEdit" data-id="@paretitem.paretCommentID" data-order="1">編輯</span>
 
-                            <span>|</span>
+                                            <span>|</span>
 
-                            <span class="itemreportDelete" data-id="@paretitem.paretCommentID" data-order="1">刪除</span>
+                                            <span class="itemreportDelete" data-id="@paretitem.paretCommentID" data-order="1">刪除</span>
 
-                            <span>|</span>
+                                            <span>|</span>
 
-                            <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
+                                            <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
                             if (Model.childCommentlist.FirstOrDefault(x => x.childCommentParet == paretitem.paretCommentID) != null)
+                            {
+                                if (paretitem.paretCommentID == Model.collapseParetid)
+                                {
+                                    var commentcount = Model.childCommentlist.Select(x => x).Where(y => y.childCommentParet == paretitem.paretCommentID).ToList();
+                                                    <span>|</span>
+
+                                                    <span class="collapsed collapsecheck" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount" data-comment="@commentcount.Count">隱藏</span>
+                                }
+                                else 
                                 {
                                 var commentcount = Model.childCommentlist.Select(x => x).Where(y => y.childCommentParet == paretitem.paretCommentID).ToList();
-                                <span>|</span>
+                                                    <span>|</span>
 
-                                <span class="collapsed collapsecheck" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">檢視其他 @commentcount.Count 則留言</span>
+                                                    <span class="collapsed collapsecheck" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount">檢視其他 @commentcount.Count 則留言</span>
+                                
                                 }
+
+                            }
                         }
                         else
                         {
-                            <span class="itemreport">回覆</span>
+                                            <span class="itemreport">回覆</span>
 
-                            <span>|</span>
+                                            <span>|</span>
 
-                            <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
+                                            <span>留言時間:@paretitem.paretCommentDate.ToString("yyyy/MM/dd")</span>
                             if (Model.childCommentlist.FirstOrDefault(x => x.childCommentParet == paretitem.paretCommentID) != null)
                             {
-                                var commentcount = Model.childCommentlist.Select(x => x).Where(y => y.childCommentParet == paretitem.paretCommentID).ToList();
-                                <span>|</span>
+                                if (paretitem.paretCommentID == Model.collapseParetid)
+                                {
+                                    var commentcount = Model.childCommentlist.Select(x => x).Where(y => y.childCommentParet == paretitem.paretCommentID).ToList();
+                                                    <span>|</span>
 
-                                <span class="collapsed collapsecheck" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount" data="@paretitem.paretCommentID">檢視其他 @commentcount.Count 則留言</span>
+                                                    <span class="collapsed collapsecheck" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount" data="@paretitem.paretCommentID" data-comment="@commentcount.Count">隱藏</span>
+                                }
+                                else
+                                {
+                                    var commentcount = Model.childCommentlist.Select(x => x).Where(y => y.childCommentParet == paretitem.paretCommentID).ToList();
+                                                    <span>|</span>
+
+                                                    <span class="collapsed collapsecheck" data-bs-toggle="collapse" data-bs-target="#Example_@collapsecount" data="@paretitem.paretCommentID">檢視其他 @commentcount.Count 則留言</span>
+                                }
                             }
                         }
-                    </div>
-                </div>
-                <div style="display:flex;margin-left:2px;border-left:solid;">
-                    @{
+                                    </div>
+                                </div>
+                                <div style="display:flex;margin-left:2px;border-left:solid;">
+                                    @{
                         string x = "multi-collapse";
 
                         if (paretitem.paretCommentID == Model.collapseParetid)
                         {
                             x = "show";
                         }
-                    }
-                    <ul class="collapse @x" id="Example_@collapsecount" data="@Model.collapseParetid">
-                        @{
+                                    }
+                                    <ul class="collapse @x" id="Example_@collapsecount" data="@Model.collapseParetid">
+                                        @{
                             foreach (var childitem in Model.childCommentlist)
                             {
                                 if (paretitem.paretCommentID == childitem.childCommentParet && childitem.childCommentchildid == null)
                                 {
-                                    <div style="display:flex;" class="itemCommentContent" data-id="@childitem.childCommentID" data-name="child">
-                                        <div class="itemdivborder"></div>
-                                    <li>
-                                        <div>
-                                            <p class="itemName">會員:@childitem.childCommentGuestName</p>
-                                            <p class="itemMessage">內容:@childitem.childComment</p>
-                                        </div>
-                                        <div>
-                                                @if (childitem.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
+                                                                    <div style="display:flex;" class="itemCommentContent" data-id="@childitem.childCommentID" data-name="child">
+                                                                        <div class="itemdivborder"></div>
+                                                                    <li>
+                                                                        <div>
+                                                                            <p class="itemName">會員:@childitem.childCommentGuestName</p>
+                                                                            <p class="itemMessage">內容:@childitem.childComment</p>
+                                                                        </div>
+                                                                        <div>
+                                                                                @if (childitem.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
                                                 {
-                                                <span class="itemreport">回覆</span>
+                                                                                <span class="itemreport">回覆</span>
 
-                                                <span>|</span>
+                                                                                <span>|</span>
 
-                                                <span class="itemreportEdit" data-id="@childitem.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">編輯</span>
+                                                                                <span class="itemreportEdit" data-id="@childitem.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">編輯</span>
 
-                                                <span>|</span>
+                                                                                <span>|</span>
 
-                                                <span class="itemreportDelete" data-id="@childitem.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">刪除</span>
+                                                                                <span class="itemreportDelete" data-id="@childitem.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">刪除</span>
 
-                                                <span>|</span>
+                                                                                <span>|</span>
 
-                                                <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
+                                                                                <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
                                                 }
                                                 else
                                                 {
-                                                <span class="itemreport">回覆</span>
+                                                                                <span class="itemreport">回覆</span>
 
-                                                <span>|</span>
+                                                                                <span>|</span>
 
-                                                <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
+                                                                                <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
                                                 }
-                                        </div>
-                                        <div style="display:flex;margin-left:28px;border-left:solid;">
-                                            <ul>
-                                                    @{
+                                                                        </div>
+                                                                        <div style="display:flex;margin-left:28px;border-left:solid;">
+                                                                            <ul>
+                                                                                    @{
                                                         foreach (var childitemchildid in Model.childCommentlist)
                                                         {
                                                             if (childitem.childCommentID == childitemchildid.childCommentchildid)
                                                             {
-                                                            <div style="display:flex;" class="itemCommentContent">
-                                                                <div class="itemdivborder"></div>
-                                                            <li>
-                                                                <div>
-                                                                    <p class="itemName">會員:@childitemchildid.childCommentGuestName</p>
-                                                                    <p class="itemMessage">內容:@childitemchildid.childComment</p>
-                                                                </div>
-                                                                <div>
-                                                                            @if (childitemchildid.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
+                                                                                                            <div style="display:flex;" class="itemCommentContent">
+                                                                                                                <div class="itemdivborder"></div>
+                                                                                                            <li>
+                                                                                                                <div>
+                                                                                                                    <p class="itemName">會員:@childitemchildid.childCommentGuestName</p>
+                                                                                                                    <p class="itemMessage">內容:@childitemchildid.childComment</p>
+                                                                                                                </div>
+                                                                                                                <div>
+                                                                                                                            @if (childitemchildid.childCommentGuestID.Equals(Model.客戶編號) || Model.員工編號 != null)
                                                                             {
-                                                                        <span class="itemreport">回覆</span>
+                                                                                                                        <span class="itemreport">回覆</span>
 
-                                                                        <span>|</span>
+                                                                                                                        <span>|</span>
 
-                                                                        <span class="itemreportEdit" data-id="@childitemchildid.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">編輯</span>
+                                                                                                                        <span class="itemreportEdit" data-id="@childitemchildid.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">編輯</span>
 
-                                                                        <span>|</span>
+                                                                                                                        <span>|</span>
 
-                                                                        <span class="itemreportDelete" data-id="@childitemchildid.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">刪除</span>
+                                                                                                                        <span class="itemreportDelete" data-id="@childitemchildid.childCommentID" data-paretid="@paretitem.paretCommentID" data-order="2">刪除</span>
 
-                                                                        <span>|</span>
+                                                                                                                        <span>|</span>
 
-                                                                        <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
+                                                                                                                        <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
                                                                             }
                                                                             else
                                                                             {
-                                                                        <span class="itemreport">回覆</span>
+                                                                                                                        <span class="itemreport">回覆</span>
 
-                                                                        <span>|</span>
+                                                                                                                        <span>|</span>
 
-                                                                        <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
+                                                                                                                        <span>留言時間:@childitem.childCommentDate.ToString("yyyy/MM/dd")</span>
                                                                             }
-                                                                </div>
-                                                            </li>
-                                                    </div>
+                                                                                                                </div>
+                                                                                                            </li>
+                                                                                                    </div>
                                                             }
                                                         }
-                                                    }
-                                </ul>
-                            </div>
-                        </li>
-                        </div>
+                                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </li>
+                                                        </div>
                                 }
                             }
-                        }
-        </ul>
-                                        </div>
-                                        </li>
+                                        }
+                        </ul>
+                                                        </div>
+                                                        </li>
         }
     }
         </ul>
@@ -183,8 +205,17 @@
 <script>
     $('.collapsecheck').on("click", async function () {
         const collapseid = await $(this).data("bsTarget");
-        if ($(this).hasClass('collapsed')) {
+        if ($(this).hasClass('collapsed')) 
+        {
+            if($(this).data("comment")!="" || $(this).data("comment")!=null)
+            {
+              let comment =   $(this).data("comment")
+                $(this).text(`檢視其他 ${comment} 則留言`);
+            }
+            else
+            {
             $(this).text(savetext);
+            }
         }
         else {
             savetext = $(this).text();
