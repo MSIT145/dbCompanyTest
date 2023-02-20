@@ -2,6 +2,7 @@
 using dbCompanyTest.ViewModels;
 using iText.Html2pdf;
 using iText.Html2pdf.Resolver.Font;
+using iText.Kernel.Pdf;
 using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -735,14 +736,33 @@ namespace dbCompanyTest.Controllers
             var provider = new DefaultFontProvider(true, true, true);//系統字體 中文
             properties.SetFontProvider(provider);
 
-            await using (MemoryStream stream = new MemoryStream())
+            //await using (MemoryStream stream = new MemoryStream())
+            //{
+            //    HtmlConverter.ConvertToPdf(SheepListPDF, stream, properties);
+            //    File(stream.ToArray(), "application/pdf", pdfName);
+            //    //byte[] bytes = stream.ToArray();
+            //    //string byt = bytes.ToString();
+            //    //return Content(byt);
+            //    return Json(File(stream.ToArray(), "application/pdf", pdfName));
+            //}
+            await using (FileStream file1 = new FileStream(_environment.WebRootPath + "\\File\\" + pdfName, FileMode.Create))
             {
-                HtmlConverter.ConvertToPdf(SheepListPDF, stream, properties);
-                return File(stream.ToArray(), "application/pdf", pdfName);
+                HtmlConverter.ConvertToPdf(SheepListPDF, file1, properties);
+                return Json(/*_environment.WebRootPath + "\\File\\" + */pdfName);
             }
 
-
-            return Ok();
         }
+        public IActionResult DeleteSheeplist(string SheepLish)
+        {
+            if (SheepLish != null)
+            {
+                string oldPath = _environment.WebRootPath + "/File/" + SheepLish;
+                if (System.IO.File.Exists(oldPath))
+                    System.IO.File.Delete(oldPath);
+                return Json("ok");
+            }
+            return Json("no");
+        }
+
     }
 }

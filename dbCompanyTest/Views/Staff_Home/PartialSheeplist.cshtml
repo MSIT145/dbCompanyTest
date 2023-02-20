@@ -1,10 +1,10 @@
 ﻿<div style="text-align:center;">
     <table class="table1 table table-striped-columns table-rwd">
-       
+
         <thead>
             @*<tr>*@
             <h4>待出貨清單</h4>
-                @*<tr style="font-size:120px !important">待出貨清單</tr>*@
+            @*<tr style="font-size:120px !important">待出貨清單</tr>*@
             @*</tr>*@
         </thead>
         <thead tr class="header">
@@ -39,21 +39,21 @@
             </tr>
         </tbody>
         @*<tbody id="Sheeplis_tfoot_click">
-            <tr>
-                <td colspan="5">
-                    <div>
-                        <table class="table table-striped-columns" style="margin:0 !important;">
-                            <tr>
-                                <td class="col-1"> </td>
-                                <td class="col-1"> </td>
-                                <td id="Sheeplis_td_text" class="col-1">展開</td>
-                                <td class="col-1"> </td>
-                                <td class="col-1"> </td>
-                            </tr>
-                        </table>
-                    </div>
-                </td>
-            </tr>
+        <tr>
+        <td colspan="5">
+        <div>
+        <table class="table table-striped-columns" style="margin:0 !important;">
+        <tr>
+        <td class="col-1"> </td>
+        <td class="col-1"> </td>
+        <td id="Sheeplis_td_text" class="col-1">展開</td>
+        <td class="col-1"> </td>
+        <td class="col-1"> </td>
+        </tr>
+        </table>
+        </div>
+        </td>
+        </tr>
         </tbody>*@
 
 
@@ -61,7 +61,7 @@
 
 
 
-       
+
     </table>
     <div style="width:40px; height:40px;margin:0 auto; border:3px solid gray; border-radius:20px" id="SL_Foot">
         <img src="@Url.Content("~/homeimg/down_arrow_icon.png")" style="height:20px; margin-top: 8px" />
@@ -113,7 +113,10 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-                    <a id="buttonSend" class="btn btn-primary" href="">下載出貨單</a>
+                    <button id="buttonSend" class="btn btn-primary">下載出貨單</button>
+                    <div class="spinner-border text-light" role="status" style="width:15px; height:15px ; display:none" id="wait">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,7 +132,7 @@
 
 
     console.log(`PartialSheeplist.cshtml`)
-   
+
 
 
 
@@ -166,23 +169,23 @@
                     rowCound++;
                     if (rowCound <= 5) {
                         eleT = $(`<tr class="tr-border"></tr>`).append(`<td  class="col-1  tds">${i_val.訂單編號}</td>
-                            <td  class="col-1 tds">${i_val.客戶編號}</td>
-                            <td  class="col-1 tds ">${i_val.商品數量}</td>
-                            <td  class="col-3 tdl">${i_val.送貨地址}</td>
-                            <td  class="col-1 tds">
-                            <button class="btn btn-primary mb-3 btnView" data-bs-toggle="modal" data-bs-target="#addModal">詳細資料</button>
-                            </td>`
+                                            <td  class="col-1 tds">${i_val.客戶編號}</td>
+                                            <td  class="col-1 tds ">${i_val.商品數量}</td>
+                                            <td  class="col-3 tdl">${i_val.送貨地址}</td>
+                                            <td  class="col-1 tds">
+                                            <button class="btn btn-primary mb-3 btnView" data-bs-toggle="modal" data-bs-target="#addModal">詳細資料</button>
+                                            </td>`
                         );
                         docFrag.append(eleT);
                     }
                     else {
                         eleT_sec = $(`<tr class="tr-border"></tr>`).append(`<td  class="col-1 tds">${i_val.訂單編號}</td>
-                            <td  class="col-1 tds">${i_val.客戶編號}</td>
-                            <td  class="col-1 tds">${i_val.商品數量}</td>
-                            <td  class="col-3 tdl">${i_val.送貨地址}</td>
-                            <td  class="col-1 tds">
-                            <button class="btn btn-primary mb-3 btnView btnponit" data-bs-toggle="modal" data-bs-target="#addModal">詳細資料</button>
-                            </td>`
+                                            <td  class="col-1 tds">${i_val.客戶編號}</td>
+                                            <td  class="col-1 tds">${i_val.商品數量}</td>
+                                            <td  class="col-3 tdl">${i_val.送貨地址}</td>
+                                            <td  class="col-1 tds">
+                                            <button class="btn btn-primary mb-3 btnView btnponit" data-bs-toggle="modal" data-bs-target="#addModal">詳細資料</button>
+                                            </td>`
                         );
                         docFrag_sec.append(eleT_sec);
                     }
@@ -196,7 +199,7 @@
             console.log(rowCound);
             console.log(`==================`);
 
-            var high = rowCound*75.94;
+            var high = rowCound * 75.94;
             console.log(`${high}px !important`)
             var SL_Foot = true;
             $("#SL_Foot").click(function () {
@@ -232,17 +235,73 @@
                 $(`#SID`).val(SID); $(`#CID`).val(CID); $(`#Add`).val(Add);
                 for (j = SIDIndex; j < SIDCount + SIDIndex; j++) {
                     const eleODT = $(`<tr></tr>`).append(`
-                     <td>${data[j].商品名稱}</td>
-                     <td>${data[j].尺寸種類}</td>
-                     <td>${data[j].色碼}</td>
-                     <td>${data[j].商品數量}</td>`)
+                                     <td>${data[j].商品名稱}</td>
+                                     <td>${data[j].尺寸種類}</td>
+                                     <td>${data[j].色碼}</td>
+                                     <td>${data[j].商品數量}</td>`)
                     docFrag.append(eleODT);
                 }
                 $("#SDT_tbody").html(docFrag);
 
                 var SPID = $("#SID").val()
-               console.log(SPID)
-               $("#buttonSend").attr("href", `@Url.Content("~/Staff_Home/PonitSheeplist")/?SheepLish=${SPID}`)
+                console.log(SPID)
+                //$("#buttonSend").attr("href", `@Url.Content("~/Staff_Home/PonitSheeplist")/?SheepLish=${SPID}`)
             });
+
+
+
+            $("#buttonSend").on("click", function () {
+                var filename = "";
+
+                $("#wait").css("display", "")
+                var SPID = $("#SID").val()
+
+                $.ajax({
+                    url: `@Url.Content("~/Staff_Home/PonitSheeplist")`,
+                    type: "GET",
+                    data: { "SheepLish": `${SPID}` },
+                    dataType: "json"
+                    //success:function(){
+                    //    console.log(`123123132`)
+                    //    $("#wait").css("display", "none")
+                    //}
+                })
+                    .done(data => {
+                        console.log(data);
+                        filename = data;
+                        const $a = document.createElement("a")
+                        // 給下載回來的資料產生一個網址
+                        //const url = window.URL.createObjectURL(data)
+                        // 設定下載的檔名
+                        $a.download = `${data}`
+                        // 設定網址
+
+                        $a.href = `@Url.Content("~/File/")${data}`;
+                        //$a.id = `#don`
+                        //$("#don").attr("href", `${data}`)
+                        // 模擬使用者按下連結
+                        $a.click()
+                        // 5 秒後清除產生的網址，這時候使用者應該按下了下載的按鈕了
+                        // 不清除的話會造成記憶體的浪費，這不會中斷使用者的下載
+                        // 不過若你下載完就要跳轉到下一頁的話，其實這個可以不用
+                        //setTimeout(() => URL.revokeObjectURL(url), 5000)
+
+
+                        $.ajax({
+                            url: `@Url.Content("~/Staff_Home/DeleteSheeplist")`,
+                            type: "GET",
+                            data: { "SheepLish": filename },
+                            dataType: "json"
+                        })
+
+                            .done(data => {
+                                console.log(data);
+                                $("#wait").css("display", "none")
+                            });
+
+                    });
+
+            });
+
         })
 </script>
