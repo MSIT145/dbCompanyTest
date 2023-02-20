@@ -62,3 +62,4 @@ namespace dbCompanyTest.Controllers
 }
 //ngrok連線要打完整(ngrok http https://localhost:7110)
 //如果遇到ERR_NGROK_108 => cmd : taskkill /f /im ngrok.exe
+//2LpJcIapenfdC6h3ncC2HXAqC5p_NYh2vTL9ywErA7fMwDCG//En

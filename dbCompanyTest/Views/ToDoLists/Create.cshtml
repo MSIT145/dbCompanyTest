@@ -136,17 +136,9 @@
                     <input asp-for="執行人簽核" class="form-control" id="inp_executor_sin" />
                     <span asp-validation-for="執行人簽核" class="text-danger"></span>
                 </div>
+                
+              
                 <div class="form-group" id="div_Attached">
-                    <label asp-for="附件" class="control-label"></label>
-                    <input asp-for="附件" class="form-control" id="inp_Attached" />
-                    <span asp-validation-for="附件" class="text-danger"></span>
-                </div>
-                <div class="form-group" id="div_Attached_path">
-                    <label asp-for="附件path" class="control-label" id="lab_Attached_path"></label>
-                    <input asp-for="附件path" class="form-control" id="inp_Attached_path" type="hidden" />
-                    <span asp-validation-for="附件path" class="text-danger"></span>
-                </div>
-                <div class="form-group" id="div_Attached_File">
                     <label class="control-label" id="lab_File">附件</label>
                     <input class="form-control" id="File" type="file" name="File" />
 
@@ -266,7 +258,7 @@
         })
 
         function ragular() {
-            $("#div_Attached,#div_ans,#div_sta,#div_starttime,#div_super_vs,#div_super_vs_sin,#div_super_vs_opn,#div_super_vs_time,#div_co_dep,#div_co_dep_sin,#div_co_dep_who,#div_co_dep_opn,#div_co_dep_time,#div_boss_time,#div_boss_sin,#div_boss_opn,#div_execut_time,#div_executor_sin").css("display", 'none');
+            $("#div_ans,#div_sta,#div_starttime,#div_super_vs,#div_super_vs_sin,#div_super_vs_opn,#div_super_vs_time,#div_co_dep,#div_co_dep_sin,#div_co_dep_who,#div_co_dep_opn,#div_co_dep_time,#div_boss_time,#div_boss_sin,#div_boss_opn,#div_execut_time,#div_executor_sin").css("display", 'none');
         }
 
     </script>

@@ -49,12 +49,12 @@
             <input type="hidden" value="@Model.附件" />
         }
     }
-    <div class="en_div">
-        <form asp-action="DT_TDL" enctype="multipart/form-data">
-            <div class="form-group" id="div_Attached_File">
-                <label class="control-label" id="lab_File">附件</label>
-                <input class="form-control" id="File" type="file" name="File" />
-            </div>
+    <form asp-action="DT_TDL" enctype="multipart/form-data">
+        <div class="form-group" id="div_Attached">
+            <label class="control-label" id="lab_File">附件</label>
+            <input class="form-control" id="File" type="file" name="File" />
+        </div>
+        <div class="en_div">
             <input asp-for="交辦事項id" type="hidden" id="listnumber" value="@Model.交辦事項id" />
             <input asp-for="表單類型" type="hidden" id="list_type" value="@Model.表單類型" />
             <input asp-for="表單狀態" type="hidden" value="@Model.表單狀態" id="inp_stu" />
@@ -182,8 +182,8 @@
                 </tbody>
             </table>
             <input type="submit" value="送出" class="btn btn-primary" id="inp_start" />
-        </form>
-    </div>
+        </div>
+    </form>
 
 </div>
 @section Scripts{
@@ -205,7 +205,7 @@
         var Send_To_num;
 
         $("#list_stu_sin_ecu1, #list_stu_bos, #list_stu_cod, #list_stu, #list_stu_spv").css("display", "none");
-        $("#inp_com_str, #inp_com_spv, #inp_com_cod, #inp_com_bos, #inp_com_ecu, #div_Attached_File").css("display", "none");
+        $("#inp_com_str, #inp_com_spv, #inp_com_cod, #inp_com_bos, #inp_com_ecu").css("display", "none");
         $("#list_stu, #list_stu_spv, #list_stu_cod, #list_stu_bos, #list_stu_sin_ecu1").val(``);
         $("#span_sin_str").css("display", "");
 
@@ -232,6 +232,7 @@
                 $("#list_stu").val("未啟動");
                 $("#span_sin_str").css("display", "none");
                 $("#div_Attached_File").css("display", "");
+                $("#div_Attached").css("display", "");
             }
             else {
                 $("#span_sin_str").css("display", "");
