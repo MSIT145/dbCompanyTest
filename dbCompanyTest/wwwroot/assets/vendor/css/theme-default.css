@@ -133,7 +133,7 @@ a.bg-primary:hover, a.bg-primary:focus {
 .pagination li.active > a:not(.page-link):hover,
 .pagination li.active > a:not(.page-link):focus {
   border-color: #696cff;
-  background-color: #696cff;
+  background-color:#D5BCA7;
   color: #fff;
   box-shadow: 0 0.125rem 0.25rem rgba(105, 108, 255, 0.4);
 }
@@ -230,9 +230,9 @@ button.list-group-item-primary.active {
         box-shadow: none;
     }
 .btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .show > .btn-primary.dropdown-toggle {
-  color: #fff;
+ /* color: #fff;
   background-color: #595cd9;
-  border-color: #595cd9;
+  border-color: #595cd9;*/
 }
 .btn-check:checked + .btn-primary:focus, .btn-check:active + .btn-primary:focus, .btn-primary:active:focus, .btn-primary.active:focus, .show > .btn-primary.dropdown-toggle:focus {
   box-shadow: none;

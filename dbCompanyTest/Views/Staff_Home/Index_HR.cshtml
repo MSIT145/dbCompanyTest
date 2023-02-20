@@ -79,9 +79,10 @@
                             @Html.DisplayFor(modelItem => item.主管)
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-controller="TestStaffs" asp-route-id="@item.員工編號" class="btn btn-primary mb-3">Edit</a>
-                            <a asp-action="Details" asp-controller="TestStaffs" asp-route-id="@item.員工編號" class="btn btn-primary mb-3">Details</a>
+                            <a asp-action="Edit" asp-controller="TestStaffs" asp-route-id="@item.員工編號" class="btn btn-primary mb-3">修改</a>
+                            <a asp-action="Details" asp-controller="TestStaffs" asp-route-id="@item.員工編號" class="btn btn-primary mb-3">詳細資料</a>
                             @*<a asp-action="Delete" asp-route-id="@item.員工編號">Delete</a>*@
+                            <a href="" class="btn btn-primary mb-3">></a>
                         </td>
                     </tr>
                 }

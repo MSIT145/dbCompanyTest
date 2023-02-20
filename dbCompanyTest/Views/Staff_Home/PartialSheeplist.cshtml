@@ -285,19 +285,19 @@
                         // 不清除的話會造成記憶體的浪費，這不會中斷使用者的下載
                         // 不過若你下載完就要跳轉到下一頁的話，其實這個可以不用
                         //setTimeout(() => URL.revokeObjectURL(url), 5000)
+                        $("#wait").css("display", "none");
 
+                        //$.ajax({
+                        //    url: `@Url.Content("~/Staff_Home/DeleteSheeplist")`,
+                        //    type: "GET",
+                        //    data: { "SheepLish": filename },
+                        //    dataType: "json"
+                        //})
 
-                        $.ajax({
-                            url: `@Url.Content("~/Staff_Home/DeleteSheeplist")`,
-                            type: "GET",
-                            data: { "SheepLish": filename },
-                            dataType: "json"
-                        })
-
-                            .done(data => {
-                                console.log(data);
-                                $("#wait").css("display", "none")
-                            });
+                        //    .done(data => {
+                        //        console.log(data);
+                        //        $("#wait").css("display", "none")
+                        //    });
 
                     });
 

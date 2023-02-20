@@ -752,13 +752,13 @@ namespace dbCompanyTest.Controllers
             }
 
         }
-        public IActionResult DeleteSheeplist(string SheepLish)
+        public async Task<IActionResult> DeleteSheeplist(string SheepLish)
         {
             if (SheepLish != null)
             {
                 string oldPath = _environment.WebRootPath + "/File/" + SheepLish;
                 if (System.IO.File.Exists(oldPath))
-                    System.IO.File.Delete(oldPath);
+                     System.IO.File.Delete(oldPath);
                 return Json("ok");
             }
             return Json("no");
