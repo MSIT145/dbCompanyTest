@@ -509,7 +509,6 @@
             //console.log(aaaa);
             $('#comment').html(aaaa);
         });
-
         ////Signalr評論
         $('.collapsecheck').on("click",async function(){
             const collapseid = await $(this).data("bsTarget");
@@ -523,11 +522,6 @@
                 $(this).text("隱藏");
             }
         });
-        
-
-
-
-
         async function checkuser() {
             let data = await fetch("@Url.Content("~/ProductWall/checkuser")");
             let response = await data.json();
@@ -540,8 +534,6 @@
                 userdata = JSON.stringify(response);
             }
         }
-
-
         //修改
         $(`.itemreportEdit`).on("click", function () {
             if ($(`.reportEdit`).css('display') === "none") {
