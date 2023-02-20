@@ -496,6 +496,21 @@
             $('#error').css("display", "none");
             $('#alert').css("display", "none");
         });
+        //呼叫resetdisplay
+        connection.on('UpdMessage', async function (response) {
+            //$('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
+
+            let FD = new FormData();
+            FD.append('response', response)
+            let data = await fetch("@Url.Content("~/ProductWall/resetdisplay")",
+                {
+                    method: "POST",
+                    body: FD
+                })
+            let aaaa = await data.text();
+            //console.log(aaaa);
+            $('#comment').html(aaaa);
+        });
 
         ////Signalr評論
         $('.collapsecheck').on("click",async function(){
@@ -615,21 +630,7 @@
                 });
             }
         };
-        //呼叫resetdisplay
-        connection.on('UpdMessage', async function (response) {
-            //$('#comment').load(`@Url.Content("~/ProductWall/resetdisplay?datas=${response}")`);
-
-            let FD = new FormData();
-            FD.append('response', response)
-            let data = await fetch("@Url.Content("~/ProductWall/resetdisplay")",
-                {
-                    method: "POST",
-                    body: FD
-                })
-            let aaaa = await data.text();
-            //console.log(aaaa);
-            $('#comment').html(aaaa);
-        });
+        
         //新增
         $(`#userreportSubmit`).on(`click`, async function () {
             createComment();
