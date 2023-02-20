@@ -69,13 +69,16 @@ hr {
     width: 38%;
 }
 
-#linelogin{
-    width:235px;
+#linelogin {
+    width: 44px;
+    height: 44px;
+    background-size: contain;
 }
 #sp {
-    margin-top: 280px;
+    margin-top: 10px;
     margin-bottom: 1rem;
-    margin-left: 50px;
+    margin-left: 28%;
+    position: absolute;
 }
 
 #otherLogin {
