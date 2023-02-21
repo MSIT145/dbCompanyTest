@@ -116,12 +116,6 @@ namespace dbCompanyTest.Controllers
 
                 string pdfName = $"{Guid.NewGuid().ToString()}.pdf";
                 cToDoListViewModels.附件 = pdfName;
-
-
-              
-
-               
-              
               
 
                 Task subThread1 = new Task(async () =>

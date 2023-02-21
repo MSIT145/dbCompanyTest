@@ -28,7 +28,7 @@ $("#inp_start").on("click", function () {
     console.log(listtype);
     console.log(listnum)
     console.log(`************************`)
-    connection.invoke("SendNotice", come_from_num, Send_To_num, msg, listtype, listnum).catch(function (err) {
+    connection.invoke("SendNotice", come_from_num, Send_To_num, msg, listtype, listnum, Sta).catch(function (err) {
         alert('傳送錯誤: ' + err.toString());
     });
 });
@@ -36,12 +36,16 @@ $("#inp_start").on("click", function () {
 
 
 
-connection.on("receive", function (msg, listtype, listnum) {
+connection.on("receive", function (msg, listtype, listnum, Sta) {
     console.log(msg);
     console.log(listtype);
     console.log(listnum);
-
-    note_newlist(msg);
+    if (Sta == `next`) {
+        note_newlist(msg);
+    }
+    else if (Sta == `back`) {
+        note_listBack(listnum)
+    }
     let TDL_DTpath = $(`#TDL_DTpath1`).val();
     $("#online").addClass("avatar-online");
     $("#null_note").css("display", "none");
@@ -67,6 +71,15 @@ function note_newlist(msg) {
         //alert,success,warning,error,info
         type: 'success',
         text: `${msg}`,
+        timeout: 5000,
+        closeWith: ['click', 'button']
+    }).show();
+}
+function note_listBack(listnum) {
+    new Noty({
+        //alert,success,warning,error,info
+        type: 'error',
+        text: `表單${listnum}被退回`,
         timeout: 5000,
         closeWith: ['click', 'button']
     }).show();

@@ -203,6 +203,7 @@
         var i_co = split4[0];
         var i_boss = "ST2-0010170";
         var Send_To_num;
+        var Sta
 
         $("#list_stu_sin_ecu1, #list_stu_bos, #list_stu_cod, #list_stu, #list_stu_spv").css("display", "none");
         $("#inp_com_str, #inp_com_spv, #inp_com_cod, #inp_com_bos, #inp_com_ecu, #div_Attached").css("display", "none");
@@ -297,6 +298,7 @@
                     $("#inp_stu").val("部門主管 待簽");
                     $("#inp_super_vs_sin").val("待簽");
                     Send_To_num = i_spvs;//連線收件spv
+                    Sta = `next`
                 }
             }
         });
@@ -309,10 +311,13 @@
                     $("#inp_stu").val("協辦部門 待簽");
                     $("#inp_co_dep_sin").val("待簽");
                     Send_To_num = i_co;//連線收件co_dep
+                    Sta = `next`
                 }
                 else if ($(`#list_stu_spv option:selected`).val() == "退回起單人") { //todo other
                     $("#inp_stu").val("退回起單人");
                     Send_To_num = i_whostart;//連線收件str
+                    Sta = `back`
+                    console.log(Sta)
                 }
                 $("#inp_super_vs_sin").val($(`#list_stu_spv option:selected`).val());
             }
@@ -326,15 +331,18 @@
                     $("#inp_stu").val("執行長 待簽");
                     $("#inp_boss_sin").val("待簽");
                     Send_To_num = i_boss;
+                    Sta = `next`
                 }
                 else if ($(`#list_stu_cod option:selected`).val() == "退回上階段") {
                     $("#inp_stu").val("部門主管 待簽");
                     $("#inp_super_vs_sin").val("待簽");
                     Send_To_num = i_spvs;//連線收件spv
+                    Sta = `back`
                 }
                 else if ($(`#list_stu_cod option:selected`).val() == "退回起單人") {
                     $("#inp_stu").val("退回起單人");
                     Send_To_num = i_whostart;//連線收件str
+                    Sta = `back`
                 }
                 $("#inp_co_dep_sin").val($(`#list_stu_cod option:selected`).val());
             }
@@ -348,16 +356,18 @@
                     $("#inp_stu").val("執行 待簽");
                     $("#inp_executor_sin").val("待簽");
                     Send_To_num = s_executor;//連線收件exc
+                    Sta = `next`
                 }
                 else if ($(`#list_stu_bos option:selected`).val() == "退回上階段") {
                     $("#inp_stu").val("協辦部門 待簽");
                     $("#inp_co_dep_sin").val("待簽");
                     Send_To_num = i_co;//連線收件co_dep
-
+                    Sta = `back`
                 }
                 else if ($(`#list_stu_bos option:selected`).val() == "退回起單人") {
                     $("#inp_stu").val("退回起單人");
                     Send_To_num = i_whostart;//連線收件str
+                    Sta = `back`
                 }
                 $("#inp_boss_sin").val($(`#list_stu_bos option:selected`).val());
             }
@@ -370,15 +380,18 @@
                 else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "完成") {
                     $("#inp_stu").val("完成");
                     Send_To_num = i_whostart;//連線收件str
+                    Sta = `next`
                 }
                 else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "退回上階段") {
                     $("#inp_stu").val("執行長 待簽");
                     $("#inp_boss_sin").val("待簽");
                     Send_To_num = i_boss;
+                    Sta = `back`
                 }
                 else if ($(`#list_stu_sin_ecu1 option:selected`).val() == "退回起單人") {
                     $("#inp_stu").val("退回起單人");
                     Send_To_num = i_whostart;//連線收件str
+                    Sta = `back`
                 }
                 $("#inp_executor_sin").val($(`#list_stu_sin_ecu1 option:selected`).val());
             }

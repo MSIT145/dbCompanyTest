@@ -338,7 +338,7 @@ namespace dbCompanyTest.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("DT_TDL_HR", new { listNum = thislist.交辦事項id });
             }
             return RedirectToAction("Index_HR");
         }
