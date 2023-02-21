@@ -129,7 +129,7 @@ namespace dbCompanyTest.Hubs
             }
         }
 
-        public async void Update()
+        public async Task Update()
         {
             List<user> client = userList.Where(x => x.userName.Substring(0, 2) != "ST" && x.userWords != null).ToList();
             string jsonString = JsonConvert.SerializeObject(client);
