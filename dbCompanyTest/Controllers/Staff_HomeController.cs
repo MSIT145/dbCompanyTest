@@ -455,7 +455,7 @@ namespace dbCompanyTest.Controllers
                 msg.Subject = "員工忘記密碼";
                 msg.SubjectEncoding = System.Text.Encoding.UTF8;//主旨編碼
                 msg.Body = $"<h5 id=\"stf_info\">{x.員工編號} {x.員工姓名} 您好!</h5>";
-                msg.Body += $"<h1>ShoeSpace密碼變更</h1><a href=`{Environment.Environment.useEnvironment}/Staff_Home/ResetPassword?account={account}`>點選此連結變更密碼</a>";
+                msg.Body += $"<a href=`{Environment.Environment.useEnvironment}/Staff_Home/ResetPassword?account={account}`>點選此連結變更密碼</a>";
                 msg.BodyEncoding = System.Text.Encoding.UTF8;//內文編碼
                 msg.IsBodyHtml = true; //!!!
 
