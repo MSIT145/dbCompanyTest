@@ -78,3 +78,11 @@ label {
     .setMargin {
         margin: 20px
     }
+
+.slectCar{
+    border:1px solid gray;
+    text-align:center;
+}
+    .slectCar:hover {
+        color: #9D9D9D;
+    }
