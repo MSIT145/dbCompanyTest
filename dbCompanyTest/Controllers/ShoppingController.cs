@@ -470,7 +470,7 @@ namespace dbCompanyTest.Controllers
                 data.商品價格 = x.商品價格;
                 data.無用id = 0;
                 _context.OrderDetails.AddRange(data);
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
             }
 
             return Content("成功");
