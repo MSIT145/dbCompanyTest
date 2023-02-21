@@ -113,14 +113,15 @@
                     <span asp-validation-for="在職" class="text-danger" id="span_still"></span>
                 </div>
                 <div class="form-group">
-                    <label  class="control-label">印章</label>
-                    <input asp-for="File" class="form-control" type="file"/>
-                    <span asp-validation-for="File" class="text-danger" ></span>
+                    <label class="control-label">印章</label>
+                    <input asp-for="File" class="form-control" type="file" />
+                    <span asp-validation-for="File" class="text-danger"></span>
                 </div>
 
 
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" disabled="disabled" id="submit" />
+                    <input type="submit" value="新增" class="btn btn-primary" disabled="disabled" id="submit" />
+                    <a asp-action="Index" class="btn btn-primary">返回</a>
                 </div>
             </form>
             <button id="demo"></button>
@@ -128,7 +129,6 @@
     </div>
 
     <div>
-        <a asp-action="Index">Back to List</a>
     </div>
 </div>
 
@@ -140,15 +140,23 @@
         var name = false; var phone = false; var ID = false; var email = false; var city = false; var town = false; var Address = false;
         var Dep = false; var spv = false; var Position = false; var password = false; var sell = false; var still = false;
         console.log(name, phone, ID, email, city, town, Address, Dep, spv, Position, password, sell, still)
-        $("#demo").on("click",function(){
+        $("#demo").on("click", function () {
             $("#i_stfName").val(`莊智淵`);
+            $("#span_stfName").text(``);
             $("#i_stfPhone").val(`0936521458`);
+            $("#span_stfPhone").text(``);
             $("#i_stfPasonalID").val(`A126585435`);
+            $("#span_stfPasonalID").text(``);
             $("#i_stfAddress").val(`信義路1號`);
-            $("#i_stfEmail").val(`y.joseph0217@gmail.com`);           
+            $("#span_stfAddress").text(``);
+            $("#i_stfEmail").val(`y.joseph0217@gmail.com`);
+            $("#span_stfEmail").text(``);
             $("#i_password").val(`Msit-145`);
+            $("#span_password").text(``);
             $("#i_sell").val(`50000`);
-            name = true;  phone = true; ID = true; email = true; Address = true; password = true; sell = true;
+            $("#span_sell").text(``);
+            name = true; phone = true; ID = true; email = true; Address = true; password = true; sell = true;
+
         });
 
 
@@ -185,6 +193,7 @@
             })
                 .done(data => {
                     $("#i_stfspv").val(data);
+                    spv = true;
                 });
         });
 
@@ -360,16 +369,16 @@
             allowsubmit();
         });
 
-                                //check($("#city"), $("#span_city"), city);
-                                //check($("#town"), $("#span_town"), town);
-                                //check($("#i_stfAddress"), $("#span_stfAddress"), Address);
-                                //check($("#sele_stfDep"), $("#span_stfDep"), Dep);
-                                //check($("#i_stfspv"), $("#span_stfspv"), spv);
-                                //check($("#sele_stfPosition"), $("#span_stfPosition"), Position);
-                                //check($("#i_password"), $("#span_password"), password);
-                                //check($("#i_sell"), $("#span_sell"), sell);
-                                //check($("#still"), $("#span_still"), still);
-                                //var name, phone, ID, email, city, town, Address, Dep, spv, Position, password, sell, still;
+                                        //check($("#city"), $("#span_city"), city);
+                                        //check($("#town"), $("#span_town"), town);
+                                        //check($("#i_stfAddress"), $("#span_stfAddress"), Address);
+                                        //check($("#sele_stfDep"), $("#span_stfDep"), Dep);
+                                        //check($("#i_stfspv"), $("#span_stfspv"), spv);
+                                        //check($("#sele_stfPosition"), $("#span_stfPosition"), Position);
+                                        //check($("#i_password"), $("#span_password"), password);
+                                        //check($("#i_sell"), $("#span_sell"), sell);
+                                        //check($("#still"), $("#span_still"), still);
+                                        //var name, phone, ID, email, city, town, Address, Dep, spv, Position, password, sell, still;
     </script>
 
 

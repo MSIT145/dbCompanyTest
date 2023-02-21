@@ -237,6 +237,7 @@
             else {
                 $("#span_sin_str").css("display", "");
                 $("#span_sin_str").text("敬陳")
+                $("#inp_start").css("display", "none")
             }
         }
 
@@ -248,6 +249,9 @@
                 $("#list_stu_spv").css("display", "");
                 $("#inp_com_spv").css("display", "");
             }
+            else{
+                $("#inp_start").css("display", "none")
+            }
         }
 
         if (i_co == splitstf) {
@@ -255,6 +259,9 @@
                 $("#span_sin_cod").css("display", "none");
                 $("#list_stu_cod").css("display", "");
                 $("#inp_com_cod").css("display", "");
+            }
+            else {
+                $("#inp_start").css("display", "none")
             }
         }
 
@@ -264,6 +271,9 @@
                 $("#list_stu_bos").css("display", "");
                 $("#inp_com_bos").css("display", "");
             }
+            else {
+                $("#inp_start").css("display", "none")
+            }
         }
 
         if (s_executor == splitstf) {
@@ -271,6 +281,9 @@
                 $("#inp_com_ecu").css("display", "");
                 $("#list_stu_sin_ecu1").css("display", "");
                 $("#span_sin_ecu").css("display", "none");
+            }
+            else {
+                $("#inp_start").css("display", "none")
             }
         }
 

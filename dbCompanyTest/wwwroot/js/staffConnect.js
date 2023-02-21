@@ -44,6 +44,7 @@ connection.on("receive", function (msg, listtype, listnum) {
     note_newlist(msg);
     let TDL_DTpath = $(`#TDL_DTpath1`).val();
     $("#online").addClass("avatar-online");
+    $("#null_note").css("display", "none");
     //$("#layout_note_List").append(`  <li class="menu-item">
     //                                    <a href="${TDL_DTpath}/?listNum=${listnum}" class="menu-link">
     //                                        <div data-i18n="Blank">${listtype}${listnum}</div>
