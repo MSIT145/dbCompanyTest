@@ -376,7 +376,8 @@ namespace dbCompanyTest.Controllers
                             商品名稱 = e.商品名稱,
                             尺寸種類 = b.尺寸種類,
                             色碼 = d.色碼,
-                            商品數量 = (int)o.商品數量
+                            商品數量 = (int)o.商品數量,
+                            付款方式 = c.付款方式
                         };
             var test = datas.ToList();
             return Json(datas);
