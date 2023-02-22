@@ -182,6 +182,7 @@
                 </tbody>
             </table>
             <input type="submit" value="送出" class="btn btn-primary" id="inp_start" />
+            <input type="submit" value="作廢" class="btn btn-primary" id="inp_dis" />
         </div>
     </form>
 
@@ -206,7 +207,7 @@
         var Sta
 
         $("#list_stu_sin_ecu1, #list_stu_bos, #list_stu_cod, #list_stu, #list_stu_spv").css("display", "none");
-        $("#inp_com_str, #inp_com_spv, #inp_com_cod, #inp_com_bos, #inp_com_ecu, #div_Attached").css("display", "none");
+        $("#inp_com_str, #inp_com_spv, #inp_com_cod, #inp_com_bos, #inp_com_ecu, #div_Attached, #inp_dis").css("display", "none");
         $("#list_stu, #list_stu_spv, #list_stu_cod, #list_stu_bos, #list_stu_sin_ecu1").val(``);
         $("#span_sin_str").css("display", "");
 
@@ -234,6 +235,8 @@
                 $("#span_sin_str").css("display", "none");
                 $("#div_Attached_File").css("display", "");
                 $("#div_Attached").css("display", "");
+                $("#inp_dis").css("display", "");
+                $("#inp_dis").on("click", function () { $("#inp_stu").val("作廢"); });
             }
             else {
                 $("#span_sin_str").css("display", "");

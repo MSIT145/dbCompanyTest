@@ -390,7 +390,7 @@ namespace dbCompanyTest.Controllers
                             where c.員工編號 == stf || c.起單人 == stf || c.執行人 == stf || c.表單類型 == "人事表單"
                             select c;
                 var data = from c in datas
-                           where c.表單狀態 != "完成"
+                           where c.表單狀態 != "完成" && c.表單狀態 != "作廢"
                            select c;
                 return Json(data);
             }
@@ -400,7 +400,7 @@ namespace dbCompanyTest.Controllers
                             where c.員工編號 == stf || c.協辦部門簽核人員 == stf || c.部門主管 == stf || c.起單人 == stf || c.執行人 == stf
                             select c;
                 var data = from c in datas
-                           where c.表單狀態 != "完成"
+                           where c.表單狀態 != "完成" && c.表單狀態 != "作廢"
                            select c;
                 return Json(data);
             }
@@ -574,7 +574,7 @@ namespace dbCompanyTest.Controllers
             ViewBag.dep = stf.部門;
 
             var datas = from c in _context.ToDoLists
-                        where c.起單人 == stfNum && c.表單狀態 != "完成"
+                        where c.起單人 == stfNum && c.表單狀態 != "完成" && c.表單狀態 != "作廢"
                         select c;
             return View(datas);
         }
@@ -595,7 +595,7 @@ namespace dbCompanyTest.Controllers
                 var datas1 = from c in _context.ToDoLists
                              select c;
                 data = from c in datas1
-                       where c.表單狀態 != "完成"
+                       where c.表單狀態 != "完成" && c.表單狀態 != "作廢"
                        select c;
             }
             else
@@ -604,7 +604,7 @@ namespace dbCompanyTest.Controllers
                             where c.協辦部門簽核人員 == stfNum || c.部門主管 == stfNum || c.執行人 == stfNum
                             select c;
                 data = from c in datas
-                       where c.表單狀態 != "完成"
+                       where c.表單狀態 != "完成" && c.表單狀態 != "作廢"
                        select c;
             }
 
@@ -638,6 +638,37 @@ namespace dbCompanyTest.Controllers
                             select c;
                 data = from c in datas
                        where c.表單狀態 == "完成"
+                       select c;
+            }
+
+            return View(data);
+        }
+        public IActionResult ListDis()
+        {
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+            {
+                return RedirectToAction("login");
+            }
+            string stfNum = HttpContext.Session.GetString(CDittionary.SK_STAFF_NUMBER_SESSION);
+            var stf = _context.TestStaffs.FirstOrDefault(c => c.員工編號 == stfNum);
+            ViewBag.acc = $"{stf.部門} {stfNum} {stf.員工姓名}";
+            ViewBag.dep = stf.部門;
+            IEnumerable<dbCompanyTest.Models.ToDoList> data;
+
+            if (stfNum == "ST2-0010170")
+            {
+                var datas = from c in _context.ToDoLists select c;
+                data = from c in datas
+                       where c.表單狀態 == "作廢"
+                       select c;
+            }
+            else
+            {
+                var datas = from c in _context.ToDoLists
+                            where c.員工編號 == stfNum || c.協辦部門簽核人員 == stfNum || c.部門主管 == stfNum || c.起單人 == stfNum || c.執行人 == stfNum
+                            select c;
+                data = from c in datas
+                       where c.表單狀態 == "作廢"
                        select c;
             }
 
