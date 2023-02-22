@@ -366,6 +366,7 @@ namespace dbCompanyTest.Controllers
                         join b in _context.ProductsSizeDetails on a.商品尺寸id equals b.商品尺寸id
                         join d in _context.ProductsColorDetails on a.商品顏色id equals d.商品顏色id
                         join e in _context.Products on a.商品編號id equals e.商品編號id
+                        orderby c.訂單編號 descending
                         where c.訂單狀態 == "待出貨"
                         select new ViewModels.Cback_order_list
                         {

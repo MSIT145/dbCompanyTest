@@ -24,7 +24,10 @@ namespace dbCompanyTest.Controllers
         // GET: TestStaffs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TestStaffs.ToListAsync());
+            var staff = from c in _context.TestStaffs
+                        where c.在職 == "在職"
+                        select c;
+            return View(await staff.ToListAsync());
         }
 
         // GET: TestStaffs/Details/5
