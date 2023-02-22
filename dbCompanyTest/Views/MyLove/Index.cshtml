@@ -9,34 +9,34 @@
         @{
             foreach (var item in Model)
             {
-                <div class="g-item" id="@item.Id">
-                    <div class="item-cont">
-                        @{
+                    <div class="g-item" id="@item.Id">
+                        <div class="item-cont">
+                            @{
                             if (item.圖片1檔名 == null || item.圖片1檔名 == "")
                             {
-                                <div><img src="@Url.Content("~/images/404.jpg")" width="111" height="148" /></div>
+                                        <div><img src="@Url.Content("~/images/404.jpg")" width="111" height="148" /></div>
                             }
                             else
                             {
-                                <div><img src="@Url.Content("~/images/"+item.圖片1檔名)" width="111" height="148" /></div>
+                                        <div><img src="@Url.Content("~/images/"+item.圖片1檔名)" width="111" height="148" /></div>
                             }
-                        }
-                        <div class="g-detail">
-                            @{
+                            }
+                            <div class="g-detail">
+                                @{
                                 string name = item.商品名稱 + " " + item.商品顏色種類;
-                            }
-                            <div><p>@name</p></div>
-                            <div><span class="val">顏色: </span><span>@item.商品顏色種類</span></div>
-                            <div><span class="val">尺寸: </span><span>@item.尺寸種類</span></div>
+                                }
+                                <div><p>@name</p></div>
+                                <div><span class="val">顏色: </span><span>@item.商品顏色種類</span></div>
+                                <div><span class="val">尺寸: </span><span>@item.尺寸種類</span></div>
+                            </div>
+                        </div>
+                        <div class="purchase-del">
+                            <div class="purchase">加入購物車</div>
+                            <div class="purchase-icon">
+                                <input type="hidden" value="@item.Id" />
+                            </div>
                         </div>
                     </div>
-                    <div class="purchase-del">
-                        <div class="purchase">加入購物車</div>
-                        <div class="purchase-icon">
-                            <input type="hidden" value="@item.Id" />
-                        </div>
-                    </div>
-                </div>
             }
             
         }
@@ -64,8 +64,9 @@
 @section Scripts{
     <script>
         $(".purchase-icon").on('click', function () {
-            var a = $(this).find("input").val();
-            del(a);
+            event.stopPropagation();
+            let id = $(this).find("input").val();
+            del(id);
         });
         $(".favorites-buying").click(function(){
             window.location.replace("@Url.Content("~/Home/index")");
@@ -79,6 +80,7 @@
         });
         
         $(".purchase").on('click', function () {
+            event.stopPropagation()
             $.ajax({
                 url: "@Url.Content("~/mylove/joincart")",
                 type: "get",

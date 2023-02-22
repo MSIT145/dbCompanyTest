@@ -71,7 +71,9 @@ namespace dbCompanyTest.Controllers
                                 return Content("收藏清單已有相同商品");
                             }
                         }
+                        
                         會員商品暫存 data = prod;
+                        data.Id = datas.Count+1;
                         data.客戶編號 = userinfo.客戶編號;
                         data.訂單數量 = 1;
                         data.購物車或我的最愛 = false;
@@ -93,6 +95,7 @@ namespace dbCompanyTest.Controllers
                         List<會員商品暫存> datas = new List<會員商品暫存>();
                         會員商品暫存 data = prod;
                         data.客戶編號 = userinfo.客戶編號;
+                        data.Id = datas.Count + 1;
                         data.訂單數量 = 1;
                         data.購物車或我的最愛 = false;
                         datas.Add(data);

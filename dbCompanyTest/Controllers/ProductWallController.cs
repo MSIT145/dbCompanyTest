@@ -383,27 +383,28 @@ namespace dbCompanyTest.Controllers
                     childlist.childCommentchildid = comment.childCommentchildid;
                     pdm.childCommentlist.Add(childlist);
                 }
-                //pdm.childCommentlist = pdm.childCommentlist.Distinct().ToList();
+
                 //隨機取出商品
-                var redomton = from item in _context.Products
+                Random r = new Random();
+                var redomton = (from item in _context.Products
                                join prodetail in _context.ProductDetails on item.商品編號id equals prodetail.商品編號id
                                join propictrue in _context.圖片位置s on prodetail.圖片位置id equals propictrue.圖片位置id
                                where item.商品分類id == pdm.pro商品分類id
                                orderby Guid.NewGuid()
-                               select new 
+                                select new
                                {
                                    商品編號id = item.商品編號id,
                                    商品顏色id = prodetail.商品顏色id,
                                    商品圖片1 = propictrue.商品圖片1,
-                               };
-                foreach (var item in redomton.Take(4).Distinct())
+                               }).ToList().Distinct();
+                
+                foreach (var item in redomton.ToList().Distinct().Take(4))
                 {
                     productrandom prm = new productrandom();
                     prm.pro商品編號 = item.商品編號id;
                     prm.商品顏色ID = (int)item.商品顏色id;
                     prm.商品圖片1 = item.商品圖片1;
                     pdm.pro商品分類list.Add(prm);
-                    
                 };
 
                 if (HttpContext.Session.Keys.Contains(CDittionary.SK_USE_FOR_LOGIN_USER_SESSION))
