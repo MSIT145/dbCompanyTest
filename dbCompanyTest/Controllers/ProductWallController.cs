@@ -390,15 +390,16 @@ namespace dbCompanyTest.Controllers
                                join prodetail in _context.ProductDetails on item.商品編號id equals prodetail.商品編號id
                                join propictrue in _context.圖片位置s on prodetail.圖片位置id equals propictrue.圖片位置id
                                where item.商品分類id == pdm.pro商品分類id
+                               group item by new {item.商品編號id,prodetail.商品顏色id,propictrue.商品圖片1} into g 
                                orderby Guid.NewGuid()
-                                select new
+                               select new
                                {
-                                   商品編號id = item.商品編號id,
-                                   商品顏色id = prodetail.商品顏色id,
-                                   商品圖片1 = propictrue.商品圖片1,
-                               }).ToList().Distinct();
-                
-                foreach (var item in redomton.ToList().Distinct().Take(4))
+                                   商品編號id = g.Key.商品編號id,
+                                   商品顏色id = g.Key.商品顏色id,
+                                   商品圖片1 = g.Key.商品圖片1,
+                               }).ToList();
+
+                foreach (var item in redomton.Take(4))
                 {
                     productrandom prm = new productrandom();
                     prm.pro商品編號 = item.商品編號id;
