@@ -260,12 +260,12 @@ namespace dbCompanyTest.Controllers
                     return Content("請使用Line登入");
                 var mail = new MailMessage();
                 mail.To.Add(Email);
-                mail.Subject = "SheoseGift忘記密碼變更";
-                mail.Body = $"<h1>ShoeSpace密碼變更</h1><a href=`{Environment.Environment.useEnvironment}/Login/RePassword?Email={Email}`><h2>點選這裡變更密碼</h2></a><hr/><h6>此訊息為系統自動寄出請勿直接回覆</h6>";
+                mail.Subject = "Shoespace忘記密碼變更";
+                mail.Body = $"<h1>Shoespace密碼變更</h1><a href=`{Environment.Environment.useEnvironment}/Login/RePassword?Email={Email}`><h2>點選這裡變更密碼</h2></a><hr/><h6>此訊息為系統自動寄出請勿直接回覆</h6>";
                 //mail.Body = $"<form action = 'https://localhost:7100/Login/ResetPassword'><input type='hidden' value='{Email}' id='account' name='Email' /><input type='text' id='newPassword' name='Password'/><br/><input type='text' id='dblnewPassword' /><br/><input type='submit' value='確認'/></form>";
                 mail.IsBodyHtml = true;
                 mail.Priority = MailPriority.Normal;
-                mail.From = new MailAddress("msit145finalpj@gmail.com", "SheoseGift");
+                mail.From = new MailAddress("msit145finalpj@gmail.com", "Shoespace");
                 var smtp = new SmtpClient("smtp.gmail.com", 587)
                 {
                     Credentials = new System.Net.NetworkCredential("msit145finalpj@gmail.com", "zlazqafpmuwxkxvo"),
