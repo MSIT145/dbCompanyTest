@@ -27,6 +27,9 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult Index()
         {
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+                return RedirectToAction("login", "Staff_Home");
+            else
             return View();
         }
 

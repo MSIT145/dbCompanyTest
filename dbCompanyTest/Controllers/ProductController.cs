@@ -41,17 +41,26 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult Pro_PowerBI_Inventory_profit()
         {
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+                return RedirectToAction("login", "Staff_Home");
+            else
             return View();
         }
         public IActionResult ProSell_PowerBI_show()
         {
-            return View();
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+                return RedirectToAction("login", "Staff_Home");
+            else
+                return View();
 
         }
 
         public IActionResult ProSell_PowerBI_member_Sell()
         {
-            return View();
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+                return RedirectToAction("login", "Staff_Home");
+            else
+                return View();
         }
 
 
@@ -222,6 +231,9 @@ namespace dbCompanyTest.Controllers
 
         public IActionResult Index()
         {
+            if (!HttpContext.Session.Keys.Contains(CDittionary.SK_STAFF_NUMBER_SESSION))
+                return RedirectToAction("login", "Staff_Home");
+            else
             return View();
         }
 
