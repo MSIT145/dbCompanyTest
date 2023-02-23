@@ -8,8 +8,8 @@ namespace dbCompanyTest.Environment
 {
     public class Environment
     {
-        //string apiKey = "2LU0i8A48bax1cQNKoRH5OFwfOG_43RaqcDa3yYViTPCgHtG7";
-        string apiKey = "2Lovdq4PT6vffWFYzWQayZWnIuG_3us4Mhfd1e8ik7H5kRSv";//Gary
+        string apiKey = "2LU0i8A48bax1cQNKoRH5OFwfOG_43RaqcDa3yYViTPCgHtG7";
+        //string apiKey = "2Lovdq4PT6vffWFYzWQayZWnIuG_3us4Mhfd1e8ik7H5kRSv";//Gary
         //string apiKey = "2LpJcIapenfdC6h3ncC2HXAqC5p_NYh2vTL9ywErA7fMwDCG";2M5SJNJZWktO80snJrUIzRWBLZY_86p28kk3BbqnRzPB6ZFEx
         //string apiKey = "2Lovdq4PT6vffWFYzWQayZWnIuG_3us4Mhfd1e8ik7H5kRSv";//EN
         //string apiKey = "2Lfh6JnTJCDuc3ES58TS4RXDREl_4GWqEQHoZZwEoKEFDTmg5";//LU
