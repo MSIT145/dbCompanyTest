@@ -38,14 +38,13 @@
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-5">
-            @using (Html.BeginForm("Upload", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
+           <form id="Pro_Upload_form" name="Pro_Upload_form">
                 <div class="input-group ">
                     <input type="file" class="form-control" aria-describedby="btn-Upload" id="excel" name="excel" accept=".xlsx,.xls">
                      <input type="text" value="Pro" name="File_type" style="display:none">
                     <button class="btn btn-outline-secondary" type="button" id="btn-Upload">Excel批次匯入商品建檔</button>
                 </div>
-            }
+           </form>
         </div>
     </div>
   
@@ -79,14 +78,13 @@
                 </div>
                
                 <div class="col-md-5">
-                @using (Html.BeginForm("Upload", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-                <div class="input-group ">
-                <input type="file" class="form-control" aria-describedby="btn-Upload_PD" id="excel" name="excel" accept=".xlsx,.xls">
+               <form id="PD_Upload_form" name="PD_Upload_form">
+                <div class="input-group " >
+                <input type="file" class="form-control" aria-describedby="btn-Upload_PD" id="excel_PD" name="excel" accept=".xlsx,.xls">
                         <input type="text" value="ProDe" name="File_type" style="display:none">
                 <button class="btn btn-outline-secondary" type="button" id="btn-Upload_PD">Excel批次匯入細項建檔</button>
                 </div>
-                }
+                </form>
                 </div>
             </div>
         <div class="card-body">
@@ -622,9 +620,30 @@
     //加入Excel上傳事件btn-Upload
     $('#btn-Upload').on('click', function () {
         let formobj = $(this).parent().parent();
-        console.log(formobj);
-        $.post(ProDe_Upload_url, formobj.serialize(), function (data) { test_alert("上傳成功") });
+        //console.log(formobj);
+        var formData = new FormData(document.Pro_Upload_form); //from 的名稱
+        SaveData(formData);
     });
+    //加入Excel上傳事件btn-Upload_PD
+    $('#btn-Upload_PD').on('click', function () {      
+        var formData = new FormData(document.PD_Upload_form); //from 的名稱
+        SaveData(formData);
+    });
+    //送出資料
+    async function SaveData(data) {
+        try {
+            const response = await fetch(`@Url.Content("~/Product/Upload")`, {
+                method: 'POST',
+                body: data,
+            });
+            
+            test_alert("資料送出成功");
+            change_table();
+            change_ProDetailtable();
+        } catch (error) {
+            console.log("error", error);
+        }
+    }
 
     //要輸入檔名才能按按鈕 產品 
     $("#fileName_Pro").hover(function () {

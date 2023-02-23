@@ -178,12 +178,7 @@ $("#tableProDetal").on('click', 'input[name="TBcheck_AllDetail"]', function () {
 
 
 });
-//加入Excel上傳事件btn-Upload_PD
-$('#btn-Upload_PD').on('click', function () {   
-    let formobj = $(this).parent().parent();
-    console.log(formobj);
-    $.post(ProDe_Upload_url, formobj.serialize(),function (data) { test_alert("上傳成功") });
-});
+
 //加入批量刪除事件
 $('#collapse_ProDetaol_Search').on('click', 'button[name="batch_Delete"]', function () {
     console.log("123");
