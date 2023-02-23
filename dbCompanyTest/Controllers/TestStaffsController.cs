@@ -201,6 +201,32 @@ namespace dbCompanyTest.Controllers
             var data = _context.TestStaffs.FirstOrDefault(c => c.部門== dep && (c.職稱 == "經理" || c.職稱 == "老闆")).員工編號;
             return Json(data);
         }
+
+        public IActionResult Search(string keyword)
+        {
+            List<TestStaff> queryList = _context.TestStaffs.ToList();
+            
+            if (keyword == null)
+            {               
+                return Json(queryList);
+            }
+            else
+            {
+                List<TestStaff> clients = queryList.Where(x => x.員工編號.Contains(keyword)).ToList();
+                if (clients.Count() == 0)
+                {
+                    return Json("nothing");
+                }
+                else
+                {
+                    return Json(clients);
+                }
+            }
+        }
+
+
     }
+
+
 
 }
